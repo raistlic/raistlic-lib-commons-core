@@ -16,7 +16,7 @@
 
 package org.raist.common.schedule;
 
-import org.raist.common.Task;
+import org.raist.common.Service;
 
 import java.util.concurrent.Callable;
 
@@ -24,7 +24,7 @@ import java.util.concurrent.Callable;
  *
  * @author Lei CHEN
  */
-public interface TaskQueue extends Task {
+public interface TaskQueue extends Service {
   
   public void schedule(Runnable runnable);
   

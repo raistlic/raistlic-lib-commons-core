@@ -65,7 +65,7 @@ public class TaskQueueFactory {
 //    @Override
 //    public void switchOff() {
 //
-//      taskQueue.stop();
+//      taskQueue.pause();
 //    }
 //  }
 //
@@ -110,7 +110,7 @@ public class TaskQueueFactory {
 //        queue.removeFirst().run();
 //    }
 //
-//    void stop() {
+//    void pause() {
 //
 //      running = false;
 //      schedule(new Runnable() {

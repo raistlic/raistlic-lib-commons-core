@@ -16,12 +16,12 @@
 
 package org.raist.common.schedule;
 
-import org.raist.common.Task;
+import org.raist.common.Service;
 
 /**
  * @author lei
  */
-public interface RepeatingTask extends Task {
+public interface RepeatingTask extends Service {
 
   public void setPeriod(long periodInMillis);
 

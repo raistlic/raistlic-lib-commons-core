@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,18 +17,9 @@
 package org.raist.common;
 
 /**
- * A self executable task, that has a life cycle, and can be controlled by
- * calling its start, stop, resume and shutdown methods.
- *
- * @author Lei.C (13-11-9)
+ * @author raistlic (13-11-29)
  */
-public interface Task {
+public interface ExceptionHandler {
 
-  public boolean start();
-
-  public boolean stop();
-
-  public boolean resume();
-
-  public boolean shutdown();
+  public void exceptionOccur(Thread thread, Throwable ex);
 }
