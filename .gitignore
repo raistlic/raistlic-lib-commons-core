@@ -6,3 +6,6 @@
 *.ear
 
 target
+
+# idea module files #
+*.iml
