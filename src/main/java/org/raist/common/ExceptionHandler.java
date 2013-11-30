@@ -17,7 +17,7 @@
 package org.raist.common;
 
 /**
- * @author raistlic (13-11-29)
+ * @author Lei.C (13-11-29)
  */
 public interface ExceptionHandler {
 

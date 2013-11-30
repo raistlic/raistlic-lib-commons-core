@@ -15,10 +15,6 @@
  */
 package org.raist.common.condition;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  *
  * @author Lei.C

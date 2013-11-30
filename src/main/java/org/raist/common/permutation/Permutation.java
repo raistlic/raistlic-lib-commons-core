@@ -36,7 +36,7 @@ import java.util.List;
  * This class re-uses one array to fetch each enquiry, so if the user
  * want to keep the i-th permutation result, make a copy.
  *
- * @author Lei CHEN
+ * @author Lei.C
  */
 public class Permutation<E> implements Iterable<List<E>> {
 

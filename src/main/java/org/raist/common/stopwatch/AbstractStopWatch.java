@@ -17,8 +17,7 @@ package org.raist.common.stopwatch;
 
 /**
  *
- * @author Lei CHEN
- * @date   27/03/2013
+ * @author Lei.C (2013-03-27)
  */
 abstract class AbstractStopWatch implements StopWatch {
   

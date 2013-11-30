@@ -36,7 +36,7 @@ import java.util.List;
  * This class re-uses one array to fetch the combination, so if the user 
  * want to keep the i-th combination result, make a copy.
  *
- * @author Lei CHEN
+ * @author Lei.C
  */
 public class Combination<E> implements Iterable<List<E>> {
   

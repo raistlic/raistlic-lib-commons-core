@@ -28,8 +28,7 @@ import java.util.Map;
  *   ns.getOrdinalText(320) // three hundred and twentieth
  * }</pre>
  *
- * @author Lei CHEN
- * @date 09/02/2012
+ * @author Lei.C (09/02/2012)
  */
 public abstract class NumberText {
 
