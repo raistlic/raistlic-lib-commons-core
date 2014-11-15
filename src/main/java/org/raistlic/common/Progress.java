@@ -19,12 +19,16 @@ package org.raistlic.common;
 import java.util.EventListener;
 
 /**
- * This interface defines the callback methods for monitoring
+ * The class represents the progress of a process.
  *
- * @author Lei.C
+ * @author Lei CHEN (2013-11-29)
+ * @since 1.0
  */
 public final class Progress {
 
+  /**
+   * This interface defines the callback methods for monitoring progress.
+   */
   public static interface Monitor extends EventListener {
 
     public void progressUpdated(int current, int total);
