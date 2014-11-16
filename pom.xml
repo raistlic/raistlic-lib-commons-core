@@ -19,12 +19,19 @@
     </licenses>
 
     <properties>
-        <!-- versions -->
         <junit.version>4.11</junit.version>
         <mockito-all.version>1.9.5</mockito-all.version>
+        <slf4j-api.version>1.7.5</slf4j-api.version>
     </properties>
 
     <dependencies>
+
+        <!-- logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
 
         <!-- unit test -->
         <dependency>

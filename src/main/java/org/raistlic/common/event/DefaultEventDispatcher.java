@@ -17,6 +17,8 @@
 package org.raistlic.common.event;
 
 import org.raistlic.common.ExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -32,6 +34,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class DefaultEventDispatcher implements EventDispatcher {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(DefaultEventDispatcher.class);
+
   private final Map<String, EventChannel> eventChannelMap;
 
   private final EventChannel broadCastChannel;
@@ -42,7 +46,7 @@ class DefaultEventDispatcher implements EventDispatcher {
                          String broadCastName) {
 
     assert exceptionHandler != null : "'exceptionHandler' is null.";
-    assert broadCastName != null : "'braodCastName' is null.";
+    assert broadCastName != null : "'broadCastName' is null.";
 
     this.exceptionHandler = exceptionHandler;
     this.eventChannelMap = new ConcurrentHashMap<String, EventChannel>();
@@ -170,7 +174,10 @@ class DefaultEventDispatcher implements EventDispatcher {
 
       if (channel == null) {
 
-        // TODO log error here ...
+        LOGGER.warn("null channel name found in the method annotation: '" +
+                             method.getDeclaringClass().getName() + "." +
+                             method.getName() + ", and is ignored."
+        );
         continue;
       }
       EventListenerAdapter adapter = new EventListenerAdapter(listener, method, eventType, channel);
@@ -189,21 +196,34 @@ class DefaultEventDispatcher implements EventDispatcher {
     int modifier = method.getModifiers();
     if (Modifier.isStatic(modifier)) {
 
-      // TODO log error here ...
+      LOGGER.warn("Subscribe annotation found on static method '" +
+                          method.getDeclaringClass().getName() + "." +
+                          method.getName() + "' and is ignored, static method " +
+                          "subscription is not supported."
+      );
       return false;
     }
 
     Class<?>[] paramTypes = method.getParameterTypes();
     if (paramTypes == null || paramTypes.length != 1) {
 
-      // TODO log error here ...
+      LOGGER.warn("Method '" + method.getDeclaringClass().getName() + "." + method.getName() +
+                          "' is annotated as subscription method, but does not match parameter " +
+                          "criteria, thus is not registered. subscription method should have " +
+                          "exactly one parameter, which is of type '" + Event.class.getName() +
+                          "' or its sub-type."
+      );
       return false;
     }
     Class<?> eventType = paramTypes[0];
 
     if (!Event.class.isAssignableFrom(eventType)) {
 
-      // TODO log error here ...
+      LOGGER.warn("Method '" + method.getDeclaringClass().getName() + "." + method.getName() +
+                          "' is annotated as subscription method, but does not match parameter " +
+                          "criteria, thus is not registered: its parameter type '" +
+                          eventType.getName() + "' is not a subtype of '" + Event.class.getName() + "'."
+      );
       return false;
     }
 
@@ -214,7 +234,9 @@ class DefaultEventDispatcher implements EventDispatcher {
     }
     catch (Exception ex) {
 
-      // TODO log error here ...
+      LOGGER.warn("Method not accessible: '" + method.getDeclaringClass().getName() + "." +
+                          method.getName() + " and thus is not registered.", ex
+      );
       return false;
     }
     return true;
@@ -275,14 +297,19 @@ class DefaultEventDispatcher implements EventDispatcher {
       return true;
     }
 
+    int validChannelNameCount = 0;
     for (String channelName : channelNames) {
 
       if (isBroadCastChannel(channelName)) {
 
         return true;
       }
+      if (channelName != null) {
+
+        validChannelNameCount ++;
+      }
     }
-    return false;
+    return validChannelNameCount > 0;
   }
 
   private boolean isBroadCastChannel(String channelName) {
