@@ -21,6 +21,9 @@ import org.raistlic.common.Factory;
 import java.util.Collection;
 
 /**
+ * The interface defines an event dispatcher, which is capable of registering listeners and
+ * multi-casting events to specific channels.
+ *
  * @author Lei CHEN (2014-11-12)
  * @since 1.0
  */
