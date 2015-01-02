@@ -32,5 +32,5 @@ public interface Decoder<S, D> {
    * @param dest
    * @return
    */
-  public S decode(D dest);
+  public S decode(D dest) throws ValueConversionException;
 }

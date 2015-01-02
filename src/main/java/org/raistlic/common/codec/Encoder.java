@@ -26,5 +26,5 @@ public interface Encoder<S, D> {
   
   public boolean isValidSrc(S src);
   
-  public D encode(S src);
+  public D encode(S src) throws ValueConversionException;
 }

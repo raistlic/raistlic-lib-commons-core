@@ -17,17 +17,17 @@
 package org.raistlic.common.codec;
 
 /**
- * This class defines a checked exception, to be thrown when invalid format is 
- * found in the data during encoding or decoding.
+ * This class defines an unchecked exception, to be thrown when unexpected error occurs during
+ * the process of encoding or decoding.
  *
  * @author Lei.C
  */
-public class CodingException extends RuntimeException {
+public class ValueConversionException extends RuntimeException {
   
   /**
    * Constructs a new {@code CodingException} with null as its detail message.
    */
-  public CodingException() {
+  public ValueConversionException() {
     
     super();
   }
@@ -38,7 +38,7 @@ public class CodingException extends RuntimeException {
    * @param message the detail message (which is saved for later retrieval by the 
    *        {@link Throwable#getMessage() method).
    */
-  public CodingException(String message) {
+  public ValueConversionException(String message) {
     
     super(message);
   }
@@ -50,7 +50,7 @@ public class CodingException extends RuntimeException {
    *        {@link Throwable#getCause() method). (A null value is
    *        permitted, and indicates that the cause is nonexistent or unknown.)
    */
-  public CodingException(Throwable cause) {
+  public ValueConversionException(Throwable cause) {
     
     super(cause);
   }
@@ -66,7 +66,7 @@ public class CodingException extends RuntimeException {
    *        {@link Throwable#getCause() method). (A null value is
    *        permitted, and indicates that the cause is nonexistent or unknown.)
    */
-  public CodingException(String message, Throwable cause) {
+  public ValueConversionException(String message, Throwable cause) {
     
     super(message, cause);
   }

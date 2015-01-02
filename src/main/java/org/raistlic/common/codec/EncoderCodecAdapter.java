@@ -22,6 +22,7 @@ package org.raistlic.common.codec;
 public abstract class EncoderCodecAdapter<S, D> implements Codec<S, D> {
   
   private Encoder<? super S, D> encoder;
+
   public EncoderCodecAdapter(Encoder<? super S, D> encoder) {
     
     if( encoder == null )
