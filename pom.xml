@@ -7,7 +7,12 @@
 
     <groupId>org.raistlic.lib</groupId>
     <artifactId>commons-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>Raistlic's Commons Library</name>
+    <description>Common utilities to make general tasks in Java programs easier.</description>
+    <url>https://github.com/raistlic/raistlic-lib-commons-core</url>
 
     <licenses>
         <license>
@@ -17,6 +22,10 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
+    <scm>
+        <url>https://github.com/raistlic/raistlic-lib-commons-core</url>
+    </scm>
 
     <properties>
         <junit.version>4.11</junit.version>
@@ -44,6 +53,7 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>${mockito-all.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
