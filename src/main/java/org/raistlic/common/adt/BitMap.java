@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.raistlic.common.Factory;
 import org.raistlic.common.condition.Condition;
+import org.raistlic.common.precondition.Precondition;
 
 /**
  * This class implements the "binary rank and select" algorithm.
@@ -64,21 +65,18 @@ public abstract class BitMap {
    *             that the given {@code Condition} instance is capable of checking
    *             the elements in the given {@code List}.
    * @param list
-   * @param c
+   * @param condition
    * @return
    */
-  public static <E> BitMap newInstance(List<E> list, Condition<? super E> c) {
+  public static <E> BitMap newInstance(List<E> list, Condition<? super E> condition) {
 
-    if (list == null)
-      throw new IllegalArgumentException("List is null.");
-
-    if (c == null)
-      throw new IllegalArgumentException("Condition is null.");
+    Precondition.param(list, "list").notNull();
+    Precondition.param(condition, "condition").notNull();
 
     Builder builder = builder(list.size());
 
     for (int i = 0, size = list.size(); i < size; i++)
-      if (c.match(list.get(i)))
+      if (condition.match(list.get(i)))
         builder.set(i);
 
     return builder.build();
