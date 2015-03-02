@@ -30,6 +30,16 @@ public final class Precondition {
     return new ParamExpectation.OfObject(evaluative, name);
   }
 
+  public static ParamExpectation.OfString param(String evaluative) {
+
+    return new ParamExpectation.OfString(evaluative, null);
+  }
+
+  public static ParamExpectation.OfString param(String evaluative, String name) {
+
+    return new ParamExpectation.OfString(evaluative, name);
+  }
+
   public static ParamExpectation.OfBoolean param(boolean evaluative) {
 
     return new ParamExpectation.OfBoolean(evaluative, null);
@@ -38,6 +48,16 @@ public final class Precondition {
   public static ParamExpectation.OfBoolean param(boolean evaluative, String name) {
 
     return new ParamExpectation.OfBoolean(evaluative, name);
+  }
+
+  public static ParamExpectation.OfInt param(int evaluative) {
+
+    return new ParamExpectation.OfInt(evaluative, null);
+  }
+
+  public static ParamExpectation.OfInt param(int evaluative, String name) {
+
+    return new ParamExpectation.OfInt(evaluative, name);
   }
 
   public static void assertTrue(boolean evaluative) {

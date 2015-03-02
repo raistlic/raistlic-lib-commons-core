@@ -7,7 +7,7 @@ import org.junit.rules.ExpectedException;
 /**
  * @author Lei.C (2015-03-02)
  */
-public class ObjectParamExpectationTest {
+public class ParamExpectationOfObjectTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();

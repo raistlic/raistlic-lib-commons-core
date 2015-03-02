@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public final class ParamExpectation {
 
-  public final static class OfObject {
+  public static class OfObject {
 
     private final Object param;
 
@@ -171,6 +171,22 @@ public final class ParamExpectation {
 
         if (message == null) {
           message = (name == null) ? "" : "'" + name + "' should be empty but is: '" + param + "'";
+        }
+        error(message);
+      }
+    }
+
+    public void notEmpty() {
+
+      notEmpty(null);
+    }
+
+    public void notEmpty(String message) {
+
+      if (param != null && param.isEmpty()) {
+
+        if (message == null) {
+          message = (name == null) ? "" : "'" + name + "' should not be empty.";
         }
         error(message);
       }
