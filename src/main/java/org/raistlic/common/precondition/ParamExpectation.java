@@ -279,7 +279,8 @@ public final class ParamExpectation {
         return;
       }
       if (message == null) {
-        message = (name == null) ? "" : "'" + name + "' should be less than " + target + ", but is not (" + evaluative + ").";
+        message = (name == null) ? "" : "'" + name + "' should be less than " + target +
+                ", but is not (" + evaluative + ").";
       }
       error(message);
     }
@@ -295,12 +296,13 @@ public final class ParamExpectation {
         return;
       }
       if (message == null) {
-        message = (name == null) ? "" : "'" + name + "' should be no less than " + target + ", but is not (" + evaluative + ").";
+        message = (name == null) ? "" : "'" + name + "' should be no less than " + target +
+                ", but is not (" + evaluative + ").";
       }
       error(message);
     }
 
-    public void greaterTHan(int target) {
+    public void greaterThan(int target) {
 
       greaterThan(target, null);
     }
@@ -311,7 +313,25 @@ public final class ParamExpectation {
         return;
       }
       if (message == null) {
-        message = (name == null) ? "" : "'" + name + "' should be greater than " + target + ", but is not (" + evaluative + ").";
+        message = (name == null) ? "" : "'" + name + "' should be greater than " + target +
+                ", but is not (" + evaluative + ").";
+      }
+      error(message);
+    }
+
+    public void noGreaterThan(int target) {
+
+      noGreaterThan(target, null);
+    }
+
+    public void noGreaterThan(int target, String message) {
+
+      if (evaluative <= target) {
+        return;
+      }
+      if (message == null) {
+        message = (name == null) ? "" : "'" + name + "' should be no greater than " + target +
+                ", but is not (" + evaluative + ").";
       }
       error(message);
     }
