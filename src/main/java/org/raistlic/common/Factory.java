@@ -44,7 +44,8 @@ public interface Factory<T> {
    * Builder Design Pattern) may need some compulsory parameters set before its
    * {@link #build()} method can be safely called; failing to set these parameters
    * before calling {@link #build()} may cause an {@link IllegalStateException}.
-   * <p/>
+   *
+   * <p>
    * It is guaranteed that, if this method returns {@code true}, and before any
    * change happens to the factory state, its {@link #build()} method should
    * succeed(i.e. should not throw {@link IllegalStateException}).

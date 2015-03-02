@@ -20,8 +20,7 @@ package org.raistlic.common.adt;
  * This interface does not extends {@link java.util.Collection}, because java's
  * collection interface is essentially a "mutable collection" interface, while
  * this interface tries to define a read-only list view.
- * <p/>
- * <p/>
+ * <p>
  * Design ideas from {@link java.util.Collection}.
  *
  * @author Lei.C

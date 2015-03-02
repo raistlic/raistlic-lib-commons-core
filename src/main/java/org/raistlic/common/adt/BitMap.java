@@ -25,19 +25,15 @@ import org.raistlic.common.precondition.Precondition;
 
 /**
  * This class implements the "binary rank and select" algorithm.
- * <p/>
- * <p/>
+ * <p>
  * The instance of the class is guaranteed to be immutable.
- * <p/>
- * <p/>
+ * <p>
  * That is, given a sequence of binary values (1/0), this class helps
  * to quickly perform "rank" and "select" operations.
- * <p/>
- * <p/>
+ * <p>
  * A rank operation is:   count the number of 1s (or 0s) up to index i
  * A select operation is: get the index of the i-th 1 (or 0)
- * <p/>
- * <p/>
+ * <p>
  * The theoretical efficiency of the original algorithm is constant time
  * operations, using multiple levels of cached maps, while this implementation
  * caches only one level map of every 8 bits.
@@ -55,8 +51,7 @@ public abstract class BitMap {
   /**
    * A static factory method, which is a shortcut comparing with constructing
    * an instance using a {@code BitMap.Builder}.
-   * <p/>
-   * <p/>
+   * <p>
    * The method will iterate throw the given {@code List}, with the given
    * {@code Condition}, and set 1s at where ever the element on the corresponding
    * index matches the condition.
@@ -85,13 +80,11 @@ public abstract class BitMap {
   /**
    * The static factory method exports a {@code Builder} instance, which provides
    * a more flexible way of creating a {@code BitMap} instance.
-   * <p/>
-   * <p/>
+   * <p>
    * A {@code Builder} is needed mainly because the {@code BitMap} instance
    * is immutable itself, and the {@code Builder} provides the missing "setter"
    * methods, before a {@code BitMap} instance is created.
-   * <p/>
-   * <p/>
+   * <p>
    * As you may expect, a {@code Builder} instance is NOT thread safe.
    *
    * @param size

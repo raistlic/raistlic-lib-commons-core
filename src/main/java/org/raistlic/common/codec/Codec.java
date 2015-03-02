@@ -20,10 +20,10 @@ package org.raistlic.common.codec;
  * A codec is a combination of encoder and decoder, that is, it can translate
  * between two types in both ways. 
  * 
- * <p/>
+ * <p>
  * See also {@link org.raistlic.common.codec.Encoder}.
  * 
- * <p/>
+ * <p>
  * See also {@link org.raistlic.common.codec.Decoder}.
  *
  * @author Lei.C

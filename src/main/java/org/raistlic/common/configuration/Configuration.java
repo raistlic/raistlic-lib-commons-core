@@ -148,7 +148,7 @@ public interface Configuration {
   /**
    * The method queries the value (of type {@code <E>} specified by the {@code key} .
    *
-   * <p/>
+   * <p>
    * The method is an overloading of {@link #getValue(String, org.raistlic.common.codec.Decoder, Object)} ,
    * and is an equivalent call as {@code getValue(key, decoder, null)} .
    *

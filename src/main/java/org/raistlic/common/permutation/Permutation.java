@@ -24,15 +24,15 @@ import java.util.List;
 /**
  * This class is to fulfill the needs of getting permutations from a
  * collection.
- * <p/>
+ * <p>
  * It basically provides the functionalities of :
  * 1 - enquiry the number of permutation count : p(m, n)
  * 2 - given an ordinal number i, fetch the i-th permutation result
  * as a read-only list.
  * 3 - convenient for-each iteration of all the permutations
- * <p/>
+ * <p>
  * This class is NOT thread safe.
- * <p/>
+ * <p>
  * This class re-uses one array to fetch each enquiry, so if the user
  * want to keep the i-th permutation result, make a copy.
  *

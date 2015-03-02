@@ -139,7 +139,7 @@ public class Combination<E> implements Iterable<List<E>> {
   /**
    * {@inheritDoc}
    * 
-   * <p/>
+   * <p>
    * The iterator returned here is a read-only iterator, and does not support 
    * {@link java.util.Iterator#remove()} operation, calling the method will 
    * cause an {@link java.lang.UnsupportedOperationException}.

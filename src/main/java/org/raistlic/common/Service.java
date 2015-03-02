@@ -23,14 +23,14 @@ package org.raistlic.common;
  * {@link java.util.concurrent.ExecutorService} may already built in the Service
  * instance when it is created.
  *
- * <p/>
+ * <p>
  * Note that when a {@link Service} instance is created, you may want to attach
  * an {@link ExceptionHandler} to it, --the interface itself does not provide
  * any set methods for registering an {@link ExceptionHandler} although almost any
  * service may need one, because it is not encouraged that the {@link ExceptionHandler}
  * can be switched after a {@link Service} is created.
  *
- * <p/>
+ * <p>
  * See {@link ExceptionHandler}.
  *
  * @author Lei.C (13-11-9)

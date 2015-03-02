@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * This class transfers an integer number into a string :
- * <p/>
+ * <p>
  * <pre>{@code
  * // an example :
  *   NumberTextOld ns = NumberTextOld.getInstance(NumberTextOld.Lang.EnglishWithDash);
@@ -55,11 +55,11 @@ public abstract class NumberTextOld {
   /**
    * Transfers an integer number into a String, specifically in which language
    * depends on the implementation.
-   * <p/>
+   * <p>
    * e.g. in EnglishWithDash,
-   * <p/>
+   * <p>
    * 100 -> one hundred
-   * <br />
+   * <br/>
    * -976083854 -> minus nine hundred and seventy-six million and eighty-three
    * thousand eight hundred and fifty-four
    *
@@ -74,9 +74,9 @@ public abstract class NumberTextOld {
   /**
    * Transfers an integer number into a String, specifically in which language
    * depends on the implementation.
-   * <p/>
+   * <p>
    * e.g. in EnglishWithDash,
-   * <p/>
+   * <p>
    * 100 -> one hundred
    * <br />
    * -976083854 -> minus nine hundred and seventy-six million and eighty-three
@@ -90,11 +90,11 @@ public abstract class NumberTextOld {
   /**
    * Transfers an integer number into a String of its ordinal representation,
    * specifically in which language depends on the implementation.
-   * <p/>
+   * <p>
    * e.g. in EnglishWithDash,
-   * <p/>
+   * <p>
    * 100 -> one hundredth
-   * <br />
+   * <br/>
    * 8331125 -> eight million three hundred and thirty-one thousand one
    * hundred and twenty-fifth
    *
@@ -111,7 +111,6 @@ public abstract class NumberTextOld {
    * Transfers an integer number into a String of its ordinal representation,
    * specifically in which language depends on the implementation.
    * </p>
-   * <p/>
    * <p>
    * e.g. in EnglishWithDash,
    * <br /><br />

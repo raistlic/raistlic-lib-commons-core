@@ -24,7 +24,7 @@ import java.util.List;
  * because the swing EventListenerList requires a listener to extend 
  * {@link java.util.EventListener}, which is a not-necessary hurdle.
  * 
- * <p/>
+ * <p>
  * For example, the following instance can replace a {@link javax.swing.event.EventListenerList}:
  * 
  * <pre>
@@ -43,7 +43,7 @@ import java.util.List;
  * }
  * </pre>
  * 
- * <p/>
+ * <p>
  * There is no reason why it cannot be used in other cases, rather than maintaining 
  * listeners in Swing applications.
  *

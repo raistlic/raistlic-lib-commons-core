@@ -42,7 +42,7 @@ public interface StopWatch {
    * after the specified {@code time}, notice that, if {@code time} is minus, 
    * then it means the StopWatch has already expired(for {@code -time} long now).
    * 
-   * <p/>
+   * <p>
    * 
    * @param time
    * 
