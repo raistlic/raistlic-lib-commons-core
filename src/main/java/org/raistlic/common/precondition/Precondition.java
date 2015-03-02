@@ -20,40 +20,44 @@ package org.raistlic.common.precondition;
  */
 public final class Precondition {
 
-  public static Expectation.OfObject param(Object parameter) {
+  public static ParamExpectation.OfObject param(Object evaluative) {
 
-    return new ParamExpectation.OfObject(parameter, null);
+    return new ParamExpectation.OfObject(evaluative, null);
   }
 
-  public static Expectation.OfObject param(Object parameter, String name) {
+  public static ParamExpectation.OfObject param(Object evaluative, String name) {
 
-    return new ParamExpectation.OfObject(parameter, name);
+    return new ParamExpectation.OfObject(evaluative, name);
   }
 
-//  public static BooleanExpectation param(boolean evaluative) {
-//
-//    return new ParamBooleanExpectation(evaluative, null);
-//  }
-//
-//  public static BooleanExpectation param(boolean evaluative, String message) {
-//
-//    return new ParamBooleanExpectation(evaluative, message);
-//  }
+  public static ParamExpectation.OfBoolean param(boolean evaluative) {
 
-  public static void assertTrue(boolean assertion) {
-
+    return new ParamExpectation.OfBoolean(evaluative, null);
   }
 
-  public static void assertTrue(boolean assertion, String message) {
+  public static ParamExpectation.OfBoolean param(boolean evaluative, String name) {
 
+    return new ParamExpectation.OfBoolean(evaluative, name);
   }
 
-  public static void assertFalse(boolean assertion) {
+  public static void assertTrue(boolean evaluative) {
 
+    param(evaluative).isTrue();
   }
 
-  public static void assertFalse(boolean assertion, String message) {
+  public static void assertTrue(boolean evaluative, String message) {
 
+    param(evaluative).isTrue(message);
+  }
+
+  public static void assertFalse(boolean evaluative) {
+
+    param(evaluative).isFalse();
+  }
+
+  public static void assertFalse(boolean evaluative, String message) {
+
+    param(evaluative).isFalse(message);
   }
 
   public static void notNull(Object parameter) {
