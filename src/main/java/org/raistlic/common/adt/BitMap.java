@@ -47,7 +47,7 @@ public abstract class BitMap {
    * to keep the immutability promise, this class is designed NOT to be inherited
    * from outside this file.
    */
-  private BitMap() {}
+  private BitMap() { }
 
   /**
    * A static factory method, which is a shortcut comparing with constructing
@@ -57,12 +57,12 @@ public abstract class BitMap {
    * {@code Condition}, and set 1s at where ever the element on the corresponding
    * index matches the condition.
    *
-   * @param <E>  the reference type here is just to make sure, at compile time,
-   *             that the given {@code Condition} instance is capable of checking
-   *             the elements in the given {@code List}.
-   * @param list
-   * @param condition
-   * @return
+   * @param <E>       the reference type here is just to make sure, at compile time,
+   *                  that the given {@code Condition} instance is capable of checking
+   *                  the elements in the given {@code List}.
+   * @param list      the list of elements based on which to create the bit map.
+   * @param condition the condition to check the {@code list}
+   * @return the created bit map.
    */
   public static <E> BitMap newInstance(List<E> list, Condition<? super E> condition) {
 
@@ -88,17 +88,22 @@ public abstract class BitMap {
    * <p>
    * As you may expect, a {@code Builder} instance is NOT thread safe.
    *
-   * @param size
-   * @return
+   * @param size the size of the bit map to build, cannot be less than {@code 0} .
+   * @return the new {@link org.raistlic.common.adt.BitMap.Builder} instance.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException if {@code size} is less than
+   *         {@code 0}.
    */
   public static Builder builder(int size) {
 
-    if (size < 0)
-      throw new IllegalArgumentException("Invalid bit map size: " + size);
+    Precondition.param(size, "size").noLessThan(0);
 
     return new Builder(size);
   }
 
+  /**
+   * The builder to create new bit map instances.
+   */
   public static class Builder implements Factory<BitMap> {
 
     private final byte[] map;
@@ -111,6 +116,11 @@ public abstract class BitMap {
       this.map = new byte[size / 8 + 1];
     }
 
+    /**
+     * Set all bits to be {@code 0} .
+     *
+     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
+     */
     public Builder clear() {
 
       for (int i = 0; i < map.length; i++)
@@ -119,24 +129,48 @@ public abstract class BitMap {
       return this;
     }
 
+    /**
+     * The method sets the bit at {@code index} to be {@code 1} .
+     *
+     * @param index the index of the bit to set, must be within range {@code [0, size)}.
+     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
+     *
+     * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+     *         range.
+     */
     public Builder set(int index) {
 
-      assert index >= 0;
-      assert index < size;
+      Precondition.param(index, "index").noLessThan(0);
+      Precondition.param(index, "index").lessThan(size);
 
       map[index / 8] |= (1 << (index % 8));
       return this;
     }
 
+    /**
+     * The method sets the bit at {@code index} to be {@code 0} .
+     *
+     * @param index the index of the bit to clear, must be within range {@code [0, size)}.
+     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
+     *
+     * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+     *         range.
+     */
     public Builder unset(int index) {
 
-      assert index >= 0;
-      assert index < size;
+      Precondition.param(index, "index").noLessThan(0);
+      Precondition.param(index, "index").lessThan(size);
 
       map[index / 8] &= ~(1 << (index % 8));
       return this;
     }
 
+    /**
+     * Create and return a new {@link BitMap} instance based on the current state of the
+     * {@code builder} .
+     *
+     * @return the created {@link BitMap} .
+     */
     @Override
     public BitMap build() {
 
@@ -146,7 +180,7 @@ public abstract class BitMap {
     /**
      * A {@code BitMap.Builder} is always ready to build, after it is created.
      *
-     * @return always true.
+     * @return always {@code true}.
      */
     @Override
     public boolean isReady() {
@@ -155,16 +189,65 @@ public abstract class BitMap {
     }
   }
 
+  /**
+   * The method returns the size of the {@link BitMap} .
+   *
+   * @return the size of the {@link BitMap} .
+   */
   public abstract int size();
 
+  /**
+   * The method returns the number of {@code 1} s up to {@code index} (inclusively).
+   *
+   * @param index the index up to which to query the number of {@code 1} s, must be within the
+   *              range {@code [0, size())} .
+   * @return the number of {@code 1} s.
+   * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+   *                                                                    range.
+   */
   public abstract int rankOne(int index);
 
+  /**
+   * The method returns the number of {@code 0} s up to the {@code index} (inclusively).
+   *
+   * @param index the index up to which to query the number of {@code 0} s, must be within the
+   *              range {@code [0, size())} .
+   * @return the number of {@code 0} s.
+   * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+   *                                                                    range.
+   */
   public abstract int rankZero(int index);
 
-  public abstract int selectOne(int index);
+  /**
+   * The method returns the index of the {@code i}-th {@code 1} .
+   *
+   * @param i specifies which {@code 1} 's index to query, cannot be less than {@code 0} .
+   * @return the index of the {@code i}-th {@code 1}, or {@code -1} if there are insufficient
+   * {@code 1} s in the bit map.
+   * @throws org.raistlic.common.precondition.InvalidParameterException if {@code i} is less than
+   *                                                                    {@code 0}.
+   */
+  public abstract int selectOne(int i);
 
-  public abstract int selectZero(int index);
+  /**
+   * The method returns the index of the {@code i}-th {@code 0} .
+   *
+   * @param i specifies which {@code 0} 's index to query, cannot be less than {@code 0} .
+   * @return the index of the {@code i}-th {@code 0}, or {@code -1} if there are insufficient
+   * {@code 1} s in the bit map.
+   * @throws org.raistlic.common.precondition.InvalidParameterException if {@code i} is less than
+   *                                                                    {@code 0}.
+   */
+  public abstract int selectZero(int i);
 
+  /**
+   * The method returns whether the specified bit at {@code index} is {@code 1} or not.
+   *
+   * @param index the index to query, must be within the range {@code [0, size())} .
+   * @return {@code true} if the bit at {@code index} is {@code 1} .
+   * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+   *                                                                    range.
+   */
   public abstract boolean isOne(int index);
 
   private static class DefaultBitMap extends BitMap {
@@ -203,13 +286,8 @@ public abstract class BitMap {
     @Override
     public int rankOne(int index) {
 
-      if (index < 0)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
-
-      if (index >= size)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
+      Precondition.param(index, "index").noLessThan(0);
+      Precondition.param(index, "index").lessThan(size);
 
       int offset = index % 8;
       index /= 8;
@@ -220,47 +298,40 @@ public abstract class BitMap {
     @Override
     public int rankZero(int index) {
 
-      if (index < 0)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
-
-      if (index >= size)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
+      Precondition.param(index, "index").noLessThan(0);
+      Precondition.param(index, "index").lessThan(size);
 
       return index - rankOne(index) + 1;
     }
 
     @Override
-    public int selectOne(int index) {
+    public int selectOne(int i) {
 
-      if (index < 0)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
+      Precondition.param(i, "i").noLessThan(0);
 
-      int units = binaryRankSearch(index, rankOne, 0, rankOne.length - 1);
+      if (i >= rankOne(size - 1)) {
+        return -1;
+      }
+
+      int units = binaryRankSearch(i, rankOne, 0, rankOne.length - 1);
       int counted = units > 0 ? rankOne[units - 1] : 0;
 
-      if (units >= map.length)
-        return -1;
-
-      return units * 8 + MAP_SELECT_ONE[0xFF & map[units]][index - counted];
+      return units * 8 + MAP_SELECT_ONE[0xFF & map[units]][i - counted];
     }
 
     @Override
-    public int selectZero(int index) {
+    public int selectZero(int i) {
 
-      if (index < 0)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
+      Precondition.param(i, "i").noLessThan(0);
 
-      int units = binaryRankSearch(index, rankZero, 0, rankZero.length - 1);
+      if (i >= rankZero(size - 1)) {
+        return -1;
+      }
+
+      int units = binaryRankSearch(i, rankZero, 0, rankZero.length - 1);
       int counted = units > 0 ? units * 8 - rankOne[units - 1] : 0;
 
-      if (units >= map.length)
-        return -1;
-
-      return units * 8 + MAP_SELECT_ZERO[0xFF & map[units]][index - counted];
+      return units * 8 + MAP_SELECT_ZERO[0xFF & map[units]][i - counted];
     }
 
     private int binaryRankSearch(int count, int[] rank, int left, int right) {
@@ -268,10 +339,12 @@ public abstract class BitMap {
       if (left == right) {
 
         return left;
-      } else if (left + 1 == right) {
+      }
+      else if (left + 1 == right) {
 
         return rank[left] > count ? left : right;
-      } else {
+      }
+      else {
 
         int mid = (left + right) / 2;
         if (rank[mid] > count)
@@ -285,14 +358,10 @@ public abstract class BitMap {
     @Override
     public boolean isOne(int index) {
 
-      if (index < 0)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
-      if (index >= size)
-        throw new IndexOutOfBoundsException(
-                "index out of bounds: (" + index + " / " + size + ")");
+      Precondition.param(index, "index").noLessThan(0);
+      Precondition.param(index, "index").lessThan(size);
 
-      return (map[index / 8] & ~(1 << (index % 8))) != 0;
+      return (map[index / 8] & (1 << (index % 8))) != 0;
     }
 
     @Override
@@ -313,21 +382,27 @@ public abstract class BitMap {
     @Override
     public boolean equals(Object o) {
 
-      if (o == this)
+      if (o == this) {
+
         return true;
+      }
       else if (o instanceof BitMap) {
 
         BitMap m = (BitMap) o;
-        if (m.size() != size())
+        if (m.size() != size()) {
           return false;
-
-        for (int i = 0; i < size; i++)
-          if (m.isOne(i) != isOne(i))
+        }
+        for (int i = 0; i < size; i++) {
+          if (m.isOne(i) != isOne(i)) {
             return false;
-
+          }
+        }
         return true;
-      } else
+      }
+      else {
+
         return false;
+      }
     }
   }
 

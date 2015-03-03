@@ -17,8 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * @author lei.c
- * @since 2014-11-16
+ * @author Lei CHEN (2014-11-16)
  */
 public class EventChannelTest {
 
