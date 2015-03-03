@@ -20,7 +20,8 @@ package org.raistlic.common.codec;
  * This class simply combines a proper encoder and a proper decoder together,
  * to adapt the {@link org.raistlic.common.codec.Codec} interface.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public class CodecAdapter<S, D> implements Codec<S, D> {
   

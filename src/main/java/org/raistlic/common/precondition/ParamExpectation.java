@@ -19,7 +19,8 @@ package org.raistlic.common.precondition;
 import java.util.Objects;
 
 /**
- * @author Lei.C (2015-02-18)
+ * @author Lei CHEN (2015-02-18)
+ * @since 1.2
  */
 public final class ParamExpectation {
 

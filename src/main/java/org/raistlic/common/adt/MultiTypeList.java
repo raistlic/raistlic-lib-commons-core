@@ -49,7 +49,8 @@ import java.util.List;
  *
  * @param <B> the referenced base type of the list.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public class MultiTypeList<B> {
   

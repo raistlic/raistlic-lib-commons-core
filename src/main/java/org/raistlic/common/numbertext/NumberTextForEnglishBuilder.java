@@ -19,8 +19,8 @@ package org.raistlic.common.numbertext;
 import org.raistlic.common.Factory;
 
 /**
- * @author lei.c
- * @since 2014-11-24
+ * @author Lei CHEN (2014-11-24)
+ * @since 1.0
  */
 public interface NumberTextForEnglishBuilder extends Factory<NumberText> {
 

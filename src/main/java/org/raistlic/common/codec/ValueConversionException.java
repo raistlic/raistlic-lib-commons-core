@@ -20,7 +20,8 @@ package org.raistlic.common.codec;
  * This class defines an unchecked exception, to be thrown when unexpected error occurs during
  * the process of encoding or decoding.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public class ValueConversionException extends RuntimeException {
   

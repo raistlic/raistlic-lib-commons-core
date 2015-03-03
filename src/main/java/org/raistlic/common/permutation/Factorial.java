@@ -23,7 +23,8 @@ import org.raistlic.common.adt.WeakArray;
  * This class defines a tool to calculate mathematical factorial results of 
  * positive integers.
  * 
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public class Factorial {
   

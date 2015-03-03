@@ -26,6 +26,7 @@ package org.raistlic.common.codec;
  * <p>
  * See also {@link org.raistlic.common.codec.Decoder}.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public interface Codec<S, D> extends Encoder<S, D>, Decoder<S, D> {}

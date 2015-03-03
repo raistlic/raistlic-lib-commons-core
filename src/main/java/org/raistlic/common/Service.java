@@ -33,7 +33,8 @@ package org.raistlic.common;
  * <p>
  * See {@link ExceptionHandler}.
  *
- * @author Lei.C (13-11-9)
+ * @author Lei CHEN (2013-11-09)
+ * @since 1.0
  */
 public interface Service {
 

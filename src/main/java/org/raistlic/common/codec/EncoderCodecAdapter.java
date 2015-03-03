@@ -18,7 +18,8 @@ package org.raistlic.common.codec;
 
 /**
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public abstract class EncoderCodecAdapter<S, D> implements Codec<S, D> {
   

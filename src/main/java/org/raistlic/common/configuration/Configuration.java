@@ -26,8 +26,8 @@ import java.util.Set;
  * The interface abstracts the functionality of a configuration entity instance, which include
  * queries to multiple types of values using {@link String} key.
  *
- * @author lei.c
- * @since 2014-12-28
+ * @author Lei CHEN (2014-12-28)
+ * @since 1.0
  */
 public interface Configuration {
 

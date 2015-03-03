@@ -38,7 +38,8 @@ import org.raistlic.common.precondition.Precondition;
  * operations, using multiple levels of cached maps, while this implementation
  * caches only one level map of every 8 bits.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public abstract class BitMap {
 

@@ -23,7 +23,8 @@ package org.raistlic.common.adt;
  * <p>
  * Design ideas from {@link java.util.Collection}.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public interface ListView<E> extends Iterable<E> {
 

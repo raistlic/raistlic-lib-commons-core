@@ -27,7 +27,8 @@ import org.raistlic.common.Factory;
  * It can also be used in other scenarios where appropriate (where 
  * the semantic of both the interface name and the method name make sense).
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public interface Condition<E> {
   

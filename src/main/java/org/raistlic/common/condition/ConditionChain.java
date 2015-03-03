@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 class ConditionChain<E> implements Condition<E> {
 

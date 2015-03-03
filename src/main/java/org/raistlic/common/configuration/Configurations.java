@@ -17,8 +17,8 @@
 package org.raistlic.common.configuration;
 
 /**
- * @author lei.c
- * @since 2014-12-28
+ * @author Lei CHEN (2014-12-28)
+ * @since 1.0
  */
 public final class Configurations {
 

@@ -30,7 +30,8 @@ import java.util.Iterator;
  * from it, removing elements using the iterator will not effect the subsequent
  * elements' positions.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public class WeakArray<E> implements Iterable<E> {
 

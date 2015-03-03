@@ -18,7 +18,8 @@ package org.raistlic.common.stopwatch;
 
 /**
  *
- * @author Lei.C (2013-03-27)
+ * @author Lei CHEN (2013-03-27)
+ * @since 1.0
  */
 class NanoWatch extends AbstractStopWatch {
 

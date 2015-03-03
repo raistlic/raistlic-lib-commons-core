@@ -17,7 +17,8 @@
 package org.raistlic.common.condition;
 
 /**
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 class NotConditionAdapter<E> implements Condition<E> {
 

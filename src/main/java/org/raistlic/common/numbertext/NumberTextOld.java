@@ -29,7 +29,8 @@ import java.util.Map;
  *   ns.getOrdinalText(320) // three hundred and twentieth
  * }</pre>
  *
- * @author Lei.C (09/02/2012)
+ * @author Lei CHEN (09/02/2012)
+ * @since 1.0
  */
 public abstract class NumberTextOld {
 

@@ -20,7 +20,8 @@ package org.raistlic.common.precondition;
  * This class defines the common type for all exceptions thrown as a result of a failure pre-condition
  * check in a method.
  *
- * @author Lei.C (2015-02-13)
+ * @author Lei CHEN (2015-02-13)
+ * @since 1.2
  */
 public class PreconditionException extends RuntimeException {
 

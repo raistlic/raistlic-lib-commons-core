@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * @author lei.c
- * @since 2014-11-24
+ * @author Lei CHEN (2014-11-24)
+ * @since 1.0
  */
 public interface NumberText {
 

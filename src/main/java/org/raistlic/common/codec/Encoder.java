@@ -20,7 +20,8 @@ package org.raistlic.common.codec;
  * This instance defines the parser that parses the referenced type {@code S} to
  * the referenced type {@code D}.
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public interface Encoder<S, D> {
   

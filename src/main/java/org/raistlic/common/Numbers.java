@@ -17,7 +17,8 @@
 package org.raistlic.common;
 
 /**
- * @author Lei.C (2015-02-09)
+ * @author Lei CHEN (2015-02-09)
+ * @since 1.0
  */
 public final class Numbers {
 

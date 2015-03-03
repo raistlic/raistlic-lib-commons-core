@@ -17,7 +17,8 @@
 package org.raistlic.common.precondition;
 
 /**
- * @author Lei.C (2015-02-13)
+ * @author Lei CHEN (2015-02-13)
+ * @since 1.2
  */
 public class InvalidStatusException extends PreconditionException {
 

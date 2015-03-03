@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author lei.c
- * @since 2014-12-28
+ * @author Lei CHEN (2014-12-28)
+ * @since 1.0
  */
 class DefaultConfiguration implements Configuration {
 

@@ -18,7 +18,8 @@ package org.raistlic.common.condition;
 
 /**
  *
- * @author Lei.C
+ * @author Lei CHEN
+ * @since 1.0
  */
 public class Conditions {
   
