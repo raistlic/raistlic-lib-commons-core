@@ -24,32 +24,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static org.raistlic.common.precondition.Precondition.param;
+
 /**
  * @author Lei CHEN (2014-12-28)
  * @since 1.0
  */
-class DefaultConfiguration implements Configuration {
+final class DefaultConfiguration implements Configuration {
 
   private final Map<String, String> map;
 
-  private final Set<String> keys;
-
   DefaultConfiguration(Map<String, String> map) {
 
-    this.map = new HashMap<String, String>(map);
-    this.keys = Collections.unmodifiableSet(map.keySet());
+    this.map = Collections.unmodifiableMap(new HashMap<String, String>(map));
   }
 
   @Override
   public Set<String> getKeys() {
 
-    return keys;
+    return map.keySet();
   }
 
   @Override
   public String getString(String key) {
 
-    notNull(key);
+    param(key, "key").notNull();
     return map.get(key);
   }
 
@@ -61,20 +60,23 @@ class DefaultConfiguration implements Configuration {
   }
 
   @Override
+  public boolean getBoolean(String key, boolean value) {
+
+    String val = getString(key);
+    return val == null ? value : Boolean.valueOf(val);
+  }
+
+  @Override
   public byte getByte(String key, byte value) {
 
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return Byte.parseByte(val);
     }
     catch (NumberFormatException ex) {
-
       throw new ConfigurationValueConvertException(ex);
     }
   }
@@ -84,11 +86,9 @@ class DefaultConfiguration implements Configuration {
 
     String val = getString(key);
     if (val == null || val.isEmpty()) {
-
       return value;
     }
     else {
-
       return val.charAt(0);
     }
   }
@@ -98,16 +98,12 @@ class DefaultConfiguration implements Configuration {
 
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return Short.parseShort(val);
     }
     catch (NumberFormatException ex) {
-
       throw new ConfigurationValueConvertException(ex);
     }
   }
@@ -117,16 +113,12 @@ class DefaultConfiguration implements Configuration {
 
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return Integer.parseInt(val);
     }
     catch (NumberFormatException ex) {
-
       throw new ConfigurationValueConvertException(ex);
     }
   }
@@ -136,16 +128,12 @@ class DefaultConfiguration implements Configuration {
 
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return Long.parseLong(val);
     }
     catch (NumberFormatException ex) {
-
       throw new ConfigurationValueConvertException(ex);
     }
   }
@@ -155,16 +143,12 @@ class DefaultConfiguration implements Configuration {
 
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return Float.parseFloat(val);
     }
     catch (NumberFormatException ex) {
-
       throw new ConfigurationValueConvertException(ex);
     }
   }
@@ -174,16 +158,12 @@ class DefaultConfiguration implements Configuration {
 
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return Double.parseDouble(val);
     }
     catch (NumberFormatException ex) {
-
       throw new ConfigurationValueConvertException(ex);
     }
   }
@@ -197,29 +177,15 @@ class DefaultConfiguration implements Configuration {
   @Override
   public <E> E getValue(String key, Decoder<? extends E, String> decoder, E value) {
 
-    notNull(decoder);
-
     String val = getString(key);
     if (val == null) {
-
       return value;
     }
-
     try {
-
       return decoder.decode(val);
     }
     catch (ValueConversionException ex) {
-
       throw new ConfigurationValueConvertException(ex);
-    }
-  }
-
-  private static void notNull(Object value) {
-
-    if (value == null) {
-
-      throw new NullPointerException();
     }
   }
 }

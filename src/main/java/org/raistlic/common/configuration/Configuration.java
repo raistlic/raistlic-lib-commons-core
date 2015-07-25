@@ -64,6 +64,17 @@ public interface Configuration {
   String getString(String key, String value);
 
   /**
+   * The method queries the {@code boolean} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @param value the default value to return in case {@code key} is not found.
+   * @return the value mapped for {@code key} in the {@link Configuration}, or the default
+   *         {@code value} parameter in case {@code key} is not found.
+   * @throws NullPointerException if {@code key} is {@code null}.
+   */
+  boolean getBoolean(String key, boolean value);
+
+  /**
    * The method queries the {@code byte} value specified by the {@code key} .
    *
    * @param key the key to search, cannot be {@code null}.
@@ -202,7 +213,7 @@ public interface Configuration {
    * The interface defines a builder of {@link Configuration}, which provides setter methods to
    * specify the key-value pairs to be included in the created {@link Configuration} instance.
    */
-  public interface Builder extends Factory<Configuration> {
+  interface Builder extends Configurable, Factory<Configuration> {
 
     /**
      * The method sets a {@link String} {@code value} to be mapped under the {@code key} .
@@ -213,6 +224,16 @@ public interface Configuration {
      * @throws java.lang.NullPointerException if {@code key} is {@code null}.
      */
     void setString(String key, String value);
+
+    /**
+     * The method sets a {@code boolean} {@code value} to be mapped under the {@code key} .
+     *
+     * @param key the key used to map the {@code value}, cannot be {@code null}.
+     * @param value the value to be mapped.
+     *
+     * @throws NullPointerException if {@code key} is {@code null}.
+     */
+    void setBoolean(String key, boolean value);
 
     /**
      * The method maps the {@code byte value} under the {@code key} .

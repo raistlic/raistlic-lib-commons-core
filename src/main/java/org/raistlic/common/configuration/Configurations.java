@@ -22,4 +22,13 @@ package org.raistlic.common.configuration;
  */
 public final class Configurations {
 
+  public static Configuration.Builder builder() {
+
+    return new DefaultMutableConfiguration();
+  }
+
+  public static MutableConfiguration createMutableConfiguration() {
+
+    return new DefaultMutableConfiguration();
+  }
 }
