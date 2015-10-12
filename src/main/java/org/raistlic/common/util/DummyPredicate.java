@@ -19,13 +19,25 @@ package org.raistlic.common.util;
 import java.util.function.Predicate;
 
 /**
+ * The enum types that does no check and constantly return a pre-defined value for the
+ * test.
+ *
  * @author Lei Chen (2015-10-13)
  * @since 1.3
  */
 @SuppressWarnings("rawtypes")
 enum DummyPredicate implements Predicate {
 
+  /**
+   * The immutable (singleton) instance of {@link Predicate} that simply returns {@code true} for
+   * all tests.
+   */
   TRUE   (true),
+
+  /**
+   * The immutable (singleton) instance of {@link Predicate} that simply returns {@code false} for
+   * all tests.
+   */
   FALSE  (false);
 
   private final boolean dummyResult;
