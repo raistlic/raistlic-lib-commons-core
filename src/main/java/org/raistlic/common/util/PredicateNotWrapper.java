@@ -14,41 +14,30 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.condition;
+package org.raistlic.common.util;
+
+import org.raistlic.common.precondition.Precondition;
+
+import java.util.function.Predicate;
 
 /**
  * @author Lei CHEN
- * @since 1.0
+ * @since 1.3
  */
-enum ConditionCombination {
+public final class PredicateNotWrapper<E> implements Predicate<E> {
 
-  And {
+  private final Predicate<? super E> original;
 
-    @Override
-    <E> boolean combine(boolean result, Condition<E> right, E value) {
+  public PredicateNotWrapper(Predicate<? super E> original) {
 
-      return result && right.match(value);
-    }
-  },
+    Precondition.param(original, "original").notNull();
 
-  Or {
-
-    @Override
-    <E> boolean combine(boolean result, Condition<E> right, E value) {
-
-      return result || right.match(value);
-    }
-  },
-
-  Not {
-
-    @Override
-    <E> boolean combine(boolean result, Condition<E> right, E value) {
-
-      return !result;
-    }
+    this.original = original;
   }
-  ;
 
-  abstract <E> boolean combine(boolean result, Condition<E> right, E value);
+  @Override
+  public boolean test(E e) {
+
+    return !original.test(e);
+  }
 }

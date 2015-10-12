@@ -14,26 +14,34 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.condition;
+package org.raistlic.common.util;
+
+import org.raistlic.common.precondition.Precondition;
+
+import java.util.function.Predicate;
 
 /**
- * @author Lei CHEN
- * @since 1.0
+ * @author Lei Chen (2015-10-13)
+ * @since 1.3
  */
-class NotConditionAdapter<E> implements Condition<E> {
+public final class PridicateOrWrapper<E> implements Predicate<E> {
 
-  private final Condition<E> adaptee;
+  private final Predicate<? super E> left;
 
-  NotConditionAdapter(Condition<E> adaptee) {
+  private final Predicate<? super E> right;
 
-    assert adaptee != null;
+  public PridicateOrWrapper(Predicate<? super E> left, Predicate<? super E> right) {
 
-    this.adaptee = adaptee;
+    Precondition.param(left, "left").notNull();
+    Precondition.param(right, "right").notNull();
+
+    this.left = left;
+    this.right = right;
   }
 
   @Override
-  public boolean match(E element) {
+  public boolean test(E e) {
 
-    return !adaptee.match(element);
+    return left.test(e) || right.test(e);
   }
 }

@@ -14,34 +14,30 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.condition;
+package org.raistlic.common.util;
+
+import java.util.function.Predicate;
 
 /**
- * @author Lei CHEN
- * @since 1.0
+ * @author Lei Chen (2015-10-13)
+ * @since 1.3
  */
-class ConditionCombinationAdapter<E> implements Condition<E> {
+@SuppressWarnings("rawtypes")
+enum DummyPredicate implements Predicate {
 
-  private final Condition<E> left;
+  TRUE   (true),
+  FALSE  (false);
 
-  private final Condition<E> right;
+  private final boolean dummyResult;
 
-  private final ConditionCombination cc;
+  DummyPredicate(boolean dummyResult) {
 
-  ConditionCombinationAdapter(Condition<E> left, Condition<E> right, ConditionCombination cc) {
-
-    assert left != null;
-    assert right != null;
-    assert cc != null;
-
-    this.left = left;
-    this.right = right;
-    this.cc = cc;
+    this.dummyResult = dummyResult;
   }
 
   @Override
-  public boolean match(E element) {
+  public boolean test(Object o) {
 
-    return cc.combine(left.match(element), right, element);
+    return dummyResult;
   }
 }
