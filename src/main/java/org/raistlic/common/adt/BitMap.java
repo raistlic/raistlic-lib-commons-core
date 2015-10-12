@@ -16,12 +16,12 @@
 
 package org.raistlic.common.adt;
 
+import org.raistlic.common.Factory;
+import org.raistlic.common.precondition.Precondition;
+
 import java.util.Arrays;
 import java.util.List;
-
-import org.raistlic.common.Factory;
-import org.raistlic.common.condition.Condition;
-import org.raistlic.common.precondition.Precondition;
+import java.util.function.Predicate;
 
 /**
  * This class implements the "binary rank and select" algorithm.
@@ -64,7 +64,7 @@ public abstract class BitMap {
    * @param condition the condition to check the {@code list}
    * @return the created bit map.
    */
-  public static <E> BitMap newInstance(List<E> list, Condition<? super E> condition) {
+  public static <E> BitMap newInstance(List<E> list, Predicate<? super E> condition) {
 
     Precondition.param(list, "list").notNull();
     Precondition.param(condition, "condition").notNull();
@@ -72,7 +72,7 @@ public abstract class BitMap {
     Builder builder = builder(list.size());
 
     for (int i = 0, size = list.size(); i < size; i++)
-      if (condition.match(list.get(i)))
+      if (condition.test(list.get(i)))
         builder.set(i);
 
     return builder.build();
