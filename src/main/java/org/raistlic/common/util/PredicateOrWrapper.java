@@ -21,16 +21,28 @@ import org.raistlic.common.precondition.Precondition;
 import java.util.function.Predicate;
 
 /**
+ * A wrapper class that wraps two {@link Predicate} instances, and returns {@code true} as long as
+ * any one of the tests passes.
+ *
  * @author Lei Chen (2015-10-13)
  * @since 1.3
  */
-public final class PridicateOrWrapper<E> implements Predicate<E> {
+public final class PredicateOrWrapper<E> implements Predicate<E> {
 
   private final Predicate<? super E> left;
 
   private final Predicate<? super E> right;
 
-  public PridicateOrWrapper(Predicate<? super E> left, Predicate<? super E> right) {
+  /**
+   * Wraps the two {@link Predicate} instances to create the wrapper object.
+   *
+   * @param left the left operand of the wrapper, cannot be {@code null}.
+   * @param right the right operand of the wrapper, cannot be {@code null}.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters
+   *         is {@code null}.
+   */
+  public PredicateOrWrapper(Predicate<? super E> left, Predicate<? super E> right) {
 
     Precondition.param(left, "left").notNull();
     Precondition.param(right, "right").notNull();
