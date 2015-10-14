@@ -23,7 +23,7 @@ import org.junit.rules.ExpectedException;
 /**
  * @author Lei CHEN (2015-03-02)
  */
-public class ParamExpectationOfBooleanTest {
+public class ParamAbstractExpectationOfBooleanTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();

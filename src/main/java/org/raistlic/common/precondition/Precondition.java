@@ -22,14 +22,15 @@ package org.raistlic.common.precondition;
  */
 public final class Precondition {
 
-  public static ParamExpectation.OfObject param(Object evaluative) {
+  public static <E> GeneralExpectation<E> param(E evaluative) {
 
-    return new ParamExpectation.OfObject(evaluative, null);
+    return param(evaluative, null);
   }
 
-  public static ParamExpectation.OfObject param(Object evaluative, String name) {
+  public static <E> GeneralExpectation<E> param(E evaluative, String name) {
 
-    return new ParamExpectation.OfObject(evaluative, name);
+    return new GeneralExpectation<E>(
+        evaluative, ExceptionBuilders.invalidParameterExceptionExceptionBuilder(), name);
   }
 
   public static ParamExpectation.OfString param(String evaluative) {

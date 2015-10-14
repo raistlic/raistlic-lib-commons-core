@@ -16,17 +16,15 @@
 
 package org.raistlic.common.precondition;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author Lei CHEN (2015-03-02)
  */
-public class ParamExpectationOfObjectTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+@RunWith(JUnit4.class)
+public class ParamAbstractExpectationOfObjectTest {
 
   @Test
   public void testIsNullWithNullParam() {
@@ -37,31 +35,27 @@ public class ParamExpectationOfObjectTest {
     Precondition.param(null, "name").isNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(new Object()).isNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(new Object(), "name").isNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(new Object()).isNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(new Object(), "name").isNull("message");
   }
 
@@ -74,31 +68,27 @@ public class ParamExpectationOfObjectTest {
     Precondition.param(new Object(), "name").notNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(null).notNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(null, "name").notNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(null).notNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(null, "name").notNull("message");
   }
 
@@ -113,43 +103,39 @@ public class ParamExpectationOfObjectTest {
     Precondition.param(param1, "name").equalTo(param1, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsNoNameNoMessage() {
 
     Object param1 = new Object();
     Object param2 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).equalTo(param2);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsWithNameNoMessage() {
 
     Object param1 = new Object();
     Object param2 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").equalTo(param2);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsNoNameWithMessage() {
 
     Object param1 = new Object();
     Object param2 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).equalTo(param2, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsWithNameWithMessage() {
 
     Object param1 = new Object();
     Object param2 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").equalTo(param2, "message");
   }
 
@@ -165,39 +151,35 @@ public class ParamExpectationOfObjectTest {
     Precondition.param(param1, "name").notEqualTo(param2, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsNoNameNoMessage() {
 
     Object param1 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).notEqualTo(param1);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsWithNameNoMessage() {
 
     Object param1 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").notEqualTo(param1);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsNoNameWithMessage() {
 
     Object param1 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).notEqualTo(param1, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsWithNameWithMessage() {
 
     Object param1 = new Object();
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").notEqualTo(param1, "message");
   }
 }

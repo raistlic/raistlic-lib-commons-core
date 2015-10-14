@@ -23,7 +23,7 @@ import org.junit.rules.ExpectedException;
 /**
  * @author Lei CHEN (2015-03-02)
  */
-public class ParamExpectationOfIntTest {
+public class ParamAbstractExpectationOfIntTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
