@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.raistlic.common.util;
+package org.raistlic.common.predicate;
 
 import org.raistlic.common.precondition.Precondition;
 
@@ -26,6 +26,7 @@ import java.util.function.Predicate;
  * @author Lei CHEN
  * @since 1.3
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public final class Predicates {
 
   /**
@@ -35,7 +36,6 @@ public final class Predicates {
    * @param <E> the actual type of targets to test.
    * @return the singleton {@link Predicate} instance.
    */
-  @SuppressWarnings({"unchecked", "rawtypes"})
   public static <E> Predicate<E> dummyTrue() {
     
     return (Predicate<E>) DummyPredicate.TRUE;
@@ -48,10 +48,63 @@ public final class Predicates {
    * @param <E> the actual type of targets to test.
    * @return the singleton {@link Predicate} instance.
    */
-  @SuppressWarnings({"unchecked", "rawtypes"})
   public static <E> Predicate<E> dummyFalse() {
     
     return (Predicate<E>) DummyPredicate.FALSE;
+  }
+
+  /**
+   * The method returns an immutable singleton {@link Predicate} instance that returns {@code true}
+   * only for {@code null} values in its test method.
+   *
+   * @param <E> the actual type signature to be exported.
+   * @return an immutable, singleton {@link Predicate} that returns {@code true} only for
+   *         {@code null} values in its test method.
+   */
+  public static <E> Predicate<E> isNull() {
+
+    return ObjectIsNullPredicate.INSTANCE;
+  }
+
+  /**
+   * The method returns an immutable singleton {@link Predicate} instance that returns {@code true}
+   * only for not {@code null} values in its test method.
+   *
+   * @param <E> the actual type signature to be exported.
+   * @return an immutable, singleton {@link Predicate} that returns {@code true} only for not
+   *         {@code null} values in its test method.
+   */
+  public static <E> Predicate<E> notNull() {
+
+    return ObjectIsNotNullPredicate.INSTANCE;
+  }
+
+  /**
+   * The method returns a {@link Predicate} instance that tests whether an instance of type {@code <E>}
+   * is equal to the specified {@code reference}; when the {@code reference} is {@code null}, the
+   * exported {@link Predicate} is functionally the same as the one exported by {@link #isNull()} .
+   *
+   * @param reference the reference used to create the {@link Predicate} , and to test candidates.
+   * @param <E> the actual type of the {@code reference} and candidates to be tested.
+   * @return the {@link Predicate} created.
+   */
+  public static <E> Predicate<E> equalTo(E reference) {
+
+    return new EqualsPredicate<E>(reference);
+  }
+
+  /**
+   * The method returns a {@link Predicate} instance that tests whether an instance of type {@code <E>}
+   * is NOT equal to the specified {@code reference}; when the {@code reference} is {@code null}, the
+   * exported {@link Predicate} is functionally the same as the one exported by {@link #notNull()} .
+   *
+   * @param reference the reference used to create the {@link Predicate} , and to test candidates.
+   * @param <E> the actual type of the {@code reference} and candidates to be tested.
+   * @return the {@link Predicate} created.
+   */
+  public static <E> Predicate<E> notEqualTo(E reference) {
+
+    return not(equalTo(reference));
   }
 
   /**
@@ -129,6 +182,49 @@ public final class Predicates {
     Precondition.param(base, "base").notNull();
 
     return new PredicateBuilder<E>(Predicates.<E>dummyTrue()).and(base);
+  }
+
+  private static class EqualsPredicate<E> implements Predicate<E> {
+
+    private E object;
+
+    private EqualsPredicate(E object) {
+
+      this.object = object;
+    }
+
+    @Override
+    public boolean test(E o) {
+
+      if (object == null) {
+        return o == null;
+      }
+      else {
+        return object.equals(o);
+      }
+    }
+  }
+
+  private enum ObjectIsNullPredicate implements Predicate {
+
+    INSTANCE;
+
+    @Override
+    public boolean test(Object o) {
+
+      return o == null;
+    }
+  }
+
+  private enum ObjectIsNotNullPredicate implements Predicate {
+
+    INSTANCE;
+
+    @Override
+    public boolean test(Object o) {
+
+      return o != null;
+    }
   }
 
   /*

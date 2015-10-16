@@ -1,89 +1,107 @@
 package org.raistlic.common.precondition;
 
+import org.raistlic.common.predicate.Predicates;
+
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
  * @author Lei Chen (2015-10-14)
  */
-public class GeneralExpectation<E> extends AbstractExpectation<E, GeneralExpectation<E>> {
+public class GeneralExpectation<E> extends AbstractExpectation<E> {
 
   private final String name;
 
-  GeneralExpectation(E candidate, ExceptionBuilder<?> exceptionBuilder, String name) {
+  GeneralExpectation(E candidate, Function<String, ? extends RuntimeException> exceptionProvider, String name) {
 
-    super(candidate, exceptionBuilder);
+    super(candidate, exceptionProvider);
     this.name = name;
   }
 
-  public GeneralExpectation<E> isNull() {
+  String name() {
+
+    return name;
+  }
+
+  public void isNull() {
 
     String message = "";
     if (name != null) {
       message = "'" + name + "' should be null, but was " + super.getCandidate();
     }
-    return isNull(message);
+    isNull(message);
   }
 
-  public GeneralExpectation<E> isNull(String message) {
+  public void isNull(String message) {
 
-    return withMessage(message).withPredicate(ObjectPredicates.IS_NULL).evaluate();
+    setMessage(message);
+    setPredicate(Predicates.isNull());
+    evaluate();
   }
 
-  public GeneralExpectation<E> notNull() {
+  public void notNull() {
 
     String message = "";
     if (name != null) {
       message = "'" + name + "' should not be null.";
     }
-    return notNull(message);
+    notNull(message);
   }
 
-  public GeneralExpectation<E> notNull(String message) {
+  public void notNull(String message) {
 
-    return withMessage(message).withPredicate(ObjectPredicates.NOT_NULL).evaluate();
+    setMessage(message);
+    setPredicate(Predicates.notNull());
+    evaluate();
   }
 
-  public GeneralExpectation<E> equalTo(E target) {
+  public void equalTo(E target) {
 
     String message = "";
     if (name != null) {
       message = "'" + name + "' should be equal to '" + target + "', but is not.";
     }
-    return equalTo(target, message);
+    equalTo(target, message);
   }
 
-  public GeneralExpectation<E> equalTo(E target, String message) {
+  public void equalTo(E target, String message) {
 
-    return withMessage(message).withPredicate(ObjectPredicates.equalsObject(target)).evaluate();
+    setMessage(message);
+    setPredicate(Predicates.equalTo(target));
+    evaluate();
   }
 
-  public GeneralExpectation<E> notEqualTo(E target) {
+  public void notEqualTo(E target) {
 
     String message = "";
     if (name != null) {
       message = "'" + name + "' should not be equal to '" + target + "'.";
     }
-    return notEqualTo(target, message);
+    notEqualTo(target, message);
   }
 
-  public GeneralExpectation<E> notEqualTo(E target, String message) {
+  public void notEqualTo(E target, String message) {
 
-    return withMessage(message).withPredicate(ObjectPredicates.notEqualsObject(target)).evaluate();
+    setMessage(message);
+    setPredicate(Predicates.notEqualTo(target));
+    evaluate();
   }
 
-  public GeneralExpectation<E> matches(Predicate<? super E> predicate) {
+  public void matches(Predicate<? super E> predicate) {
 
     String message = "";
     if (name != null) {
-      message = "'" + name + "' is invalid.";
+      message = "'" + name + "' does not match the specified predicate.";
     }
-    return matches(predicate, message);
+    matches(predicate, message);
   }
 
-  public GeneralExpectation<E> matches(Predicate<? super E> predicate, String message) {
+  public void matches(Predicate<? super E> predicate, String message) {
 
     Precondition.param(predicate, "predicate").notNull();
 
-    return withMessage(message).withPredicate(predicate).evaluate();
+    setMessage(message);
+    setPredicate(predicate);
+    evaluate();
   }
 }

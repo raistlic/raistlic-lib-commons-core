@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.util;
+package org.raistlic.common.predicate;
 
 import org.raistlic.common.Factory;
 import org.raistlic.common.precondition.Precondition;

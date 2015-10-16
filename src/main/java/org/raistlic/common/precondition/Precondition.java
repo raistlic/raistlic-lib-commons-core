@@ -30,17 +30,30 @@ public final class Precondition {
   public static <E> GeneralExpectation<E> param(E evaluative, String name) {
 
     return new GeneralExpectation<E>(
-        evaluative, ExceptionBuilders.invalidParameterExceptionExceptionBuilder(), name);
+        evaluative, ExceptionProviders.invalidParameterExceptionProvider(), name);
   }
 
-  public static ParamExpectation.OfString param(String evaluative) {
+  public static StringExpectation param(String evaluative) {
 
-    return new ParamExpectation.OfString(evaluative, null);
+    return param(evaluative, null);
   }
 
-  public static ParamExpectation.OfString param(String evaluative, String name) {
+  public static StringExpectation param(String evaluative, String name) {
 
-    return new ParamExpectation.OfString(evaluative, name);
+    return new StringExpectation(
+        evaluative, ExceptionProviders.invalidParameterExceptionProvider(), name);
+  }
+
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N candidate) {
+
+    return new NumberExpectation<N>(
+        candidate, ExceptionProviders.invalidParameterExceptionProvider(), null);
+  }
+
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N candidate, String name) {
+
+    return new NumberExpectation<N>(
+        candidate, ExceptionProviders.invalidParameterExceptionProvider(), name);
   }
 
   public static ParamExpectation.OfBoolean param(boolean evaluative) {
@@ -53,54 +66,21 @@ public final class Precondition {
     return new ParamExpectation.OfBoolean(evaluative, name);
   }
 
-  public static ParamExpectation.OfInt param(int evaluative) {
+  public static void assertParam(boolean evaluated) {
 
-    return new ParamExpectation.OfInt(evaluative, null);
+    assertParam(evaluated, "");
   }
 
-  public static ParamExpectation.OfInt param(int evaluative, String name) {
+  public static void assertParam(boolean evaluated, String message) {
 
-    return new ParamExpectation.OfInt(evaluative, name);
+    if (!evaluated) {
+      throw new InvalidParameterException(message);
+    }
   }
 
-  public static void assertTrue(boolean evaluative) {
+  public static <E> GeneralExpectation<E> state(E state, String name) {
 
-    param(evaluative).isTrue();
-  }
-
-  public static void assertTrue(boolean evaluative, String message) {
-
-    param(evaluative).isTrue(message);
-  }
-
-  public static void assertFalse(boolean evaluative) {
-
-    param(evaluative).isFalse();
-  }
-
-  public static void assertFalse(boolean evaluative, String message) {
-
-    param(evaluative).isFalse(message);
-  }
-
-  public static void notNull(Object parameter) {
-
-    param(parameter).notNull();
-  }
-
-  public static void notNull(Object parameter, String message) {
-
-    param(parameter).notNull(message);
-  }
-
-  public static void isNull(Object parameter) {
-
-    param(parameter).isNull();
-  }
-
-  public static void isNull(Object parameter, String message) {
-
-    param(parameter).isNull(message);
+    return new GeneralExpectation<E>(state, ExceptionProviders.invalidStateExceptionProvider(), name);
   }
 
   private Precondition() { }

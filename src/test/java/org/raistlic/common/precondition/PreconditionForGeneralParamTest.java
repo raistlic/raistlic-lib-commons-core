@@ -24,15 +24,15 @@ import org.junit.runners.JUnit4;
  * @author Lei CHEN (2015-03-02)
  */
 @RunWith(JUnit4.class)
-public class ParamAbstractExpectationOfObjectTest {
+public class PreconditionForGeneralParamTest {
 
   @Test
   public void testIsNullWithNullParam() {
 
-    Precondition.param(null).isNull();
-    Precondition.param(null, "name").isNull();
-    Precondition.param(null).isNull("message");
-    Precondition.param(null, "name").isNull("message");
+    Precondition.param((Object) null).isNull();
+    Precondition.param((Object) null, "name").isNull();
+    Precondition.param((Object) null).isNull("message");
+    Precondition.param((Object) null, "name").isNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -71,25 +71,25 @@ public class ParamAbstractExpectationOfObjectTest {
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameNoMessage() {
 
-    Precondition.param(null).notNull();
+    Precondition.param((Object) null).notNull();
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameNoMessage() {
 
-    Precondition.param(null, "name").notNull();
+    Precondition.param((Object) null, "name").notNull();
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameWithMessage() {
 
-    Precondition.param(null).notNull("message");
+    Precondition.param((Object) null).notNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameWithMessage() {
 
-    Precondition.param(null, "name").notNull("message");
+    Precondition.param((Object) null, "name").notNull("message");
   }
 
   @Test

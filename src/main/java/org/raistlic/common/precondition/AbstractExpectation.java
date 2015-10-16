@@ -1,25 +1,28 @@
 package org.raistlic.common.precondition;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
  * @author Lei Chen (2015-10-14)
  */
 @SuppressWarnings("unchecked")
-class AbstractExpectation<C, E extends AbstractExpectation<C, E>> {
+class AbstractExpectation<C> {
 
   private final C candidate;
 
-  private ExceptionBuilder<?> exceptionFactory;
+  private Function<String, ? extends RuntimeException> exceptionProvider;
 
   private Predicate<? super C> predicate;
 
   private String message;
 
-  AbstractExpectation(C candidate, ExceptionBuilder<?> exceptionFactory) {
+  AbstractExpectation(C candidate, Function<String, ? extends RuntimeException> exceptionProvider) {
+
+    assert exceptionProvider != null;
 
     this.candidate = candidate;
-    this.exceptionFactory = exceptionFactory;
+    this.exceptionProvider = exceptionProvider;
   }
 
   C getCandidate() {
@@ -27,29 +30,25 @@ class AbstractExpectation<C, E extends AbstractExpectation<C, E>> {
     return candidate;
   }
 
-  E withPredicate(Predicate<? super C> predicate) {
+  void setPredicate(Predicate<? super C> predicate) {
 
     assert predicate != null;
 
     this.predicate = predicate;
-    return (E) this;
   }
 
-  E withMessage(String message) {
+  void setMessage(String message) {
 
     this.message = message;
-    return (E) this;
   }
 
-  E evaluate() {
+  void evaluate() {
 
-    assert candidate != null;
     assert predicate != null;
-    assert exceptionFactory != null;
+    assert exceptionProvider != null;
 
     if (!predicate.test(candidate)) {
-      throw exceptionFactory.withMessage(message).withCause(null).build();
+      throw exceptionProvider.apply(message);
     }
-    return (E) this;
   }
 }

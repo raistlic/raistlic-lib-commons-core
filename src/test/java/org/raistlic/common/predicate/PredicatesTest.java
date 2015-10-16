@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.util;
+package org.raistlic.common.predicate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +51,100 @@ public class PredicatesTest {
     assertThat(predicate == Predicates.<String>dummyFalse()).isTrue();
     assertThat(predicate == Predicates.<String>dummyFalse()).isTrue();
     assertThat(predicate == Predicates.<String>dummyFalse()).isTrue();
+  }
+
+  @Test
+  public void isNullExpected() {
+
+    Predicate<String> predicate = Predicates.isNull();
+
+    assertThat(predicate).isNotNull();
+    assertThat(predicate == Predicates.<String>isNull()).isTrue();
+    assertThat(predicate == Predicates.<String>isNull()).isTrue();
+    assertThat(predicate == Predicates.<String>isNull()).isTrue();
+
+    assertThat(predicate.test("")).isFalse();
+    assertThat(predicate.test("abc")).isFalse();
+    assertThat(predicate.test("123")).isFalse();
+    assertThat(predicate.test(" ")).isFalse();
+    assertThat(predicate.test(null)).isTrue();
+  }
+
+  @Test
+  public void notNullExpected() {
+
+    Predicate<String> predicate = Predicates.notNull();
+
+    assertThat(predicate).isNotNull();
+    assertThat(predicate == Predicates.<String>notNull()).isTrue();
+    assertThat(predicate == Predicates.<String>notNull()).isTrue();
+    assertThat(predicate == Predicates.<String>notNull()).isTrue();
+
+    assertThat(predicate.test("")).isTrue();
+    assertThat(predicate.test("abc")).isTrue();
+    assertThat(predicate.test("123")).isTrue();
+    assertThat(predicate.test(" ")).isTrue();
+    assertThat(predicate.test(null)).isFalse();
+  }
+
+  @Test
+  public void equalToExpected() {
+
+    Predicate<String> predicate = Predicates.equalTo("abc");
+
+    assertThat(predicate).isNotNull();
+    assertThat(predicate.test("abc")).isTrue();
+    assertThat(predicate.test("abc ")).isFalse();
+    assertThat(predicate.test(" abc ")).isFalse();
+    assertThat(predicate.test(" abc")).isFalse();
+    assertThat(predicate.test("ab c")).isFalse();
+    assertThat(predicate.test("ab")).isFalse();
+    assertThat(predicate.test("")).isFalse();
+    assertThat(predicate.test(" ")).isFalse();
+    assertThat(predicate.test(null)).isFalse();
+  }
+
+  @Test
+  public void equalToWithNullReference() {
+
+    Predicate<String> predicate = Predicates.equalTo(null);
+
+    assertThat(predicate).isNotNull();
+    assertThat(predicate.test("")).isFalse();
+    assertThat(predicate.test("abc")).isFalse();
+    assertThat(predicate.test("123")).isFalse();
+    assertThat(predicate.test(" ")).isFalse();
+    assertThat(predicate.test(null)).isTrue();
+  }
+
+  @Test
+  public void notEqualToExpected() {
+
+    Predicate<String> predicate = Predicates.notEqualTo("abc");
+
+    assertThat(predicate).isNotNull();
+    assertThat(predicate.test("abc")).isFalse();
+    assertThat(predicate.test("abc ")).isTrue();
+    assertThat(predicate.test(" abc ")).isTrue();
+    assertThat(predicate.test(" abc")).isTrue();
+    assertThat(predicate.test("ab c")).isTrue();
+    assertThat(predicate.test("ab")).isTrue();
+    assertThat(predicate.test("")).isTrue();
+    assertThat(predicate.test(" ")).isTrue();
+    assertThat(predicate.test(null)).isTrue();
+  }
+
+  @Test
+  public void notEqualToWithNullReference() {
+
+    Predicate<String> predicate = Predicates.notEqualTo(null);
+
+    assertThat(predicate).isNotNull();
+    assertThat(predicate.test("")).isTrue();
+    assertThat(predicate.test("abc")).isTrue();
+    assertThat(predicate.test("123")).isTrue();
+    assertThat(predicate.test(" ")).isTrue();
+    assertThat(predicate.test(null)).isFalse();
   }
 
   @Test(expected = InvalidParameterException.class)

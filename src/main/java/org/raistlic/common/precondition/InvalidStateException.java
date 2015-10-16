@@ -20,19 +20,19 @@ package org.raistlic.common.precondition;
  * @author Lei CHEN (2015-02-13)
  * @since 1.2
  */
-public class NumberOutOfRangeException extends InvalidParameterException {
+public class InvalidStateException extends PreconditionException {
 
-  public NumberOutOfRangeException(String message) {
+  public InvalidStateException(String message) {
 
     super(message);
   }
 
-  public NumberOutOfRangeException(String message, Throwable cause) {
+  public InvalidStateException(String message, Throwable cause) {
 
     super(message, cause);
   }
 
-  public NumberOutOfRangeException(Throwable cause) {
+  public InvalidStateException(Throwable cause) {
 
     super(cause);
   }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.util;
+package org.raistlic.common.predicate;
 
 import java.util.function.Predicate;
 
