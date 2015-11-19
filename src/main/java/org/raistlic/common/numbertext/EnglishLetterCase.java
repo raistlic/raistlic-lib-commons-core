@@ -16,20 +16,12 @@
 
 package org.raistlic.common.numbertext;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 /**
- * @author Lei CHEN (2014-11-24)
- * @since 1.0
+ * @author Lei CHEN (2015-11-19)
  */
-public interface NumberText {
+public enum EnglishLetterCase {
 
-  String toText(long number);
-
-  String toText(BigInteger number) throws IllegalArgumentException;
-
-  String toText(BigDecimal number) throws IllegalArgumentException;
-
-  String toText(String number) throws IllegalArgumentException;
+  LOWER_CASE,
+  UPPER_CASE,
+  TITLE_CASE
 }

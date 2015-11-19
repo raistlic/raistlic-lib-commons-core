@@ -16,26 +16,25 @@
 
 package org.raistlic.common.numbertext;
 
-import org.raistlic.common.Factory;
-
 /**
- * @author Lei CHEN (2014-11-24)
- * @since 1.0
+ * @author Lei CHEN (2015-11-19)
  */
-public interface NumberTextForEnglishBuilder extends Factory<NumberText> {
+public final class NumberTextConverters {
 
-  public static enum UpperCaseMode {
+  public static EnglishNumberTextConverterBuilder builderForEnglish() {
 
-    UPPER_CASE_ALL,
-    UPPER_CASE_FIRST_LETTER,
-    LOWER_CASE,
-    KEEP_ORIGINAL,
-    ;
+    return new EnglishNumberTextConverterBuilder();
   }
 
-  NumberTextForEnglishBuilder withMinusText(String minusText);
+  public static NumberTextConverter converterForSimplifiedChinese() {
 
-  NumberTextForEnglishBuilder withPointText(String pointText);
+    return ChineseNumberTextConverter.SIMPLIFIED;
+  }
 
-  NumberTextForEnglishBuilder withUpperCaseMode(UpperCaseMode mode);
+  public static NumberTextConverter converterForTraditionalChinese() {
+
+    return ChineseNumberTextConverter.TRADITIONAL;
+  }
+
+  private NumberTextConverters() { }
 }
