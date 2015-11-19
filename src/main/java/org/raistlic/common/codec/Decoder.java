@@ -24,14 +24,22 @@ package org.raistlic.common.codec;
  * @since 1.0
  */
 public interface Decoder<S, D> {
-  
+
+  /**
+   * The method checks the specified {@code dest}, and returns whether it's a valid form for decoding.
+   *
+   * @param dest the dest to be checked.
+   * @return {@code true} if {@code dest} is valid for decoding.
+   */
   public boolean isValidDest(D dest);
   
   /**
+   * The method decodes the specified {@code dest} of type {@code D} , into type {@code S} .
    * 
-   * 
-   * @param dest
-   * @return
+   * @param dest the dest to be decoded.
+   * @return the decode result.
+   * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
+   *         process of decoding the value.
    */
   public S decode(D dest) throws ValueConversionException;
 }

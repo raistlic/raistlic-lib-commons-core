@@ -24,8 +24,22 @@ package org.raistlic.common.codec;
  * @since 1.0
  */
 public interface Encoder<S, D> {
-  
+
+  /**
+   * The method checks whether the specified {@code src} is in valid form for encoding.
+   *
+   * @param src the value to be checked.
+   * @return {@code true} if {@code src} is a valid value to be encoded.
+   */
   public boolean isValidSrc(S src);
-  
+
+  /**
+   * The method encodes the specified {@code src} , into type {@code D} .
+   *
+   * @param src the value to be encoded.
+   * @return the encode result.
+   * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
+   *         process of encoding.
+   */
   public D encode(S src) throws ValueConversionException;
 }

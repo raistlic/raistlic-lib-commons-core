@@ -17,6 +17,8 @@
 package org.raistlic.common.codec;
 
 /**
+ * This class wraps a decoder to do the decode job, and leaves the encode job to its sub class
+ * implementation.
  *
  * @author Lei CHEN
  * @since 1.0
