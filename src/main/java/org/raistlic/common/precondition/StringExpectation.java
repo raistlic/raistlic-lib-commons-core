@@ -17,15 +17,17 @@ public class StringExpectation extends GeneralExpectation<String> {
    * checks.
    *
    * @param candidate the candidate to be examined.
+   * @param name the name of the candidate, {@code null} if the candidate is not named.
    * @param exceptionProvider the exception builder for creating exceptions when needed, cannot be
    *                         {@code null}.
-   * @param name the name of the candidate, {@code null} if the candidate is not named.
    *
    * @throws InvalidParameterException when {@code exceptionBuilder} is {@code null}.
    */
-  public StringExpectation(String candidate, Function<String, ? extends RuntimeException> exceptionProvider, String name) {
+  public StringExpectation(String candidate,
+                           String name,
+                           Function<String, ? extends RuntimeException> exceptionProvider) {
 
-    super(candidate, exceptionProvider, name);
+    super(candidate, name, exceptionProvider);
 
     if (exceptionProvider == null) {
       throw new InvalidParameterException("'exceptionProvider' should not be null.");

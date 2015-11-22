@@ -17,6 +17,11 @@ abstract class ExceptionProviders {
     return InvalidStateExceptionProvider.INSTANCE;
   }
 
+  static Function<String, InvalidContextException> invalidContextExceptionProvider() {
+
+    return InvalidContextExceptionProvider.INSTANCE;
+  }
+
   private enum InvalidParameterExceptionProvider implements Function<String, InvalidParameterException> {
 
     INSTANCE;
@@ -36,6 +41,17 @@ abstract class ExceptionProviders {
     public InvalidStateException apply(String message) {
 
       return new InvalidStateException(message);
+    }
+  }
+
+  private enum InvalidContextExceptionProvider implements Function<String, InvalidContextException> {
+
+    INSTANCE;
+
+    @Override
+    public InvalidContextException apply(String message) {
+
+      throw new InvalidContextException(message);
     }
   }
 

@@ -22,65 +22,144 @@ package org.raistlic.common.precondition;
  */
 public final class Precondition {
 
-  public static <E> GeneralExpectation<E> param(E evaluative) {
+  // parameter preconditions -----------------------------------------------------------------------
 
-    return param(evaluative, null);
+  public static <E> GeneralExpectation<E> param(E parameter) {
+
+    return param(parameter, null);
   }
 
-  public static <E> GeneralExpectation<E> param(E evaluative, String name) {
+  public static <E> GeneralExpectation<E> param(E parameter, String name) {
 
     return new GeneralExpectation<E>(
-        evaluative, ExceptionProviders.invalidParameterExceptionProvider(), name);
+        parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
   }
 
-  public static StringExpectation param(String evaluative) {
+  public static StringExpectation param(String parameter) {
 
-    return param(evaluative, null);
+    return param(parameter, null);
   }
 
-  public static StringExpectation param(String evaluative, String name) {
+  public static StringExpectation param(String parameter, String name) {
 
     return new StringExpectation(
-        evaluative, ExceptionProviders.invalidParameterExceptionProvider(), name);
+        parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
   }
 
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N candidate) {
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter) {
+
+    return param(parameter, null);
+  }
+
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter, String name) {
 
     return new NumberExpectation<N>(
-        candidate, ExceptionProviders.invalidParameterExceptionProvider(), null);
+        parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
   }
 
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N candidate, String name) {
+  public static BooleanExpectation.Boxed param(Boolean parameter) {
 
-    return new NumberExpectation<N>(
-        candidate, ExceptionProviders.invalidParameterExceptionProvider(), name);
+    return param(parameter, null);
   }
 
-  public static ParamExpectation.OfBoolean param(boolean evaluative) {
+  public static BooleanExpectation.Boxed param(Boolean parameter, String name) {
 
-    return new ParamExpectation.OfBoolean(evaluative, null);
+    return new BooleanExpectation.Boxed(
+            parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
   }
 
-  public static ParamExpectation.OfBoolean param(boolean evaluative, String name) {
+  public static BooleanExpectation.Primitive param(boolean parameter) {
 
-    return new ParamExpectation.OfBoolean(evaluative, name);
+    return param(parameter, null);
   }
 
-  public static void assertParam(boolean evaluated) {
+  public static BooleanExpectation.Primitive param(boolean parameter, String name) {
 
-    assertParam(evaluated, "");
+    return new BooleanExpectation.Primitive(
+            parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
   }
 
-  public static void assertParam(boolean evaluated, String message) {
+  public static void assertParam(boolean parameter) {
 
-    if (!evaluated) {
+    assertParam(parameter, "");
+  }
+
+  public static void assertParam(boolean parameter, String message) {
+
+    if (!parameter) {
       throw new InvalidParameterException(message);
     }
   }
 
+  // state preconditions ---------------------------------------------------------------------------
+
+  public static <E> GeneralExpectation<E> state(E state) {
+
+    return state(state, null);
+  }
+
   public static <E> GeneralExpectation<E> state(E state, String name) {
 
-    return new GeneralExpectation<E>(state, ExceptionProviders.invalidStateExceptionProvider(), name);
+    return new GeneralExpectation<E>(state, name, ExceptionProviders.invalidStateExceptionProvider());
+  }
+
+  public static StringExpectation state(String state) {
+
+    return state(state, null);
+  }
+
+  public static StringExpectation state(String state, String name) {
+
+    return new StringExpectation(state, name, ExceptionProviders.invalidStateExceptionProvider());
+  }
+
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> state(N state) {
+
+    return state(state, null);
+  }
+
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> state(N state, String name) {
+
+    return new NumberExpectation<N>(state, name, ExceptionProviders.invalidStateExceptionProvider());
+  }
+
+  public static BooleanExpectation.Boxed state(Boolean state) {
+
+    return state(state, null);
+  }
+
+  public static BooleanExpectation.Boxed state(Boolean state, String name) {
+
+    return new BooleanExpectation.Boxed(state, name, ExceptionProviders.invalidStateExceptionProvider());
+  }
+
+  public static BooleanExpectation.Primitive state(boolean state) {
+
+    return state(state, null);
+  }
+
+  public static BooleanExpectation.Primitive state(boolean state, String name) {
+
+    return new BooleanExpectation.Primitive(state, name, ExceptionProviders.invalidStateExceptionProvider());
+  }
+
+  public static void assertState(boolean statement) {
+
+    assertState(statement, "");
+  }
+
+  public static void assertState(boolean statement, String message) {
+
+    if (!statement) {
+      throw new InvalidStateException(message);
+    }
+  }
+
+  // context preconditions -------------------------------------------------------------------------
+
+  public static CurrentThreadExpectation currentThread() {
+
+    return new CurrentThreadExpectation(ExceptionProviders.invalidContextExceptionProvider());
   }
 
   private Precondition() { }

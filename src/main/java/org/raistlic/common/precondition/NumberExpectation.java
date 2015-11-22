@@ -10,10 +10,10 @@ import java.util.function.Function;
 public class NumberExpectation<N extends Number & Comparable<N>> extends GeneralExpectation<N> {
 
   public NumberExpectation(N candidate,
-                           Function<String, ? extends RuntimeException> exceptionProvider,
-                           String name) {
+                           String name,
+                           Function<String, ? extends RuntimeException> exceptionProvider) {
 
-    super(candidate, exceptionProvider, name);
+    super(candidate, name, exceptionProvider);
 
     if (exceptionProvider == null) {
       throw new InvalidParameterException("'exceptionProvider' should not be null.");

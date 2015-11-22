@@ -6,13 +6,18 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
+ * The class helps to check a specified {@code candidate} with certain expectations, and throws
+ * a custom runtime exception when the check fails.
+ *
  * @author Lei Chen (2015-10-14)
  */
 public class GeneralExpectation<E> extends AbstractExpectation<E> {
 
   private final String name;
 
-  GeneralExpectation(E candidate, Function<String, ? extends RuntimeException> exceptionProvider, String name) {
+  public GeneralExpectation(E candidate,
+                            String name,
+                            Function<String, ? extends RuntimeException> exceptionProvider) {
 
     super(candidate, exceptionProvider);
     this.name = name;
@@ -23,6 +28,10 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     return name;
   }
 
+  /**
+   * The method claims that the {@code candidate} should be {@code null}, and will throw exception
+   * if it is not.
+   */
   public void isNull() {
 
     String message = "";
@@ -32,6 +41,12 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     isNull(message);
   }
 
+  /**
+   * The method claims that the {@code candidate} should be {@code null}, and will throw exception
+   * with the specified {@code message} if it is not.
+   *
+   * @param message the message to be thrown with the exception, in case the check fails.
+   */
   public void isNull(String message) {
 
     setMessage(message);
