@@ -37,10 +37,10 @@ public class PreconditionForNumberParamTest {
     int param1 = 123;
     int param2 = 123;
 
-    Precondition.param(param1).equalTo(param2);
-    Precondition.param(param1, "name").equalTo(param2);
-    Precondition.param(param1).equalTo(param2, "message");
-    Precondition.param(param1, "name").equalTo(param2, "message");
+    Precondition.param(param1).isEqualTo(param2);
+    Precondition.param(param1, "name").isEqualTo(param2);
+    Precondition.param(param1).isEqualTo(param2, "message");
+    Precondition.param(param1, "name").isEqualTo(param2, "message");
   }
 
   @Test
@@ -50,7 +50,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 456;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).equalTo(param2);
+    Precondition.param(param1).isEqualTo(param2);
   }
 
   @Test
@@ -60,7 +60,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 456;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").equalTo(param2);
+    Precondition.param(param1, "name").isEqualTo(param2);
   }
 
   @Test
@@ -70,7 +70,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 456;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).equalTo(param2, "message");
+    Precondition.param(param1).isEqualTo(param2, "message");
   }
 
   @Test
@@ -80,7 +80,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 456;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").equalTo(param2, "message");
+    Precondition.param(param1, "name").isEqualTo(param2, "message");
   }
 
   @Test
@@ -89,10 +89,10 @@ public class PreconditionForNumberParamTest {
     int param1 = 123;
     int param2 = 456;
 
-    Precondition.param(param1).notEqualTo(param2);
-    Precondition.param(param1, "name").notEqualTo(param2);
-    Precondition.param(param1).notEqualTo(param2, "message");
-    Precondition.param(param1, "name").notEqualTo(param2, "message");
+    Precondition.param(param1).isNotEqualTo(param2);
+    Precondition.param(param1, "name").isNotEqualTo(param2);
+    Precondition.param(param1).isNotEqualTo(param2, "message");
+    Precondition.param(param1, "name").isNotEqualTo(param2, "message");
   }
 
   @Test
@@ -102,7 +102,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 123;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).notEqualTo(param2);
+    Precondition.param(param1).isNotEqualTo(param2);
   }
 
   @Test
@@ -112,7 +112,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 123;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").notEqualTo(param2);
+    Precondition.param(param1, "name").isNotEqualTo(param2);
   }
 
   @Test
@@ -122,7 +122,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 123;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).notEqualTo(param2, "message");
+    Precondition.param(param1).isNotEqualTo(param2, "message");
   }
 
   @Test
@@ -132,7 +132,7 @@ public class PreconditionForNumberParamTest {
     int param2 = 123;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").notEqualTo(param2, "message");
+    Precondition.param(param1, "name").isNotEqualTo(param2, "message");
   }
 
   @Test

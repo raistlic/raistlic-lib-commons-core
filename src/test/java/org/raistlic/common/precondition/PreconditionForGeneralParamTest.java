@@ -97,10 +97,10 @@ public class PreconditionForGeneralParamTest {
 
     Object param1 = new Object();
 
-    Precondition.param(param1).equalTo(param1);
-    Precondition.param(param1, "name").equalTo(param1);
-    Precondition.param(param1).equalTo(param1, "message");
-    Precondition.param(param1, "name").equalTo(param1, "message");
+    Precondition.param(param1).isEqualTo(param1);
+    Precondition.param(param1, "name").isEqualTo(param1);
+    Precondition.param(param1).isEqualTo(param1, "message");
+    Precondition.param(param1, "name").isEqualTo(param1, "message");
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -109,7 +109,7 @@ public class PreconditionForGeneralParamTest {
     Object param1 = new Object();
     Object param2 = new Object();
 
-    Precondition.param(param1).equalTo(param2);
+    Precondition.param(param1).isEqualTo(param2);
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -118,7 +118,7 @@ public class PreconditionForGeneralParamTest {
     Object param1 = new Object();
     Object param2 = new Object();
 
-    Precondition.param(param1, "name").equalTo(param2);
+    Precondition.param(param1, "name").isEqualTo(param2);
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -127,7 +127,7 @@ public class PreconditionForGeneralParamTest {
     Object param1 = new Object();
     Object param2 = new Object();
 
-    Precondition.param(param1).equalTo(param2, "message");
+    Precondition.param(param1).isEqualTo(param2, "message");
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -136,7 +136,7 @@ public class PreconditionForGeneralParamTest {
     Object param1 = new Object();
     Object param2 = new Object();
 
-    Precondition.param(param1, "name").equalTo(param2, "message");
+    Precondition.param(param1, "name").isEqualTo(param2, "message");
   }
 
   @Test
@@ -145,10 +145,10 @@ public class PreconditionForGeneralParamTest {
     Object param1 = new Object();
     Object param2 = new Object();
 
-    Precondition.param(param1).notEqualTo(param2);
-    Precondition.param(param1, "name").notEqualTo(param2);
-    Precondition.param(param1).notEqualTo(param2, "message");
-    Precondition.param(param1, "name").notEqualTo(param2, "message");
+    Precondition.param(param1).isNotEqualTo(param2);
+    Precondition.param(param1, "name").isNotEqualTo(param2);
+    Precondition.param(param1).isNotEqualTo(param2, "message");
+    Precondition.param(param1, "name").isNotEqualTo(param2, "message");
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -156,7 +156,7 @@ public class PreconditionForGeneralParamTest {
 
     Object param1 = new Object();
 
-    Precondition.param(param1).notEqualTo(param1);
+    Precondition.param(param1).isNotEqualTo(param1);
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -164,7 +164,7 @@ public class PreconditionForGeneralParamTest {
 
     Object param1 = new Object();
 
-    Precondition.param(param1, "name").notEqualTo(param1);
+    Precondition.param(param1, "name").isNotEqualTo(param1);
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -172,7 +172,7 @@ public class PreconditionForGeneralParamTest {
 
     Object param1 = new Object();
 
-    Precondition.param(param1).notEqualTo(param1, "message");
+    Precondition.param(param1).isNotEqualTo(param1, "message");
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -180,6 +180,6 @@ public class PreconditionForGeneralParamTest {
 
     Object param1 = new Object();
 
-    Precondition.param(param1, "name").notEqualTo(param1, "message");
+    Precondition.param(param1, "name").isNotEqualTo(param1, "message");
   }
 }

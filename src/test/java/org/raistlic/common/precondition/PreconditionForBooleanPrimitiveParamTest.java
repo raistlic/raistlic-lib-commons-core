@@ -16,17 +16,15 @@
 
 package org.raistlic.common.precondition;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author Lei CHEN (2015-03-02)
  */
-public class ParamAbstractExpectationOfBooleanTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+@RunWith(JUnit4.class)
+public class PreconditionForBooleanPrimitiveParamTest {
 
   @Test
   public void testIsTrueWithTrue() {
@@ -37,31 +35,27 @@ public class ParamAbstractExpectationOfBooleanTest {
     Precondition.param(true, "name").isTrue("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsTrueWithFalseNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(false).isTrue();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsTrueWithFalseWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(false, "name").isTrue();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsTrueWithFalseNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(false).isTrue("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsTrueWithFalseWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(false, "name").isTrue("message");
   }
 
@@ -74,31 +68,27 @@ public class ParamAbstractExpectationOfBooleanTest {
     Precondition.param(false, "name").isFalse("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsFalseWithTrueNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(true).isFalse();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsFalseWithTrueWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(true, "name").isFalse();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsFalseWithTrueNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(true).isFalse("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsFalseWithTrueWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(true, "name").isFalse("message");
   }
 }

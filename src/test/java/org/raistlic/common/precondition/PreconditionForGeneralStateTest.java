@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.raistlic.common.precondition;
 
 import org.junit.Test;
@@ -81,10 +97,10 @@ public class PreconditionForGeneralStateTest {
 
     Object state1 = new Object();
 
-    Precondition.state(state1).equalTo(state1);
-    Precondition.state(state1, "name").equalTo(state1);
-    Precondition.state(state1).equalTo(state1, "message");
-    Precondition.state(state1, "name").equalTo(state1, "message");
+    Precondition.state(state1).isEqualTo(state1);
+    Precondition.state(state1, "name").isEqualTo(state1);
+    Precondition.state(state1).isEqualTo(state1, "message");
+    Precondition.state(state1, "name").isEqualTo(state1, "message");
   }
 
   @Test(expected = InvalidStateException.class)
@@ -93,7 +109,7 @@ public class PreconditionForGeneralStateTest {
     Object state1 = new Object();
     Object state2 = new Object();
 
-    Precondition.state(state1).equalTo(state2);
+    Precondition.state(state1).isEqualTo(state2);
   }
 
   @Test(expected = InvalidStateException.class)
@@ -102,7 +118,7 @@ public class PreconditionForGeneralStateTest {
     Object state1 = new Object();
     Object state2 = new Object();
 
-    Precondition.state(state1, "name").equalTo(state2);
+    Precondition.state(state1, "name").isEqualTo(state2);
   }
 
   @Test(expected = InvalidStateException.class)
@@ -111,7 +127,7 @@ public class PreconditionForGeneralStateTest {
     Object state1 = new Object();
     Object state2 = new Object();
 
-    Precondition.state(state1).equalTo(state2, "message");
+    Precondition.state(state1).isEqualTo(state2, "message");
   }
 
   @Test(expected = InvalidStateException.class)
@@ -120,7 +136,7 @@ public class PreconditionForGeneralStateTest {
     Object state1 = new Object();
     Object state2 = new Object();
 
-    Precondition.state(state1, "name").equalTo(state2, "message");
+    Precondition.state(state1, "name").isEqualTo(state2, "message");
   }
 
   @Test
@@ -129,10 +145,10 @@ public class PreconditionForGeneralStateTest {
     Object state1 = new Object();
     Object state2 = new Object();
 
-    Precondition.state(state1).notEqualTo(state2);
-    Precondition.state(state1, "name").notEqualTo(state2);
-    Precondition.state(state1).notEqualTo(state2, "message");
-    Precondition.state(state1, "name").notEqualTo(state2, "message");
+    Precondition.state(state1).isNotEqualTo(state2);
+    Precondition.state(state1, "name").isNotEqualTo(state2);
+    Precondition.state(state1).isNotEqualTo(state2, "message");
+    Precondition.state(state1, "name").isNotEqualTo(state2, "message");
   }
 
   @Test(expected = InvalidStateException.class)
@@ -140,7 +156,7 @@ public class PreconditionForGeneralStateTest {
 
     Object state1 = new Object();
 
-    Precondition.state(state1).notEqualTo(state1);
+    Precondition.state(state1).isNotEqualTo(state1);
   }
 
   @Test(expected = InvalidStateException.class)
@@ -148,7 +164,7 @@ public class PreconditionForGeneralStateTest {
 
     Object state1 = new Object();
 
-    Precondition.state(state1, "name").notEqualTo(state1);
+    Precondition.state(state1, "name").isNotEqualTo(state1);
   }
 
   @Test(expected = InvalidStateException.class)
@@ -156,7 +172,7 @@ public class PreconditionForGeneralStateTest {
 
     Object state1 = new Object();
 
-    Precondition.state(state1).notEqualTo(state1, "message");
+    Precondition.state(state1).isNotEqualTo(state1, "message");
   }
 
   @Test(expected = InvalidStateException.class)
@@ -164,6 +180,6 @@ public class PreconditionForGeneralStateTest {
 
     Object state1 = new Object();
 
-    Precondition.state(state1, "name").notEqualTo(state1, "message");
+    Precondition.state(state1, "name").isNotEqualTo(state1, "message");
   }
 }

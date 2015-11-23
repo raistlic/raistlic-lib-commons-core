@@ -118,13 +118,13 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void equalTo(E target) {
+  public void isEqualTo(E target) {
 
     String message = "";
     if (name != null) {
       message = "'" + name + "' should be equal to '" + target + "', but is not.";
     }
-    equalTo(target, message);
+    isEqualTo(target, message);
   }
 
   /**
@@ -138,7 +138,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void equalTo(E target, String message) {
+  public void isEqualTo(E target, String message) {
 
     setMessage(message);
     setPredicate(Predicates.equalTo(target));
@@ -155,13 +155,13 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void notEqualTo(E target) {
+  public void isNotEqualTo(E target) {
 
     String message = "";
     if (name != null) {
       message = "'" + name + "' should not be equal to '" + target + "'.";
     }
-    notEqualTo(target, message);
+    isNotEqualTo(target, message);
   }
 
   /**
@@ -175,7 +175,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void notEqualTo(E target, String message) {
+  public void isNotEqualTo(E target, String message) {
 
     setMessage(message);
     setPredicate(Predicates.notEqualTo(target));
