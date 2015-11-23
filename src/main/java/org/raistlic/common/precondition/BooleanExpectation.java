@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.raistlic.common.precondition;
 
 import java.util.function.Function;
@@ -10,6 +26,9 @@ import java.util.function.Predicate;
  */
 public final class BooleanExpectation {
 
+  /**
+   * The class defines assertion methods for primitive {@code boolean} values.
+   */
   public static class Primitive {
 
     private final boolean candidate;
@@ -58,8 +77,27 @@ public final class BooleanExpectation {
         throw exceptionProvider.apply(message);
       }
     }
+
+    public void isEqualTo(boolean expected) {
+
+      String message = "";
+      if (name != null) {
+        message = "'" + name + "' should be " + expected + ", but was " + candidate;
+      }
+      isEqualTo(expected, message);
+    }
+
+    public void isEqualTo(boolean expected, String message) {
+
+      if (candidate != expected) {
+        throw exceptionProvider.apply(message);
+      }
+    }
   }
 
+  /**
+   * The class defines assertion methods for boxed {@link Boolean} values.
+   */
   public static class Boxed extends AbstractExpectation<Boolean> {
 
     private final String name;

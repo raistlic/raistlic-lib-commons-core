@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.raistlic.common.precondition;
 
 import org.raistlic.common.predicate.Predicates;
@@ -16,16 +32,15 @@ public class StringExpectation extends GeneralExpectation<String> {
    * exception exported by the {@code exceptionBuilder} in case it doesn't match the subsequent
    * checks.
    *
-   * @param candidate the candidate to be examined.
-   * @param name the name of the candidate, {@code null} if the candidate is not named.
+   * @param candidate         the candidate to be examined.
+   * @param name              the name of the candidate, {@code null} if the candidate is not named.
    * @param exceptionProvider the exception builder for creating exceptions when needed, cannot be
-   *                         {@code null}.
-   *
+   *                          {@code null}.
    * @throws InvalidParameterException when {@code exceptionBuilder} is {@code null}.
    */
-  public StringExpectation(String candidate,
-                           String name,
-                           Function<String, ? extends RuntimeException> exceptionProvider) {
+  StringExpectation(String candidate,
+                    String name,
+                    Function<String, ? extends RuntimeException> exceptionProvider) {
 
     super(candidate, name, exceptionProvider);
 
@@ -101,8 +116,8 @@ public class StringExpectation extends GeneralExpectation<String> {
 
     setMessage(message);
     setPredicate(Predicates.and(
-        Predicates.notNull(),
-        StringPredicates.notEmpty()
+            Predicates.notNull(),
+            StringPredicates.notEmpty()
     ));
     evaluate();
   }
@@ -116,7 +131,7 @@ public class StringExpectation extends GeneralExpectation<String> {
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should match the given pattern: /" + pattern +
-          "/, but does not (actual value: '" + getCandidate() + "')";
+              "/, but does not (actual value: '" + getCandidate() + "')";
     }
     matchesPattern(pattern, message);
   }

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.raistlic.common.precondition;
 
 import org.raistlic.common.predicate.Predicates;
@@ -15,9 +31,9 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
 
   private final String name;
 
-  public GeneralExpectation(E candidate,
-                            String name,
-                            Function<String, ? extends RuntimeException> exceptionProvider) {
+  GeneralExpectation(E candidate,
+                     String name,
+                     Function<String, ? extends RuntimeException> exceptionProvider) {
 
     super(candidate, exceptionProvider);
     this.name = name;
@@ -29,8 +45,11 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
   }
 
   /**
-   * The method claims that the {@code candidate} should be {@code null}, and will throw exception
-   * if it is not.
+   * The method claims that the {@code candidate} should be {@code null}, otherwise a runtime
+   * exception will be thrown.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
    */
   public void isNull() {
 
@@ -42,10 +61,13 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
   }
 
   /**
-   * The method claims that the {@code candidate} should be {@code null}, and will throw exception
-   * with the specified {@code message} if it is not.
+   * The method claims that the {@code candidate} should be {@code null}, otherwise a runtime
+   * exception with the specified {@code message} will be thrown.
    *
    * @param message the message to be thrown with the exception, in case the check fails.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
    */
   public void isNull(String message) {
 
@@ -54,6 +76,13 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     evaluate();
   }
 
+  /**
+   * The method claims that the {@code candidate} should not be {@code null}, otherwise a runtime
+   * exception will be thrown.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void notNull() {
 
     String message = "";
@@ -63,6 +92,15 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     notNull(message);
   }
 
+  /**
+   * The method claims that the {@code candidate} should not be {@code null}, otherwise a runtime
+   * exception with the specified {@code message} will be thrown.
+   *
+   * @param message the message to be thrown with the exception, in case the check fails.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void notNull(String message) {
 
     setMessage(message);
@@ -70,6 +108,16 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     evaluate();
   }
 
+  /**
+   * The method claims that the {@code candidate} should be equal to the {@code target}, otherwise a
+   * runtime exception will be thrown.
+   *
+   * @param target the reference target which the candidate should be equal to, or {@code null} if
+   *               the candidate should be {@code null}.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void equalTo(E target) {
 
     String message = "";
@@ -79,6 +127,17 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     equalTo(target, message);
   }
 
+  /**
+   * The method claims that the {@code candidate} should be equal to the {@code target}, otherwise a
+   * runtime exception with the specified {@code message} will be thrown.
+   *
+   * @param target the reference target which the candidate should be equal to, or {@code null} if
+   *               the candidate should be {@code null}.
+   * @param message the message to be thrown with the exception, in case the check fails.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void equalTo(E target, String message) {
 
     setMessage(message);
@@ -86,6 +145,16 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     evaluate();
   }
 
+  /**
+   * The method claims that the {@code candidate} should NOT be equal to the {@code target},
+   * otherwise a runtime exception will be thrown.
+   *
+   * @param target the reference target which the candidate should be equal to, or {@code null} if
+   *               the candidate should be {@code null}.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void notEqualTo(E target) {
 
     String message = "";
@@ -95,6 +164,17 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     notEqualTo(target, message);
   }
 
+  /**
+   * The method claims that the {@code candidate} should NOT be equal to the {@code target},
+   * otherwise a runtime exception with the specified {@code message} will be thrown.
+   *
+   * @param target the reference target which the candidate should be equal to, or {@code null} if
+   *               the candidate should be {@code null}.
+   * @param message the message to be thrown with the exception, in case the check fails.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void notEqualTo(E target, String message) {
 
     setMessage(message);
@@ -102,6 +182,15 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     evaluate();
   }
 
+  /**
+   * The methods claims that the {@code candidate} should match the specified {@code predicate} ,
+   * otherwise a runtime exception will be thrown.
+   *
+   * @param predicate the predicate that's used to test the {@code candidate} , cannot be {@code null}.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void matches(Predicate<? super E> predicate) {
 
     String message = "";
@@ -111,6 +200,16 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     matches(predicate, message);
   }
 
+  /**
+   * The methods claims that the {@code candidate} should match the specified {@code predicate} ,
+   * otherwise a runtime exception with the {@code message} will be thrown.
+   *
+   * @param predicate the predicate that's used to test the {@code candidate} , cannot be {@code null}.
+   * @param message the message to be thrown with the exception, in case the check fails.
+   *
+   * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
+   *         where the expectation is used.
+   */
   public void matches(Predicate<? super E> predicate, String message) {
 
     Precondition.param(predicate, "predicate").notNull();
