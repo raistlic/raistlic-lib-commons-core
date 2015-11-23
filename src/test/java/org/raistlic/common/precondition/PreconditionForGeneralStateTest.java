@@ -1,10 +1,13 @@
 package org.raistlic.common.precondition;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author lei.c (2015-11-23)
  */
+@RunWith(JUnit4.class)
 public class PreconditionForGeneralStateTest {
 
   @Test

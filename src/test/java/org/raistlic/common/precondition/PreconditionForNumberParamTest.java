@@ -19,10 +19,13 @@ package org.raistlic.common.precondition;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author Lei CHEN (2015-03-02)
  */
+@RunWith(JUnit4.class)
 public class PreconditionForNumberParamTest {
 
   @Rule
