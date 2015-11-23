@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * @author lei.c (2015-11-23)
+ * @author Lei CHEN (2015-11-23)
  */
 @RunWith(JUnit4.class)
 public class PreconditionForStringStateTest {
