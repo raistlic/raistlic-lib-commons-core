@@ -29,12 +29,10 @@ public class PreconditionForStringParamTest {
   @Test
   public void testIsNullWithNullParam() {
 
-    String param = null;
-
-    Precondition.param(param).isNull();
-    Precondition.param(param, "name").isNull();
-    Precondition.param(param).isNull("message");
-    Precondition.param(param, "name").isNull("message");
+    Precondition.param((String) null).isNull();
+    Precondition.param((String) null, "name").isNull();
+    Precondition.param((String) null).isNull("message");
+    Precondition.param((String) null, "name").isNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
