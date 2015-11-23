@@ -16,17 +16,15 @@
 
 package org.raistlic.common.precondition;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author Lei CHEN (2015-03-02)
  */
-public class ParamAbstractExpectationOfStringTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+@RunWith(JUnit4.class)
+public class PreconditionForStringParamTest {
 
   @Test
   public void testIsNullWithNullParam() {
@@ -39,31 +37,27 @@ public class ParamAbstractExpectationOfStringTest {
     Precondition.param(param, "name").isNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc").isNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc", "name").isNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc").isNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsNullWithNonNullParamWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc", "name").isNull("message");
   }
 
@@ -76,31 +70,27 @@ public class ParamAbstractExpectationOfStringTest {
     Precondition.param("abc", "name").notNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param((String)null).notNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param((String)null, "name").notNull();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param((String)null).notNull("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param((String)null, "name").notNull("message");
   }
 
@@ -116,43 +106,39 @@ public class ParamAbstractExpectationOfStringTest {
     Precondition.param(param1, "name").equalTo(param2, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsNoNameNoMessage() {
 
     String param1 = "abc";
     String param2 = "def";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).equalTo(param2);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsWithNameNoMessage() {
 
     String param1 = "abc";
     String param2 = "def";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").equalTo(param2);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsNoNameWithMessage() {
 
     String param1 = "abc";
     String param2 = "def";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).equalTo(param2, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testEqualToWithNotEqualParamsWithNameWithMessage() {
 
     String param1 = "abc";
     String param2 = "def";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").equalTo(param2, "message");
   }
 
@@ -168,43 +154,39 @@ public class ParamAbstractExpectationOfStringTest {
     Precondition.param(param1, "name").notEqualTo(param2, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsNoNameNoMessage() {
 
     String param1 = "abc";
     String param2 = "abc";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).notEqualTo(param2);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsWithNameNoMessage() {
 
     String param1 = "abc";
     String param2 = "abc";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").notEqualTo(param2);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsNoNameWithMessage() {
 
     String param1 = "abc";
     String param2 = "abc";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1).notEqualTo(param2, "message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEqualToWithEqualParamsWithNameWithMessage() {
 
     String param1 = "abc";
     String param2 = "abc";
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param(param1, "name").notEqualTo(param2, "message");
   }
 
@@ -217,31 +199,27 @@ public class ParamAbstractExpectationOfStringTest {
     Precondition.param("", "name").isEmpty("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsEmptyWithNonEmptyStringNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc").isEmpty();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsEmptyWithNonEmptyStringWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc", "name").isEmpty();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsEmptyWithNonEmptyStringNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc").isEmpty("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsEmptyWithNonEmptyStringWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("abc", "name").isEmpty("message");
   }
 
@@ -254,31 +232,27 @@ public class ParamAbstractExpectationOfStringTest {
     Precondition.param("abc", "name").notEmpty("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEmptyWithEmptyParamNoNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("").notEmpty();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEmptyWithEmptyParamWithNameNoMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("", "name").notEmpty();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEmptyWithEmptyParamNoNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("").notEmpty("message");
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testNotEmptyWithEmptyParamWithNameWithMessage() {
 
-    thrown.expect(InvalidParameterException.class);
     Precondition.param("", "name").notEmpty("message");
   }
 }
