@@ -28,7 +28,7 @@ Available in maven central:
 <dependency>
     <groupId>org.raistlic.lib</groupId>
     <artifactId>commons-core</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
 </dependency>
 ```
 
@@ -41,7 +41,7 @@ Available in maven central:
  *
  * @param someCriteria some kind of criteria, cannot be {@code null}, must match some pattern.
  * @param offset the offset index of the search result portion to return, cannot be less than {@code 0}.
- * @param limit the maximum size of the search result portion to return, cannot be less than {code 0}.
+ * @param limit the maximum size of the search result portion to return, cannot be less than {@code 0}.
  * @throws InvalidParameterException when any of the parameters are invalid.
  * @throws InvalidStateException when the object's state does not match the requirement for calling 
  *         this method
