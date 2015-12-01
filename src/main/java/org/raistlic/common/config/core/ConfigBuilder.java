@@ -178,6 +178,7 @@ public interface ConfigBuilder extends Configurable, Factory<Config> {
    * @param value the value to be mapped.
    * @param encoder the encoder used to convert {@code value} into a {@link String} , cannot be
    *                {@code null}.
+   * @param <E> the declared type for the {@code value} .
    *
    * @return the {@link ConfigBuilder} instance itself.
    *

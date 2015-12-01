@@ -25,48 +25,21 @@ package org.raistlic.common.codec;
  */
 public class ValueConversionException extends RuntimeException {
   
-  /**
-   * Constructs a new {@code CodingException} with null as its detail message.
-   */
   public ValueConversionException() {
     
     super();
   }
   
-  /**
-   * Constructs a new {@code CodingException} with the specified detail message.
-   * 
-   * @param message the detail message (which is saved for later retrieval by the 
-   *        {@link Throwable#getMessage() method).
-   */
   public ValueConversionException(String message) {
     
     super(message);
   }
   
-  /**
-   * Constructs a new {@code CodingException} with the specified cause.
-   * 
-   * @param cause the cause (which is saved for later retrieval by the 
-   *        {@link Throwable#getCause() method). (A null value is
-   *        permitted, and indicates that the cause is nonexistent or unknown.)
-   */
   public ValueConversionException(Throwable cause) {
     
     super(cause);
   }
   
-  /**
-   * Constructs a new {@code CodingException} with null as its detail message 
-   * and cause.
-   * 
-   * @param message the detail message (which is saved for later retrieval by the 
-   *        {@link Throwable#getMessage() method).
-   * 
-   * @param cause the cause (which is saved for later retrieval by the 
-   *        {@link Throwable#getCause() method). (A null value is
-   *        permitted, and indicates that the cause is nonexistent or unknown.)
-   */
   public ValueConversionException(String message, Throwable cause) {
     
     super(message, cause);

@@ -42,11 +42,11 @@ public interface StopWatch {
   /**
    * This method sets the StopWatch's "start timing time", so that it will expire 
    * after the specified {@code time}, notice that, if {@code time} is minus, 
-   * then it means the StopWatch has already expired(for {@code -time} long now).
+   * then it means the StopWatch has already expired(for {@code time} amount of time now).
    * 
    * <p>
    * 
-   * @param time
+   * @param time time to expire
    * 
    * @param current the current system time, which precision has to match the 
    *        StopWatch precision, otherwise all queries against the StopWatch does

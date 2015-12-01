@@ -145,6 +145,7 @@ public interface TaskQueue {
      * for the queue to shutdown, for {@code timeout} milliseconds.
      *
      * @param timeout the maximum number of milli-seconds to wait for the queue shutdown.
+     * @param timeUnit the unit of the {@code timeout} .
      * @return {@code true} if the queue's running state is changed as a result of the call.
      * @throws java.lang.InterruptedException if the current (calling) thread is interrupted while
      *         waiting for the queue to shutdown.
