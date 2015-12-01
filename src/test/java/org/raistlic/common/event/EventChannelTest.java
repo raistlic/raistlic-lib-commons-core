@@ -3,7 +3,7 @@ package org.raistlic.common.event;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.raistlic.common.ExceptionHandler;
+import org.raistlic.common.util.ExceptionHandler;
 
 import java.lang.reflect.Method;
 

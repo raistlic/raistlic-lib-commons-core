@@ -14,45 +14,44 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.predicate;
+package org.raistlic.common.config.converter;
 
+import junitparams.JUnitParamsRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.raistlic.common.codec.Codec;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
- * @author Lei Chen (2015-10-13)
+ * @author Lei Chen (2015-09-15)
  */
-@RunWith(JUnit4.class)
-public class DummyPredicateTest {
+@RunWith(JUnitParamsRunner.class)
+public abstract class BaseConverterTest {
+
+  abstract Codec<?, String> getConverter();
 
   @Test
-  public void testDummyTrue() {
+  public void isValidDestWithNullDest() {
 
-    boolean actual = DummyPredicate.TRUE.test(new Object());
-    assertThat(actual).isTrue();
+    assertThat(getConverter().isValidDest(null)).isTrue();
   }
 
   @Test
-  public void testDummyTrueWithNullTarget() {
+  public void decodeWithNullDest() {
 
-    boolean actual = DummyPredicate.TRUE.test(null);
-    assertThat(actual).isTrue();
+    assertThat(getConverter().decode(null)).isNull();
   }
 
   @Test
-  public void testDummyFalse() {
+  public void isValidSrcWithNullSrc() {
 
-    boolean actual = DummyPredicate.FALSE.test(new Object());
-    assertThat(actual).isFalse();
+    assertThat(getConverter().isValidSrc(null)).isTrue();
   }
 
   @Test
-  public void testDummyFalseWithNullTarget() {
+  public void encodeWithNullSrc() {
 
-    boolean actual = DummyPredicate.FALSE.test(null);
-    assertThat(actual).isFalse();
+    assertThat(getConverter().encode(null)).isNull();
   }
 }

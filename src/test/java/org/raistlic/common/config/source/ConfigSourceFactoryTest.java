@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.predicate;
+package org.raistlic.common.config.source;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,36 +23,28 @@ import org.junit.runners.JUnit4;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
- * @author Lei Chen (2015-10-13)
+ * @author Lei Chen (2015-09-11)
  */
 @RunWith(JUnit4.class)
-public class DummyPredicateTest {
+public class ConfigSourceFactoryTest {
 
   @Test
-  public void testDummyTrue() {
+  public void immutableEmptySourceExpected() {
 
-    boolean actual = DummyPredicate.TRUE.test(new Object());
-    assertThat(actual).isTrue();
+    ConfigSource actual = ConfigSourceFactory.immutableEmptySource();
+
+    assertThat(actual).isNotNull();
+    assertThat(actual.getKeys()).isEmpty();
   }
 
   @Test
-  public void testDummyTrueWithNullTarget() {
+  public void immutableEmptySourceReturnsSingleton() {
 
-    boolean actual = DummyPredicate.TRUE.test(null);
-    assertThat(actual).isTrue();
-  }
+    ConfigSource singleton = ConfigSourceFactory.immutableEmptySource();
 
-  @Test
-  public void testDummyFalse() {
+    for (int i = 0; i < 10; i++) {
 
-    boolean actual = DummyPredicate.FALSE.test(new Object());
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  public void testDummyFalseWithNullTarget() {
-
-    boolean actual = DummyPredicate.FALSE.test(null);
-    assertThat(actual).isFalse();
+      assertThat(ConfigSourceFactory.immutableEmptySource() == singleton).isTrue();
+    }
   }
 }

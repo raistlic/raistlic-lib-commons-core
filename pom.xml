@@ -45,6 +45,9 @@
         <junit.version>4.12</junit.version>
         <mockito-all.version>1.9.5</mockito-all.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
+        <jackson-version>2.6.2</jackson-version>
+        <junit-params-version>1.0.4</junit-params-version>
+        <fest-assert-version>2.0M10</fest-assert-version>
     </properties>
 
     <dependencies>
@@ -54,6 +57,19 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-api.version}</version>
+        </dependency>
+
+        <!-- jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esotericsoftware.yamlbeans</groupId>
+            <artifactId>yamlbeans</artifactId>
+            <version>1.09</version>
         </dependency>
 
         <!-- unit test -->
@@ -70,9 +86,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>${junit-params-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert</artifactId>
-            <version>1.4</version>
+            <artifactId>fest-assert-core</artifactId>
+            <version>${fest-assert-version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

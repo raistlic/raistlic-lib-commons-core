@@ -23,7 +23,7 @@ import org.raistlic.common.precondition.InvalidParameterException;
 
 import java.util.function.Predicate;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author Lei Chen (2015-10-14)
