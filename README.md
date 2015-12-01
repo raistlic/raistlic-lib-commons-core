@@ -34,7 +34,7 @@ Available in maven central:
 
 # Sample Code - Precondition Check
 
-```
+``` java
 /**
  * Search some records, say, the method can be invoked only when the state of the object meets some 
  * kind of requirement, and can only be called in non-daemon thread.
