@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package org.raistlic.common;
+package org.raistlic.common.taskqueue;
+
+import org.raistlic.common.util.ExceptionHandler;
+import org.raistlic.common.util.Factory;
 
 /**
- * @author Lei CHEN (2015-02-09)
- * @since 1.0
+ * 
+ *
+ * @author Lei Chen (2015-11-24)
  */
-public final class Numbers {
+public interface TaskQueueBuilder extends Factory<TaskQueue.Controller> {
 
-  public static int confine(int value, int min, int max) {
+  TaskQueueBuilder withThreadAsDaemon(boolean daemon);
 
-    value = Math.max(min, value);
-    return Math.min(value, max);
-  }
+  TaskQueueBuilder withThreadPriority(int priority);
 
-  public static long confine(long value, long min, long max) {
+  TaskQueueBuilder withThreadName(String name);
 
-    value = Math.max(min, value);
-    return Math.min(value, max);
-  }
-
-  private Numbers() { }
+  TaskQueueBuilder withExceptionHandler(ExceptionHandler exceptionHandler);
 }

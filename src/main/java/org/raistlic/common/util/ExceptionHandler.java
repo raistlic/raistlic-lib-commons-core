@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.taskqueue;
+package org.raistlic.common.util;
 
 /**
- * The exception that occurs during the execution of a runnable task in the {@link TaskQueue} .
+ * A callback interface to handle exceptions, especially in an asynchronous environment where
+ * the caller may not be able to wait for the invocation target's execution.
  *
- * @author Lei Chen (2014-11-12)
+ * @author Lei CHEN (2013-11-29)
  * @since 1.0
  */
-public class TaskExecutionException extends RuntimeException {
+public interface ExceptionHandler {
 
   /**
-   * {@inheritDoc}
+   * Handle the specified {@code ex}, the method does not throw any exception, regardless of the
+   * parameters passed in.
+   *
+   * @param thread the thread in which the exception occurred.
+   * @param ex the exception occurred.
    */
-  public TaskExecutionException(Throwable cause) {
-
-    super(cause);
-  }
+  public void exceptionOccur(Thread thread, Throwable ex);
 }

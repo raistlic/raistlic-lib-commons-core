@@ -1,4 +1,4 @@
-package org.raistlic.common.io;
+package org.raistlic.common.util;
 
 import org.raistlic.common.precondition.Precondition;
 

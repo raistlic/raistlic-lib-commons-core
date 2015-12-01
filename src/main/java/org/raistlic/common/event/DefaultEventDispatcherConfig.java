@@ -16,7 +16,7 @@
 
 package org.raistlic.common.event;
 
-import org.raistlic.common.ExceptionHandler;
+import org.raistlic.common.util.ExceptionHandler;
 
 /**
  * @author Lei CHEN (2014-11-15)

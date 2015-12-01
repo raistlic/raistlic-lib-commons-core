@@ -16,7 +16,7 @@
 
 package org.raistlic.common.event;
 
-import org.raistlic.common.ExceptionHandler;
+import org.raistlic.common.util.ExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -14,30 +14,26 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.event;
+package org.raistlic.common.taskqueue;
 
+import org.raistlic.common.precondition.InvalidContextException;
 import org.raistlic.common.util.ExceptionHandler;
 
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+
 /**
- * The configuration entity type for event dispatcher.
- *
- * @author Lei CHEN (2014-11-12)
- * @since 1.0
+ * @author Lei Chen (2015-11-24)
  */
-public interface EventDispatcherConfig {
+public interface Promise<R> {
 
-  /**
-   * The name of the 'broadcast' channel, which receives events of all channels.
-   *
-   * @return the name of the 'broadcast' channel.
-   */
-  String getBroadCastName();
+  R get() throws InterruptedException, TaskExecutionException, InvalidContextException;
 
-  /**
-   * The method returns the exception handler that handles all exceptions happening in the process
-   * of dispatching events.
-   *
-   * @return the exception handler.
-   */
-  ExceptionHandler getExceptionHandler();
+  R get(long timeout, TimeUnit timeUnit) throws InterruptedException,
+                                                TaskExecutionException,
+                                                InvalidContextException;
+
+  Promise<R> onResult(Consumer<? super R> consumer);
+
+  Promise<R> onError(ExceptionHandler exceptionHandler);
 }

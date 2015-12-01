@@ -16,7 +16,7 @@
 
 package org.raistlic.common.event;
 
-import org.raistlic.common.Factory;
+import org.raistlic.common.util.Factory;
 
 import java.util.Collection;
 

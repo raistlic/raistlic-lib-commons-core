@@ -16,7 +16,7 @@
 
 package org.raistlic.common.event;
 
-import org.raistlic.common.ExceptionHandler;
+import org.raistlic.common.util.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;

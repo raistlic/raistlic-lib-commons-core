@@ -16,19 +16,18 @@
 
 package org.raistlic.common.taskqueue;
 
+import org.raistlic.common.util.ExceptionHandler;
+
 /**
- * The exception that occurs during the execution of a runnable task in the {@link TaskQueue} .
- *
- * @author Lei Chen (2014-11-12)
- * @since 1.0
+ * @author Lei Chen (2015-11-24)
  */
-public class TaskExecutionException extends RuntimeException {
+public enum DefaultTaskQueueExceptionHandler implements ExceptionHandler {
 
-  /**
-   * {@inheritDoc}
-   */
-  public TaskExecutionException(Throwable cause) {
+  INSTANCE;
 
-    super(cause);
+  @Override
+  public void exceptionOccur(Thread thread, Throwable ex) {
+
+    throw new UnsupportedOperationException();
   }
 }

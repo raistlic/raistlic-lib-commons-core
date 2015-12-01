@@ -157,9 +157,12 @@ public final class Precondition {
 
   // context preconditions -------------------------------------------------------------------------
 
-  public static CurrentThreadExpectation currentThread() {
+  public static ThreadExpectation threadContext() {
 
-    return new CurrentThreadExpectation(ExceptionProviders.invalidContextExceptionProvider());
+    return new ThreadExpectation(
+            Thread.currentThread(),
+            ExceptionProviders.invalidContextExceptionProvider()
+    );
   }
 
   private Precondition() { }

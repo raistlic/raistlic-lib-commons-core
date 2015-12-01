@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common;
+package org.raistlic.common.util;
 
 import java.util.EventListener;
 

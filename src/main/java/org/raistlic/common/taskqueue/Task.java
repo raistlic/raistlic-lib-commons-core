@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package org.raistlic.common;
+package org.raistlic.common.taskqueue;
 
 /**
- * A callback interface to handle exceptions, especially in an asynchronous environment where
- * the caller may not be able to wait for the invocation target's execution.
+ * A runnable callback that returns a result after successfully executed.
  *
- * @author Lei CHEN (2013-11-29)
- * @since 1.0
+ * @author Lei Chen (2015-11-24)
  */
-public interface ExceptionHandler {
+public interface Task<R> {
 
   /**
-   * Handle the specified {@code ex}, the method does not throw any exception, regardless of the
-   * parameters passed in.
+   * Execute and return the result.
    *
-   * @param thread the thread in which the exception occurred.
-   * @param ex the exception occurred.
+   * @return the execution result.
+   * @throws TaskExecutionException when anything goes wrong during the task execution.
    */
-  public void exceptionOccur(Thread thread, Throwable ex);
+  R run() throws TaskExecutionException;
 }

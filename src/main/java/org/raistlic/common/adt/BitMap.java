@@ -16,7 +16,7 @@
 
 package org.raistlic.common.adt;
 
-import org.raistlic.common.Factory;
+import org.raistlic.common.util.Factory;
 import org.raistlic.common.precondition.Precondition;
 
 import java.util.Arrays;

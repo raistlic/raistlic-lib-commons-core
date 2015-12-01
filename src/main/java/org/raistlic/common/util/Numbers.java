@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.taskqueue;
+package org.raistlic.common.util;
 
 /**
- * The exception that occurs during the execution of a runnable task in the {@link TaskQueue} .
- *
- * @author Lei Chen (2014-11-12)
+ * @author Lei CHEN (2015-02-09)
  * @since 1.0
  */
-public class TaskExecutionException extends RuntimeException {
+public final class Numbers {
 
-  /**
-   * {@inheritDoc}
-   */
-  public TaskExecutionException(Throwable cause) {
+  public static int confine(int value, int min, int max) {
 
-    super(cause);
+    value = Math.max(min, value);
+    return Math.min(value, max);
   }
+
+  public static long confine(long value, long min, long max) {
+
+    value = Math.max(min, value);
+    return Math.min(value, max);
+  }
+
+  private Numbers() { }
 }

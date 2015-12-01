@@ -16,7 +16,7 @@
 
 package org.raistlic.common.event;
 
-import org.raistlic.common.ExceptionHandler;
+import org.raistlic.common.util.ExceptionHandler;
 
 /**
  * The default implementation of {@link org.raistlic.common.event.EventDispatcher.Builder} .

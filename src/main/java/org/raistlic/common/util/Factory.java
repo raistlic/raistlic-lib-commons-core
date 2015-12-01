@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common;
+package org.raistlic.common.util;
 
 /**
  * Generally a builder pattern instance can implement this interface, and be
@@ -36,7 +36,7 @@ public interface Factory<T> {
    *
    * @throws IllegalStateException if the factory is not ready, see {@link #isReady()}.
    */
-  public T build();
+  T build();
 
   /**
    * A condition check method, to query whether the factory is ready to export
@@ -52,5 +52,5 @@ public interface Factory<T> {
    *
    * @return {@code true} if the factory is ready to export instances.
    */
-  public boolean isReady();
+  boolean isReady();
 }

@@ -16,33 +16,40 @@
 
 package org.raistlic.common.precondition;
 
-import javax.swing.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * @author Lei CHEN (2015-11-19)
  */
-public class CurrentThreadExpectation {
+public class ThreadExpectation {
+
+  private final Thread thread;
 
   private final Function<String, ? extends RuntimeException> exceptionProvider;
 
-  public CurrentThreadExpectation(Function<String, ? extends RuntimeException> exceptionProvider) {
+  public ThreadExpectation(Thread thread,
+                           Function<String, ? extends RuntimeException> exceptionProvider) {
 
+    if (thread == null) {
+      throw new InvalidParameterException("'thread' cannot be null.");
+    }
     if (exceptionProvider == null) {
       throw new InvalidParameterException("'exceptionProvider' cannot be null.");
     }
+    this.thread = thread;
     this.exceptionProvider = exceptionProvider;
   }
 
   public void hasId(long id) {
 
-    String message = "Current thread should have id " + id + ", but was " + Thread.currentThread().getId();
+    String message = "Current thread should have id " + id + ", but was " + thread.getId();
     hasId(id, message);
   }
 
   public void hasId(long id, String message) {
 
-    if (Thread.currentThread().getId() != id) {
+    if (thread.getId() != id) {
       throw exceptionProvider.apply(message);
     }
   }
@@ -51,27 +58,27 @@ public class CurrentThreadExpectation {
 
     String message = "Current thread '" + Thread.currentThread().getName() +
             "' should have priority of " + priority +
-            ", but was " + Thread.currentThread().getPriority();
+            ", but was " + thread.getPriority();
     hasPriority(priority, message);
   }
 
   public void hasPriority(int priority, String message) {
 
-    if (Thread.currentThread().getPriority() != priority) {
+    if (thread.getPriority() != priority) {
       throw exceptionProvider.apply(message);
     }
   }
 
   public void isDaemon() {
 
-    String message = "Current thread '" + Thread.currentThread().getName() +
+    String message = "Current thread '" + thread.getName() +
             "' should be daemon thread, but was not.";
     isDaemon(message);
   }
 
   public void isDaemon(String message) {
 
-    if (! Thread.currentThread().isDaemon()) {
+    if (! thread.isDaemon()) {
       throw exceptionProvider.apply(message);
     }
   }
@@ -85,62 +92,50 @@ public class CurrentThreadExpectation {
 
   public void isNotDaemon(String message) {
 
-    if (Thread.currentThread().isDaemon()) {
+    if (thread.isDaemon()) {
       throw exceptionProvider.apply(message);
     }
   }
 
   public void isInterrupted() {
 
-    String message = "Current thread '" + Thread.currentThread().getName() +
+    String message = "Current thread '" + thread.getName() +
             "' is expected to be interrupted but not.";
     isInterrupted(message);
   }
 
   public void isInterrupted(String message) {
 
-    if (! Thread.currentThread().isInterrupted()) {
+    if (! thread.isInterrupted()) {
       throw exceptionProvider.apply(message);
     }
   }
 
   public void isNotInterrupted() {
 
-    String message = "Current thread '" + Thread.currentThread().getName() +
+    String message = "Current thread '" + thread.getName() +
             "' is unexpectedly interrupted.";
     isNotInterrupted(message);
   }
 
   public void isNotInterrupted(String message) {
 
-    if (Thread.currentThread().isInterrupted()) {
+    if (thread.isInterrupted()) {
       throw exceptionProvider.apply(message);
     }
   }
 
-  public void isEventDispatchingThread() {
+  public void matches(Predicate<? super Thread> predicate) {
 
-    String message = "Current thread is expected to be EDT, but was not: " +
-            Thread.currentThread().getName();
-    isEventDispatchingThread(message);
+    String message = "Current thread does not match the specified predicate.";
+    matches(predicate, message);
   }
 
-  public void isEventDispatchingThread(String message) {
+  public void matches(Predicate<? super Thread> predicate, String message) {
 
-    if (! SwingUtilities.isEventDispatchThread()) {
-      throw exceptionProvider.apply(message);
-    }
-  }
+    Precondition.param(predicate, "predicate").notNull();
 
-  public void isNotEventDispatchingThread() {
-
-    String message = "Current thread should not be EDT.";
-    isNotEventDispatchingThread(message);
-  }
-
-  public void isNotEventDispatchingThread(String message) {
-
-    if (SwingUtilities.isEventDispatchThread()) {
+    if (!predicate.test(Thread.currentThread())) {
       throw exceptionProvider.apply(message);
     }
   }
