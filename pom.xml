@@ -7,7 +7,7 @@
 
     <groupId>org.raistlic.lib</groupId>
     <artifactId>commons-core</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Raistlic's Commons Library</name>
@@ -46,6 +46,7 @@
         <mockito-all.version>1.9.5</mockito-all.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
         <jackson-version>2.6.2</jackson-version>
+        <yamlbeans-version>1.09</yamlbeans-version>
         <junit-params-version>1.0.4</junit-params-version>
         <fest-assert-version>2.0M10</fest-assert-version>
     </properties>
@@ -69,7 +70,7 @@
         <dependency>
             <groupId>com.esotericsoftware.yamlbeans</groupId>
             <artifactId>yamlbeans</artifactId>
-            <version>1.09</version>
+            <version>${yamlbeans-version}</version>
         </dependency>
 
         <!-- unit test -->
