@@ -16,8 +16,9 @@
 
 package org.raistlic.common.permutation;
 
-import java.math.BigInteger;
 import org.raistlic.common.adt.WeakArray;
+
+import java.math.BigInteger;
 
 /**
  * This class defines a tool to calculate mathematical factorial results of 

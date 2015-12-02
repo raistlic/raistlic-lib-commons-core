@@ -22,6 +22,7 @@ import org.raistlic.common.util.ExceptionHandler;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -86,8 +87,7 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
 
-    boolean changed = !canceled.getAndSet(true);
-    return changed && !done.get();
+    return (!done.get()) && (!canceled.getAndSet(true));
   }
 
   @Override
@@ -114,9 +114,11 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   }
 
   @Override
-  public R get(long timeout, TimeUnit timeUnit) throws InterruptedException, TaskExecutionException, InvalidContextException {
+  public R get(long timeout, TimeUnit timeUnit) throws InterruptedException, TimeoutException, TaskExecutionException, InvalidContextException {
 
-    cd.await(timeout, timeUnit);
+    if (!cd.await(timeout, timeUnit)) {
+      throw new TimeoutException();
+    }
     TaskExecutionException tee = exception;
     if (tee != null) {
       throw tee;

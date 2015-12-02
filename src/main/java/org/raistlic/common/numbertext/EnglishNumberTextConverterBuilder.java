@@ -16,8 +16,8 @@
 
 package org.raistlic.common.numbertext;
 
-import org.raistlic.common.util.Factory;
 import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.util.Factory;
 
 /**
  * @author Lei CHEN (2015-11-19)
