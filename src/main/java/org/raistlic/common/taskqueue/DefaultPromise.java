@@ -31,8 +31,6 @@ import java.util.function.Consumer;
  */
 final class DefaultPromise<R> implements Promise<R>, Runnable {
 
-  private final Object lock;
-
   private volatile R result;
 
   private volatile TaskExecutionException exception;
@@ -47,6 +45,8 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
 
   private final CountDownLatch cd;
 
+  private final AtomicBoolean canceled;
+
   private final AtomicBoolean done;
 
   DefaultPromise(Task<R> task, ExceptionHandler taskExceptionHandler) {
@@ -54,12 +54,12 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
     Precondition.param(task, "task").notNull();
     Precondition.param(taskExceptionHandler, "taskExceptionHandler").notNull();
 
-    this.lock = new Object();
     this.resultConsumer = new AtomicReference<Consumer<? super R>>(null);
     this.exceptionHandler = new AtomicReference<ExceptionHandler>(null);
 
     this.task = task;
     this.taskExceptionHandler = taskExceptionHandler;
+    this.canceled = new AtomicBoolean(false);
     this.done = new AtomicBoolean(false);
     this.cd = new CountDownLatch(1);
   }
@@ -76,10 +76,30 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   private void onResultCallback() {
 
     Consumer<? super R> consumer = this.resultConsumer.getAndSet(null);
+    TaskExecutionException error = exception;
     R r = this.result;
-    if (consumer != null) {
+    if (error == null && consumer != null) {
       consumer.accept(r);
     }
+  }
+
+  @Override
+  public boolean cancel(boolean mayInterruptIfRunning) {
+
+    boolean changed = !canceled.getAndSet(true);
+    return changed && !done.get();
+  }
+
+  @Override
+  public boolean isCancelled() {
+
+    return canceled.get();
+  }
+
+  @Override
+  public boolean isDone() {
+
+    return done.get();
   }
 
   @Override
@@ -131,27 +151,38 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   @Override
   public void run() {
 
-    try {
-      result = task.run();
-    }
-    catch (Exception ex) {
-      if (ex instanceof TaskExecutionException) {
-        exception = (TaskExecutionException) ex;
-      } else {
-        exception = new TaskExecutionException(ex);
-      }
-      taskExceptionHandler.exceptionOccur(Thread.currentThread(), exception);
-    }
+    synchronized (done) {
 
-    try {
-      this.onResultCallback();
-      this.onErrorCallback();
-    }
-    catch (Exception ex) {
-      taskExceptionHandler.exceptionOccur(Thread.currentThread(), ex);
-    }
-    finally {
-      cd.countDown();
+      Precondition.state(done.get(), "done").isFalse();
+
+      if (canceled.get()) {
+        return;
+      }
+
+      try {
+        result = task.run();
+      }
+      catch (Exception ex) {
+        if (ex instanceof TaskExecutionException) {
+          exception = (TaskExecutionException) ex;
+        }
+        else {
+          exception = new TaskExecutionException(ex);
+        }
+        taskExceptionHandler.exceptionOccur(Thread.currentThread(), exception);
+      }
+
+      try {
+        this.onResultCallback();
+        this.onErrorCallback();
+      }
+      catch (Exception ex) {
+        taskExceptionHandler.exceptionOccur(Thread.currentThread(), ex);
+      }
+      finally {
+        done.set(true);
+        cd.countDown();
+      }
     }
   }
 }

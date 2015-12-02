@@ -16,22 +16,18 @@
 
 package org.raistlic.common.taskqueue;
 
-import org.raistlic.common.precondition.InvalidContextException;
 import org.raistlic.common.util.ExceptionHandler;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 /**
+ * Based on {@link java.util.concurrent.Future} , providing additional methods for handling result
+ * or error with callbacks.
+ *
  * @author Lei Chen (2015-11-24)
  */
-public interface Promise<R> {
-
-  R get() throws InterruptedException, TaskExecutionException, InvalidContextException;
-
-  R get(long timeout, TimeUnit timeUnit) throws InterruptedException,
-                                                TaskExecutionException,
-                                                InvalidContextException;
+public interface Promise<R> extends Future<R> {
 
   Promise<R> onResult(Consumer<? super R> consumer);
 

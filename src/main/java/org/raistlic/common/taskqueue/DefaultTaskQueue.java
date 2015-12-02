@@ -23,6 +23,7 @@ import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 import org.raistlic.common.util.ExceptionHandler;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -147,7 +148,12 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
     Precondition.state(running.get(), "running").isTrue();
 
     Promise<R> promise = schedule(task);
-    return promise.get();
+    try {
+      return promise.get();
+    }
+    catch (ExecutionException ex) {
+      throw new TaskExecutionException(ex);
+    }
   }
 
   @Override
@@ -169,7 +175,12 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
     Precondition.state(running.get(), "running").isTrue();
 
     Promise<R> promise = schedule(task);
-    return promise.get(timeout, timeUnit);
+    try {
+      return promise.get(timeout, timeUnit);
+    }
+    catch (ExecutionException ex) {
+      throw new TaskExecutionException(ex);
+    }
   }
 
   @Override

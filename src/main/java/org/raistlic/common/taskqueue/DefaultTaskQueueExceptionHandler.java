@@ -17,17 +17,21 @@
 package org.raistlic.common.taskqueue;
 
 import org.raistlic.common.util.ExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Lei Chen (2015-11-24)
  */
-public enum DefaultTaskQueueExceptionHandler implements ExceptionHandler {
+enum DefaultTaskQueueExceptionHandler implements ExceptionHandler {
 
   INSTANCE;
+
+  private final Logger logger = LoggerFactory.getLogger(DefaultTaskQueueExceptionHandler.class);
 
   @Override
   public void exceptionOccur(Thread thread, Throwable ex) {
 
-    throw new UnsupportedOperationException();
+    logger.error(ex.getMessage(), ex);
   }
 }
