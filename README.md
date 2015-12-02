@@ -32,6 +32,19 @@ Available in maven central:
 </dependency>
 ```
 
+Or if you use gradle:
+```
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+}
+
+dependencies {
+  compile 'org.raistlic.lib:commons-core:1.3'
+}
+```
+
 # Sample Code - Precondition Check
 
 ``` java
