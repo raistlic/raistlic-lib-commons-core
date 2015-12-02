@@ -88,6 +88,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
 
     if (running.getAndSet(false)) {
       executorService.shutdownNow();
+      queue.offer(EmptyRunnable.INSTANCE);
       executorService.awaitTermination(timeout, timeUnit);
       return true;
     }
@@ -108,6 +109,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
     else {
       executorService.shutdown();
     }
+    queue.offer(EmptyRunnable.INSTANCE);
   }
 
   @Override
@@ -232,6 +234,16 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
     public boolean test(Thread thread) {
 
       return thread == taskQueueThread;
+    }
+  }
+
+  private enum EmptyRunnable implements Runnable {
+
+    INSTANCE;
+
+    @Override
+    public void run() {
+      // do nothing
     }
   }
 }

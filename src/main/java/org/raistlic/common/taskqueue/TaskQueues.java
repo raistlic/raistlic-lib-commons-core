@@ -39,7 +39,7 @@ public final class TaskQueues {
 
     private String name;
 
-    private ExceptionHandler exceptionHandler;
+    private ExceptionHandler exceptionHandler = DefaultTaskQueueExceptionHandler.INSTANCE;
 
     @Override
     public TaskQueueBuilder withThreadAsDaemon(boolean daemon) {
