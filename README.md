@@ -34,10 +34,8 @@ Available in maven central:
 
 Or if you use gradle:
 ```
-buildscript {
-  repositories {
-    mavenCentral()
-  }
+repositories {
+  mavenCentral()
 }
 
 dependencies {
