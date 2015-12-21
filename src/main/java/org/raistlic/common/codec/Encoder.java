@@ -30,8 +30,16 @@ public interface Encoder<S, D> {
    *
    * @param src the value to be checked.
    * @return {@code true} if {@code src} is a valid value to be encoded.
+   * @throws java.lang.UnsupportedOperationException if the implementation does not support this
+   *         upfront check.
+   * @deprecated to be deprecated in the next release(1.5), now throws UnsupportedOperationException
+   *             by default, this is to be friendly to lambda expression.
    */
-  public boolean isValidSrc(S src);
+  @Deprecated
+  public default boolean isValidSrc(S src) {
+
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * The method encodes the specified {@code src} , into type {@code D} .

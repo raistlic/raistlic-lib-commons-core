@@ -30,8 +30,16 @@ public interface Decoder<S, D> {
    *
    * @param dest the dest to be checked.
    * @return {@code true} if {@code dest} is valid for decoding.
+   * @throws java.lang.UnsupportedOperationException if the implementation does not support this
+   *         upfront check.
+   * @deprecated to be deprecated in the next release(1.5), now throws UnsupportedOperationException
+   *             by default, this is to be friendly to lambda expression.
    */
-  public boolean isValidDest(D dest);
+  @Deprecated
+  public default boolean isValidDest(D dest) {
+
+    throw new UnsupportedOperationException();
+  }
   
   /**
    * The method decodes the specified {@code dest} of type {@code D} , into type {@code S} .
