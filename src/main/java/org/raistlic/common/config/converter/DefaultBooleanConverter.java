@@ -42,12 +42,12 @@ enum DefaultBooleanConverter implements Codec<Boolean, String> {
   }
 
   @Override
-  public Boolean decode(String dest) throws ValueConversionException {
+  public Boolean decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
-    String trimmed = dest.trim().toUpperCase();
+    String trimmed = target.trim().toUpperCase();
     if (trimmed.equals(TRUE)) {
       return true;
     }
@@ -55,7 +55,7 @@ enum DefaultBooleanConverter implements Codec<Boolean, String> {
       return false;
     }
     else {
-      throw new ConfigValueConvertException("Cannot convert value to boolean: '" + dest + "'");
+      throw new ConfigValueConvertException("Cannot convert value to boolean: '" + target + "'");
     }
   }
 

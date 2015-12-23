@@ -51,6 +51,11 @@ public interface Factory<T> {
    * succeed(i.e. should not throw {@link IllegalStateException}).
    *
    * @return {@code true} if the factory is ready to export instances.
+   * @deprecated to be deprecated, to be more friendly to lambda.
    */
-  boolean isReady();
+  @Deprecated
+  default boolean isReady() {
+
+    return true;
+  }
 }

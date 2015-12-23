@@ -38,13 +38,13 @@ enum DefaultIntConverter implements Codec<Integer, String> {
   }
 
   @Override
-  public Integer decode(String dest) throws ValueConversionException {
+  public Integer decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
     try {
-      return Integer.valueOf(dest.trim());
+      return Integer.valueOf(target.trim());
     }
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);

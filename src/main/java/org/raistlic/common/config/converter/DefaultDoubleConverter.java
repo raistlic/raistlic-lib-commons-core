@@ -44,12 +44,12 @@ enum DefaultDoubleConverter implements Codec<Double, String> {
   }
 
   @Override
-  public Double decode(String dest) throws ValueConversionException {
+  public Double decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
-    String trimmed = dest.trim();
+    String trimmed = target.trim();
     try {
       return Double.valueOf(trimmed);
     }

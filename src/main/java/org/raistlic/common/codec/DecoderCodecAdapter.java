@@ -42,8 +42,8 @@ public abstract class DecoderCodecAdapter<S, D> implements Codec<S, D> {
   }
 
   @Override
-  public final S decode(D dest) {
+  public final S decode(D target) {
     
-    return decoder.decode(dest);
+    return decoder.decode(target);
   }
 }

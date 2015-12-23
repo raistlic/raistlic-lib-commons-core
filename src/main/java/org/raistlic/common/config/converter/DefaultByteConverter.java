@@ -44,12 +44,12 @@ enum DefaultByteConverter implements Codec<Byte, String> {
   }
 
   @Override
-  public Byte decode(String dest) throws ValueConversionException {
+  public Byte decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
-    String trimmed = dest.trim();
+    String trimmed = target.trim();
     try {
       return Byte.valueOf(trimmed);
     }

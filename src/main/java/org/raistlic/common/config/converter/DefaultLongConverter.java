@@ -44,12 +44,12 @@ enum DefaultLongConverter implements Codec<Long, String> {
   }
 
   @Override
-  public Long decode(String dest) throws ValueConversionException {
+  public Long decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
-    String trimmed = dest.trim();
+    String trimmed = target.trim();
     try {
       return Long.valueOf(trimmed);
     }

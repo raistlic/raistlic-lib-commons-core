@@ -46,14 +46,16 @@ public class Factorial {
       throw new IllegalArgumentException();
     
     int index = Math.min(RESULTS.length()-1, number);
-    BigInteger result = BigInteger.ONE;
-    
+    BigInteger result = null;
     while (index > 1) {
       
       result = RESULTS.get(index);
       if( result != null )
         break;
       index--;
+    }
+    if (result == null) {
+      result = BigInteger.ONE;
     }
     
     for (int i = index + 1; i <= number; i++) {
@@ -64,13 +66,13 @@ public class Factorial {
     }
     return result;
   }
-  
+
   /*
    * An array to cache some results.
    */
-  private static final WeakArray<BigInteger> RESULTS = 
+  private static final WeakArray<BigInteger> RESULTS =
           new WeakArray<BigInteger>(1024);
-  
+
   /*
    * Functionality served via static method, this class is designed not to be 
    * inherited or instantiated.

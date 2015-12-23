@@ -122,6 +122,22 @@ public class StringExpectation extends GeneralExpectation<String> {
     evaluate();
   }
 
+  public void hasLength(int length) {
+
+    String message = "";
+    if (name() != null) {
+      message = "'" + name() + "' should have length of " + length;
+    }
+    hasLength(length, message);
+  }
+
+  public void hasLength(int length, String message) {
+
+    setMessage(message);
+    setPredicate(StringPredicates.hasLength(length));
+    evaluate();
+  }
+
   public void matchesPattern(Pattern pattern) {
 
     if (pattern == null) {

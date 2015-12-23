@@ -44,12 +44,12 @@ enum DefaultShortConverter implements Codec<Short, String> {
   }
 
   @Override
-  public Short decode(String dest) throws ValueConversionException {
+  public Short decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
-    String trimmed = dest.trim();
+    String trimmed = target.trim();
     try {
       return Short.valueOf(trimmed);
     }

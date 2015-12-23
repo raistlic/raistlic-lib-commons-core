@@ -34,16 +34,16 @@ enum DefaultCharConverter implements Codec<Character, String> {
   }
 
   @Override
-  public Character decode(String dest) throws ValueConversionException {
+  public Character decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
-    else if (dest.length() == 1) {
-      return dest.charAt(0);
+    else if (target.length() == 1) {
+      return target.charAt(0);
     }
     else {
-      throw new ConfigValueConvertException("Cannot convert value to char: '" + dest + "'");
+      throw new ConfigValueConvertException("Cannot convert value to char: '" + target + "'");
     }
   }
 

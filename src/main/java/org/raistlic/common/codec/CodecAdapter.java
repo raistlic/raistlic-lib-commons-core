@@ -71,8 +71,8 @@ public class CodecAdapter<S, D> implements Codec<S, D> {
   }
 
   @Override
-  public S decode(D dest) {
+  public S decode(D target) {
     
-    return decoder.decode(dest);
+    return decoder.decode(target);
   }
 }

@@ -16,6 +16,8 @@
 
 package org.raistlic.common.codec;
 
+import org.raistlic.common.precondition.InvalidParameterException;
+
 /**
  * This instance defines the parser that parses the referenced type {@code D} to
  * the referenced type {@code S}.
@@ -23,7 +25,7 @@ package org.raistlic.common.codec;
  * @author Lei CHEN
  * @since 1.0
  */
-public interface Decoder<S, D> {
+public interface Decoder<S, T> {
 
   /**
    * The method checks the specified {@code dest}, and returns whether it's a valid form for decoding.
@@ -36,7 +38,7 @@ public interface Decoder<S, D> {
    *             by default, this is to be friendly to lambda expression.
    */
   @Deprecated
-  public default boolean isValidDest(D dest) {
+  public default boolean isValidDest(T dest) {
 
     throw new UnsupportedOperationException();
   }
@@ -44,10 +46,12 @@ public interface Decoder<S, D> {
   /**
    * The method decodes the specified {@code dest} of type {@code D} , into type {@code S} .
    * 
-   * @param dest the dest to be decoded.
+   * @param target the dest to be decoded.
    * @return the decode result.
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code target} is
+   *         {@code null}.
    * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
    *         process of decoding the value.
    */
-  public S decode(D dest) throws ValueConversionException;
+  public S decode(T target) throws InvalidParameterException, ValueConversionException;
 }

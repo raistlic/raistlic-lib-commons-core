@@ -44,13 +44,13 @@ enum DefaultFloatConverter implements Codec<Float, String> {
   }
 
   @Override
-  public Float decode(String dest) throws ValueConversionException {
+  public Float decode(String target) throws ValueConversionException {
 
-    if (dest == null) {
+    if (target == null) {
       return null;
     }
     try {
-      return Float.valueOf(dest);
+      return Float.valueOf(target);
     }
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
