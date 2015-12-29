@@ -38,7 +38,7 @@ public interface Decoder<S, T> {
    *             by default, this is to be friendly to lambda expression.
    */
   @Deprecated
-  public default boolean isValidDest(T dest) {
+  default boolean isValidDest(T dest) {
 
     throw new UnsupportedOperationException();
   }
@@ -53,5 +53,5 @@ public interface Decoder<S, T> {
    * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
    *         process of decoding the value.
    */
-  public S decode(T target) throws InvalidParameterException, ValueConversionException;
+  S decode(T target) throws InvalidParameterException, ValueConversionException;
 }

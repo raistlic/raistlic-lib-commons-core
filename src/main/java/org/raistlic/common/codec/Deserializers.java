@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.raistlic.common.codec;
 
 import org.raistlic.common.precondition.InvalidParameterException;
@@ -7,15 +23,32 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * @author lei.c (2015-12-21)
+ * A collection of static factory methods that export commonly used {@link Deserializer} instances.
+ *
+ * @author Lei Chen
+ * @since 1.4
  */
 public final class Deserializers {
 
+  /**
+   * The method exports a {@link Deserializer} instance that simply returns what ever {@link String}
+   * target value passed in, given that the target is not {@code null} (or the deserializer will
+   * throw an {@link InvalidParameterException} ).
+   *
+   * @return the stateless, singleton {@link Deserializer} instance.
+   */
   public static Deserializer<String> getStringDeserializer() {
 
     return StringDeserializer.INSTANCE;
   }
 
+  /**
+   * The method exports a {@link Deserializer} instance that decodes a {@link String} target value
+   * into a {@link Boolean} , as long as it's a valid target (or the deserializer will throw an
+   * {@link InvalidParameterException} ).
+   *
+   * @return the stateless, singleton {@link Deserializer} instance.
+   */
   public static Deserializer<Boolean> getBooleanDeserializer() {
 
     return BooleanDeserializer.INSTANCE;
@@ -88,11 +121,15 @@ public final class Deserializers {
 
       Precondition.param(target, "target").notNull();
 
-      try {
-        return Boolean.valueOf(target);
+      String converted = target.trim().toLowerCase();
+      if (converted.equals("true")) {
+        return true;
       }
-      catch (Exception ex) {
-        throw new ValueConversionException(ex);
+      else if (converted.equals("false")) {
+        return false;
+      }
+      else {
+        throw new ValueConversionException("Cannot convert String value to Boolean: '" + target + "'");
       }
     }
   }
@@ -123,8 +160,10 @@ public final class Deserializers {
     public Character decode(String target) throws InvalidParameterException, ValueConversionException {
 
       Precondition.param(target, "target").notNull();
-      Precondition.param(target, "target").hasLength(1);
 
+      if (target.length() != 1) {
+        throw new ValueConversionException("Cannot convert the target String to char: '" + target + "'");
+      }
       return target.charAt(0);
     }
   }

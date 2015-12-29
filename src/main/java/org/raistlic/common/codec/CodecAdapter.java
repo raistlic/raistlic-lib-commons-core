@@ -16,6 +16,8 @@
 
 package org.raistlic.common.codec;
 
+import org.raistlic.common.precondition.Precondition;
+
 /**
  * This class simply combines a proper encoder and a proper decoder together,
  * to adapt the {@link org.raistlic.common.codec.Codec} interface.
@@ -25,9 +27,9 @@ package org.raistlic.common.codec;
  */
 public class CodecAdapter<S, D> implements Codec<S, D> {
   
-  private Encoder<? super S, D> encoder;
+  private final Encoder<? super S, D> encoder;
 
-  private Decoder<S, ? super D> decoder;
+  private final Decoder<S, ? super D> decoder;
   
   /**
    * Defines a CodecAdapter with the specified encoder and decoder.
@@ -36,38 +38,23 @@ public class CodecAdapter<S, D> implements Codec<S, D> {
    * 
    * @param decoder the decoder as a component of the adapter to define.
    * 
-   * @throws NullPointerException if the specified {@code encoder} or {@code 
-   *         decoder} is {@code null}.
+   * @throws org.raistlic.common.precondition.InvalidParameterException if the specified
+   *         {@code encoder} or {@code decoder} is {@code null}.
    */
   public CodecAdapter(Encoder<? super S, D> encoder,
                       Decoder<S, ? super D> decoder) {
-    
-    if( encoder == null )
-      throw new NullPointerException("encoder is null.");
-    
-    if( decoder == null )
-      throw new NullPointerException("decoder is null.");
-    
+
+    Precondition.param(encoder, "encoder").notNull();
+    Precondition.param(decoder, "decoder").notNull();
+
     this.encoder = encoder;
     this.decoder = decoder;
-  }
-  
-  @Override
-  public boolean isValidSrc(S src) {
-    
-    return encoder.isValidSrc(src);
   }
 
   @Override
   public D encode(S src) {
     
     return encoder.encode(src);
-  }
-
-  @Override
-  public boolean isValidDest(D dest) {
-    
-    return decoder.isValidDest(dest);
   }
 
   @Override

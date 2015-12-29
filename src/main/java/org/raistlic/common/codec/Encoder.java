@@ -36,7 +36,7 @@ public interface Encoder<S, D> {
    *             by default, this is to be friendly to lambda expression.
    */
   @Deprecated
-  public default boolean isValidSrc(S src) {
+  default boolean isValidSrc(S src) {
 
     throw new UnsupportedOperationException();
   }
@@ -49,5 +49,5 @@ public interface Encoder<S, D> {
    * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
    *         process of encoding.
    */
-  public D encode(S src) throws ValueConversionException;
+  D encode(S src) throws ValueConversionException;
 }

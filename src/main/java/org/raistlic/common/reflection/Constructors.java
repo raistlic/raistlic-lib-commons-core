@@ -1,7 +1,6 @@
 package org.raistlic.common.reflection;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.predicate.PredicateOrWrapper;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
