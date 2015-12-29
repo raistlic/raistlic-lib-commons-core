@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface ConfigEntity {
 
-  String name();
+  String name() default "";
 
   String path() default "";
 }

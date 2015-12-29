@@ -5,7 +5,9 @@ import org.raistlic.common.precondition.Precondition;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +17,14 @@ public class Reflections {
 
   public static <A extends Annotation> A getAnnotation(Type type, Class<A> annotationType) {
 
-    throw new UnsupportedOperationException();
+    if (type instanceof Class<?>) {
+
+      A[] annotations = ((Class<?>) type).getAnnotationsByType(annotationType);
+      if (annotations.length > 0) {
+        return annotations[0];
+      }
+    }
+    return null;
   }
 
   public static <A extends Annotation> A getAnnotation(Constructor<?> constructor, Class<A> annotationType) {
@@ -32,8 +41,27 @@ public class Reflections {
   }
 
   public static <A extends Annotation> Map<Field, A> getAnnotatedFields(
-          Type type, Class<A> annotationType, boolean includeStaticFields) {
+          Class<?> type, Class<A> annotationType, boolean includeStaticFields) {
 
-    throw new UnsupportedOperationException();
+    Precondition.param(type, "type").notNull();
+    Precondition.param(annotationType, "annotationType").notNull();
+
+    Map<Field, A> map = new HashMap<>();
+    for (Field field : type.getDeclaredFields()) {
+
+      if ( (!includeStaticFields) && Modifier.isStatic(field.getModifiers()) ) {
+        continue;
+      }
+
+      try {
+        A annotation = field.getAnnotation(annotationType);
+        if (annotation != null) {
+          map.put(field, annotation);
+        }
+      } catch (Exception ex) {
+        // TODO log error
+      }
+    }
+    return map;
   }
 }

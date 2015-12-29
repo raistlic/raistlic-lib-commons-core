@@ -31,8 +31,7 @@ public final class Precondition {
 
   public static <E> GeneralExpectation<E> param(E parameter, String name) {
 
-    return new GeneralExpectation<E>(
-        parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
+    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
 
   public static StringExpectation param(String parameter) {
@@ -42,8 +41,7 @@ public final class Precondition {
 
   public static StringExpectation param(String parameter, String name) {
 
-    return new StringExpectation(
-        parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
+    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
 
   public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter) {
@@ -53,8 +51,7 @@ public final class Precondition {
 
   public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter, String name) {
 
-    return new NumberExpectation<N>(
-        parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
+    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
 
   public static BooleanExpectation.Boxed param(Boolean parameter) {
@@ -64,8 +61,7 @@ public final class Precondition {
 
   public static BooleanExpectation.Boxed param(Boolean parameter, String name) {
 
-    return new BooleanExpectation.Boxed(
-            parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
+    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
 
   public static BooleanExpectation.Primitive param(boolean parameter) {
@@ -75,20 +71,17 @@ public final class Precondition {
 
   public static BooleanExpectation.Primitive param(boolean parameter, String name) {
 
-    return new BooleanExpectation.Primitive(
-            parameter, name, ExceptionProviders.invalidParameterExceptionProvider());
+    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
 
-  public static void assertParam(boolean parameter) {
+  public static void assertParam(boolean statement) {
 
-    assertParam(parameter, "");
+    assertParam(statement, "");
   }
 
-  public static void assertParam(boolean parameter, String message) {
+  public static void assertParam(boolean statement, String message) {
 
-    if (!parameter) {
-      throw new InvalidParameterException(message);
-    }
+    PARAMETER_EXPECTED_CASES.assertThat(statement, message);
   }
 
   // state preconditions ---------------------------------------------------------------------------
@@ -100,7 +93,7 @@ public final class Precondition {
 
   public static <E> GeneralExpectation<E> state(E state, String name) {
 
-    return new GeneralExpectation<E>(state, name, ExceptionProviders.invalidStateExceptionProvider());
+    return STATE_EXPECTED_CASES.expect(state, name);
   }
 
   public static StringExpectation state(String state) {
@@ -110,7 +103,7 @@ public final class Precondition {
 
   public static StringExpectation state(String state, String name) {
 
-    return new StringExpectation(state, name, ExceptionProviders.invalidStateExceptionProvider());
+    return STATE_EXPECTED_CASES.expect(state, name);
   }
 
   public static <N extends Number & Comparable<N>> NumberExpectation<N> state(N state) {
@@ -120,7 +113,7 @@ public final class Precondition {
 
   public static <N extends Number & Comparable<N>> NumberExpectation<N> state(N state, String name) {
 
-    return new NumberExpectation<N>(state, name, ExceptionProviders.invalidStateExceptionProvider());
+    return STATE_EXPECTED_CASES.expect(state, name);
   }
 
   public static BooleanExpectation.Boxed state(Boolean state) {
@@ -130,7 +123,7 @@ public final class Precondition {
 
   public static BooleanExpectation.Boxed state(Boolean state, String name) {
 
-    return new BooleanExpectation.Boxed(state, name, ExceptionProviders.invalidStateExceptionProvider());
+    return STATE_EXPECTED_CASES.expect(state, name);
   }
 
   public static BooleanExpectation.Primitive state(boolean state) {
@@ -140,7 +133,7 @@ public final class Precondition {
 
   public static BooleanExpectation.Primitive state(boolean state, String name) {
 
-    return new BooleanExpectation.Primitive(state, name, ExceptionProviders.invalidStateExceptionProvider());
+    return STATE_EXPECTED_CASES.expect(state, name);
   }
 
   public static void assertState(boolean statement) {
@@ -150,9 +143,7 @@ public final class Precondition {
 
   public static void assertState(boolean statement, String message) {
 
-    if (!statement) {
-      throw new InvalidStateException(message);
-    }
+    STATE_EXPECTED_CASES.assertThat(statement, message);
   }
 
   // context preconditions -------------------------------------------------------------------------
@@ -166,4 +157,12 @@ public final class Precondition {
   }
 
   private Precondition() { }
+
+  private static final ExpectedCases PARAMETER_EXPECTED_CASES = Expectations.with(
+          ExceptionProviders.invalidParameterExceptionProvider()
+  );
+
+  private static final ExpectedCases STATE_EXPECTED_CASES = Expectations.with(
+          ExceptionProviders.invalidStateExceptionProvider()
+  );
 }

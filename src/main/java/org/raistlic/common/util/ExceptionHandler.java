@@ -32,5 +32,5 @@ public interface ExceptionHandler {
    * @param thread the thread in which the exception occurred.
    * @param ex the exception occurred.
    */
-  public void exceptionOccur(Thread thread, Throwable ex);
+  void exceptionOccur(Thread thread, Throwable ex);
 }
