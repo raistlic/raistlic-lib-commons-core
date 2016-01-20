@@ -21,7 +21,7 @@ package org.raistlic.common.stopwatch;
  * @author Lei CHEN (2013-03-27)
  * @since 1.0
  */
-public interface StopWatch {
+public interface StopWatchOld {
   
   /**
    * System call, get the current time, represented in the implementation 
@@ -29,15 +29,15 @@ public interface StopWatch {
    * 
    * @return the current time.
    */
-  public long current();
+  long current();
   
-  public void setTick(long tick);
+  void setTick(long tick);
   
-  public long getTick();
+  long getTick();
   
-  public void tick(long current);
+  void tick(long current);
   
-  public boolean expired(long current);
+  boolean expired(long current);
   
   /**
    * This method sets the StopWatch's "start timing time", so that it will expire 
@@ -52,7 +52,7 @@ public interface StopWatch {
    *        StopWatch precision, otherwise all queries against the StopWatch does
    *        not make any sense.
    */
-  public void set(long time, long current);
+  void set(long time, long current);
   
   /**
    * This method returns the amount of time eclipsed after the StopWatch started
@@ -65,7 +65,7 @@ public interface StopWatch {
    * @return the amount of time eclipsed after the StopWatch started
    *         timing.
    */
-  public long read(long current);
+  long read(long current);
   
   /**
    * The effect of this method is equal to the combination of the following two
@@ -80,9 +80,9 @@ public interface StopWatch {
    *        StopWatch precision, otherwise all queries against the StopWatch does
    *        not make any sense.
    */
-  public void reset(long current);
+  void reset(long current);
   
-  public void pause(long current);
+  void pause(long current);
   
-  public void resume(long current);
+  void resume(long current);
 }

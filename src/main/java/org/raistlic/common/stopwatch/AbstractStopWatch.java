@@ -21,7 +21,7 @@ package org.raistlic.common.stopwatch;
  * @author Lei CHEN (2013-03-27)
  * @since 1.0
  */
-abstract class AbstractStopWatch implements StopWatch {
+abstract class AbstractStopWatch implements StopWatchOld {
   
   private long started;
   private long saved;

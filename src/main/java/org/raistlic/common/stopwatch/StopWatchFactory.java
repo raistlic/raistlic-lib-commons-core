@@ -23,12 +23,12 @@ package org.raistlic.common.stopwatch;
  */
 public class StopWatchFactory {
   
-  public static StopWatch newNanoWatch() {
+  public static StopWatchOld newNanoWatch() {
     
     return new NanoWatch();
   }
   
-  public static StopWatch newMilliWatch() {
+  public static StopWatchOld newMilliWatch() {
     
     return new MilliWatch();
   }
