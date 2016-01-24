@@ -80,6 +80,8 @@ final class DefaultExpectedCases implements ExpectedCases {
   @Override
   public void assertThat(boolean assertion, String message) {
 
-    expect(assertion).isTrue(message);
+    if (!assertion) {
+      throw exceptionProvider.apply(message);
+    }
   }
 }
