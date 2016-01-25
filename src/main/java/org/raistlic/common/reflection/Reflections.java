@@ -22,28 +22,48 @@ import java.util.stream.StreamSupport;
  */
 public class Reflections {
 
-  public static MethodStream methodStream(Class<?> type) {
+  public static MethodStream methodStream(Class<?> targetType) {
 
-    Precondition.param(type, "type").notNull();
+    Precondition.param(targetType, "targetType").notNull();
 
     Set<Method> methods = new HashSet<>();
-    methods.addAll(Arrays.asList(type.getMethods()));
-    methods.addAll(Arrays.asList(type.getDeclaredMethods()));
+    methods.addAll(Arrays.asList(targetType.getMethods()));
+    methods.addAll(Arrays.asList(targetType.getDeclaredMethods()));
     return methodStream(methods.stream());
   }
 
   public static MethodStream methodStream(Iterable<Method> methods) {
 
     Precondition.param(methods, "methods").notNull();
-
     return methodStream(StreamSupport.stream(methods.spliterator(), false));
   }
 
   public static MethodStream methodStream(Stream<Method> methodStream) {
 
     Precondition.param(methodStream, "methodStream").notNull();
-
     return new MethodStream(methodStream);
+  }
+
+  public static FieldStream fieldStream(Class<?> targetType) {
+
+    Precondition.param(targetType, "targetType").notNull();
+
+    Set<Field> fields = new HashSet<>();
+    fields.addAll(Arrays.asList(targetType.getFields()));
+    fields.addAll(Arrays.asList(targetType.getDeclaredFields()));
+    return fieldStream(fields);
+  }
+
+  public static FieldStream fieldStream(Iterable<Field> fields) {
+
+    Precondition.param(fields, "fields").notNull();
+    return fieldStream(StreamSupport.stream(fields.spliterator(), false));
+  }
+
+  public static FieldStream fieldStream(Stream<Field> fieldStream) {
+
+    Precondition.param(fieldStream, "fieldStream").notNull();
+    return new FieldStream(fieldStream);
   }
 
   public static <A extends Annotation> A getAnnotation(Type type, Class<A> annotationType) {
