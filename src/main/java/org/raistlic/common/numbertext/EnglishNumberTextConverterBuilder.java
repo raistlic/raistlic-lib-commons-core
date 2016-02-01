@@ -53,10 +53,4 @@ public class EnglishNumberTextConverterBuilder implements Factory<NumberTextConv
 
     return new EnglishNumberTextConverter(this.dashConnectedTens, this.englishLetterCase);
   }
-
-  @Override
-  public boolean isReady() {
-
-    return true;
-  }
 }

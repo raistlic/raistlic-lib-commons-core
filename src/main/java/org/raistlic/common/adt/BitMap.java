@@ -176,17 +176,6 @@ public abstract class BitMap {
 
       return new DefaultBitMap(this);
     }
-
-    /**
-     * A {@code BitMap.Builder} is always ready to build, after it is created.
-     *
-     * @return always {@code true}.
-     */
-    @Override
-    public boolean isReady() {
-
-      return true;
-    }
   }
 
   /**

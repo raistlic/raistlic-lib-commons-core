@@ -59,10 +59,4 @@ public final class PredicateBuilder<E> implements Factory<Predicate<E>> {
 
     return this.predicate;
   }
-
-  @Override
-  public boolean isReady() {
-
-    return true;
-  }
 }

@@ -35,7 +35,7 @@ import java.util.function.Predicate;
 /**
  * @author lei.c (2015-12-21)
  */
-public class ConfigEntityFactory implements Configurable {
+public class ConfigEntityFactory implements Configurable<Config> {
 
   private final Map<Class<?>, Deserializer<?>> deserializers;
 
@@ -58,14 +58,6 @@ public class ConfigEntityFactory implements Configurable {
       builder.applyConfig(configuration);
       config = builder.build();
     }
-  }
-
-  @Override
-  public void extractConfig(ConfigBuilder builder) {
-
-    Precondition.param(builder, "builder").notNull();
-
-    builder.applyConfig(config);
   }
 
   @SuppressWarnings("unchecked")

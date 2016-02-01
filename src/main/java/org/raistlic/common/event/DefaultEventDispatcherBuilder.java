@@ -58,10 +58,4 @@ class DefaultEventDispatcherBuilder implements EventDispatcher.Builder {
 
     return new DefaultEventDispatcher(exceptionHandler, broadCastName);
   }
-
-  @Override
-  public boolean isReady() {
-
-    return true;
-  }
 }

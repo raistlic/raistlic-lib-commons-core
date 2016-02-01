@@ -77,12 +77,6 @@ public final class TaskQueues {
       );
       return new DefaultTaskQueue(taskQueueThreadFactory, exceptionHandler);
     }
-
-    @Override
-    public boolean isReady() {
-
-      return true;
-    }
   }
 
   private static final class TaskQueueThreadFactory implements ThreadFactory {

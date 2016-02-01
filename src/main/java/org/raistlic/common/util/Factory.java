@@ -34,28 +34,8 @@ public interface Factory<T> {
    *
    * @return A newly created instance of the target(reference) type.
    *
-   * @throws IllegalStateException if the factory is not ready, see {@link #isReady()}.
+   * @throws org.raistlic.common.precondition.InvalidStateException if the factory is not in
+   *         a valid state ready to build {@code <T>} instance.
    */
   T build();
-
-  /**
-   * A condition check method, to query whether the factory is ready to export
-   * target type instances. The idea is that some factories (like a builder in a
-   * Builder Design Pattern) may need some compulsory parameters set before its
-   * {@link #build()} method can be safely called; failing to set these parameters
-   * before calling {@link #build()} may cause an {@link IllegalStateException}.
-   *
-   * <p>
-   * It is guaranteed that, if this method returns {@code true}, and before any
-   * change happens to the factory state, its {@link #build()} method should
-   * succeed(i.e. should not throw {@link IllegalStateException}).
-   *
-   * @return {@code true} if the factory is ready to export instances.
-   * @deprecated to be deprecated, to be more friendly to lambda.
-   */
-  @Deprecated
-  default boolean isReady() {
-
-    return true;
-  }
 }
