@@ -18,10 +18,10 @@ package org.raistlic.common.config.core;
 
 import org.raistlic.common.codec.Encoder;
 import org.raistlic.common.config.source.ConfigSource;
-import org.raistlic.common.util.Factory;
 
 import java.util.Map;
 import java.util.Properties;
+import java.util.function.Supplier;
 
 /**
  * The interface defines a builder of {@link Config}, which provides setter methods to
@@ -29,7 +29,7 @@ import java.util.Properties;
  *
  * @author Lei Chen (2015-09-10)
  */
-public interface ConfigBuilder extends Configurable<Config>, Factory<Config> {
+public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
 
   /**
    * The method imports values from the {@code configSource}.

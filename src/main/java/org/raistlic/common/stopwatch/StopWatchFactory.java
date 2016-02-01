@@ -17,16 +17,16 @@
 package org.raistlic.common.stopwatch;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.util.Factory;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  *
  * @author Lei CHEN (2013-03-27)
  * @since 1.0
  */
-public final class StopWatchFactory implements Factory<StopWatch> {
+public final class StopWatchFactory implements Supplier<StopWatch> {
 
   public static StopWatch createStopWatch(StopWatch.TimeStrategy timeStrategy,
                                           long tickAmount,

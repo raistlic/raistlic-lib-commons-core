@@ -16,9 +16,8 @@
 
 package org.raistlic.common.event;
 
-import org.raistlic.common.util.Factory;
-
 import java.util.Collection;
+import java.util.function.Supplier;
 
 /**
  * The interface defines an event dispatcher, which is capable of registering listeners and
@@ -41,7 +40,7 @@ public interface EventDispatcher {
 
   void unregisterAll();
 
-  public interface Builder extends Factory<EventDispatcher> {
+  interface Builder extends Supplier<EventDispatcher> {
 
     Builder withConfig(EventDispatcherConfig config);
   }

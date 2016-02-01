@@ -24,9 +24,11 @@ import java.util.function.Supplier;
  * interface is mainly used as a callback, to help decoupling instantiation
  * logic of the referenced type from other business logic of the client code.
  *
+ * @deprecated use {@link Supplier} instead
  * @author Lei CHEN (2013-11-29)
  * @since 1.0
  */
+@Deprecated
 public interface Factory<T> extends Supplier<T> {
 
   /**

@@ -17,15 +17,15 @@
 package org.raistlic.common.predicate;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.util.Factory;
 
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * @author Lei Chen (2015-10-13)
  * @since 1.3
  */
-public final class PredicateBuilder<E> implements Factory<Predicate<E>> {
+public final class PredicateBuilder<E> implements Supplier<Predicate<E>> {
 
   private Predicate<E> predicate;
 

@@ -17,14 +17,15 @@
 package org.raistlic.common.taskqueue;
 
 import org.raistlic.common.util.ExceptionHandler;
-import org.raistlic.common.util.Factory;
+
+import java.util.function.Supplier;
 
 /**
  * 
  *
  * @author Lei Chen (2015-11-24)
  */
-public interface TaskQueueBuilder extends Factory<TaskQueue.Controller> {
+public interface TaskQueueBuilder extends Supplier<TaskQueue.Controller> {
 
   TaskQueueBuilder withThreadAsDaemon(boolean daemon);
 

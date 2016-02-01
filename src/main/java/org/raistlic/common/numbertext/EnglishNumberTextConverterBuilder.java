@@ -17,12 +17,13 @@
 package org.raistlic.common.numbertext;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.util.Factory;
+
+import java.util.function.Supplier;
 
 /**
  * @author Lei CHEN (2015-11-19)
  */
-public class EnglishNumberTextConverterBuilder implements Factory<NumberTextConverter> {
+public class EnglishNumberTextConverterBuilder implements Supplier<NumberTextConverter> {
 
   private EnglishLetterCase englishLetterCase;
 
