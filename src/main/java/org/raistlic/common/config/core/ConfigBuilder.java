@@ -29,7 +29,7 @@ import java.util.Properties;
  *
  * @author Lei Chen (2015-09-10)
  */
-public interface ConfigBuilder extends Configurable, Factory<Config> {
+public interface ConfigBuilder extends Configurable<Config>, Factory<Config> {
 
   /**
    * The method imports values from the {@code configSource}.

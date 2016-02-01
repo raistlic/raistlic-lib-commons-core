@@ -19,9 +19,7 @@ package org.raistlic.common.config.core;
 /**
  * @author Lei CHEN (2014-12-28)
  */
-public interface Configurable {
+public interface Configurable<C> {
 
-  void applyConfig(Config configuration);
-
-  void extractConfig(ConfigBuilder builder);
+  void applyConfig(C configuration);
 }

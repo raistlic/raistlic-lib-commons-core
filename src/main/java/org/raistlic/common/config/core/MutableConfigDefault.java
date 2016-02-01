@@ -203,22 +203,9 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   }
 
   @Override
-  public void extractConfig(ConfigBuilder builder) {
-
-    param(builder, "builder").notNull();
-    builder.applyConfig(this);
-  }
-
-  @Override
   public Config build() {
 
     ConfigSource configSource = ConfigSourceFactory.immutableCopyOf(this);
     return ConfigFactory.wrap(configSource);
-  }
-
-  @Override
-  public boolean isReady() {
-
-    return true;
   }
 }
