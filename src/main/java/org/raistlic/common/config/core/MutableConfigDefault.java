@@ -203,7 +203,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   }
 
   @Override
-  public Config build() {
+  public Config get() {
 
     ConfigSource configSource = ConfigSourceFactory.immutableCopyOf(this);
     return ConfigFactory.wrap(configSource);

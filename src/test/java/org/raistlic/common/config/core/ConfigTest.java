@@ -64,7 +64,7 @@ public class ConfigTest {
     });
 
     testCases.add(new Object[]{
-        ConfigFactory.newMutableConfig().importFrom(FIXTURE_MAP).build(),
+        ConfigFactory.newMutableConfig().importFrom(FIXTURE_MAP).get(),
         "with immutable config built by builder implementation"
     });
 

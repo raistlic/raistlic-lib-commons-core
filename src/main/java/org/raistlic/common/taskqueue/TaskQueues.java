@@ -70,7 +70,7 @@ public final class TaskQueues {
     }
 
     @Override
-    public TaskQueue.Controller build() {
+    public TaskQueue.Controller get() {
 
       TaskQueueThreadFactory taskQueueThreadFactory = new TaskQueueThreadFactory(
               this.daemon, this.priority, this.name, this.exceptionHandler

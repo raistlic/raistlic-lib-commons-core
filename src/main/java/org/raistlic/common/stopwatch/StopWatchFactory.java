@@ -84,7 +84,7 @@ public final class StopWatchFactory implements Factory<StopWatch> {
   }
 
   @Override
-  public StopWatch build() {
+  public StopWatch get() {
 
     return doCreateStopWatch(timeStrategy, tickAmount, timeUnit);
   }

@@ -34,7 +34,7 @@ public class StopWatchTest {
     startingTime = timeStrategy.getMarkedCurrent();
     stopWatch = StopWatchFactory.newFactory(timeStrategy)
             .withTick(defaultTickNano, TimeUnit.NANOSECONDS)
-            .build();
+            .get();
   }
 
   @Test(expected = InvalidParameterException.class)

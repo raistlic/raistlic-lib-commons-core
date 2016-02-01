@@ -25,7 +25,7 @@ public class ConfigEntityFactoryTest {
             .setString("test.config.myString", "8d5bc826-9b5f-4bac-b461-0b048386a659")
             .setBoolean("test.config.myFlag", true)
             .setLong("test.config.myLong", -1L)
-            .build();
+            .get();
   }
 
   @Test

@@ -16,6 +16,8 @@
 
 package org.raistlic.common.util;
 
+import java.util.function.Supplier;
+
 /**
  * Generally a builder pattern instance can implement this interface, and be
  * passed around after it's state is set and is ready to export instances. This
@@ -25,7 +27,7 @@ package org.raistlic.common.util;
  * @author Lei CHEN (2013-11-29)
  * @since 1.0
  */
-public interface Factory<T> {
+public interface Factory<T> extends Supplier<T> {
 
   /**
    * This method returns an instance of the referenced type. Although the method
@@ -37,5 +39,5 @@ public interface Factory<T> {
    * @throws org.raistlic.common.precondition.InvalidStateException if the factory is not in
    *         a valid state ready to build {@code <T>} instance.
    */
-  T build();
+  T get();
 }

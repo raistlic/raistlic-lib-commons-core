@@ -17,11 +17,11 @@
 package org.raistlic.common.adt;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.util.Factory;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * This class implements the "binary rank and select" algorithm.
@@ -75,7 +75,7 @@ public abstract class BitMap {
       if (condition.test(list.get(i)))
         builder.set(i);
 
-    return builder.build();
+    return builder.get();
   }
 
   /**
@@ -104,7 +104,7 @@ public abstract class BitMap {
   /**
    * The builder to create new bit map instances.
    */
-  public static class Builder implements Factory<BitMap> {
+  public static class Builder implements Supplier<BitMap> {
 
     private final byte[] map;
 
@@ -172,7 +172,7 @@ public abstract class BitMap {
      * @return the created {@link BitMap} .
      */
     @Override
-    public BitMap build() {
+    public BitMap get() {
 
       return new DefaultBitMap(this);
     }

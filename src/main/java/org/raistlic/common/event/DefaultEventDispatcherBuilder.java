@@ -54,7 +54,7 @@ class DefaultEventDispatcherBuilder implements EventDispatcher.Builder {
   }
 
   @Override
-  public EventDispatcher build() {
+  public EventDispatcher get() {
 
     return new DefaultEventDispatcher(exceptionHandler, broadCastName);
   }

@@ -55,7 +55,7 @@ public final class PredicateBuilder<E> implements Factory<Predicate<E>> {
   }
 
   @Override
-  public Predicate<E> build() {
+  public Predicate<E> get() {
 
     return this.predicate;
   }

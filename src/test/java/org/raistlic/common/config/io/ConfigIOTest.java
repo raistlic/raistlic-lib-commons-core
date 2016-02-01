@@ -83,7 +83,7 @@ public class ConfigIOTest {
 
     Config config = ConfigFactory.newMutableConfig()
         .setString("test.key", "test value")
-        .build();
+        .get();
     OutputStream outputStream = spy(new ByteArrayOutputStream());
     doThrow(new RuntimeException("Test Exception")).when(outputStream).write(anyInt());
     doThrow(new RuntimeException("Test Exception")).when(outputStream).write(any(byte[].class));

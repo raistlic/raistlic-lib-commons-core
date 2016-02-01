@@ -16,7 +16,7 @@ final class ConfigFixture {
       .setString("cc3cfa2a.ce0d.42e6.8264.6186e403c64e", "1cf84da1.bb53.488d.a929.e9a05d2d2352")
       .setBoolean("cc3cfa2a.7fa9.4f2d.abd0.54884e4cc1e2", true)
       .setBoolean("cc3cfa2a.7fa9.4ff6.aa54.e1a2d14f3933", false)
-      .build();
+      .get();
 
   static Config getConfigFixture() {
 

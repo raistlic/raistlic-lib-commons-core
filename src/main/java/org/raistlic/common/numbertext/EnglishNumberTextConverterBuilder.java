@@ -49,7 +49,7 @@ public class EnglishNumberTextConverterBuilder implements Factory<NumberTextConv
   }
 
   @Override
-  public NumberTextConverter build() {
+  public NumberTextConverter get() {
 
     return new EnglishNumberTextConverter(this.dashConnectedTens, this.englishLetterCase);
   }

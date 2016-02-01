@@ -54,7 +54,7 @@ public final class EventDispatchers {
 
       throw new NullPointerException("'config' is null.");
     }
-    return newBuilder().withConfig(config).build();
+    return newBuilder().withConfig(config).get();
   }
 
   public static EventDispatcher asyncProxyOf(EventDispatcher eventDispatcher, TaskQueue taskQueue) {

@@ -56,7 +56,7 @@ public class ConfigEntityFactory implements Configurable<Config> {
       ConfigBuilder builder = ConfigFactory.newMutableConfig();
       builder.applyConfig(config);
       builder.applyConfig(configuration);
-      config = builder.build();
+      config = builder.get();
     }
   }
 
@@ -324,10 +324,10 @@ public class ConfigEntityFactory implements Configurable<Config> {
           Predicates.<Method>builder(method -> Modifier.isStatic(method.getModifiers()))
                   .and(method -> method.isAnnotationPresent(ConfigConstructor.class))
                   .and(Methods.predicateParametersAnnotatedWith(ConfigProperty.class))
-                  .build();
+                  .get();
 
   private static final Predicate<Constructor<?>> ANNOTATED_CONFIG_CONSTRUCTOR =
           Predicates.<Constructor<?>>builder(constructor -> constructor.isAnnotationPresent(ConfigConstructor.class))
                   .and(Constructors.predicateParametersAnnotatedWith(ConfigProperty.class))
-                  .build();
+                  .get();
 }

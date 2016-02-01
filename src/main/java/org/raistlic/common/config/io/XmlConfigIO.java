@@ -61,7 +61,7 @@ enum XmlConfigIO implements ConfigIO {
 
     ConfigBuilder configBuilder = ConfigFactory.newMutableConfig();
     readConfig(configBuilder, inputStream);
-    return configBuilder.build();
+    return configBuilder.get();
   }
 
   @Override
