@@ -29,7 +29,7 @@ public abstract class FilteredList<E> implements Iterable<E> {
         builder.set(i);
       }
     }
-    return new ArrayWrapper<>(elements, builder.build());
+    return new ArrayWrapper<>(elements, builder.get());
   }
 
   @SuppressWarnings("unchecked")

@@ -36,7 +36,7 @@ public class BitMapTest {
 
     for (int size : new int[]{1, 2, 3, 99, 102342}) {
 
-      BitMap bitMap = BitMap.builder(size).build();
+      BitMap bitMap = BitMap.builder(size).get();
       assertThat(bitMap.size()).isEqualTo(size);
     }
   }
@@ -342,6 +342,6 @@ public class BitMapTest {
         builder.set(i);
       }
     }
-    return builder.build();
+    return builder.get();
   }
 }
