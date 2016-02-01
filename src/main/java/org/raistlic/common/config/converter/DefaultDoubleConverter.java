@@ -28,22 +28,6 @@ enum DefaultDoubleConverter implements Codec<Double, String> {
   INSTANCE;
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    if (dest == null) {
-      return true;
-    }
-    String trimmed = dest.trim();
-    try {
-      Double.valueOf(trimmed);
-      return true;
-    }
-    catch (NumberFormatException ex) {
-      return false;
-    }
-  }
-
-  @Override
   public Double decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -56,12 +40,6 @@ enum DefaultDoubleConverter implements Codec<Double, String> {
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Double src) {
-
-    return true;
   }
 
   @Override

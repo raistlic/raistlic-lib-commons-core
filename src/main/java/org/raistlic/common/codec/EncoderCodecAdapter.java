@@ -36,12 +36,6 @@ public abstract class EncoderCodecAdapter<S, D> implements Codec<S, D> {
   }
   
   @Override
-  public final boolean isValidSrc(S src) {
-    
-    return encoder.isValidSrc(src);
-  }
-
-  @Override
   public final D encode(S src) {
     
     return encoder.encode(src);

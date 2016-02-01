@@ -41,14 +41,6 @@ public class DefaultByteConverterTest extends BaseConverterTest{
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidDecodeCases")
-  @TestCaseName("isValidDestWithInvalidDests with '{0}")
-  public void isValidDestWithInvalidDests(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidDecodeCases")
   @TestCaseName("decodeWithInvalidDests with '{0}")
@@ -69,14 +61,6 @@ public class DefaultByteConverterTest extends BaseConverterTest{
     cases.add(new Object[] {"128"});
     cases.add(new Object[]{"-129"});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "validDecodeCases")
-  @TestCaseName("isValidDestExpected with '{0}'")
-  public void isValidDestExpected(String dest, Byte unused) {
-
-    assertThat(converter.isValidDest(dest)).isTrue();
   }
 
   @Test
@@ -104,14 +88,6 @@ public class DefaultByteConverterTest extends BaseConverterTest{
     cases.add(new Object[]{"127", (byte)127});
     cases.add(new Object[]{"-128", (byte)-128});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "validEncodeCases")
-  @TestCaseName("isValidSrcExpected with {0}")
-  public void isValidSrcExpected(Byte src, String unused) {
-
-    assertThat(converter.isValidSrc(src)).isTrue();
   }
 
   @Test

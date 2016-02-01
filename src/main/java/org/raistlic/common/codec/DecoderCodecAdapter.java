@@ -36,12 +36,6 @@ public abstract class DecoderCodecAdapter<S, D> implements Codec<S, D> {
   }
   
   @Override
-  public final boolean isValidDest(D dest) {
-    
-    return decoder.isValidDest(dest);
-  }
-
-  @Override
   public final S decode(D target) {
     
     return decoder.decode(target);

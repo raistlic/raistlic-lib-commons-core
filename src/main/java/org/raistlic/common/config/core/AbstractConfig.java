@@ -22,15 +22,6 @@ abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public boolean hasBoolean(String key) {
-
-    param(key, "key").notNull();
-
-    String val = getString(key);
-    return val != null && BOOLEAN_CONVERTER.isValidDest(val);
-  }
-
-  @Override
   public boolean getBoolean(String key, boolean value) {
 
     param(key, "key").notNull();
@@ -42,14 +33,6 @@ abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public boolean hasByte(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && BYTE_CONVERTER.isValidDest(val);
-  }
-
-  @Override
   public byte getByte(String key, byte value) {
 
     param(key, "key").notNull();
@@ -58,27 +41,11 @@ abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public boolean hasChar(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && CHAR_CONVERTER.isValidDest(val);
-  }
-
-  @Override
   public char getChar(String key, char value) {
 
     param(key, "key").notNull();
     String val = getString(key);
     return (val == null) ? value : CHAR_CONVERTER.decode(val);
-  }
-
-  @Override
-  public boolean hasShort(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && SHORT_CONVERTER.isValidDest(val);
   }
 
   @Override
@@ -98,27 +65,11 @@ abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public boolean hasInt(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && INT_CONVERTER.isValidDest(val);
-  }
-
-  @Override
   public int getInt(String key, int value) {
 
     param(key, "key").notNull();
     String val = getString(key);
     return (val == null) ? value : INT_CONVERTER.decode(val);
-  }
-
-  @Override
-  public boolean hasLong(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && LONG_CONVERTER.isValidDest(val);
   }
 
   @Override
@@ -130,14 +81,6 @@ abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public boolean hasFloat(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && FLOAT_CONVERTER.isValidDest(val);
-  }
-
-  @Override
   public float getFloat(String key, float value) {
 
     param(key, "key").notNull();
@@ -146,29 +89,11 @@ abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public boolean hasDouble(String key) {
-
-    param(key, "key").notNull();
-    String val = getString(key);
-    return val != null && DOUBLE_CONVERTER.isValidDest(val);
-  }
-
-  @Override
   public double getDouble(String key, double value) {
 
     param(key, "key").notNull();
     String val = getString(key);
     return (val == null) ? value : DOUBLE_CONVERTER.decode(val);
-  }
-
-  @Override
-  public boolean hasValue(String key, Decoder<?, String> decoder) {
-
-    param(key, "key").notNull();
-    param(decoder, "decoder").notNull();
-
-    String val = getString(key);
-    return val != null && decoder.isValidDest(val);
   }
 
   @Override

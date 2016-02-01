@@ -32,16 +32,6 @@ enum DefaultBooleanConverter implements Codec<Boolean, String> {
   private static final String FALSE = "FALSE";
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    if (dest == null) {
-      return true;
-    }
-    String trimmed = dest.trim().toUpperCase();
-    return trimmed.equals(TRUE) || trimmed.equals(FALSE);
-  }
-
-  @Override
   public Boolean decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -57,12 +47,6 @@ enum DefaultBooleanConverter implements Codec<Boolean, String> {
     else {
       throw new ConfigValueConvertException("Cannot convert value to boolean: '" + target + "'");
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Boolean src) {
-
-    return true;
   }
 
   @Override

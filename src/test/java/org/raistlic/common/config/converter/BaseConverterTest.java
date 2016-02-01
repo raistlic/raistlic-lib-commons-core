@@ -32,21 +32,9 @@ public abstract class BaseConverterTest {
   abstract Codec<?, String> getConverter();
 
   @Test
-  public void isValidDestWithNullDest() {
-
-    assertThat(getConverter().isValidDest(null)).isTrue();
-  }
-
-  @Test
   public void decodeWithNullDest() {
 
     assertThat(getConverter().decode(null)).isNull();
-  }
-
-  @Test
-  public void isValidSrcWithNullSrc() {
-
-    assertThat(getConverter().isValidSrc(null)).isTrue();
   }
 
   @Test

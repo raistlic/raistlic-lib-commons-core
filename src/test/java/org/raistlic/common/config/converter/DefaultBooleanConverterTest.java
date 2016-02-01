@@ -41,14 +41,6 @@ public class DefaultBooleanConverterTest extends BaseConverterTest {
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidCases")
-  @TestCaseName("isValidDestWithInvalidDest with '{0}'")
-  public void isValidDestWithInvalidDest(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidCases")
   @TestCaseName("decodeWithInvalidDest with '{0}'")
@@ -70,14 +62,6 @@ public class DefaultBooleanConverterTest extends BaseConverterTest {
         new Object[] { "1" },
         new Object[] { "   " }
     );
-  }
-
-  @Test
-  @Parameters(method = "validCases")
-  @TestCaseName("isValidDestExpected with '{0}'")
-  public void isValidDestExpected(String dest, Boolean unused) {
-
-    assertThat(converter.isValidDest(dest)).isTrue();
   }
 
   @Test

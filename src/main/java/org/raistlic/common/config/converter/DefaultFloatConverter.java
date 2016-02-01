@@ -28,22 +28,6 @@ enum DefaultFloatConverter implements Codec<Float, String> {
   INSTANCE;
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    if (dest == null) {
-      return true;
-    }
-    String trimmed = dest.trim();
-    try {
-      Float.parseFloat(dest);
-      return true;
-    }
-    catch (NumberFormatException ex) {
-      return false;
-    }
-  }
-
-  @Override
   public Float decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -55,12 +39,6 @@ enum DefaultFloatConverter implements Codec<Float, String> {
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Float src) {
-
-    return true;
   }
 
   @Override

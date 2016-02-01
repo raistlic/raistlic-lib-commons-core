@@ -41,14 +41,6 @@ public class DefaultCharConverterTest extends BaseConverterTest {
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidDecodeCases")
-  @TestCaseName("isValidDestWithInvalidDests with '{0}'")
-  public void isValidDestWithInvalidDests(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidDecodeCases")
   @TestCaseName("decodeWithInvalidDests with '{0}'")
@@ -90,14 +82,6 @@ public class DefaultCharConverterTest extends BaseConverterTest {
 
     Character actual = converter.decode(dest);
     assertThat(actual).isEqualTo(expected);
-  }
-
-  @Test
-  @Parameters(method = "validCases")
-  @TestCaseName("isValidSrcExpected with src {1}")
-  public void isValidSrcExpected(String unusedDest, Character src) {
-
-    assertThat(converter.isValidSrc(src)).isTrue();
   }
 
   @Test

@@ -28,16 +28,6 @@ import org.raistlic.common.precondition.InvalidParameterException;
 public interface Decoder<S, T> {
 
   /**
-   * The method checks the specified {@code dest}, and returns whether it's a valid form for decoding.
-   *
-   * @param dest the dest to be checked.
-   * @return {@code true} if {@code dest} is valid for decoding.
-   * @throws java.lang.UnsupportedOperationException if the implementation does not support this
-   *         upfront check.
-   */
-  boolean isValidDest(T dest);
-  
-  /**
    * The method decodes the specified {@code dest} of type {@code D} , into type {@code S} .
    * 
    * @param target the dest to be decoded.

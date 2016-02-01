@@ -28,12 +28,6 @@ enum DefaultCharConverter implements Codec<Character, String> {
   INSTANCE;
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    return dest == null || dest.length() == 1;
-  }
-
-  @Override
   public Character decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -45,12 +39,6 @@ enum DefaultCharConverter implements Codec<Character, String> {
     else {
       throw new ConfigValueConvertException("Cannot convert value to char: '" + target + "'");
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Character src) {
-
-    return true;
   }
 
   @Override

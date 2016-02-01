@@ -41,14 +41,6 @@ public class DefaultIntConverterTest extends BaseConverterTest {
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidDecodeCases")
-  @TestCaseName("isValidDestWithInvalidDests with '{0}'")
-  public void isValidDestWithInvalidDests(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidDecodeCases")
   @TestCaseName("decodeWithInvalidDests with '{0}'")
@@ -69,14 +61,6 @@ public class DefaultIntConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"asdf"});
     cases.add(new Object[]{"0xb1d2"});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedDecodeCases")
-  @TestCaseName("isValidDestExpected with '{0}'")
-  public void isValidDestExpected(String dest, Integer unused) {
-
-    assertThat(converter.isValidDest(dest)).isTrue();
   }
 
   @Test
@@ -106,14 +90,6 @@ public class DefaultIntConverterTest extends BaseConverterTest {
     cases.add(new Object[] { "0", 0 });
     cases.add(new Object[]{"2134234", 2134234});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedEncodeCases")
-  @TestCaseName("isValidSrcExpected with {0}")
-  public void isValidSrcExpected(Integer src, String unused) {
-
-    assertThat(converter.isValidSrc(src)).isTrue();
   }
 
   @Test

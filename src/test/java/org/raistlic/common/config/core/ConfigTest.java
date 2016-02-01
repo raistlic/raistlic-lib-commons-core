@@ -80,8 +80,6 @@ public class ConfigTest {
     valueConverter = mock(Codec.class);
 
     String fixtureValueString = FIXTURE_VALUE.toString();
-    doReturn(false).when(valueConverter).isValidDest(anyString());
-    doReturn(true).when(valueConverter).isValidDest(fixtureValueString);
     doThrow(new ValueConversionException("test exception"))
         .when(valueConverter).decode(anyString());
     doReturn(FIXTURE_VALUE)
@@ -156,41 +154,6 @@ public class ConfigTest {
 
   @Test(expected = InvalidParameterException.class)
   @Parameters(method = "getTestCases")
-  @TestCaseName("hasBooleanWithNullKey {1}")
-  public void hasBooleanWithNullKey(Config config, String description) {
-
-    config.hasBoolean(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasBooleanNotFound {1}")
-  public void hasBooleanNotFound(Config config, String description) {
-
-    boolean actual = config.hasBoolean("f9c93342-c8a4-47cd-af44-9b5ac61e96ca");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasBooleanFoundButNotBoolean {1}")
-  public void hasBooleanFoundButNotBoolean(Config config, String description) {
-
-    boolean actual = config.hasBoolean(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasBooleanExpected {1}")
-  public void hasBooleanExpected(Config config, String description) {
-
-    boolean actual = config.hasBoolean(KEY_BOOLEAN);
-    assertThat(actual).isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
   @TestCaseName("getBooleanWithNullKey {1}")
   public void getBooleanWithNullKey(Config config, String description) {
 
@@ -220,41 +183,6 @@ public class ConfigTest {
   public void getBooleanExpected(Config config, String description) {
 
     assertThat(config.getBoolean(KEY_BOOLEAN, false)).isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasByteWithNullKey {1}")
-  public void hasByteWithNullKey(Config config, String description) {
-
-    config.hasByte(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasByteNotFound {1}")
-  public void hasByteNotFound(Config config, String description) {
-
-    boolean actual = config.hasByte("b2e5839f-6651-40ff-90e2-5c45737acd9b");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasByteFoundButNotByte {1}")
-  public void hasByteFoundButNotByte(Config config, String description) {
-
-    boolean actual = config.hasByte(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasByteExpected {1}")
-  public void hasByteExpected(Config config, String description) {
-
-    boolean actual = config.hasByte(KEY_BYTE);
-    assertThat(actual).isTrue();
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -294,41 +222,6 @@ public class ConfigTest {
 
   @Test(expected = InvalidParameterException.class)
   @Parameters(method = "getTestCases")
-  @TestCaseName("hasCharWithNullKey {1}")
-  public void hasCharWithNullKey(Config config, String description) {
-
-    config.hasChar(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasCharWithNullKey {1}")
-  public void hasCharNotFound(Config config, String description) {
-
-    boolean actual = config.hasChar("2b56c1e0-b6ba-49cc-b299-3982c34dfc6e");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasCharFoundButNotChar {1}")
-  public void hasCharFoundButNotChar(Config config, String description) {
-
-    boolean actual = config.hasChar(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasCharFoundButNotChar {1}")
-  public void hasCharExpected(Config config, String description) {
-
-    boolean actual = config.hasChar(KEY_CHAR);
-    assertThat(actual).isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
   @TestCaseName("getCharWithNullKey {1}")
   public void getCharWithNullKey(Config config, String description) {
 
@@ -360,41 +253,6 @@ public class ConfigTest {
     char actual = config.getChar(KEY_CHAR, '$');
     assertThat(actual).isNotEqualTo('$');
     assertThat(actual).isEqualTo(FIXTURE_CHAR);
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasShortWithNullKey {1}")
-  public void hasShortWithNullKey(Config config, String description) {
-
-    config.hasShort(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasShortWithNullKey {1}")
-  public void hasShortNotFound(Config config, String description) {
-
-    boolean actual = config.hasShort("6d7a013a-cc08-4f5b-b8ad-c7f6350688f6");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasShortFoundButNotShort {1}")
-  public void hasShortFoundButNotShort(Config config, String description) {
-
-    boolean actual = config.hasShort(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasShortExpected {1}")
-  public void hasShortExpected(Config config, String description) {
-
-    boolean actual = config.hasShort(KEY_SHORT);
-    assertThat(actual).isTrue();
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -439,41 +297,6 @@ public class ConfigTest {
 
   @Test(expected = InvalidParameterException.class)
   @Parameters(method = "getTestCases")
-  @TestCaseName("hasIntWithNullKey {1}")
-  public void hasIntWithNullKey(Config config, String description) {
-
-    config.hasInt(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasIntNotFound {1}")
-  public void hasIntNotFound(Config config, String description) {
-
-    boolean actual = config.hasInt("2bb431af-29dc-472f-892c-f5257c42ba37");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasIntFoundButNotInt {1}")
-  public void hasIntFoundButNotInt(Config config, String description) {
-
-    boolean actual = config.hasInt(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasIntExpected {1}")
-  public void hasIntExpected(Config config, String description) {
-
-    boolean actual = config.hasInt(KEY_INT);
-    assertThat(actual).isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
   @TestCaseName("getIntWithNullKey {1}")
   public void getIntWithNullKey(Config config, String description) {
 
@@ -505,41 +328,6 @@ public class ConfigTest {
     int actual = config.getInt(KEY_INT, 1);
     assertThat(actual).isNotEqualTo(1);
     assertThat(actual).isEqualTo(FIXTURE_INT);
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasLongWithNullKey {1}")
-  public void hasLongWithNullKey(Config config, String description) {
-
-    config.hasLong(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasLongNotFound {1}")
-  public void hasLongNotFound(Config config, String description) {
-
-    boolean actual = config.hasLong("cc04ad16-0448-4f64-b7c3-8b34cc8fe048");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasLongFoundButNotLong {1}")
-  public void hasLongFoundButNotLong(Config config, String description) {
-
-    boolean actual = config.hasLong(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasLongExpected {1}")
-  public void hasLongExpected(Config config, String description) {
-
-    boolean actual = config.hasLong(KEY_LONG);
-    assertThat(actual).isTrue();
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -579,41 +367,6 @@ public class ConfigTest {
 
   @Test(expected = InvalidParameterException.class)
   @Parameters(method = "getTestCases")
-  @TestCaseName("hasFloatWithNullKey {1}")
-  public void hasFloatWithNullKey(Config config, String description) {
-
-    config.hasFloat(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasFloatNotFound {1}")
-  public void hasFloatNotFound(Config config, String description) {
-
-    boolean actual = config.hasFloat("40af8c4e-7fc7-46be-ab5a-1a8aee46d713");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasFloatFoundButNotFloat {1}")
-  public void hasFloatFoundButNotFloat(Config config, String description) {
-
-    boolean actual = config.hasFloat(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasFloatExpected {1}")
-  public void hasFloatExpected(Config config, String description) {
-
-    boolean actual = config.hasFloat(KEY_FLOAT);
-    assertThat(actual).isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
   @TestCaseName("getFloatWithNullKey {1}")
   public void getFloatWithNullKey(Config config, String description) {
 
@@ -649,41 +402,6 @@ public class ConfigTest {
 
   @Test(expected = InvalidParameterException.class)
   @Parameters(method = "getTestCases")
-  @TestCaseName("hasDoubleWithNullKey {1}")
-  public void hasDoubleWithNullKey(Config config, String description) {
-
-    config.hasDouble(null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasDoubleNotFound {1}")
-  public void hasDoubleNotFound(Config config, String description) {
-
-    boolean actual = config.hasDouble("05656f6a-cebb-4e84-b4f0-993c92e022d5");
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasDoubleFoundButNotDouble {1}")
-  public void hasDoubleFoundButNotDouble(Config config, String description) {
-
-    boolean actual = config.hasDouble(KEY_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasDoubleExpected {1}")
-  public void hasDoubleExpected(Config config, String description) {
-
-    boolean actual = config.hasDouble(KEY_DOUBLE);
-    assertThat(actual).isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
   @TestCaseName("getDoubleWithNullKey {1}")
   public void getDoubleWithNullKey(Config config, String description) {
 
@@ -715,51 +433,6 @@ public class ConfigTest {
     double actual = config.getDouble(KEY_DOUBLE, 1.0);
     assertThat(actual).isNotEqualTo(1.0);
     assertThat(actual).isEqualTo(FIXTURE_DOUBLE);
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasValueWithNullKey {1}")
-  public void hasValueWithNullKey(Config config, String description) {
-
-    config.hasValue(null, valueConverter);
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasValueWithNullDecoder {1}")
-  public void hasValueWithNullDecoder(Config config, String description) {
-
-    config.hasValue("92655b7f-90ed-49fb-b2d6-de44a07dd298", null);
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasValueNotFound {1}")
-  public void hasValueNotFound(Config config, String description) {
-
-    boolean actual = config.hasValue("7f692936-b41b-4761-9220-08d796dc685d", valueConverter);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasValueFoundButCannotConvert {1}")
-  public void hasValueFoundButCannotConvert(Config config, String description) {
-
-    boolean actual = config.hasValue(KEY_STRING, valueConverter);
-    verify(valueConverter).isValidDest(FIXTURE_STRING);
-    assertThat(actual).isFalse();
-  }
-
-  @Test
-  @Parameters(method = "getTestCases")
-  @TestCaseName("hasValueExpected {1}")
-  public void hasValueExpected(Config config, String description) {
-
-    boolean actual = config.hasValue(KEY_VALUE, valueConverter);
-    verify(valueConverter).isValidDest(FIXTURE_VALUE.toString());
-    assertThat(actual).isTrue();
   }
 
   @Test(expected = InvalidParameterException.class)

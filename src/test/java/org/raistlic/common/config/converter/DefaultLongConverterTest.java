@@ -41,14 +41,6 @@ public class DefaultLongConverterTest extends BaseConverterTest {
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidDecodeCases")
-  @TestCaseName("isValidDestWithInvalidDests with '{0}'")
-  public void isValidDestWithInvalidDests(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidDecodeCases")
   @TestCaseName("decodeWithInvalidDests with '{0}'")
@@ -70,14 +62,6 @@ public class DefaultLongConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"0xb1d2"});
     cases.add(new Object[]{"34756398263498263492653456982472983462387562394679872983573847234"});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedDecodeCases")
-  @TestCaseName("isValidDestExpected with '{0}'")
-  public void isValidDestExpected(String dest, Long unused) {
-
-    assertThat(converter.isValidDest(dest)).isTrue();
   }
 
   @Test
@@ -108,14 +92,6 @@ public class DefaultLongConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"   +123", 123L});
     cases.add(new Object[] {"+123   ", 123L});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedEncodeCases")
-  @TestCaseName("isValidSrcExpected with {0}")
-  public void isValidSrcExpected(Long src, String unused) {
-
-    assertThat(converter.isValidSrc(src)).isTrue();
   }
 
   @Test

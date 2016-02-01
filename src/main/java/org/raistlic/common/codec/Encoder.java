@@ -26,16 +26,6 @@ package org.raistlic.common.codec;
 public interface Encoder<S, D> {
 
   /**
-   * The method checks whether the specified {@code src} is in valid form for encoding.
-   *
-   * @param src the value to be checked.
-   * @return {@code true} if {@code src} is a valid value to be encoded.
-   * @throws java.lang.UnsupportedOperationException if the implementation does not support this
-   *         upfront check.
-   */
-  boolean isValidSrc(S src);
-
-  /**
    * The method encodes the specified {@code src} , into type {@code D} .
    *
    * @param src the value to be encoded.

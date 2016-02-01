@@ -28,22 +28,6 @@ enum DefaultLongConverter implements Codec<Long, String> {
   INSTANCE;
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    if (dest == null) {
-      return true;
-    }
-    String trimmed = dest.trim();
-    try {
-      Long.valueOf(trimmed);
-      return true;
-    }
-    catch (NumberFormatException ex) {
-      return false;
-    }
-  }
-
-  @Override
   public Long decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -56,12 +40,6 @@ enum DefaultLongConverter implements Codec<Long, String> {
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Long src) {
-
-    return true;
   }
 
   @Override

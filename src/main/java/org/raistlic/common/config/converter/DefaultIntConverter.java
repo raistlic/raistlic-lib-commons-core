@@ -32,12 +32,6 @@ enum DefaultIntConverter implements Codec<Integer, String> {
   private final Pattern pattern = Pattern.compile("[+-]?\\d+");
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    return dest == null || pattern.matcher(dest.trim()).matches();
-  }
-
-  @Override
   public Integer decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -49,12 +43,6 @@ enum DefaultIntConverter implements Codec<Integer, String> {
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Integer src) {
-
-    return true;
   }
 
   @Override

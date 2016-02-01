@@ -41,14 +41,6 @@ public class DefaultDoubleConverterTest extends BaseConverterTest {
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidDecodeCases")
-  @TestCaseName("isValidDestWithInvalidDests with '{0}'")
-  public void isValidDestWithInvalidDests(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidDecodeCases")
   @TestCaseName("decodeWithInvalidDests with '{0}'")
@@ -77,14 +69,6 @@ public class DefaultDoubleConverterTest extends BaseConverterTest {
 
   @Test
   @Parameters(method = "expectedDecodeCases")
-  @TestCaseName("isValidDestExpected with '{0}'")
-  public void isValidDestExpected(String dest, Double unused) {
-
-    assertThat(converter.isValidDest(dest)).isTrue();
-  }
-
-  @Test
-  @Parameters(method = "expectedDecodeCases")
   @TestCaseName("decodeExpected with '{0}'")
   public void decodeExpected(String dest, Double expected) {
 
@@ -106,14 +90,6 @@ public class DefaultDoubleConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"    -0", -0.0});
     cases.add(new Object[]{"-0    ", -0.0});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedEncodeCases")
-  @TestCaseName("isValidSrcExpected with {0}")
-  public void isValidSrcExpected(Double src, String unused) {
-
-    assertThat(converter.isValidSrc(src)).isTrue();
   }
 
   @Test

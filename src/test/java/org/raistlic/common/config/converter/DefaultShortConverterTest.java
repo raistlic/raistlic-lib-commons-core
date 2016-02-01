@@ -41,14 +41,6 @@ public class DefaultShortConverterTest extends BaseConverterTest {
     return converter;
   }
 
-  @Test
-  @Parameters(method = "invalidDecodeCases")
-  @TestCaseName("isValidDestWithInvalidDests with '{0}'")
-  public void isValidDestWithInvalidDests(String dest) {
-
-    assertThat(converter.isValidDest(dest)).isFalse();
-  }
-
   @Test(expected = ConfigValueConvertException.class)
   @Parameters(method = "invalidDecodeCases")
   @TestCaseName("decodeWithInvalidDests with '{0}'")
@@ -72,14 +64,6 @@ public class DefaultShortConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"++1"});
     cases.add(new Object[] {"-+1"});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedDecodeCases")
-  @TestCaseName("isValidDestExpected with '{0}'")
-  public void isValidDestExpected(String dest, Short unused) {
-
-    assertThat(converter.isValidDest(dest)).isTrue();
   }
 
   @Test
@@ -108,14 +92,6 @@ public class DefaultShortConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"0", (short)0});
     cases.add(new Object[] {"-0", (short)0});
     return cases;
-  }
-
-  @Test
-  @Parameters(method = "expectedEncodeCases")
-  @TestCaseName("isValidSrcExpected with {0}")
-  public void isValidSrcExpected(Short src, String unused) {
-
-    assertThat(converter.isValidSrc(src)).isTrue();
   }
 
   @Test

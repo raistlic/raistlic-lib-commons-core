@@ -28,22 +28,6 @@ enum DefaultShortConverter implements Codec<Short, String> {
   INSTANCE;
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    if (dest == null) {
-      return true;
-    }
-    String trimmed = dest.trim();
-    try {
-      Short.valueOf(trimmed);
-      return true;
-    }
-    catch (NumberFormatException ex) {
-      return false;
-    }
-  }
-
-  @Override
   public Short decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -56,12 +40,6 @@ enum DefaultShortConverter implements Codec<Short, String> {
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Short src) {
-
-    return true;
   }
 
   @Override

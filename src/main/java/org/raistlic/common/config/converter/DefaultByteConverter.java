@@ -28,22 +28,6 @@ enum DefaultByteConverter implements Codec<Byte, String> {
   INSTANCE;
 
   @Override
-  public boolean isValidDest(String dest) {
-
-    if (dest == null) {
-      return true;
-    }
-    String trimmed = dest.trim();
-    try {
-      Byte.valueOf(trimmed);
-      return true;
-    }
-    catch (NumberFormatException ex) {
-      return false;
-    }
-  }
-
-  @Override
   public Byte decode(String target) throws ValueConversionException {
 
     if (target == null) {
@@ -56,12 +40,6 @@ enum DefaultByteConverter implements Codec<Byte, String> {
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
-  }
-
-  @Override
-  public boolean isValidSrc(Byte src) {
-
-    return true;
   }
 
   @Override

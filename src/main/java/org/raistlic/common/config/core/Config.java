@@ -41,18 +41,6 @@ public interface Config extends ConfigSource {
   String getString(String key, String value);
 
   /**
-   * The method queries whether the {@link Config} has a {@code boolean} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code boolean} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasBoolean(String key);
-
-  /**
    * The method queries the {@code boolean} value specified by the {@code key} .
    *
    * @param key the key to search, cannot be {@code null}.
@@ -63,21 +51,9 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException when there is a value
    *         found for the {@code key} , but error occur when trying to convert it to a {@code boolean}
-   *         value. See also {@link #hasKey(String)} and {@link #hasBoolean(String)} .
+   *         value. See also {@link #hasKey(String)} .
    */
   boolean getBoolean(String key, boolean value);
-
-  /**
-   * The method queries whether the {@link Config} has a {@code byte} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code byte} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasByte(String key);
 
   /**
    * The method queries the {@code byte} value specified by the {@code key} .
@@ -94,18 +70,6 @@ public interface Config extends ConfigSource {
   byte getByte(String key, byte value);
 
   /**
-   * The method queries whether the {@link Config} has a {@code char} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code char} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasChar(String key);
-
-  /**
    * The method queries the {@code char} value specified by the {@code key} .
    *
    * @param key the key to search, cannot be {@code null}.
@@ -118,18 +82,6 @@ public interface Config extends ConfigSource {
    *         for the {@code key} , but failed when being converted to {@code char} .
    */
   char getChar(String key, char value);
-
-  /**
-   * The method queries whether the {@link Config} has a {@code short} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code short} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasShort(String key);
 
   /**
    * The method queries the {@code short} value specified by the {@code key} .
@@ -146,18 +98,6 @@ public interface Config extends ConfigSource {
   short getShort(String key, short value);
 
   /**
-   * The method queries whether the {@link Config} has a {@code int} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code int} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasInt(String key);
-
-  /**
    * The method queries the {@code int} value specified by the {@code key} .
    *
    * @param key the key to search, cannot be {@code null}.
@@ -170,18 +110,6 @@ public interface Config extends ConfigSource {
    *         for the {@code key} , but failed when being converted to {@code int} .
    */
   int getInt(String key, int value);
-
-  /**
-   * The method queries whether the {@link Config} has a {@code long} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code long} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasLong(String key);
 
   /**
    * The method queries the {@code long} value specified by the {@code key} .
@@ -198,18 +126,6 @@ public interface Config extends ConfigSource {
   long getLong(String key, long value);
 
   /**
-   * The method queries whether the {@link Config} has a {@code float} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code float} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasFloat(String key);
-
-  /**
    * The method queries the {@code float} value specified by the {@code key} .
    *
    * @param key the key to search, cannot be {@code null}.
@@ -224,18 +140,6 @@ public interface Config extends ConfigSource {
   float getFloat(String key, float value);
 
   /**
-   * The method queries whether the {@link Config} has a {@code double} value for the specified
-   * {@code key}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key} , and that the
-   *         value is a valid {@code double} representation.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
-   */
-  boolean hasDouble(String key);
-
-  /**
    * The method queries the {@code double} value specified by the {@code key} .
    *
    * @param key the key to search, cannot be {@code null}.
@@ -248,20 +152,6 @@ public interface Config extends ConfigSource {
    *         for the {@code key} , but failed when being converted to {@code double} .
    */
   double getDouble(String key, double value);
-
-  /**
-   * The method queries whether the {@link Config} has a value for the specified {@code key}, that
-   * can be safely converted by the specified {@code decoder}.
-   *
-   * @param key the key to query, cannot be {@code null}.
-   * @param decoder the decoder to check the value if exists, cannot be {@code null}.
-   * @return {@code true} only when the {@link Config} has a value for the {@code key}, that can be
-   *         safely converted by the specified {@code decoder}.
-   *
-   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} or
-   *         {@code decoder} is {@code null}.
-   */
-  boolean hasValue(String key, Decoder<?, String> decoder);
 
   /**
    * The method queries the value (of type {@code <E>} specified by the {@code key} .
