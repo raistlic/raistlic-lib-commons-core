@@ -32,9 +32,9 @@ public class ConfigEntityFactoryTest {
   public void createByFactoryMethodExpected() {
 
     ConfigEntityFactory configEntityFactory = new ConfigEntityFactory();
-    configEntityFactory.applyConfig(config);
 
-    CreateByFactoryMethod entity = configEntityFactory.createConfigEntity(CreateByFactoryMethod.class);
+    CreateByFactoryMethod entity = configEntityFactory.createConfigEntity(
+            config, CreateByFactoryMethod.class);
     assertThat(entity).isNotNull();
     assertThat(entity.getMyInt()).isEqualTo(123);
     assertThat(entity.getMyString()).isEqualTo("8d5bc826-9b5f-4bac-b461-0b048386a659");
@@ -46,9 +46,9 @@ public class ConfigEntityFactoryTest {
   public void createByConstructorExpected() {
 
     ConfigEntityFactory configEntityFactory = new ConfigEntityFactory();
-    configEntityFactory.applyConfig(config);
 
-    CreateByConstructor entity = configEntityFactory.createConfigEntity(CreateByConstructor.class);
+    CreateByConstructor entity = configEntityFactory.createConfigEntity(
+            config, CreateByConstructor.class);
     assertThat(entity).isNotNull();
     assertThat(entity.getMyInt()).isEqualTo(123);
     assertThat(entity.getMyString()).isEqualTo("8d5bc826-9b5f-4bac-b461-0b048386a659");

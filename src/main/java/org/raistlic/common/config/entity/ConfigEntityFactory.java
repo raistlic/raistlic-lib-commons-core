@@ -3,13 +3,9 @@ package org.raistlic.common.config.entity;
 import org.raistlic.common.codec.Deserializer;
 import org.raistlic.common.codec.Deserializers;
 import org.raistlic.common.codec.ValueConversionException;
-import org.raistlic.common.config.core.Config;
-import org.raistlic.common.config.core.ConfigBuilder;
-import org.raistlic.common.config.core.ConfigFactory;
-import org.raistlic.common.config.core.Configurable;
 import org.raistlic.common.config.exception.ConfigEntityCreationException;
 import org.raistlic.common.config.exception.ConfigValueConvertException;
-import org.raistlic.common.config.source.ConfigSourceFactory;
+import org.raistlic.common.config.source.ConfigSource;
 import org.raistlic.common.precondition.Expectations;
 import org.raistlic.common.precondition.ExpectedCases;
 import org.raistlic.common.precondition.Precondition;
@@ -35,34 +31,19 @@ import java.util.function.Predicate;
 /**
  * @author lei.c (2015-12-21)
  */
-public class ConfigEntityFactory implements Configurable<Config> {
+public class ConfigEntityFactory {
 
   private final Map<Class<?>, Deserializer<?>> deserializers;
 
-  private volatile Config config;
-
   public ConfigEntityFactory() {
 
-    config = ConfigFactory.wrap(ConfigSourceFactory.immutableEmptySource());
     deserializers = new ConcurrentHashMap<>();
   }
 
-  @Override
-  public void applyConfig(Config configuration) {
-
-    Precondition.param(configuration, "configuration").notNull();
-
-    synchronized (this) {
-      ConfigBuilder builder = ConfigFactory.newMutableConfig();
-      builder.applyConfig(config);
-      builder.applyConfig(configuration);
-      config = builder.get();
-    }
-  }
-
   @SuppressWarnings("unchecked")
-  public <E> E createConfigEntity(Class<E> configEntityType) {
+  public <E> E createConfigEntity(ConfigSource configSource, Class<E> configEntityType) {
 
+    Precondition.param(configSource, "configSource").notNull();
     Precondition.param(configEntityType, "configEntityType").notNull();
 
     ConfigEntity configEntity = Reflections.getAnnotation(configEntityType, ConfigEntity.class);
@@ -71,38 +52,37 @@ public class ConfigEntityFactory implements Configurable<Config> {
     try {
 
       E entity = null;
-      Config configSnapshot = config;
 
       Method factoryMethod = getConfigConstructorFactoryMethod(configEntityType);
       if (factoryMethod != null) {
-        entity = (E) createConfigEntity(configSnapshot, configEntity, factoryMethod);
+        entity = (E) createConfigEntity(configSource, configEntity, factoryMethod);
       }
 
       if (entity == null) {
         Constructor<E> constructor = getConfigConstructor(configEntityType);
         if (constructor != null) {
-          entity = createConfigEntity(configSnapshot, configEntity, constructor);
+          entity = createConfigEntity(configSource, configEntity, constructor);
         }
       }
 
       if (entity == null) {
         factoryMethod = getUsableFactoryMethod(configEntityType);
         if (factoryMethod != null) {
-          entity = (E) createConfigEntity(configSnapshot, configEntity, factoryMethod);
+          entity = (E) createConfigEntity(configSource, configEntity, factoryMethod);
         }
       }
 
       if (entity == null) {
         Constructor<E> constructor = getUsableConstructor(configEntityType);
         if (constructor != null) {
-          entity = createConfigEntity(configSnapshot, configEntity, constructor);
+          entity = createConfigEntity(configSource, configEntity, constructor);
         }
       }
 
       VALIDATOR.expect(entity).notNull(
               "Cannot find usable factory method or constructor: '" + configEntityType.getName() + "'");
 
-      injectConfigProperties(configSnapshot, configEntity, configEntityType, entity);
+      injectConfigProperties(configSource, configEntity, configEntityType, entity);
       return entity;
     }
     catch (Exception ex) {
@@ -136,7 +116,7 @@ public class ConfigEntityFactory implements Configurable<Config> {
     return deserializer;
   }
 
-  private Object createConfigEntity(Config configSnapshot,
+  private Object createConfigEntity(ConfigSource configSource,
                                     ConfigEntity configEntity,
                                     Method factoryMethod) throws Exception {
 
@@ -146,13 +126,13 @@ public class ConfigEntityFactory implements Configurable<Config> {
       return factoryMethod.invoke(null);
     }
     else {
-      Object[] configValues = prepareParameterValues(configSnapshot, configEntity, parameters);
+      Object[] configValues = prepareParameterValues(configSource, configEntity, parameters);
       factoryMethod.setAccessible(true);
       return factoryMethod.invoke(null, configValues);
     }
   }
 
-  private <E> E createConfigEntity(Config configSnapshot,
+  private <E> E createConfigEntity(ConfigSource configSource,
                                    ConfigEntity configEntity,
                                    Constructor<E> constructor) throws Exception {
 
@@ -162,13 +142,13 @@ public class ConfigEntityFactory implements Configurable<Config> {
     }
     else {
       Parameter[] parameters = constructor.getParameters();
-      Object[] configValues = prepareParameterValues(configSnapshot, configEntity, parameters);
+      Object[] configValues = prepareParameterValues(configSource, configEntity, parameters);
       constructor.setAccessible(true);
       return constructor.newInstance(configValues);
     }
   }
 
-  private Object[] prepareParameterValues(Config configSnapshot,
+  private Object[] prepareParameterValues(ConfigSource configSource,
                                           ConfigEntity configEntity,
                                           Parameter[] parameters) {
 
@@ -179,12 +159,12 @@ public class ConfigEntityFactory implements Configurable<Config> {
       ConfigProperty configProperty = parameter.getAnnotation(ConfigProperty.class);
       String configPropertyName = getConfigPropertyName(configEntity, configProperty, null);
       Class<?> parameterType = parameter.getType();
-      properties[i] = getConfigValue(configSnapshot, configPropertyName, parameterType);
+      properties[i] = getConfigValue(configSource, configPropertyName, parameterType);
     }
     return properties;
   }
 
-  private <E> void injectConfigProperties(Config configSnapshot,
+  private <E> void injectConfigProperties(ConfigSource configSource,
                                           ConfigEntity configEntity,
                                           Class<E> configEntityType,
                                           E entity) throws Exception {
@@ -195,13 +175,13 @@ public class ConfigEntityFactory implements Configurable<Config> {
       Field field = entry.getKey();
       ConfigProperty configProperty = entry.getValue();
       String configPropertyName = getConfigPropertyName(configEntity, configProperty, field.getName());
-      Object value = getConfigValue(configSnapshot, configPropertyName, field.getType());
+      Object value = getConfigValue(configSource, configPropertyName, field.getType());
       field.setAccessible(true);
       field.set(entity, value);
     }
   }
 
-  private Object getConfigValue(Config configSnapshot, String key, Class<?> type) {
+  private Object getConfigValue(ConfigSource configSource, String key, Class<?> type) {
 
     VALIDATOR.expect(key).notNull(
             "ConfigProperty annotation value for property type '" + type.getName() + "' is null."
@@ -210,7 +190,7 @@ public class ConfigEntityFactory implements Configurable<Config> {
             "ConfigProperty annotation value for property type '" + type.getName() + "' is empty."
     );
 
-    String value = configSnapshot.getString(key, null);
+    String value = configSource.getString(key);
     VALIDATOR.assertThat(
             value != null || !type.isPrimitive(),
             "Config value not found for primitive " + type.getName() + "property '" + key
