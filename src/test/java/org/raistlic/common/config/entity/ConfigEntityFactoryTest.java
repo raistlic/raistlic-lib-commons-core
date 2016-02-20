@@ -31,7 +31,7 @@ public class ConfigEntityFactoryTest {
   @Test
   public void createByFactoryMethodExpected() {
 
-    ConfigEntityFactory configEntityFactory = new ConfigEntityFactory();
+    DefaultConfigEntityFactory configEntityFactory = new DefaultConfigEntityFactory();
 
     CreateByFactoryMethod entity = configEntityFactory.createConfigEntity(
             config, CreateByFactoryMethod.class);
@@ -45,7 +45,7 @@ public class ConfigEntityFactoryTest {
   @Test
   public void createByConstructorExpected() {
 
-    ConfigEntityFactory configEntityFactory = new ConfigEntityFactory();
+    DefaultConfigEntityFactory configEntityFactory = new DefaultConfigEntityFactory();
 
     CreateByConstructor entity = configEntityFactory.createConfigEntity(
             config, CreateByConstructor.class);

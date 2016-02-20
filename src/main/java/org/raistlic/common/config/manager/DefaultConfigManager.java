@@ -4,7 +4,7 @@ import org.raistlic.common.codec.Deserializer;
 import org.raistlic.common.config.core.AbstractMutableConfigDecorator;
 import org.raistlic.common.config.core.Configurable;
 import org.raistlic.common.config.core.MutableConfig;
-import org.raistlic.common.config.entity.ConfigEntityFactory;
+import org.raistlic.common.config.entity.DefaultConfigEntityFactory;
 import org.raistlic.common.precondition.Precondition;
 
 import java.util.Map;
@@ -17,14 +17,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 class DefaultConfigManager extends AbstractMutableConfigDecorator implements ConfigManager {
 
-  private final ConfigEntityFactory configEntityFactory;
+  private final DefaultConfigEntityFactory configEntityFactory;
 
   private final Map<Class<?>, Set<Configurable<?>>> configurableMap;
 
   private final Map<String, Class<?>> configKeyTypeMap;
 
   public DefaultConfigManager(MutableConfig mutableConfig,
-                              ConfigEntityFactory configEntityFactory) {
+                              DefaultConfigEntityFactory configEntityFactory) {
 
     super(mutableConfig);
 

@@ -4,6 +4,7 @@ import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.util.CustomStream;
 import org.raistlic.common.util.CustomStreamAdapter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.function.Predicate;
@@ -43,5 +44,18 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
     return filter(PREDICATE_IS_STATIC);
   }
 
+  public FieldStream nonStaticOnes() {
+
+    return filter(PREDICATE_IS_NOT_STATIC);
+  }
+
+  public FieldStream annotatedWith(Class<? extends Annotation> annotationType) {
+
+    Precondition.param(annotationType, "annotationType").notNull();
+    return filter(ReflectionPredicates.elementAnnotatedWith(annotationType));
+  }
+
   private static final Predicate<Field> PREDICATE_IS_STATIC = f -> Modifier.isStatic(f.getModifiers());
+
+  private static final Predicate<Field> PREDICATE_IS_NOT_STATIC = f -> !Modifier.isStatic(f.getModifiers());
 }
