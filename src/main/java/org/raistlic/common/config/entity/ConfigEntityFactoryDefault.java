@@ -51,11 +51,11 @@ import java.util.function.Predicate;
  *
  * @author Lei CHEN (2015-12-21)
  */
-class DefaultConfigEntityFactory implements ConfigEntityFactory {
+class ConfigEntityFactoryDefault implements ConfigEntityFactory {
 
   private final Map<Class<?>, Deserializer<?>> deserializers;
 
-  DefaultConfigEntityFactory() {
+  ConfigEntityFactoryDefault() {
 
     deserializers = new ConcurrentHashMap<>();
   }

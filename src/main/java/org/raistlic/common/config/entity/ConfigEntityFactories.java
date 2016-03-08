@@ -31,7 +31,7 @@ public final class ConfigEntityFactories {
    */
   public static ConfigEntityFactory newConfigEntityFactory() {
 
-    return new DefaultConfigEntityFactory();
+    return new ConfigEntityFactoryDefault();
   }
 
   /*

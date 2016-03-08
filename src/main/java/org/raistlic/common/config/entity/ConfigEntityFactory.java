@@ -63,7 +63,9 @@ public interface ConfigEntityFactory {
    * Registers the {@code deserializer} for the specified {@code type}, which is to be used when
    * ever the factory de-serializes a value of the {@code type}.
    *
-   * @param type the type to register the de-serializer for, cannot be {@code null}.
+   * @param type the type to register the de-serializer for, cannot be {@code null}, cannot be
+   *             any primitive box type or {@link String} , as these types will only use the built-in
+   *             deserializer of the implementation.
    * @param deserializer the de-serializer to register, cannot be {@code null}.
    * @param <E> the referenced type.
    */
