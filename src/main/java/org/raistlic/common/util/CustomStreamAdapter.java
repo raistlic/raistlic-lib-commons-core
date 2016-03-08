@@ -44,7 +44,7 @@ public abstract class CustomStreamAdapter<T, CS extends CustomStreamAdapter<T, C
   @Override
   public CS filter(Predicate<? super T> predicate) {
 
-    originalStream.filter(predicate);
+    originalStream = originalStream.filter(predicate);
     return getThis();
   }
 

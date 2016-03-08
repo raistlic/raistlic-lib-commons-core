@@ -8,34 +8,38 @@ import org.raistlic.common.config.exception.ConfigValueConvertException;
 import org.raistlic.common.config.source.ConfigSource;
 import org.raistlic.common.precondition.Expectations;
 import org.raistlic.common.precondition.ExpectedCases;
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.predicate.Predicates;
-import org.raistlic.common.reflection.ConstructorStream;
-import org.raistlic.common.reflection.Methods;
+import org.raistlic.common.reflection.ReflectionPredicates;
 import org.raistlic.common.reflection.Reflections;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 /**
+ * The default implementation of {@link ConfigEntityFactory} interface.
+ *
  * @author lei.c (2015-12-21)
  */
-public class DefaultConfigEntityFactory implements ConfigEntityFactory {
+class DefaultConfigEntityFactory implements ConfigEntityFactory {
 
   private final Map<Class<?>, Deserializer<?>> deserializers;
 
-  public DefaultConfigEntityFactory() {
+  DefaultConfigEntityFactory() {
 
     deserializers = new ConcurrentHashMap<>();
   }
@@ -47,43 +51,10 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
     Precondition.param(configSource, "configSource").notNull();
     Precondition.param(configEntityType, "configEntityType").notNull();
 
-    ConfigEntity configEntity = Reflections.getAnnotation(configEntityType, ConfigEntity.class);
-    Precondition.param(configEntity).notNull(ConfigEntity.class.getName() + " annotation missing on 'configEntityType'");
-
+    path = (path == null) ? "" : path.trim();
     try {
-
-      E entity = null;
-
-      Method factoryMethod = getConfigConstructorFactoryMethod(configEntityType);
-      if (factoryMethod != null) {
-        entity = (E) createConfigEntity(configSource, configEntity, factoryMethod);
-      }
-
-      if (entity == null) {
-        Constructor<E> constructor = getConfigConstructor(configEntityType);
-        if (constructor != null) {
-          entity = createConfigEntity(configSource, configEntity, constructor);
-        }
-      }
-
-      if (entity == null) {
-        factoryMethod = getUsableFactoryMethod(configEntityType);
-        if (factoryMethod != null) {
-          entity = (E) createConfigEntity(configSource, configEntity, factoryMethod);
-        }
-      }
-
-      if (entity == null) {
-        Constructor<E> constructor = getUsableConstructor(configEntityType);
-        if (constructor != null) {
-          entity = createConfigEntity(configSource, configEntity, constructor);
-        }
-      }
-
-      VALIDATOR.expect(entity).notNull(
-              "Cannot find usable factory method or constructor: '" + configEntityType.getName() + "'");
-
-      injectConfigProperties(configSource, configEntity, configEntityType, entity);
+      E entity = doCreateConfigEntity(configEntityType, configSource, path);
+      injectConfigProperties(configSource, configEntityType, entity, path);
       return entity;
     }
     catch (Exception ex) {
@@ -94,6 +65,96 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
         throw new ConfigEntityCreationException(ex);
       }
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private <E> E doCreateConfigEntity(Class<E> configEntityType, ConfigSource configSource, String path)
+          throws InstantiationException, IllegalAccessException, InvocationTargetException {
+
+    Method factoryMethod = getConfigConstructorFactoryMethod(configEntityType);
+    if (factoryMethod != null) {
+      return (E) createConfigEntity(configSource, factoryMethod, path);
+    }
+
+    Constructor<E> constructor = getConfigConstructor(configEntityType);
+    if (constructor != null) {
+      return createConfigEntity(configSource, constructor, path);
+    }
+
+    factoryMethod = getUsableFactoryMethod(configEntityType);
+    if (factoryMethod != null) {
+      return (E) createConfigEntity(configSource, factoryMethod, path);
+    }
+
+    constructor = getUsableConstructor(configEntityType);
+    if (constructor != null) {
+      return createConfigEntity(configSource, constructor, path);
+    }
+
+    throw new ConfigEntityCreationException(
+            "Cannot find usable factory method or constructor: '" + configEntityType.getName() + "'");
+  }
+
+  @Override
+  public Set<String> getConfigKeys(Class<?> configEntityType) {
+
+    Set<String> buffer = new HashSet<>();
+    gatherConfigKeys(configEntityType, "", buffer);
+    return buffer;
+  }
+
+  private void gatherConfigKeys(Class<?> configEntityType, String path, Set<String> buffer) {
+
+    Deserializer<?> deserializer = getDeserializer(configEntityType);
+    if (deserializer != null) {
+      if (path.isEmpty()) {
+        throw new InvalidParameterException("Not a valid config entity type: " + configEntityType.getName());
+      }
+      buffer.add(path);
+      return;
+    }
+
+    final String prefix = (path == null) ? "" : path.trim();
+    Reflections.fieldStreamOf(configEntityType)
+            .filter(PREDICATE_ANNOTATED_WITH_CONFIG_PROPERTY)
+            .forEach(field -> {
+              ConfigProperty configProperty = field.getAnnotation(ConfigProperty.class);
+              String propertyName = configProperty.value();
+              if (propertyName.isEmpty()) {
+                propertyName = path;
+              } else {
+                propertyName = (prefix.isEmpty() ? "" : prefix + ".") + propertyName;
+              }
+              gatherConfigKeys(field.getType(), propertyName, buffer);
+            });
+    Reflections.methodStreamOf(configEntityType)
+            .staticOnes()
+            .hasReturnType(configEntityType)
+            .hasAllParametersMatch(PREDICATE_ANNOTATED_WITH_CONFIG_PROPERTY)
+            .flatMap(method -> Arrays.asList(method.getParameters()).stream())
+            .forEach(parameter -> {
+              ConfigProperty configProperty = parameter.getAnnotation(ConfigProperty.class);
+              String propertyName = configProperty.value();
+              if (propertyName.isEmpty()) {
+                propertyName = path;
+              } else {
+                propertyName = (prefix.isEmpty() ? "" : prefix + ".") + propertyName;
+              }
+              gatherConfigKeys(parameter.getType(), propertyName, buffer);
+            });
+    Reflections.constructorStreamOf(configEntityType)
+            .hasAllParametersMatch(PREDICATE_ANNOTATED_WITH_CONFIG_PROPERTY)
+            .flatMap(constructor -> Arrays.asList(constructor.getParameters()).stream())
+            .forEach(parameter -> {
+              ConfigProperty configProperty = parameter.getAnnotation(ConfigProperty.class);
+              String propertyName = configProperty.value();
+              if (propertyName.isEmpty()) {
+                propertyName = path;
+              } else {
+                propertyName = (prefix.isEmpty() ? "" : prefix + ".") + propertyName;
+              }
+              gatherConfigKeys(parameter.getType(), propertyName, buffer);
+            });
   }
 
   @Override
@@ -118,9 +179,10 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
     return deserializer;
   }
 
-  private Object createConfigEntity(ConfigSource configSource,
-                                    ConfigEntity configEntity,
-                                    Method factoryMethod) throws Exception {
+  private Object createConfigEntity(
+          ConfigSource configSource,
+          Method factoryMethod,
+          String path) throws IllegalAccessException, InvocationTargetException {
 
     Parameter[] parameters = factoryMethod.getParameters();
     if (parameters.length == 0) {
@@ -128,15 +190,16 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
       return factoryMethod.invoke(null);
     }
     else {
-      Object[] configValues = prepareParameterValues(configSource, configEntity, parameters);
+      Object[] configValues = prepareParameterValues(configSource, parameters, path);
       factoryMethod.setAccessible(true);
       return factoryMethod.invoke(null, configValues);
     }
   }
 
-  private <E> E createConfigEntity(ConfigSource configSource,
-                                   ConfigEntity configEntity,
-                                   Constructor<E> constructor) throws Exception {
+  private <E> E createConfigEntity(
+          ConfigSource configSource,
+          Constructor<E> constructor,
+          String path) throws InstantiationException, IllegalAccessException, InvocationTargetException {
 
     if (constructor.getParameterCount() == 0) {
       constructor.setAccessible(true);
@@ -144,22 +207,22 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
     }
     else {
       Parameter[] parameters = constructor.getParameters();
-      Object[] configValues = prepareParameterValues(configSource, configEntity, parameters);
+      Object[] configValues = prepareParameterValues(configSource, parameters, path);
       constructor.setAccessible(true);
       return constructor.newInstance(configValues);
     }
   }
 
   private Object[] prepareParameterValues(ConfigSource configSource,
-                                          ConfigEntity configEntity,
-                                          Parameter[] parameters) {
+                                          Parameter[] parameters,
+                                          String path) {
 
     Object[] properties = new Object[parameters.length];
     for (int i = 0, len = parameters.length; i < len; i++) {
 
       Parameter parameter = parameters[i];
       ConfigProperty configProperty = parameter.getAnnotation(ConfigProperty.class);
-      String configPropertyName = getConfigPropertyName(configEntity, configProperty, null);
+      String configPropertyName = getConfigPropertyName(path, configProperty, "");
       Class<?> parameterType = parameter.getType();
       properties[i] = getConfigValue(configSource, configPropertyName, parameterType);
     }
@@ -167,16 +230,16 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
   }
 
   private <E> void injectConfigProperties(ConfigSource configSource,
-                                          ConfigEntity configEntity,
                                           Class<E> configEntityType,
-                                          E entity) throws Exception {
+                                          E entity,
+                                          String path) throws Exception {
 
     Map<Field, ConfigProperty> fields = Reflections.getAnnotatedFields(
             configEntityType, ConfigProperty.class, false);
     for (Map.Entry<Field, ConfigProperty> entry : fields.entrySet()) {
       Field field = entry.getKey();
       ConfigProperty configProperty = entry.getValue();
-      String configPropertyName = getConfigPropertyName(configEntity, configProperty, field.getName());
+      String configPropertyName = getConfigPropertyName(path, configProperty, field.getName());
       Object value = getConfigValue(configSource, configPropertyName, field.getType());
       field.setAccessible(true);
       field.set(entity, value);
@@ -192,27 +255,21 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
             "ConfigProperty annotation value for property type '" + type.getName() + "' is empty."
     );
 
-    String value = configSource.getString(key);
-    VALIDATOR.assertThat(
-            value != null || !type.isPrimitive(),
-            "Config value not found for primitive " + type.getName() + "property '" + key
-    );
-    if (value == null) {
-      return null;
+    Deserializer<?> deserializer = getDeserializer(type);
+    if (deserializer == null) {
+      return createConfigEntity(type, configSource, key);
     }
 
-    Deserializer<?> deserializer = getDeserializer(type);
-    VALIDATOR.expect(deserializer, "Deserializer for type '" + type.getName() + "'").notNull();
-
+    String value = configSource.getString(key);
     try {
-      return deserializer.decode(value);
+      return (value == null) ? null : deserializer.decode(value);
     }
     catch (ValueConversionException ex) {
       throw new ConfigEntityCreationException(ex);
     }
   }
 
-  private static String getConfigPropertyName(ConfigEntity configEntity,
+  private static String getConfigPropertyName(String prefix,
                                               ConfigProperty configProperty,
                                               String fallbackName) {
 
@@ -221,18 +278,18 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
       VALIDATOR.expect(fallbackName).notNull("Some of the config properties missing property name.");
       configName = fallbackName;
     }
-    if (!configEntity.path().isEmpty()) {
-      configName = configEntity.path() + "." + configName;
+    if (!prefix.isEmpty()) {
+      configName = prefix + CONFIG_PROPERTY_DILIMETER + configName;
     }
     return configName;
   }
 
   private static Method getConfigConstructorFactoryMethod(Class<?> configEntityType) {
 
-    return Arrays.asList(configEntityType.getDeclaredMethods())
-            .stream()
-            .filter(ANNOTATED_CONFIG_CONSTRUCTOR_FACTORY_METHOD)
-            .filter(method -> configEntityType.isAssignableFrom(method.getReturnType()))
+    return Reflections.methodStreamOf(configEntityType)
+            .staticOnes()
+            .hasReturnType(configEntityType)
+            .annotatedWith(ConfigConstructor.class)
             .findFirst()
             .orElse(null);
   }
@@ -240,20 +297,18 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
   @SuppressWarnings("unchecked")
   private static <E> Constructor<E> getConfigConstructor(Class<E> configEntityType) {
 
-    return (Constructor<E>) Arrays.asList(configEntityType.getConstructors())
-            .stream()
-            .filter(ANNOTATED_CONFIG_CONSTRUCTOR)
+    return Reflections.constructorStreamOf(configEntityType)
+            .annotatedWith(ConfigConstructor.class)
             .findFirst()
             .orElse(null);
   }
 
   private static Method getUsableFactoryMethod(Class<?> configEntityType) {
 
-    return Arrays.asList(configEntityType.getDeclaredMethods())
-            .stream()
-            .filter(method -> Modifier.isStatic(method.getModifiers()))
-            .filter(method -> configEntityType.isAssignableFrom(method.getReturnType()))
-            .filter(method -> method.getParameterCount() == 0)
+    return Reflections.methodStreamOf(configEntityType)
+            .staticOnes()
+            .hasReturnType(configEntityType)
+            .hasAllParametersMatch(ReflectionPredicates.elementAnnotatedWith(ConfigProperty.class))
             .findFirst()
             .orElse(null);
   }
@@ -261,9 +316,8 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
   @SuppressWarnings("unchecked")
   private static <E> Constructor<E> getUsableConstructor(Class<E> configEntityType) {
 
-    return (Constructor<E>) Arrays.asList(configEntityType.getConstructors())
-            .stream()
-            .filter(constructor -> constructor.getParameterCount() == 0)
+    return Reflections.constructorStreamOf(configEntityType)
+            .hasAllParametersMatch(ReflectionPredicates.elementAnnotatedWith(ConfigProperty.class))
             .findFirst()
             .orElse(null);
   }
@@ -294,6 +348,8 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
     return map;
   }
 
+  private static final String CONFIG_PROPERTY_DILIMETER = ".";
+
   private static final Map<Class<?>, Deserializer<?>> FIXED_DESERIALIZERS
           = Collections.unmodifiableMap(initFixedDeserializers());
 
@@ -302,14 +358,6 @@ public class DefaultConfigEntityFactory implements ConfigEntityFactory {
   private static final Predicate<Class<?>> VALID_DESERIALIZE_CUSTOMIZABLE_TYPE_PREDICATE =
           aClass -> ! (aClass.isPrimitive() || FIXED_DESERIALIZERS.containsKey(aClass));
 
-  private static final Predicate<Method> ANNOTATED_CONFIG_CONSTRUCTOR_FACTORY_METHOD =
-          Predicates.<Method>builder(method -> Modifier.isStatic(method.getModifiers()))
-                  .and(method -> method.isAnnotationPresent(ConfigConstructor.class))
-                  .and(Methods.predicateParametersAnnotatedWith(ConfigProperty.class))
-                  .get();
-
-  private static final Predicate<Constructor<?>> ANNOTATED_CONFIG_CONSTRUCTOR =
-          Predicates.<Constructor<?>>builder(constructor -> constructor.isAnnotationPresent(ConfigConstructor.class))
-                  .and(ConstructorStream.predicateParametersAnnotatedWith(ConfigProperty.class))
-                  .get();
+  private static final Predicate<AnnotatedElement> PREDICATE_ANNOTATED_WITH_CONFIG_PROPERTY =
+          ReflectionPredicates.elementAnnotatedWith(ConfigProperty.class);
 }

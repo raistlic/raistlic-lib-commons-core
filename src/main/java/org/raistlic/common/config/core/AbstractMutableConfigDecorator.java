@@ -5,9 +5,11 @@ import org.raistlic.common.codec.Encoder;
 import org.raistlic.common.config.source.ConfigSource;
 import org.raistlic.common.precondition.Precondition;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Lei Chen (2016-02-02)
@@ -22,82 +24,116 @@ public abstract class AbstractMutableConfigDecorator implements MutableConfig {
     this.mutableConfig = mutableConfig;
   }
 
+  protected void configValueUpdated(String key) {
+
+  }
+
+  protected void configValuesUpdated(Iterable<String> keys) {
+
+  }
+
   @Override
   public MutableConfig importFrom(ConfigSource configSource) {
 
-    return mutableConfig.importFrom(configSource);
+    mutableConfig.importFrom(configSource);
+    configValuesUpdated(configSource.getKeys());
+    return this;
   }
 
   @Override
   public MutableConfig importFrom(Map<String, String> map) {
 
-    return mutableConfig.importFrom(map);
+    mutableConfig.importFrom(map);
+    configValuesUpdated(Collections.unmodifiableSet(map.keySet()));
+    return this;
   }
 
   @Override
   public MutableConfig importFrom(Properties properties) {
 
-    return mutableConfig.importFrom(properties);
+    mutableConfig.importFrom(properties);
+    configValuesUpdated(properties.keySet().stream().map(String::valueOf).collect(Collectors.toSet()));
+    return this;
   }
 
   @Override
   public MutableConfig setString(String key, String value) {
 
-    return mutableConfig.setString(key, value);
+    mutableConfig.setString(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setBoolean(String key, boolean value) {
 
-    return mutableConfig.setBoolean(key, value);
+    mutableConfig.setBoolean(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setByte(String key, byte value) {
 
-    return mutableConfig.setByte(key, value);
+    mutableConfig.setByte(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setChar(String key, char value) {
 
-    return mutableConfig.setChar(key, value);
+    mutableConfig.setChar(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setShort(String key, short value) {
 
-    return mutableConfig.setShort(key, value);
+    mutableConfig.setShort(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setInt(String key, int value) {
 
-    return mutableConfig.setInt(key, value);
+    mutableConfig.setInt(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setLong(String key, long value) {
 
-    return mutableConfig.setLong(key, value);
+    mutableConfig.setLong(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setFloat(String key, float value) {
 
-    return mutableConfig.setFloat(key, value);
+    mutableConfig.setFloat(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public MutableConfig setDouble(String key, double value) {
 
-    return mutableConfig.setDouble(key, value);
+    mutableConfig.setDouble(key, value);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
   public <E> MutableConfig setValue(String key, E value, Encoder<? super E, String> encoder) {
 
-    return mutableConfig.setValue(key, value, encoder);
+    mutableConfig.setValue(key, value, encoder);
+    configValueUpdated(key);
+    return this;
   }
 
   @Override
@@ -176,6 +212,7 @@ public abstract class AbstractMutableConfigDecorator implements MutableConfig {
   public void applyConfig(Config configuration) {
 
     mutableConfig.applyConfig(configuration);
+    configValuesUpdated(configuration.getKeys());
   }
 
   @Override

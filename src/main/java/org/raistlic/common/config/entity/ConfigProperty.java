@@ -7,6 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * The annotation is used to mark the members or parameters that are values to be fetched or
+ * entities to be created from the configuration context.
+ *
  * @author lei.c (2015-12-21)
  */
 @Documented
@@ -15,9 +18,10 @@ import java.lang.annotation.Target;
 public @interface ConfigProperty {
 
   /**
-   * When {@code ""} , use the annotated field or method name.
+   * When {@code ""} , use the annotated field or method name, cannot be {@code ""} when annotated
+   * on parameters.
    *
-   * @return configuration property name, prefixed by {@link ConfigEntity#path()} {@code + "."} .
+   * @return configuration property name or part.
    */
   String value() default "";
 }

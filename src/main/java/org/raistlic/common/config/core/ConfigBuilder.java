@@ -186,4 +186,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
    *         {@code encoder} is {@code null}.
    */
   <E> ConfigBuilder setValue(String key, E value, Encoder<? super E, String> encoder);
+
+  @Override
+  default Class<Config> getConfigType() {
+    return Config.class;
+  }
 }

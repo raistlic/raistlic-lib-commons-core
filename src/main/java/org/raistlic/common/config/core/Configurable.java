@@ -21,5 +21,7 @@ package org.raistlic.common.config.core;
  */
 public interface Configurable<C> {
 
+  Class<C> getConfigType();
+
   void applyConfig(C configuration);
 }

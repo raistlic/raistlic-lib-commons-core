@@ -17,8 +17,10 @@ public class ConfigEntityFactoryTest {
 
   private Config config;
 
+  private ConfigEntityFactory configEntityFactory;
+
   @Before
-  public void prepareConfig() {
+  public void setup() {
 
     config = ConfigFactory.newMutableConfig()
             .setInt("test.config.myInt", 123)
@@ -26,15 +28,14 @@ public class ConfigEntityFactoryTest {
             .setBoolean("test.config.myFlag", true)
             .setLong("test.config.myLong", -1L)
             .get();
+    configEntityFactory = ConfigEntityFactories.newConfigEntityFactory();
   }
 
   @Test
   public void createByFactoryMethodExpected() {
 
-    DefaultConfigEntityFactory configEntityFactory = new DefaultConfigEntityFactory();
-
     CreateByFactoryMethod entity = configEntityFactory.createConfigEntity(
-            config, CreateByFactoryMethod.class);
+            CreateByFactoryMethod.class, config, "test.config");
     assertThat(entity).isNotNull();
     assertThat(entity.getMyInt()).isEqualTo(123);
     assertThat(entity.getMyString()).isEqualTo("8d5bc826-9b5f-4bac-b461-0b048386a659");
@@ -45,10 +46,8 @@ public class ConfigEntityFactoryTest {
   @Test
   public void createByConstructorExpected() {
 
-    DefaultConfigEntityFactory configEntityFactory = new DefaultConfigEntityFactory();
-
     CreateByConstructor entity = configEntityFactory.createConfigEntity(
-            config, CreateByConstructor.class);
+            CreateByConstructor.class, config, "test");
     assertThat(entity).isNotNull();
     assertThat(entity.getMyInt()).isEqualTo(123);
     assertThat(entity.getMyString()).isEqualTo("8d5bc826-9b5f-4bac-b461-0b048386a659");
@@ -56,7 +55,20 @@ public class ConfigEntityFactoryTest {
     assertThat(entity.getMyLong()).isEqualTo(-1L);
   }
 
-  @ConfigEntity(name = "beanName", path = "test.config")
+  @Test
+  public void createNestedExpected() {
+
+    MyNested entity = configEntityFactory.createConfigEntity(MyNested.class, config, "test");
+
+    assertThat(entity).isNotNull();
+    MyConfig config = entity.getMyConfig();
+    assertThat(config).isNotNull();
+    assertThat(config.getMyInt()).isEqualTo(123);
+    assertThat(config.getMyString()).isEqualTo("8d5bc826-9b5f-4bac-b461-0b048386a659");
+    assertThat(config.isMyFlag()).isTrue();
+    assertThat(config.getMyLong()).isEqualTo(-1L);
+  }
+
   public static class CreateByFactoryMethod {
 
     @ConfigConstructor
@@ -104,7 +116,6 @@ public class ConfigEntityFactoryTest {
     }
   }
 
-  @ConfigEntity(name = "beanName", path = "test")
   public static class CreateByConstructor {
 
     private final int myInt;
@@ -134,6 +145,56 @@ public class ConfigEntityFactoryTest {
     public String getMyString() {
 
       return myString;
+    }
+
+    public boolean isMyFlag() {
+
+      return myFlag;
+    }
+
+    public long getMyLong() {
+
+      return myLong;
+    }
+  }
+
+  public static class MyNested {
+
+    private MyConfig myConfig;
+
+    public MyNested(@ConfigProperty("config") MyConfig myConfig) {
+
+      this.myConfig = myConfig;
+    }
+
+    public MyConfig getMyConfig() {
+
+      return myConfig;
+    }
+  }
+
+  public static class MyConfig {
+
+    @ConfigProperty
+    private String myString;
+
+    @ConfigProperty
+    private int myInt;
+
+    @ConfigProperty
+    private boolean myFlag;
+
+    @ConfigProperty
+    private long myLong;
+
+    public String getMyString() {
+
+      return myString;
+    }
+
+    public int getMyInt() {
+
+      return myInt;
     }
 
     public boolean isMyFlag() {

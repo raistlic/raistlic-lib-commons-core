@@ -45,15 +45,19 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
     keys = Collections.unmodifiableSet(map.keySet());
   }
 
+  private MutableConfig doImportFrom(ConfigSource configSource) {
+
+    for (String key : configSource.getKeys()) {
+      doSetString(key, configSource.getString(key));
+    }
+    return this;
+  }
+
   @Override
   public MutableConfig importFrom(ConfigSource configSource) {
 
     param(configSource, "configSource").notNull();
-
-    for (String key : configSource.getKeys()) {
-      setString(key, configSource.getString(key));
-    }
-    return this;
+    return doImportFrom(configSource);
   }
 
   @Override
@@ -62,7 +66,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
     param(map, "map").notNull();
 
     ConfigSource wrappedSource = ConfigSourceFactory.wrap(map);
-    return importFrom(wrappedSource);
+    return doImportFrom(wrappedSource);
   }
 
   @Override
@@ -71,7 +75,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
     param(properties, "properties").notNull();
 
     ConfigSource wrappedSource = ConfigSourceFactory.wrap(properties);
-    return importFrom(wrappedSource);
+    return doImportFrom(wrappedSource);
   }
 
   private void doSetString(String key, String value) {
