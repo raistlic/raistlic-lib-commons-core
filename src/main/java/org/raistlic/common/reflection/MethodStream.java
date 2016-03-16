@@ -3,10 +3,7 @@ package org.raistlic.common.reflection;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.util.CustomStream;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -30,5 +27,16 @@ public final class MethodStream extends ExecutableStream<Method, MethodStream>
 
     Precondition.param(returnType, "returnType").notNull();
     return filter(m -> m.getReturnType() == returnType);
+  }
+
+  public MethodStream hasReturnTypeMatches(Predicate<? super Class<?>> returnTypePredicate) {
+
+    Precondition.param(returnTypePredicate).notNull();
+    return filter(m -> returnTypePredicate.test(m.getReturnType()));
+  }
+
+  public MethodStream hasName(String name) {
+
+    return filter(ReflectionPredicates.methodHasName(name));
   }
 }

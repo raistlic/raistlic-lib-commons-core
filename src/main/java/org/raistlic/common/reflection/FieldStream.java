@@ -44,7 +44,7 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
     return filter(PREDICATE_IS_STATIC);
   }
 
-  public FieldStream nonStaticOnes() {
+  public FieldStream noneStaticOnes() {
 
     return filter(PREDICATE_IS_NOT_STATIC);
   }

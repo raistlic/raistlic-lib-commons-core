@@ -6,14 +6,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -23,34 +20,57 @@ import java.util.stream.StreamSupport;
  */
 public class Reflections {
 
-  public static <A extends Annotation> A getAnnotation(Class<?> targetType, Class<A> annotationType) {
+  public static <A extends Annotation> A getAnnotation(Class<?> targetType,
+                                                       Class<A> annotationType,
+                                                       boolean includeSuperTypes) {
 
     Precondition.param(targetType, "targetType").notNull();
     Precondition.param(annotationType, "annotationType").notNull();
 
-    List<Class<?>> stack = new ArrayList<>();
-    stack.add(targetType);
-    return getAnnotationRecursive(stack, annotationType);
+    if (includeSuperTypes) {
+      for (Class<?> type : gatherAllSuperTypes(targetType)) {
+        A annotation = type.getAnnotation(annotationType);
+        if (annotation != null) {
+          return annotation;
+        }
+      }
+      return null;
+    } else {
+      return targetType.getAnnotation(annotationType);
+    }
   }
 
-  private static <A extends Annotation> A getAnnotationRecursive(List<Class<?>> stack, Class<A> annotationType) {
+  public static <A extends Annotation> A getAnnotation(Method targetMethod,
+                                                       Class<A> annotationType,
+                                                       boolean includeOverridenMethods) {
 
-    if (stack.isEmpty()) {
-      return null;
-    }
+    Precondition.param(targetMethod, "targetMethod").notNull();
+    Precondition.param(annotationType, "annotationType").notNull();
 
-    Class<?> next = stack.remove(stack.size() - 1);
-    A annotation = next.getAnnotation(annotationType);
-    if (annotation != null) {
-      return annotation;
+    if (includeOverridenMethods) {
+      throw new UnsupportedOperationException();
+    } else {
+      return targetMethod.getAnnotation(annotationType);
     }
+  }
 
-    stack.addAll(Arrays.asList(next.getInterfaces()));
-    Class<?> superType = next.getSuperclass();
-    if (superType != Object.class) {
-      stack.add(superType);
+  public static List<Class<?>> gatherAllSuperTypes(Class<?> targetType) {
+
+    Set<Class<?>> buffer = new LinkedHashSet<>();
+    gatherAllSuperTypesRecursive(buffer, targetType);
+    return new ArrayList<>(buffer);
+  }
+
+  private static void gatherAllSuperTypesRecursive(Set<Class<?>> buffer, Class<?> type) {
+
+    if (type == Object.class) {
+      return;
     }
-    return getAnnotationRecursive(stack, annotationType);
+    buffer.add(type);
+    gatherAllSuperTypesRecursive(buffer, type.getSuperclass());
+    for (Class<?> interf : type.getInterfaces()) {
+      gatherAllSuperTypesRecursive(buffer, interf);
+    }
   }
 
   public static MethodStream methodStreamOf(Class<?> targetType) {
@@ -105,30 +125,5 @@ public class Reflections {
 
     Precondition.param(fieldStream, "fieldStream").notNull();
     return new FieldStream(fieldStream);
-  }
-
-  public static <A extends Annotation> Map<Field, A> getAnnotatedFields(
-          Class<?> type, Class<A> annotationType, boolean includeStaticFields) {
-
-    Precondition.param(type, "type").notNull();
-    Precondition.param(annotationType, "annotationType").notNull();
-
-    Map<Field, A> map = new HashMap<>();
-    for (Field field : type.getDeclaredFields()) {
-
-      if ( (!includeStaticFields) && Modifier.isStatic(field.getModifiers()) ) {
-        continue;
-      }
-
-      try {
-        A annotation = field.getAnnotation(annotationType);
-        if (annotation != null) {
-          map.put(field, annotation);
-        }
-      } catch (Exception ex) {
-        // TODO log error
-      }
-    }
-    return map;
   }
 }

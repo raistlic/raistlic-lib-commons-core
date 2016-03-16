@@ -250,16 +250,20 @@ class ConfigEntityFactoryDefault implements ConfigEntityFactory {
                                           E entity,
                                           String path) throws Exception {
 
-    Map<Field, ConfigProperty> fields = Reflections.getAnnotatedFields(
-            configEntityType, ConfigProperty.class, false);
-    for (Map.Entry<Field, ConfigProperty> entry : fields.entrySet()) {
-      Field field = entry.getKey();
-      ConfigProperty configProperty = entry.getValue();
-      String configPropertyName = getConfigPropertyName(path, configProperty, field.getName());
-      Object value = getConfigValue(configSource, configPropertyName, field.getType());
-      field.setAccessible(true);
-      field.set(entity, value);
-    }
+    Reflections.fieldStreamOf(configEntityType)
+            .noneStaticOnes()
+            .annotatedWith(ConfigProperty.class)
+            .forEach(field -> {
+              ConfigProperty configProperty = field.getAnnotation(ConfigProperty.class);
+              String configPropertyName = getConfigPropertyName(path, configProperty, field.getName());
+              Object value = getConfigValue(configSource, configPropertyName, field.getType());
+              field.setAccessible(true);
+              try {
+                field.set(entity, value);
+              } catch (Exception ex) {
+                throw new ConfigEntityCreationException(ex);
+              }
+            });
   }
 
   private Object getConfigValue(ConfigSource configSource, String key, Class<?> type) {

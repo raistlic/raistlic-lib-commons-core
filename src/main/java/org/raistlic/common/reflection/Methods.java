@@ -1,10 +1,18 @@
 package org.raistlic.common.reflection;
 
 import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.predicate.Predicates;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -82,6 +90,181 @@ public class Methods {
     public boolean test(Method method) {
 
       return method != null && method.getParameterCount() == count;
+    }
+  }
+
+  final static class OverriddenMethodFinder implements Predicate<Method> {
+
+    private final Method overridingMethod;
+
+    private Map<Class<?>, ParameterizedType> ptMap; // possible parameterized types map
+
+    private OverriddenMethodFinder(Method overridingMethod) {
+
+      this.overridingMethod = overridingMethod;
+    }
+
+    private ParameterizedType getPossibleGenericType(Class<?> type) {
+
+      if (ptMap == null) {
+        ptMap = new HashMap<>();
+        Class<?> declaringClass = overridingMethod.getDeclaringClass();
+//        gatherSuperTypes(declaringClass, ptMap);
+      }
+      return ptMap.get(type);
+    }
+//
+//    private Predicate<Method> getPredicateFor(Method method, Class<?> declaringClass) {
+//
+//    }
+//
+//    private Predicate<Method> getPredicateFor(Method method, ParameterizedType parameterizedType) {
+//
+//    }
+
+    @Override
+    public boolean test(Method method) {
+
+      Class<?> declaringClass = method.getDeclaringClass();
+      throw new UnsupportedOperationException();
+    }
+
+    Method getOverridenMethod(Type type) {
+
+      Precondition.param(type, "type").notNull();
+      throw new UnsupportedOperationException();
+
+//      Type genericType = getPossibleGenericType(type);
+//      if (genericType == null) {
+//        return null;
+//      }
+//      if (searched.contains(genericType)) {
+//        return found.get(genericType);
+//      }
+//
+//      Predicate<Method> paramsPredicate = new OverriddenMethodParametersPredicateForRawType(overridingMethod);
+//      if (genericType instanceof ParameterizedType) {
+//        paramsPredicate = Predicates.or(
+//                paramsPredicate,
+//                new OverriddenMethodParametersPredicateForParameterizedType(overridingMethod, (ParameterizedType) genericType)
+//        );
+//      }
+//      Class<?> ownerClass = classOf(type);
+//      return Reflections.methodStreamOf(Arrays.asList(ownerClass.getDeclaredMethods()))
+//              .noneStaticOnes()
+//              .hasName(overridingMethod.getName())
+//              .hasReturnTypeMatches(returnType -> returnType.isAssignableFrom(overridingMethod.getReturnType()))
+//              .filter(paramsPredicate)
+//              .findAny()
+//              .orElse(null);
+    }
+
+    private static class OverriddenMethodParametersPredicateForParameterizedType implements Predicate<Method> {
+
+      private final Parameter[] overridingParameters;
+
+      private final ParameterizedType parameterizedType;
+
+      private OverriddenMethodParametersPredicateForParameterizedType(
+              Method overridingMethod, ParameterizedType parameterizedType) {
+
+        this.overridingParameters = overridingMethod.getParameters();
+        this.parameterizedType = parameterizedType;
+      }
+
+      @Override
+      public boolean test(Method method) {
+
+        throw new UnsupportedOperationException();
+      }
+    }
+
+    private static class OverriddenMethodParametersPredicateForRawType implements Predicate<Method> {
+
+      private final Parameter[] overridingParameters;
+
+      private OverriddenMethodParametersPredicateForRawType(Method overridingMethod) {
+
+        this.overridingParameters = overridingMethod.getParameters();
+      }
+
+      @Override
+      public boolean test(Method method) {
+
+        Parameter[] parameters = method.getParameters();
+        if (parameters.length != overridingParameters.length) {
+          return false;
+        }
+        for (int i = 0, len = parameters.length; i < len; i++) {
+          Parameter overridingParameter = overridingParameters[i];
+          Parameter parameter = parameters[i];
+          if (overridingParameter.getType() != parameter.getType()) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+
+    private static void gatherParameterizedTypes(
+            Class<?> targetClass, Map<Class<?>, ParameterizedType> map) {
+
+      for (Type genericInterface : targetClass.getGenericInterfaces()) {
+        if (genericInterface instanceof ParameterizedType) {
+          ParameterizedType pt = (ParameterizedType) genericInterface;
+          Class<?> rawType = (Class<?>) pt.getRawType();
+          map.put(rawType, pt);
+        }
+      }
+
+    }
+
+    private static void gatherSuperTypes(Class<?> targetClass, Map<Type, Type> genericTypeMap) {
+
+      for (Type genericInterface : targetClass.getGenericInterfaces()) {
+        if (gatherAndRegisterIfNotYetGathered(genericTypeMap, genericInterface)) {
+          gatherSuperTypes(classOf(genericInterface), genericTypeMap);
+        }
+      }
+      Type genericSuperType = targetClass.getGenericSuperclass();
+      if (genericSuperType != null && genericSuperType != Object.class &&
+              gatherAndRegisterIfNotYetGathered(genericTypeMap, genericSuperType)) {
+        gatherSuperTypes(classOf(genericSuperType), genericTypeMap);
+      }
+      for (Class<?> normalInterface : targetClass.getInterfaces()) {
+        if (gatherAndRegisterIfNotYetGathered(genericTypeMap, normalInterface)) {
+          gatherSuperTypes(normalInterface, genericTypeMap);
+        }
+      }
+      Class<?> superType = targetClass.getSuperclass();
+      if (superType != null && superType != Object.class &&
+              gatherAndRegisterIfNotYetGathered(genericTypeMap, superType)) {
+        gatherSuperTypes(superType, genericTypeMap);
+      }
+    }
+
+    private static Class<?> classOf(Type type) {
+
+      if (type instanceof ParameterizedType) {
+        return (Class<?>) ((ParameterizedType) type).getRawType();
+      } else {
+        return (Class<?>) type;
+      }
+    }
+
+    private static boolean gatherAndRegisterIfNotYetGathered(Map<Type, Type> genericTypeMap, Type type) {
+
+      if (genericTypeMap.containsKey(type)) {
+        return false;
+      }
+      if (type instanceof ParameterizedType) {
+        ParameterizedType pt = (ParameterizedType) type;
+        genericTypeMap.put(pt, pt);
+        genericTypeMap.put(pt.getRawType(), pt);
+      } else {
+        genericTypeMap.put(type, type);
+      }
+      return true;
     }
   }
 }
