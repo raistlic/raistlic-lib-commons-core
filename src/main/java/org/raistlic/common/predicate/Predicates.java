@@ -15,6 +15,7 @@
  */
 package org.raistlic.common.predicate;
 
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 
 import java.util.function.Predicate;
@@ -77,6 +78,23 @@ public final class Predicates {
   public static <E> Predicate<E> notNull() {
 
     return ObjectIsNotNullPredicate.INSTANCE;
+  }
+
+  /**
+   * The method returns a {@link Predicate} instance to test whether an object is of the
+   * specified {@code type} .
+   *
+   * @param type the type used to test objects, cannot be {@code null}.
+   * @return the predicate instance created.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code type} is {@code null}.
+   */
+  public static Predicate<Object> instanceOf(Class<?> type) {
+
+    if (type == null) {
+      throw new InvalidParameterException("'type' cannot be null.");
+    }
+    return new ObjectIsInstanceOfTypePredicate(type);
   }
 
   /**
@@ -224,6 +242,22 @@ public final class Predicates {
     public boolean test(Object o) {
 
       return o != null;
+    }
+  }
+
+  private static class ObjectIsInstanceOfTypePredicate implements Predicate<Object> {
+
+    private final Class<?> type;
+
+    private ObjectIsInstanceOfTypePredicate(Class<?> type) {
+
+      this.type = type;
+    }
+
+    @Override
+    public boolean test(Object o) {
+
+      return (o != null) && type.isInstance(o);
     }
   }
 

@@ -16,6 +16,7 @@
 
 package org.raistlic.common.expectation;
 
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 
@@ -185,6 +186,34 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
 
     setMessage(message);
     setPredicate(Predicates.notEqualTo(target));
+    evaluate();
+  }
+
+  /**
+   * The method claims that the {@code candidate} should be an instance of the specified {@code type} ,
+   * otherwise a runtime exception will be thrown.
+   *
+   * @param type the type of which the {@code candidate} claims to be.
+   */
+  public void isInstanceOf(Class<?> type) {
+
+    String message = "Object " + nameForMessgae() + "should be instance of type '" + type + "', but is not.";
+    isInstanceOf(type, message);
+  }
+
+  /**
+   * The method claims that the {@code candidate} should be an instance of the specified {@code type} ,
+   * otherwise a runtime exception with the specified {@code message} will be thrown.
+   *
+   * @param type the type of which the {@code candidate} claims to be.
+   */
+  public void isInstanceOf(Class<?> type, String message) {
+
+    if (type == null) {
+      throw new InvalidParameterException("'type' cannot be null.");
+    }
+    setMessage(message);
+    setPredicate(Predicates.instanceOf(type));
     evaluate();
   }
 
