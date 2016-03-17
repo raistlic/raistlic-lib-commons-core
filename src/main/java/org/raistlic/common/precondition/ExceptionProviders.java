@@ -19,6 +19,8 @@ package org.raistlic.common.precondition;
 import java.util.function.Function;
 
 /**
+ * Static factory holder for locally used exception mappers.
+ *
  * @author Lei Chen (2015-10-14)
  */
 abstract class ExceptionProviders {

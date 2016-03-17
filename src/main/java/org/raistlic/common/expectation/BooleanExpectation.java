@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.precondition;
+package org.raistlic.common.expectation;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

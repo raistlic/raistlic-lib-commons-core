@@ -1,4 +1,6 @@
-package org.raistlic.common.precondition;
+package org.raistlic.common.expectation;
+
+import java.util.Collection;
 
 /**
  * @author Lei Chen (2015-12-29)
@@ -12,6 +14,10 @@ public interface ExpectedCases {
   StringExpectation expect(String value);
 
   StringExpectation expect(String value, String name);
+
+  <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection);
+
+  <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection, String name);
 
   <N extends Number & Comparable<N>> NumberExpectation<N> expect(N parameter);
 

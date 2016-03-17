@@ -16,7 +16,22 @@
 
 package org.raistlic.common.precondition;
 
+import org.raistlic.common.expectation.BooleanExpectation;
+import org.raistlic.common.expectation.CollectionExpectation;
+import org.raistlic.common.expectation.Expectations;
+import org.raistlic.common.expectation.ExpectedCases;
+import org.raistlic.common.expectation.GeneralExpectation;
+import org.raistlic.common.expectation.NumberExpectation;
+import org.raistlic.common.expectation.StringExpectation;
+import org.raistlic.common.expectation.ThreadExpectation;
+
+import java.util.Collection;
+
 /**
+ * The class is used as the entry point for precondition checks, it has utility methods for
+ * validation work, as well as some static factory methods that expose proper {@link ExpectedCases}
+ * instances for different types of objects.
+ *
  * @author Lei CHEN (2015-02-13)
  * @since 1.2
  */
@@ -70,6 +85,16 @@ public final class Precondition {
   }
 
   public static BooleanExpectation.Primitive param(boolean parameter, String name) {
+
+    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
+  }
+
+  public static <E, C extends Collection<E>> CollectionExpectation<E, C> param(C parameter) {
+
+    return param(parameter, null);
+  }
+
+  public static <E, C extends Collection<E>> CollectionExpectation<E, C> param(C parameter, String name) {
 
     return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }

@@ -1,5 +1,8 @@
-package org.raistlic.common.precondition;
+package org.raistlic.common.expectation;
 
+import org.raistlic.common.precondition.InvalidParameterException;
+
+import java.util.Collection;
 import java.util.function.Function;
 
 /**
@@ -7,14 +10,14 @@ import java.util.function.Function;
  */
 final class DefaultExpectedCases implements ExpectedCases {
 
-  private final Function<String, ? extends RuntimeException> exceptionProvider;
+  private final Function<String, ? extends RuntimeException> exceptionMapper;
 
-  DefaultExpectedCases(Function<String, ? extends RuntimeException> exceptionProvider) {
+  DefaultExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    if (exceptionProvider == null) {
+    if (exceptionMapper == null) {
       throw new InvalidParameterException("'exceptionProvider' cannot be null.");
     }
-    this.exceptionProvider = exceptionProvider;
+    this.exceptionMapper = exceptionMapper;
   }
 
   @Override
@@ -26,7 +29,7 @@ final class DefaultExpectedCases implements ExpectedCases {
   @Override
   public <V> GeneralExpectation<V> expect(V value, String name) {
 
-    return new GeneralExpectation<V>(value, name, exceptionProvider);
+    return new GeneralExpectation<V>(value, name, exceptionMapper);
   }
 
   @Override
@@ -38,7 +41,19 @@ final class DefaultExpectedCases implements ExpectedCases {
   @Override
   public StringExpectation expect(String value, String name) {
 
-    return new StringExpectation(value, name, exceptionProvider);
+    return new StringExpectation(value, name, exceptionMapper);
+  }
+
+  @Override
+  public <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection) {
+
+    return new CollectionExpectation<>(collection, null, exceptionMapper);
+  }
+
+  @Override
+  public <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection, String name) {
+
+    return new CollectionExpectation<>(collection, name, exceptionMapper);
   }
 
   @Override
@@ -50,7 +65,7 @@ final class DefaultExpectedCases implements ExpectedCases {
   @Override
   public <N extends Number & Comparable<N>> NumberExpectation<N> expect(N value, String name) {
 
-    return new NumberExpectation<>(value, name, exceptionProvider);
+    return new NumberExpectation<>(value, name, exceptionMapper);
   }
 
   @Override
@@ -62,7 +77,7 @@ final class DefaultExpectedCases implements ExpectedCases {
   @Override
   public BooleanExpectation.Boxed expect(Boolean value, String name) {
 
-    return new BooleanExpectation.Boxed(value, name, exceptionProvider);
+    return new BooleanExpectation.Boxed(value, name, exceptionMapper);
   }
 
   @Override
@@ -74,14 +89,14 @@ final class DefaultExpectedCases implements ExpectedCases {
   @Override
   public BooleanExpectation.Primitive expect(boolean value, String name) {
 
-    return new BooleanExpectation.Primitive(value, name, exceptionProvider);
+    return new BooleanExpectation.Primitive(value, name, exceptionMapper);
   }
 
   @Override
   public void assertThat(boolean assertion, String message) {
 
     if (!assertion) {
-      throw exceptionProvider.apply(message);
+      throw exceptionMapper.apply(message);
     }
   }
 }

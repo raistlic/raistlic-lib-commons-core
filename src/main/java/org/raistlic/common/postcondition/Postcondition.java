@@ -1,18 +1,20 @@
 package org.raistlic.common.postcondition;
 
-import org.raistlic.common.precondition.BooleanExpectation;
-import org.raistlic.common.precondition.Expectations;
-import org.raistlic.common.precondition.ExpectedCases;
-import org.raistlic.common.precondition.GeneralExpectation;
-import org.raistlic.common.precondition.NumberExpectation;
+import org.raistlic.common.expectation.BooleanExpectation;
+import org.raistlic.common.expectation.CollectionExpectation;
+import org.raistlic.common.expectation.Expectations;
+import org.raistlic.common.expectation.ExpectedCases;
+import org.raistlic.common.expectation.GeneralExpectation;
+import org.raistlic.common.expectation.NumberExpectation;
+import org.raistlic.common.expectation.StringExpectation;
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.precondition.StringExpectation;
 
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 /**
- * The class is used as the entry point for post condition validation, it has utility methods for
+ * The class is used as the entry point for post condition checks, it has utility methods for
  * validation work, as well as some static factory methods that expose proper {@link ExpectedCases}
  * instances for different types of objects.
  *
@@ -80,6 +82,16 @@ public final class Postcondition {
   }
 
   public static BooleanExpectation.Primitive assertThat(boolean entity, String name) {
+
+    return expectedCases().expect(entity, name);
+  }
+
+  public static <E, C extends Collection<E>> CollectionExpectation<E, C> assertThat(C entity) {
+
+    return assertThat(entity, null);
+  }
+
+  public static <E, C extends Collection<E>> CollectionExpectation<E, C> assertThat(C entity, String name) {
 
     return expectedCases().expect(entity, name);
   }

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.precondition;
+package org.raistlic.common.expectation;
 
+import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 
 import java.util.function.Function;
@@ -42,6 +43,11 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
   String name() {
 
     return name;
+  }
+
+  String nameForMessgae() {
+
+    return name == null ? "" : "'" + name + "' ";
   }
 
   /**

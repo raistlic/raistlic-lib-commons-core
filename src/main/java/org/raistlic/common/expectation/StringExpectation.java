@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.precondition;
+package org.raistlic.common.expectation;
 
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.predicate.Predicates;
 import org.raistlic.common.predicate.StringPredicates;
 

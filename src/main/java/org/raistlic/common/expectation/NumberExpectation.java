@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.precondition;
+package org.raistlic.common.expectation;
 
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.predicate.NumberPredicates;
 
 import java.util.function.Function;
