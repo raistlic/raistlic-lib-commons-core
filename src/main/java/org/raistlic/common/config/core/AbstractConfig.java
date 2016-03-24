@@ -32,7 +32,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public String getString(String key, String value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return val == null ? value : val;
   }
@@ -40,7 +40,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public boolean getBoolean(String key, boolean value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     if (val == null) {
       return value;
@@ -51,7 +51,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public byte getByte(String key, byte value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return (val == null) ? value : BYTE_CONVERTER.decode(val);
   }
@@ -59,7 +59,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public char getChar(String key, char value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return (val == null) ? value : CHAR_CONVERTER.decode(val);
   }
@@ -67,7 +67,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public short getShort(String key, short value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     if (val == null) {
       return value;
@@ -83,7 +83,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public int getInt(String key, int value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return (val == null) ? value : INT_CONVERTER.decode(val);
   }
@@ -91,7 +91,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public long getLong(String key, long value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return (val == null) ? value : LONG_CONVERTER.decode(val);
   }
@@ -99,7 +99,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public float getFloat(String key, float value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return (val == null) ? value : FLOAT_CONVERTER.decode(val);
   }
@@ -107,7 +107,7 @@ abstract class AbstractConfig implements Config {
   @Override
   public double getDouble(String key, double value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     String val = getString(key);
     return (val == null) ? value : DOUBLE_CONVERTER.decode(val);
   }
@@ -121,8 +121,8 @@ abstract class AbstractConfig implements Config {
   @Override
   public <E> E getValue(String key, Decoder<? extends E, String> decoder, E value) {
 
-    param(key, "key").notNull();
-    param(decoder, "decoder").notNull();
+    param(key, "key").isNotNull();
+    param(decoder, "decoder").isNotNull();
 
     String val = getString(key);
     if (val == null) {

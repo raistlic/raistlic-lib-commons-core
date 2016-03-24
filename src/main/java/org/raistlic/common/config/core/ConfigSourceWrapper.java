@@ -34,7 +34,7 @@ final class ConfigSourceWrapper extends AbstractConfig implements Config {
 
   ConfigSourceWrapper(ConfigSource configSource) {
 
-    param(configSource, "configSource").notNull();
+    param(configSource, "configSource").isNotNull();
     this.configSource = configSource;
   }
 

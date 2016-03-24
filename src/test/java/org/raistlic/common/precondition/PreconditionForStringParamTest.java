@@ -62,34 +62,34 @@ public class PreconditionForStringParamTest {
   @Test
   public void testNotNullWithNonNullParam() {
 
-    Precondition.param("abc").notNull();
-    Precondition.param("abc", "name").notNull();
-    Precondition.param("abc").notNull("message");
-    Precondition.param("abc", "name").notNull("message");
+    Precondition.param("abc").isNotNull();
+    Precondition.param("abc", "name").isNotNull();
+    Precondition.param("abc").isNotNull("message");
+    Precondition.param("abc", "name").isNotNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameNoMessage() {
 
-    Precondition.param((String)null).notNull();
+    Precondition.param((String)null).isNotNull();
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameNoMessage() {
 
-    Precondition.param((String)null, "name").notNull();
+    Precondition.param((String)null, "name").isNotNull();
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameWithMessage() {
 
-    Precondition.param((String)null).notNull("message");
+    Precondition.param((String)null).isNotNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameWithMessage() {
 
-    Precondition.param((String)null, "name").notNull("message");
+    Precondition.param((String)null, "name").isNotNull("message");
   }
 
   @Test

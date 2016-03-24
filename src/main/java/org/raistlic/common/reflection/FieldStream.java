@@ -7,6 +7,7 @@ import org.raistlic.common.util.CustomStreamAdapter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -16,6 +17,18 @@ import java.util.stream.Stream;
 public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
         implements CustomStream<Field, FieldStream> {
 
+  public static FieldStream of(Stream<Field> fieldStream) {
+
+    Precondition.param(fieldStream, "fieldStream").isNotNull();
+    return new FieldStream(fieldStream);
+  }
+
+  public static FieldStream of(Collection<Field> fieldCollection) {
+
+    Precondition.param(fieldCollection, "fieldCollection").isNotNull();
+    return new FieldStream(fieldCollection.stream());
+  }
+
   FieldStream(Stream<Field> originalStream) {
 
     super(originalStream);
@@ -23,19 +36,19 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
 
   public FieldStream nameEquals(String expectedName) {
 
-    Precondition.param(expectedName, "expectedName").notNull();
+    Precondition.param(expectedName, "expectedName").isNotNull();
     return filter(f -> f.getName().equals(expectedName));
   }
 
   public FieldStream nameMatches(Predicate<String> namePredicate) {
 
-    Precondition.param(namePredicate, "namePredicate").notNull();
+    Precondition.param(namePredicate, "namePredicate").isNotNull();
     return filter(f -> namePredicate.test(f.getName()));
   }
 
   public FieldStream ofType(Class<?> expectedType) {
 
-    Precondition.param(expectedType, "expectedType").notNull();
+    Precondition.param(expectedType, "expectedType").isNotNull();
     return filter(f -> f.getType() == expectedType);
   }
 
@@ -51,7 +64,7 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
 
   public FieldStream annotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").notNull();
+    Precondition.param(annotationType, "annotationType").isNotNull();
     return filter(ReflectionPredicates.elementAnnotatedWith(annotationType));
   }
 

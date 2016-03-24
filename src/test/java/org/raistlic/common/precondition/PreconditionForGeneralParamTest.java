@@ -62,34 +62,34 @@ public class PreconditionForGeneralParamTest {
   @Test
   public void testNotNullWithNonNullParameter() {
 
-    Precondition.param(new Object()).notNull();
-    Precondition.param(new Object()).notNull("message");
-    Precondition.param(new Object(), "name").notNull();
-    Precondition.param(new Object(), "name").notNull("message");
+    Precondition.param(new Object()).isNotNull();
+    Precondition.param(new Object()).isNotNull("message");
+    Precondition.param(new Object(), "name").isNotNull();
+    Precondition.param(new Object(), "name").isNotNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameNoMessage() {
 
-    Precondition.param((Object) null).notNull();
+    Precondition.param((Object) null).isNotNull();
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameNoMessage() {
 
-    Precondition.param((Object) null, "name").notNull();
+    Precondition.param((Object) null, "name").isNotNull();
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamNoNameWithMessage() {
 
-    Precondition.param((Object) null).notNull("message");
+    Precondition.param((Object) null).isNotNull("message");
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testNotNullWithNullParamWithNameWithMessage() {
 
-    Precondition.param((Object) null, "name").notNull("message");
+    Precondition.param((Object) null, "name").isNotNull("message");
   }
 
   @Test

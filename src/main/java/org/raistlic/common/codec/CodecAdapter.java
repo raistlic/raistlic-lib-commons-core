@@ -44,8 +44,8 @@ public class CodecAdapter<S, D> implements Codec<S, D> {
   public CodecAdapter(Encoder<? super S, D> encoder,
                       Decoder<S, ? super D> decoder) {
 
-    Precondition.param(encoder, "encoder").notNull();
-    Precondition.param(decoder, "decoder").notNull();
+    Precondition.param(encoder, "encoder").isNotNull();
+    Precondition.param(decoder, "decoder").isNotNull();
 
     this.encoder = encoder;
     this.decoder = decoder;

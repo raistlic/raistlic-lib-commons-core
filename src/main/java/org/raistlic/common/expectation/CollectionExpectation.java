@@ -10,9 +10,9 @@ import java.util.function.Function;
  *
  * @author Lei Chen (2016-03-17)
  */
-public class CollectionExpectation<E, C extends Collection<E>> extends GeneralExpectation<C> {
+public class CollectionExpectation<E> extends GeneralExpectation<Collection<E>> {
 
-  CollectionExpectation(C candidate,
+  CollectionExpectation(Collection<E> candidate,
                         String name,
                         Function<String, ? extends RuntimeException> exceptionProvider) {
 
@@ -40,7 +40,7 @@ public class CollectionExpectation<E, C extends Collection<E>> extends GeneralEx
     if (getCandidate() == null) {
       return;
     }
-    String message = "Collection " + nameForMessgae() + "should be null or empty, but has size: " +
+    String message = "Collection " + candidateForMessage() + "should be null or empty, but has size: " +
             getCandidate().size();
     isNullOrEmpty(message);
   }
@@ -57,14 +57,14 @@ public class CollectionExpectation<E, C extends Collection<E>> extends GeneralEx
 
   public void notEmpty() {
 
-    String message = "Collection " + nameForMessgae() + "should be not empty, but " +
+    String message = "Collection " + candidateForMessage() + "should be not empty, but " +
             (getCandidate() == null ? " is null" : " it is");
     notEmpty(message);
   }
 
   public void notEmpty(String message) {
 
-    notNull(message);
+    isNotNull(message);
     setMessage(message);
     setPredicate(CollectionPredicates.notEmpty());
     evaluate();
@@ -72,7 +72,7 @@ public class CollectionExpectation<E, C extends Collection<E>> extends GeneralEx
 
   public void hasSize(int size) {
 
-    String message = "Collection " + nameForMessgae() + "should have size " + size + ", " +
+    String message = "Collection " + candidateForMessage() + "should have size " + size + ", " +
             ((getCandidate() == null) ? "but is null" : "but size is " + getCandidate().size());
     hasSize(size, message);
   }
@@ -86,7 +86,7 @@ public class CollectionExpectation<E, C extends Collection<E>> extends GeneralEx
 
   public void contains(E element) {
 
-    String message = "Collection " + nameForMessgae() + "should contains '" + element + "' but not.";
+    String message = "Collection " + candidateForMessage() + "should contains '" + element + "' but not.";
     contains(element, message);
   }
 

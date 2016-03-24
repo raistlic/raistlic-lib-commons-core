@@ -16,8 +16,8 @@ public abstract class FilteredList<E> implements Iterable<E> {
   @SuppressWarnings("unchecked")
   public static <E> FilteredList<E> of(E[] elements, Predicate<? super E> predicate) {
 
-    Precondition.param(elements, "elements").notNull();
-    Precondition.param(predicate, "predicate").notNull();
+    Precondition.param(elements, "elements").isNotNull();
+    Precondition.param(predicate, "predicate").isNotNull();
 
     if (elements.length == 0) {
       return (FilteredList<E>) EMPTY;
@@ -35,8 +35,8 @@ public abstract class FilteredList<E> implements Iterable<E> {
   @SuppressWarnings("unchecked")
   public static <E> FilteredList<E> of(List<E> elements, Predicate<? super E> predicate) {
 
-    Precondition.param(elements, "elements").notNull();
-    Precondition.param(predicate, "predicate").notNull();
+    Precondition.param(elements, "elements").isNotNull();
+    Precondition.param(predicate, "predicate").isNotNull();
 
     if (elements.isEmpty()) {
       return (FilteredList<E>) EMPTY;

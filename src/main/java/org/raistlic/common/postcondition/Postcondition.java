@@ -27,7 +27,7 @@ public final class Postcondition {
 
   public static void setPostconditionExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    Precondition.param(exceptionMapper, "exceptionMapper").notNull();
+    Precondition.param(exceptionMapper, "exceptionMapper").isNotNull();
     EXPECTED_CASES.set(Expectations.with(exceptionMapper));
   }
 
@@ -86,12 +86,12 @@ public final class Postcondition {
     return expectedCases().expect(entity, name);
   }
 
-  public static <E, C extends Collection<E>> CollectionExpectation<E, C> assertThat(C entity) {
+  public static <E> CollectionExpectation<E> assertThat(Collection<E> entity) {
 
     return assertThat(entity, null);
   }
 
-  public static <E, C extends Collection<E>> CollectionExpectation<E, C> assertThat(C entity, String name) {
+  public static <E> CollectionExpectation<E> assertThat(Collection<E> entity, String name) {
 
     return expectedCases().expect(entity, name);
   }

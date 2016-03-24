@@ -89,12 +89,12 @@ public final class Precondition {
     return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
 
-  public static <E, C extends Collection<E>> CollectionExpectation<E, C> param(C parameter) {
+  public static <E> CollectionExpectation<E> param(Collection<E> parameter) {
 
     return param(parameter, null);
   }
 
-  public static <E, C extends Collection<E>> CollectionExpectation<E, C> param(C parameter, String name) {
+  public static <E> CollectionExpectation<E> param(Collection<E> parameter, String name) {
 
     return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }

@@ -1,7 +1,6 @@
 package org.raistlic.common.reflection;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.predicate.Predicates;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -10,19 +9,57 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author lei.c (2015-12-22)
  */
 public class Methods {
 
+  /**
+   * The method finds all overridden methods by the specified {@code method}, in such an order that, overridden methods
+   * declared in interfaces {@code >} the ones declared in super classes {@code >} the ones declared in super class'
+   * interfaces, etc.
+   * <br/>
+   * The method does not support methods with generic parameter types, nor does it support finding overridden methods
+   * with generic parameter types... yet. Simply because matching generic signatures at runtime using reflection is
+   * so tedious, and the inheritance hierarchy has so many possible cases to handle, it (potentially) requires large
+   * amount of work, crazy recursive logic and careful design.
+   *
+   * @param method the method to find overridden methods for, cannot be {@code null} or static.
+   * @return the list of overridden methods found, or empty list if none found, never returns {@code null}.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code method} is {@code null} or static.
+   * @throws UnsupportedOperationException if {@code method} has generic type parameters.
+   */
+  public static List<Method> findOverriddenMethods(Method method) {
+
+    Precondition.param(method, "method").isNotNull();
+    Precondition.param(method, "method").matches(ReflectionPredicates.memberIsNotStatic());
+    Arrays.asList(method.getParameters()).forEach(parameter -> {
+      if (parameter.getParameterizedType() != null) {
+        throw new UnsupportedOperationException("Methods with generic type parameters are not supported.");
+      }
+    });
+
+    String methodName = method.getName();
+    Class<?>[] methodParameterTypes = method.getParameterTypes();
+    Class<?> declaringClass = method.getDeclaringClass();
+    return Types.findSuperTypes(declaringClass).stream()
+        .flatMap(type -> ClassHelper.of(type).getDeclaredMethodsAsStream()
+            .noneStaticOnes()
+            .hasName(methodName)
+            .hasParameterTypes(methodParameterTypes)
+        )
+        .collect(Collectors.toList());
+  }
+
   public static Predicate<Method> predicateParametersAnnotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").notNull();
+    Precondition.param(annotationType, "annotationType").isNotNull();
 
     return new MethodParametersAnnotatedWith(annotationType);
   }
@@ -131,7 +168,7 @@ public class Methods {
 
     Method getOverridenMethod(Type type) {
 
-      Precondition.param(type, "type").notNull();
+      Precondition.param(type, "type").isNotNull();
       throw new UnsupportedOperationException();
 
 //      Type genericType = getPossibleGenericType(type);

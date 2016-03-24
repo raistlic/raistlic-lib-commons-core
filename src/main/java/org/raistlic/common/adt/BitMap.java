@@ -66,8 +66,8 @@ public abstract class BitMap {
    */
   public static <E> BitMap newInstance(List<E> list, Predicate<? super E> condition) {
 
-    Precondition.param(list, "list").notNull();
-    Precondition.param(condition, "condition").notNull();
+    Precondition.param(list, "list").isNotNull();
+    Precondition.param(condition, "condition").isNotNull();
 
     Builder builder = builder(list.size());
 

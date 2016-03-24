@@ -45,13 +45,13 @@ final class DefaultExpectedCases implements ExpectedCases {
   }
 
   @Override
-  public <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection) {
+  public <E> CollectionExpectation<E> expect(Collection<E> collection) {
 
     return new CollectionExpectation<>(collection, null, exceptionMapper);
   }
 
   @Override
-  public <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection, String name) {
+  public <E> CollectionExpectation<E> expect(Collection<E> collection, String name) {
 
     return new CollectionExpectation<>(collection, name, exceptionMapper);
   }

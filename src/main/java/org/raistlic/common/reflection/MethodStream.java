@@ -4,6 +4,7 @@ import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.util.CustomStream;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -12,6 +13,18 @@ import java.util.stream.Stream;
  */
 public final class MethodStream extends ExecutableStream<Method, MethodStream>
         implements CustomStream<Method, MethodStream> {
+
+  public static MethodStream of(Stream<Method> methodStream) {
+
+    Precondition.param(methodStream, "methodStream").isNotNull();
+    return new MethodStream(methodStream);
+  }
+
+  public static MethodStream of(Collection<Method> methodCollection) {
+
+    Precondition.param(methodCollection, "methodCollection").isNotNull();
+    return new MethodStream(methodCollection.stream());
+  }
 
   MethodStream(Stream<Method> originalStream) {
 
@@ -25,13 +38,13 @@ public final class MethodStream extends ExecutableStream<Method, MethodStream>
 
   public MethodStream hasReturnType(Class<?> returnType) {
 
-    Precondition.param(returnType, "returnType").notNull();
+    Precondition.param(returnType, "returnType").isNotNull();
     return filter(m -> m.getReturnType() == returnType);
   }
 
   public MethodStream hasReturnTypeMatches(Predicate<? super Class<?>> returnTypePredicate) {
 
-    Precondition.param(returnTypePredicate).notNull();
+    Precondition.param(returnTypePredicate).isNotNull();
     return filter(m -> returnTypePredicate.test(m.getReturnType()));
   }
 

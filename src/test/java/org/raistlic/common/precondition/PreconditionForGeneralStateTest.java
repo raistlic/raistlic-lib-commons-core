@@ -62,34 +62,34 @@ public class PreconditionForGeneralStateTest {
   @Test
   public void testNotNullWithNonNullState() {
 
-    Precondition.state(new Object()).notNull();
-    Precondition.state(new Object()).notNull("message");
-    Precondition.state(new Object(), "name").notNull();
-    Precondition.state(new Object(), "name").notNull("message");
+    Precondition.state(new Object()).isNotNull();
+    Precondition.state(new Object()).isNotNull("message");
+    Precondition.state(new Object(), "name").isNotNull();
+    Precondition.state(new Object(), "name").isNotNull("message");
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateNoNameNoMessage() {
 
-    Precondition.state((Object) null).notNull();
+    Precondition.state((Object) null).isNotNull();
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateWithNameNoMessage() {
 
-    Precondition.state((Object) null, "name").notNull();
+    Precondition.state((Object) null, "name").isNotNull();
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateNoNameWithMessage() {
 
-    Precondition.state((Object) null).notNull("message");
+    Precondition.state((Object) null).isNotNull("message");
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateWithNameWithMessage() {
 
-    Precondition.state((Object) null, "name").notNull("message");
+    Precondition.state((Object) null, "name").isNotNull("message");
   }
 
   @Test

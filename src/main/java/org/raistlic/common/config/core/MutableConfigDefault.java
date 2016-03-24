@@ -56,14 +56,14 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig importFrom(ConfigSource configSource) {
 
-    param(configSource, "configSource").notNull();
+    param(configSource, "configSource").isNotNull();
     return doImportFrom(configSource);
   }
 
   @Override
   public MutableConfig importFrom(Map<String, String> map) {
 
-    param(map, "map").notNull();
+    param(map, "map").isNotNull();
 
     ConfigSource wrappedSource = ConfigSourceFactory.wrap(map);
     return doImportFrom(wrappedSource);
@@ -72,7 +72,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig importFrom(Properties properties) {
 
-    param(properties, "properties").notNull();
+    param(properties, "properties").isNotNull();
 
     ConfigSource wrappedSource = ConfigSourceFactory.wrap(properties);
     return doImportFrom(wrappedSource);
@@ -86,7 +86,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setString(String key, String value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, value);
     return this;
@@ -95,7 +95,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setBoolean(String key, boolean value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -104,7 +104,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setByte(String key, byte value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -113,7 +113,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setChar(String key, char value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -122,7 +122,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setShort(String key, short value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -131,7 +131,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setInt(String key, int value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -140,7 +140,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setLong(String key, long value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -149,7 +149,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setFloat(String key, float value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -158,7 +158,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public MutableConfig setDouble(String key, double value) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
 
     doSetString(key, String.valueOf(value));
     return this;
@@ -167,8 +167,8 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public <E> MutableConfig setValue(String key, E value, Encoder<? super E, String> encoder) {
 
-    param(key, "key").notNull();
-    param(encoder, "encoder").notNull();
+    param(key, "key").isNotNull();
+    param(encoder, "encoder").isNotNull();
 
     try {
       String converted = encoder.encode(value);
@@ -189,14 +189,14 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
   @Override
   public boolean hasKey(String key) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     return map.containsKey(key);
   }
 
   @Override
   public String getString(String key) {
 
-    param(key, "key").notNull();
+    param(key, "key").isNotNull();
     return map.get(key);
   }
 

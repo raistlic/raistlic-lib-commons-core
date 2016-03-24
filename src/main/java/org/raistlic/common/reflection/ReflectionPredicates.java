@@ -2,7 +2,6 @@ package org.raistlic.common.reflection;
 
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
-import org.raistlic.common.predicate.StringPredicates;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -30,7 +29,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Member> memberIsStatic() {
 
-    return MEMBER_IS_STATIC;
+    return MemberPredicates.IS_STATIC;
   }
 
   /**
@@ -39,7 +38,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Member> memberIsNotStatic() {
 
-    return MEMBER_IS_NOT_STATIC;
+    return MemberPredicates.IS_NOT_STATIC;
   }
 
   /**
@@ -48,7 +47,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Member> memberIsPublic() {
 
-    return MEMBER_IS_PUBLIC;
+    return MemberPredicates.IS_PUBLIC;
   }
 
   /**
@@ -57,7 +56,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Member> memberIsProtected() {
 
-    return MEMBER_IS_PROTECTED;
+    return MemberPredicates.IS_PROTECTED;
   }
 
   /**
@@ -66,7 +65,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Member> memberIsPublicOrProtected(){
 
-    return MEMBER_IS_PUBLIC_OR_PROTECTED;
+    return MemberPredicates.IS_PUBLIC_OR_PROTECTED;
   }
 
   /**
@@ -75,66 +74,118 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Member> memberIsPrivate() {
 
-    return MEMBER_IS_PRIVATE;
+    return MemberPredicates.IS_PRIVATE;
   }
 
   public static Predicate<Member> memberIsPackagePrivate() {
 
-    return MEMBER_IS_PACKAGE_PRIVATE;
+    return MemberPredicates.IS_PACKAGE_PRIVATE;
   }
 
   public static Predicate<Member> memberIsPrivateOrPackagePrivate() {
 
-    return MEMBER_IS_PRIVATE_OR_PACKAGE;
+    return MemberPredicates.IS_PRIVATE_OR_PACKAGE_PRIVATE;
   }
 
   public static Predicate<Member> memberIsFinal() {
 
-    return MEMBER_IS_FINAL;
+    return MemberPredicates.IS_FINAL;
   }
 
   public static Predicate<Member> memberIsNative() {
 
-    return MEMBER_IS_NATIVE;
+    return MemberPredicates.IS_NATIVE;
   }
 
   public static Predicate<Member> memberIsAbstract() {
 
-    return MEMBER_IS_ABSTRACT;
+    return MemberPredicates.IS_ABSTRACT;
   }
 
-  private static final Predicate<Member> MEMBER_IS_STATIC =
-          member -> Modifier.isStatic(member.getModifiers());
+  private enum MemberPredicates implements Predicate<Member> {
 
-  private static final Predicate<Member> MEMBER_IS_NOT_STATIC =
-          member -> !Modifier.isStatic(member.getModifiers());
+    IS_STATIC ("member is static") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isStatic(member.getModifiers());
+      }
+    },
+    IS_NOT_STATIC ("member is not static") {
+      @Override
+      public boolean test(Member member) {
+        return !Modifier.isStatic(member.getModifiers());
+      }
+    },
+    IS_PUBLIC ("member is public") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isPublic(member.getModifiers());
+      }
+    },
+    IS_PROTECTED ("member is protected") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isProtected(member.getModifiers());
+      }
+    },
+    IS_PUBLIC_OR_PROTECTED ("member is public or protected") {
+      @Override
+      public boolean test(Member member) {
+        int modifiers = member.getModifiers();
+        return Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers);
+      }
+    },
+    IS_PRIVATE ("member is private") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isPrivate(member.getModifiers());
+      }
+    },
+    IS_PACKAGE_PRIVATE ("member is package private") {
+      @Override
+      public boolean test(Member member) {
+        return (member.getModifiers() & (Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE)) == 0;
+      }
+    },
+    IS_PRIVATE_OR_PACKAGE_PRIVATE ("member is private or package private") {
+      @Override
+      public boolean test(Member member) {
+        int modifiers = member.getModifiers();
+        return Modifier.isPrivate(modifiers) || (modifiers & (Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE)) == 0;
+      }
+    },
+    IS_FINAL ("member is final") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isFinal(member.getModifiers());
+      }
+    },
+    IS_NATIVE ("member is native") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isNative(member.getModifiers());
+      }
+    },
+    IS_ABSTRACT ("member is abstract") {
+      @Override
+      public boolean test(Member member) {
+        return Modifier.isAbstract(member.getModifiers());
+      }
+    };
 
-  private static final Predicate<Member> MEMBER_IS_PUBLIC =
-          member -> Modifier.isPublic(member.getModifiers());
+    private final String description;
 
-  private static final Predicate<Member> MEMBER_IS_PROTECTED =
-          member -> Modifier.isProtected(member.getModifiers());
+    MemberPredicates(String description) {
 
-  private static final Predicate<Member> MEMBER_IS_PUBLIC_OR_PROTECTED =
-          Predicates.or(MEMBER_IS_PUBLIC, MEMBER_IS_PROTECTED);
+      this.description = description;
+    }
 
-  private static final Predicate<Member> MEMBER_IS_PRIVATE =
-          member -> Modifier.isPrivate(member.getModifiers());
+    @Override
+    public String toString() {
 
-  private static final Predicate<Member> MEMBER_IS_PACKAGE_PRIVATE =
-          member -> (member.getModifiers() & (Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE)) == 0;
-
-  private static final Predicate<Member> MEMBER_IS_PRIVATE_OR_PACKAGE =
-          Predicates.or(MEMBER_IS_PRIVATE, MEMBER_IS_PACKAGE_PRIVATE);
-
-  private static final Predicate<Member> MEMBER_IS_FINAL =
-          member -> Modifier.isFinal(member.getModifiers());
-
-  private static final Predicate<Member> MEMBER_IS_NATIVE =
-          member -> Modifier.isNative(member.getModifiers());
-
-  private static final Predicate<Member> MEMBER_IS_ABSTRACT =
-          member -> Modifier.isAbstract(member.getModifiers());
+      return description;
+    }
+  }
 
   // Executable ------------------------------------------------------------------------------------
 
@@ -169,14 +220,14 @@ public final class ReflectionPredicates {
   public static Predicate<Executable> executableWithAllParametersMatch(
           Predicate<? super Parameter> parameterPredicate) {
 
-    Precondition.param(parameterPredicate, "parameterPredicate").notNull();
+    Precondition.param(parameterPredicate, "parameterPredicate").isNotNull();
     return new ExecutableWithAllParametersMatchPredicate(parameterPredicate);
   }
 
   public static Predicate<Executable> executableWithAnyParameterMatches(
           Predicate<? super Parameter> parameterPredicate) {
 
-    Precondition.param(parameterPredicate, "parameterPredicate").notNull();
+    Precondition.param(parameterPredicate, "parameterPredicate").isNotNull();
     return new ExecutableWithAnyParameterMatchesPredicate(parameterPredicate);
   }
 
@@ -264,15 +315,15 @@ public final class ReflectionPredicates {
 
   public static Predicate<AnnotatedElement> elementAnnotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").notNull();
+    Precondition.param(annotationType, "annotationType").isNotNull();
     return new AnnotatedElementAnnotatedWithTypePredicate(annotationType);
   }
 
   public static <A extends Annotation> Predicate<AnnotatedElement> elementAnnotatedWith(
           Class<A> annotationType, Predicate<? super A> annotationPredicate) {
 
-    Precondition.param(annotationType, "annotationType").notNull();
-    Precondition.param(annotationPredicate, "annotationPredicate").notNull();
+    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(annotationPredicate, "annotationPredicate").isNotNull();
     return new AnnotatedElementAnnotatedWithSpecificPredicate<>(annotationType, annotationPredicate);
   }
 
@@ -321,7 +372,7 @@ public final class ReflectionPredicates {
 
   public static Predicate<Method> methodNameMatches(Predicate<? super String> namePredicate) {
 
-    Precondition.param(namePredicate, "namePredicate").notNull();
+    Precondition.param(namePredicate, "namePredicate").isNotNull();
     return new MethodNamePredicate(namePredicate);
   }
 
@@ -333,7 +384,7 @@ public final class ReflectionPredicates {
 
   public static Predicate<Method> methodOverrides(Method methodOverridden) {
 
-    Precondition.param(methodOverridden, "methodOverridden").notNull();
+    Precondition.param(methodOverridden, "methodOverridden").isNotNull();
     return new MethodOverridesAnotherPredicate(methodOverridden);
   }
 
@@ -366,7 +417,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Method> methodOverriddenBy(Method overridingMethod) {
 
-    Precondition.param(overridingMethod, "overridingMethod").notNull();
+    Precondition.param(overridingMethod, "overridingMethod").isNotNull();
     return new MethodOverriddenByAnotherPredicate(overridingMethod);
   }
 
@@ -456,7 +507,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Class<?>> hasSuperType(Class<?> superType) {
 
-    Precondition.param(superType, "superType").notNull();
+    Precondition.param(superType, "superType").isNotNull();
     return new ClassHasSuperTypePredicate(superType);
   }
 
@@ -472,7 +523,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Class<?>> hasSubType(Class<?> subType) {
 
-    Precondition.param(subType, "subType").notNull();
+    Precondition.param(subType, "subType").isNotNull();
     return new ClassHasSubTypePredicate(subType);
   }
 

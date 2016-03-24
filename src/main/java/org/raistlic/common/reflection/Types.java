@@ -1,7 +1,10 @@
 package org.raistlic.common.reflection;
 
+import org.raistlic.common.precondition.Precondition;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * The method holds static utility methods for dealing with {@link Type} .
@@ -24,6 +27,30 @@ public final class Types {
    *         {@code null}, or when {@code concreteType} is not a sub type of {@code rawType} .
    */
   public static ParameterizedType findParameterizedTypeFor(Class<?> concreteType, Class<?> rawType) {
+
+    Precondition.param(concreteType, "concreteType").isNotNull();
+    Precondition.param(rawType, "rawType").isNotNull();
+
+    if (concreteType == Object.class) {
+      return null;
+    }
+    for (Type type : concreteType.getGenericInterfaces()) {
+      ParameterizedType pt = (ParameterizedType) type;
+      if (pt.getRawType() == rawType) {
+        return pt;
+      }
+    }
+    Type genericSuper = concreteType.getGenericSuperclass();
+    if (genericSuper instanceof ParameterizedType) {
+      ParameterizedType pt = (ParameterizedType) genericSuper;
+      if (pt.getRawType() == rawType) {
+        return pt;
+      }
+    }
+    return findParameterizedTypeFor(concreteType.getSuperclass(), rawType);
+  }
+
+  public static List<Class<?>> findSuperTypes(Class<?> targetType) {
 
     throw new UnsupportedOperationException();
   }

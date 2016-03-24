@@ -52,8 +52,8 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
 
   DefaultPromise(Task<R> task, ExceptionHandler taskExceptionHandler) {
 
-    Precondition.param(task, "task").notNull();
-    Precondition.param(taskExceptionHandler, "taskExceptionHandler").notNull();
+    Precondition.param(task, "task").isNotNull();
+    Precondition.param(taskExceptionHandler, "taskExceptionHandler").isNotNull();
 
     this.resultConsumer = new AtomicReference<Consumer<? super R>>(null);
     this.exceptionHandler = new AtomicReference<ExceptionHandler>(null);
@@ -129,7 +129,7 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   @Override
   public Promise<R> onResult(Consumer<? super R> resultConsumer) {
 
-    Precondition.param(resultConsumer, "resultConsumer").notNull();
+    Precondition.param(resultConsumer, "resultConsumer").isNotNull();
 
     this.resultConsumer.set(resultConsumer);
     if (done.get()) {
@@ -141,7 +141,7 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   @Override
   public Promise<R> onError(ExceptionHandler exceptionHandler) {
 
-    Precondition.param(exceptionHandler, "exceptionHandler").notNull();
+    Precondition.param(exceptionHandler, "exceptionHandler").isNotNull();
 
     this.exceptionHandler.set(exceptionHandler);
     if (done.get()) {

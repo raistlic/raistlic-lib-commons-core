@@ -55,8 +55,8 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   DefaultTaskQueue(ThreadFactory threadFactory,
                    ExceptionHandler exceptionHandler) {
 
-    Precondition.param(threadFactory, "threadFactory").notNull();
-    Precondition.param(exceptionHandler, "exceptionHandler").notNull();
+    Precondition.param(threadFactory, "threadFactory").isNotNull();
+    Precondition.param(exceptionHandler, "exceptionHandler").isNotNull();
 
     this.executorService = Executors.newSingleThreadExecutor(threadFactory);
     this.exceptionHandler = exceptionHandler;
@@ -116,7 +116,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   @Override
   public void schedule(Runnable task) throws InvalidParameterException, InvalidStateException {
 
-    Precondition.param(task, "task").notNull();
+    Precondition.param(task, "task").isNotNull();
     Precondition.state(running.get(), "running").isTrue();
 
     queue.offer(this.new ExceptionFreeTaskWrapper(task));
@@ -125,7 +125,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   @Override
   public <R> Promise<R> schedule(Task<R> task) throws InvalidParameterException, InvalidStateException {
 
-    Precondition.param(task, "task").notNull();
+    Precondition.param(task, "task").isNotNull();
 
     DefaultPromise<R> defaultPromise = new DefaultPromise<R>(task, exceptionHandler);
     queue.offer(defaultPromise);
@@ -140,7 +140,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
                  TaskExecutionException,
                  InterruptedException {
 
-    Precondition.param(task, "task").notNull();
+    Precondition.param(task, "task").isNotNull();
     Precondition.threadContext().matches(
             isNotTaskQueuePredicate,
             "The method cannot be invoked with in the task queue execution thread."
@@ -166,8 +166,8 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
                  TimeoutException {
 
     Precondition.param(timeout, "timeout").greaterThanOrEqualTo(0L);
-    Precondition.param(timeUnit, "timeUnit").notNull();
-    Precondition.param(task, "task").notNull();
+    Precondition.param(timeUnit, "timeUnit").isNotNull();
+    Precondition.param(task, "task").isNotNull();
     Precondition.threadContext().matches(
             isNotTaskQueuePredicate,
             "The method cannot be invoked with in the task queue execution thread."

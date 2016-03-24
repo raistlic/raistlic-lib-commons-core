@@ -31,7 +31,7 @@ public final class PredicateBuilder<E> implements Supplier<Predicate<E>> {
 
   public PredicateBuilder(Predicate<E> base) {
 
-    Precondition.param(base, "base").notNull();
+    Precondition.param(base, "base").isNotNull();
 
     this.predicate = base;
   }

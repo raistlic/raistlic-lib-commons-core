@@ -36,7 +36,7 @@ public abstract class AbstractMutableConfigDecorator implements MutableConfig {
 
   protected AbstractMutableConfigDecorator(MutableConfig mutableConfig) {
 
-    Precondition.param(mutableConfig, "mutableConfig").notNull();
+    Precondition.param(mutableConfig, "mutableConfig").isNotNull();
     this.mutableConfig = mutableConfig;
   }
 

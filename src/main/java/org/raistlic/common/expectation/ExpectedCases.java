@@ -15,9 +15,9 @@ public interface ExpectedCases {
 
   StringExpectation expect(String value, String name);
 
-  <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection);
+  <E> CollectionExpectation<E> expect(Collection<E> collection);
 
-  <E, C extends Collection<E>> CollectionExpectation<E, C> expect(C collection, String name);
+  <E> CollectionExpectation<E> expect(Collection<E> collection, String name);
 
   <N extends Number & Comparable<N>> NumberExpectation<N> expect(N parameter);
 

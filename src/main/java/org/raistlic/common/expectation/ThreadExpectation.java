@@ -136,7 +136,7 @@ public class ThreadExpectation {
 
   public void matches(Predicate<? super Thread> predicate, String message) {
 
-    Precondition.param(predicate, "predicate").notNull();
+    Precondition.param(predicate, "predicate").isNotNull();
 
     if (!predicate.test(Thread.currentThread())) {
       throw exceptionProvider.apply(message);

@@ -42,7 +42,7 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
   @Override
   public String convertToText(Number number) throws InvalidParameterException {
 
-    Precondition.param(number, "number").notNull();
+    Precondition.param(number, "number").isNotNull();
 
     return convertToText(number.toString());
   }
@@ -50,7 +50,7 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
   @Override
   public String convertToText(String number) throws InvalidParameterException {
 
-    Precondition.param(number, "number").notNull();
+    Precondition.param(number, "number").isNotNull();
     Precondition.param(number, "number").matchesPattern(LocalUtils.VALID_NUMBER_PATTERN);
     Precondition.param(number, "number").matches(NUMBER_RANGE_PREDICATE);
 

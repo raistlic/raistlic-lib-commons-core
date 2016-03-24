@@ -27,7 +27,7 @@ public final class StringIO {
    */
   public static String readAll(InputStream inputStream) throws IOException {
 
-    Precondition.param(inputStream, "inputStream").notNull();
+    Precondition.param(inputStream, "inputStream").isNotNull();
 
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     int read;

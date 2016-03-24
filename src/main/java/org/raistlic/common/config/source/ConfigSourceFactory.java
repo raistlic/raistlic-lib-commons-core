@@ -57,7 +57,7 @@ public final class ConfigSourceFactory {
    */
   public static ConfigSource immutableCopyOf(Map<String, String> map) {
 
-    Precondition.param(map, "map").notNull();
+    Precondition.param(map, "map").isNotNull();
     Map<String, String> copy = map.isEmpty() ?
         Collections.<String, String>emptyMap() :
         Collections.unmodifiableMap(new HashMap<String, String>(map));
@@ -76,7 +76,7 @@ public final class ConfigSourceFactory {
    */
   public static ConfigSource immutableCopyOf(Properties properties) {
 
-    Precondition.param(properties, "properties").notNull();
+    Precondition.param(properties, "properties").isNotNull();
     Set<Object> keySet = properties.keySet();
     if (keySet.isEmpty()) {
       return IMMUTABLE_EMPTY_INSTANCE;
@@ -103,7 +103,7 @@ public final class ConfigSourceFactory {
    */
   public static ConfigSource immutableCopyOf(ConfigSource configSource) {
 
-    Precondition.param(configSource, "configSource").notNull();
+    Precondition.param(configSource, "configSource").isNotNull();
     Set<String> keySet = configSource.getKeys();
     if (keySet.isEmpty()) {
       return IMMUTABLE_EMPTY_INSTANCE;
@@ -126,7 +126,7 @@ public final class ConfigSourceFactory {
    */
   public static ConfigSource wrap(Map<String, String> map) {
 
-    Precondition.param(map, "map").notNull();
+    Precondition.param(map, "map").isNotNull();
     return new ConfigSourceMapWrapper(map);
   }
 
@@ -141,7 +141,7 @@ public final class ConfigSourceFactory {
    */
   public static ConfigSource wrap(Properties properties) {
 
-    Precondition.param(properties, "properties").notNull();
+    Precondition.param(properties, "properties").isNotNull();
     return new ConfigSourcePropertiesWrapper(properties);
   }
 

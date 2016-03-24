@@ -62,34 +62,34 @@ public class PreconditionForStringStateTest {
   @Test
   public void testNotNullWithNonNullState() {
 
-    Precondition.state("abc").notNull();
-    Precondition.state("abc", "name").notNull();
-    Precondition.state("abc").notNull("message");
-    Precondition.state("abc", "name").notNull("message");
+    Precondition.state("abc").isNotNull();
+    Precondition.state("abc", "name").isNotNull();
+    Precondition.state("abc").isNotNull("message");
+    Precondition.state("abc", "name").isNotNull("message");
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateNoNameNoMessage() {
 
-    Precondition.state((String) null).notNull();
+    Precondition.state((String) null).isNotNull();
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateWithNameNoMessage() {
 
-    Precondition.state((String) null, "name").notNull();
+    Precondition.state((String) null, "name").isNotNull();
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateNoNameWithMessage() {
 
-    Precondition.state((String) null).notNull("message");
+    Precondition.state((String) null).isNotNull("message");
   }
 
   @Test(expected = InvalidStateException.class)
   public void testNotNullWithNullStateWithNameWithMessage() {
 
-    Precondition.state((String) null, "name").notNull("message");
+    Precondition.state((String) null, "name").isNotNull("message");
   }
 
   @Test

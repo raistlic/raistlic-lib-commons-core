@@ -16,7 +16,6 @@
 
 package org.raistlic.common.expectation;
 
-import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 
@@ -46,9 +45,14 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
     return name;
   }
 
-  String nameForMessgae() {
+  String candidateForMessage() {
 
-    return name == null ? "" : "'" + name + "' ";
+    return name == null ? "'" + String.valueOf(getCandidate()) + "' " : "'" + name + "' ";
+  }
+
+  String nameForMessage() {
+
+    return name == null ? "(unnamed candidate) " : "'" + name + "' ";
   }
 
   /**
@@ -60,10 +64,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void isNull() {
 
-    String message = "";
-    if (name != null) {
-      message = "'" + name + "' should be null, but was " + super.getCandidate();
-    }
+    String message = candidateForMessage() + "is (unexpectedly) not null.";
     isNull(message);
   }
 
@@ -90,13 +91,10 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void notNull() {
+  public void isNotNull() {
 
-    String message = "";
-    if (name != null) {
-      message = "'" + name + "' should not be null.";
-    }
-    notNull(message);
+    String message = nameForMessage() + "is (unexpectedly) null.";
+    isNotNull(message);
   }
 
   /**
@@ -108,7 +106,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void notNull(String message) {
+  public void isNotNull(String message) {
 
     setMessage(message);
     setPredicate(Predicates.notNull());
@@ -127,10 +125,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void isEqualTo(E target) {
 
-    String message = "";
-    if (name != null) {
-      message = "'" + name + "' should be equal to '" + target + "', but is not.";
-    }
+    String message = candidateForMessage() + "is (unexpectedly) not equal to '" + target + "'.";
     isEqualTo(target, message);
   }
 
@@ -164,10 +159,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void isNotEqualTo(E target) {
 
-    String message = "";
-    if (name != null) {
-      message = "'" + name + "' should not be equal to '" + target + "'.";
-    }
+    String message = candidateForMessage() + "is (unexpectedly) equal to '" + target + "'.";
     isNotEqualTo(target, message);
   }
 
@@ -197,7 +189,8 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void isInstanceOf(Class<?> type) {
 
-    String message = "Object " + nameForMessgae() + "should be instance of type '" + type + "', but is not.";
+    String message = candidateForMessage() + "should be instance of type '" + type + "', but is " +
+        (getCandidate() == null ? "null" : "not (actual type: '" + getCandidate().getClass().getName() + "')");
     isInstanceOf(type, message);
   }
 
@@ -209,9 +202,6 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void isInstanceOf(Class<?> type, String message) {
 
-    if (type == null) {
-      throw new InvalidParameterException("'type' cannot be null.");
-    }
     setMessage(message);
     setPredicate(Predicates.instanceOf(type));
     evaluate();
@@ -228,10 +218,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void matches(Predicate<? super E> predicate) {
 
-    String message = "";
-    if (name != null) {
-      message = "'" + name + "' does not match the specified predicate.";
-    }
+    String message = candidateForMessage() + "does not match the specified predicate: '" + predicate + "'";
     matches(predicate, message);
   }
 
@@ -247,7 +234,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    */
   public void matches(Predicate<? super E> predicate, String message) {
 
-    Precondition.param(predicate, "predicate").notNull();
+    Precondition.param(predicate, "predicate").isNotNull();
 
     setMessage(message);
     setPredicate(predicate);

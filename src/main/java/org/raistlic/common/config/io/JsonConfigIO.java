@@ -51,8 +51,8 @@ enum JsonConfigIO implements ConfigIO {
   public void writeConfig(ConfigSource config, OutputStream outputStream)
       throws InvalidParameterException, ConfigIOException {
 
-    Precondition.param(config, "config").notNull();
-    Precondition.param(outputStream, "outputStream").notNull();
+    Precondition.param(config, "config").isNotNull();
+    Precondition.param(outputStream, "outputStream").isNotNull();
 
     Map<String, Object> map = NestedMapHelper.configToMap(config);
     try {
@@ -66,7 +66,7 @@ enum JsonConfigIO implements ConfigIO {
   @Override
   public Config readConfig(InputStream inputStream) throws ConfigIOException {
 
-    Precondition.param(inputStream, "inputStream").notNull();
+    Precondition.param(inputStream, "inputStream").isNotNull();
 
     ConfigBuilder configBuilder = ConfigFactory.newMutableConfig();
     readConfig(configBuilder, inputStream);
@@ -76,8 +76,8 @@ enum JsonConfigIO implements ConfigIO {
   @Override
   public void readConfig(ConfigBuilder configBuilder, InputStream inputStream) throws ConfigIOException {
 
-    Precondition.param(configBuilder, "configBuilder").notNull();
-    Precondition.param(inputStream, "inputStream").notNull();
+    Precondition.param(configBuilder, "configBuilder").isNotNull();
+    Precondition.param(inputStream, "inputStream").isNotNull();
 
     try {
       Map<String, Object> jsonMap = objectMapper.readValue(inputStream, new TypeReference<HashMap<String, Object>>() {
