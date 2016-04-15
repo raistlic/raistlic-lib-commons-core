@@ -98,7 +98,7 @@ public final class BooleanExpectation {
   /**
    * The class defines assertion methods for boxed {@link Boolean} values.
    */
-  public static class Boxed extends AbstractExpectation<Boolean> {
+  public static class Boxed extends AbstractExpectation<Boolean, Boxed> {
 
     private final String name;
 
@@ -111,36 +111,36 @@ public final class BooleanExpectation {
       this.name = name;
     }
 
-    public void isTrue() {
+    public Boxed isTrue() {
 
       String message = "";
       if (name != null) {
         message = name + " should be true, but was " + getCandidate();
       }
-      isTrue(message);
+      return isTrue(message);
     }
 
-    public void isTrue(String message) {
+    public Boxed isTrue(String message) {
 
-      super.setMessage(message);
-      super.setPredicate(BooleanPredicate.TRUE);
-      super.evaluate();
+      setMessage(message);
+      setPredicate(BooleanPredicate.TRUE);
+      return evaluate();
     }
 
-    public void isFalse() {
+    public Boxed isFalse() {
 
       String message = "";
       if (name != null) {
         message = name + " should be false, but was " + getCandidate();
       }
-      isFalse(message);
+      return isFalse(message);
     }
 
-    public void isFalse(String message) {
+    public Boxed isFalse(String message) {
 
-      super.setMessage(message);
-      super.setPredicate(BooleanPredicate.FALSE);
-      super.evaluate();
+      setMessage(message);
+      setPredicate(BooleanPredicate.FALSE);
+      return evaluate();
     }
   }
 
