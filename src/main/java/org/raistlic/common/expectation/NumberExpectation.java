@@ -24,7 +24,7 @@ import java.util.function.Function;
 /**
  * @author Lei Chen (2015-10-16)
  */
-public class NumberExpectation<N extends Number & Comparable<N>> extends GeneralExpectation<N> {
+public class NumberExpectation<N extends Number & Comparable<N>> extends AbstractGenericExpectation<N, NumberExpectation<N>> {
 
   public NumberExpectation(N candidate,
                            String name,
@@ -37,7 +37,7 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
     }
   }
 
-  public void greaterThan(N reference) {
+  public NumberExpectation<N> greaterThan(N reference) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -48,10 +48,10 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
       message = "'" + name() + "' should be greater than " + reference +
           " but is not (actual value: " + getCandidate() + ")";
     }
-    greaterThan(reference, message);
+    return greaterThan(reference, message);
   }
 
-  public void greaterThan(N reference, String message) {
+  public NumberExpectation<N> greaterThan(N reference, String message) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -59,10 +59,10 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
 
     setMessage(message);
     setPredicate(NumberPredicates.greaterThan(reference));
-    evaluate();
+    return evaluate();
   }
 
-  public void greaterThanOrEqualTo(N reference) {
+  public NumberExpectation<N> greaterThanOrEqualTo(N reference) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -74,10 +74,10 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
       message = "'" + name() + "' should be greater than or equal to " + reference +
           ", but is not (actual value: " + getCandidate() + ")";
     }
-    greaterThanOrEqualTo(reference, message);
+    return greaterThanOrEqualTo(reference, message);
   }
 
-  public void greaterThanOrEqualTo(N reference, String message) {
+  public NumberExpectation<N> greaterThanOrEqualTo(N reference, String message) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -85,20 +85,20 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
 
     setMessage(message);
     setPredicate(NumberPredicates.greaterThanOrEqualTo(reference));
-    evaluate();
+    return evaluate();
   }
 
-  public void noLessThan(N reference) {
+  public NumberExpectation<N> noLessThan(N reference) {
 
-    greaterThanOrEqualTo(reference);
+    return greaterThanOrEqualTo(reference);
   }
 
-  public void noLessThan(N reference, String message) {
+  public NumberExpectation<N> noLessThan(N reference, String message) {
 
-    greaterThanOrEqualTo(reference, message);
+    return greaterThanOrEqualTo(reference, message);
   }
 
-  public void lessThan(N reference) {
+  public NumberExpectation<N> lessThan(N reference) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -109,10 +109,10 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
       message = "'" + name() + "' should be less than " + reference +
           ", but is not (actual value: " + getCandidate() + ")";
     }
-    lessThan(reference, message);
+    return lessThan(reference, message);
   }
 
-  public void lessThan(N reference, String message) {
+  public NumberExpectation<N> lessThan(N reference, String message) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -120,10 +120,10 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
 
     setMessage(message);
     setPredicate(NumberPredicates.lessThan(reference));
-    evaluate();
+    return evaluate();
   }
 
-  public void lessThanOrEqualTo(N reference) {
+  public NumberExpectation<N> lessThanOrEqualTo(N reference) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -134,10 +134,10 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
       message = "'" + name() + "' should be less than or equal to " + reference +
           ", but is not (actual value: " + getCandidate() + ")";
     }
-    lessThanOrEqualTo(reference, message);
+    return lessThanOrEqualTo(reference, message);
   }
 
-  public void lessThanOrEqualTo(N reference, String message) {
+  public NumberExpectation<N> lessThanOrEqualTo(N reference, String message) {
 
     if (reference == null) {
       throw new InvalidParameterException("'reference' should not be null.");
@@ -145,16 +145,16 @@ public class NumberExpectation<N extends Number & Comparable<N>> extends General
 
     setMessage(message);
     setPredicate(NumberPredicates.lessThanOrEqualTo(reference));
-    evaluate();
+    return evaluate();
   }
 
-  public void noGreaterThan(N reference) {
+  public NumberExpectation<N> noGreaterThan(N reference) {
 
-    lessThanOrEqualTo(reference);
+    return lessThanOrEqualTo(reference);
   }
 
-  public void noGreaterThan(N reference, String message) {
+  public NumberExpectation<N> noGreaterThan(N reference, String message) {
 
-    lessThanOrEqualTo(reference, message);
+    return lessThanOrEqualTo(reference, message);
   }
 }

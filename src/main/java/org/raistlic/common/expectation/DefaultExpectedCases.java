@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.function.Function;
 
 /**
+ * The default implementation for {@link ExpectedCases} .
+ *
  * @author Lei Chen (2015-12-29)
  */
 final class DefaultExpectedCases implements ExpectedCases {
@@ -21,15 +23,16 @@ final class DefaultExpectedCases implements ExpectedCases {
   }
 
   @Override
-  public <V> GeneralExpectation<V> expect(V value) {
+  public <E> GenericExpectation<E> expect(E value) {
 
     return expect(value, null);
   }
 
   @Override
-  public <V> GeneralExpectation<V> expect(V value, String name) {
+  @SuppressWarnings("unchecked")
+  public <E> GenericExpectation<E> expect(E value, String name) {
 
-    return new GeneralExpectation<V>(value, name, exceptionMapper);
+    return new GenericExpectation<>(value, name, exceptionMapper);
   }
 
   @Override

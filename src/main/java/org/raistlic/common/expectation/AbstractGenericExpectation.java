@@ -28,13 +28,13 @@ import java.util.function.Predicate;
  *
  * @author Lei Chen (2015-10-14)
  */
-public class GeneralExpectation<E> extends AbstractExpectation<E> {
+public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericExpectation<E, GE>> extends AbstractExpectation<E, GE> {
 
   private final String name;
 
-  GeneralExpectation(E candidate,
-                     String name,
-                     Function<String, ? extends RuntimeException> exceptionProvider) {
+  AbstractGenericExpectation(E candidate,
+                             String name,
+                             Function<String, ? extends RuntimeException> exceptionProvider) {
 
     super(candidate, exceptionProvider);
     this.name = name;
@@ -59,13 +59,15 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * The method claims that the {@code candidate} should be {@code null}, otherwise a runtime
    * exception will be thrown.
    *
+   * @return the expectation instance itself, for method calling chain.
+   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isNull() {
+  public GE isNull() {
 
     String message = candidateForMessage() + "is (unexpectedly) not null.";
-    isNull(message);
+    return isNull(message);
   }
 
   /**
@@ -73,28 +75,31 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * exception with the specified {@code message} will be thrown.
    *
    * @param message the message to be thrown with the exception, in case the check fails.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isNull(String message) {
+  public GE isNull(String message) {
 
     setMessage(message);
     setPredicate(Predicates.isNull());
-    evaluate();
+    return evaluate();
   }
 
   /**
    * The method claims that the {@code candidate} should not be {@code null}, otherwise a runtime
    * exception will be thrown.
    *
+   * @return the expectation instance itself, for method calling chain.
+   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isNotNull() {
+  public GE isNotNull() {
 
     String message = nameForMessage() + "is (unexpectedly) null.";
-    isNotNull(message);
+    return isNotNull(message);
   }
 
   /**
@@ -102,15 +107,16 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * exception with the specified {@code message} will be thrown.
    *
    * @param message the message to be thrown with the exception, in case the check fails.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isNotNull(String message) {
+  public GE isNotNull(String message) {
 
     setMessage(message);
     setPredicate(Predicates.notNull());
-    evaluate();
+    return evaluate();
   }
 
   /**
@@ -119,14 +125,15 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    *
    * @param target the reference target which the candidate should be equal to, or {@code null} if
    *               the candidate should be {@code null}.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isEqualTo(E target) {
+  public GE isEqualTo(E target) {
 
     String message = candidateForMessage() + "is (unexpectedly) not equal to '" + target + "'.";
-    isEqualTo(target, message);
+    return isEqualTo(target, message);
   }
 
   /**
@@ -136,15 +143,16 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @param target the reference target which the candidate should be equal to, or {@code null} if
    *               the candidate should be {@code null}.
    * @param message the message to be thrown with the exception, in case the check fails.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isEqualTo(E target, String message) {
+  public GE isEqualTo(E target, String message) {
 
     setMessage(message);
     setPredicate(Predicates.equalTo(target));
-    evaluate();
+    return evaluate();
   }
 
   /**
@@ -153,14 +161,15 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    *
    * @param target the reference target which the candidate should be equal to, or {@code null} if
    *               the candidate should be {@code null}.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isNotEqualTo(E target) {
+  public GE isNotEqualTo(E target) {
 
     String message = candidateForMessage() + "is (unexpectedly) equal to '" + target + "'.";
-    isNotEqualTo(target, message);
+    return isNotEqualTo(target, message);
   }
 
   /**
@@ -170,15 +179,16 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * @param target the reference target which the candidate should be equal to, or {@code null} if
    *               the candidate should be {@code null}.
    * @param message the message to be thrown with the exception, in case the check fails.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void isNotEqualTo(E target, String message) {
+  public GE isNotEqualTo(E target, String message) {
 
     setMessage(message);
     setPredicate(Predicates.notEqualTo(target));
-    evaluate();
+    return evaluate();
   }
 
   /**
@@ -186,12 +196,13 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * otherwise a runtime exception will be thrown.
    *
    * @param type the type of which the {@code candidate} claims to be.
+   * @return the expectation instance itself, for method calling chain.
    */
-  public void isInstanceOf(Class<?> type) {
+  public GE isInstanceOf(Class<?> type) {
 
     String message = candidateForMessage() + "should be instance of type '" + type + "', but is " +
         (getCandidate() == null ? "null" : "not (actual type: '" + getCandidate().getClass().getName() + "')");
-    isInstanceOf(type, message);
+    return isInstanceOf(type, message);
   }
 
   /**
@@ -199,13 +210,14 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * otherwise a runtime exception with the specified {@code message} will be thrown.
    *
    * @param type the type of which the {@code candidate} claims to be.
-   * @param message the exception message when the test fails.
+   * @param message the message to be thrown with the exception, in case the check fails.
+   * @return the expectation instance itself, for method calling chain.
    */
-  public void isInstanceOf(Class<?> type, String message) {
+  public GE isInstanceOf(Class<?> type, String message) {
 
     setMessage(message);
     setPredicate(Predicates.instanceOf(type));
-    evaluate();
+    return evaluate();
   }
 
   /**
@@ -213,14 +225,15 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * otherwise a runtime exception will be thrown.
    *
    * @param predicate the predicate that's used to test the {@code candidate} , cannot be {@code null}.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void matches(Predicate<? super E> predicate) {
+  public GE matches(Predicate<? super E> predicate) {
 
     String message = candidateForMessage() + "does not match the specified predicate: '" + predicate + "'";
-    matches(predicate, message);
+    return matches(predicate, message);
   }
 
   /**
@@ -229,16 +242,17 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    *
    * @param predicate the predicate that's used to test the {@code candidate} , cannot be {@code null}.
    * @param message the message to be thrown with the exception, in case the check fails.
+   * @return the expectation instance itself, for method calling chain.
    *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public void matches(Predicate<? super E> predicate, String message) {
+  public GE matches(Predicate<? super E> predicate, String message) {
 
-    Precondition.param(predicate, "predicate").isNotNull();
+    Precondition.param(predicate).isNotNull();
 
     setMessage(message);
     setPredicate(predicate);
-    evaluate();
+    return evaluate();
   }
 }

@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 /**
  * @author Lei Chen (2015-10-14)
  */
-public class StringExpectation extends GeneralExpectation<String> {
+public class StringExpectation extends AbstractGenericExpectation<String, StringExpectation> {
 
   /**
    * Creates the {@link String} expectation instance for the {@code candidate} , which throws
@@ -50,96 +50,93 @@ public class StringExpectation extends GeneralExpectation<String> {
     }
   }
 
-  /**
-   * The method
-   */
-  public void isEmpty() {
+  public StringExpectation isEmpty() {
 
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should be empty but is: '" + getCandidate() + "'";
     }
-    isEmpty(message);
+    return isEmpty(message);
   }
 
-  public void isEmpty(String message) {
+  public StringExpectation isEmpty(String message) {
 
     setMessage(message);
     setPredicate(StringPredicates.isEmpty());
-    evaluate();
+    return evaluate();
   }
 
-  public void isNullOrEmpty() {
+  public StringExpectation isNullOrEmpty() {
 
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should be null or empty, but is: '" + getCandidate() + "'";
     }
-    isNullOrEmpty(message);
+    return isNullOrEmpty(message);
   }
 
-  public void isNullOrEmpty(String message) {
+  public StringExpectation isNullOrEmpty(String message) {
 
     setMessage(message);
     setPredicate(Predicates.or(
             Predicates.isNull(),
             StringPredicates.isEmpty()
     ));
-    evaluate();
+    return evaluate();
   }
 
-  public void notEmpty() {
+  public StringExpectation notEmpty() {
 
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should not be empty.";
     }
-    notEmpty(message);
+    return notEmpty(message);
   }
 
-  public void notEmpty(String message) {
+  public StringExpectation notEmpty(String message) {
 
     setMessage(message);
     setPredicate(StringPredicates.notEmpty());
-    evaluate();
+    return evaluate();
   }
 
-  public void notNullOrEmpty() {
+  public StringExpectation notNullOrEmpty() {
 
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should not be null or empty, but is : '" + getCandidate() + "'";
     }
-    notNullOrEmpty(message);
+    return notNullOrEmpty(message);
   }
 
-  public void notNullOrEmpty(String message) {
+  public StringExpectation notNullOrEmpty(String message) {
 
     setMessage(message);
     setPredicate(Predicates.and(
             Predicates.notNull(),
             StringPredicates.notEmpty()
     ));
-    evaluate();
+    return evaluate();
   }
 
-  public void hasLength(int length) {
+  public StringExpectation hasLength(int length) {
 
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should have length of " + length;
     }
-    hasLength(length, message);
+    return hasLength(length, message);
   }
 
-  public void hasLength(int length, String message) {
+  public StringExpectation hasLength(int length, String message) {
 
     setMessage(message);
     setPredicate(StringPredicates.hasLength(length));
-    evaluate();
+    return evaluate();
   }
 
-  public void matchesPattern(Pattern pattern) {
+  public StringExpectation matchesPattern(Pattern pattern) {
 
     if (pattern == null) {
       throw new InvalidParameterException("'pattern' should not be null.");
@@ -150,10 +147,10 @@ public class StringExpectation extends GeneralExpectation<String> {
       message = "'" + name() + "' should match the given pattern: /" + pattern +
               "/, but does not (actual value: '" + getCandidate() + "')";
     }
-    matchesPattern(pattern, message);
+    return matchesPattern(pattern, message);
   }
 
-  public void matchesPattern(Pattern pattern, String message) {
+  public StringExpectation matchesPattern(Pattern pattern, String message) {
 
     if (pattern == null) {
       throw new InvalidParameterException("'pattern' should not be null.");
@@ -161,22 +158,22 @@ public class StringExpectation extends GeneralExpectation<String> {
 
     setMessage(message);
     setPredicate(StringPredicates.matchesPattern(pattern));
-    evaluate();
+    return evaluate();
   }
 
-  public void matchesPattern(String pattern) {
+  public StringExpectation matchesPattern(String pattern) {
 
     if (pattern == null) {
       throw new InvalidParameterException("'pattern' should not be null.");
     }
-    matchesPattern(Pattern.compile(pattern));
+    return matchesPattern(Pattern.compile(pattern));
   }
 
-  public void matchesPattern(String pattern, String message) {
+  public StringExpectation matchesPattern(String pattern, String message) {
 
     if (pattern == null) {
       throw new InvalidParameterException("'pattern' should not be null.");
     }
-    matchesPattern(Pattern.compile(pattern), message);
+    return matchesPattern(Pattern.compile(pattern), message);
   }
 }

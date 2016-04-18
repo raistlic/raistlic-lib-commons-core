@@ -10,7 +10,7 @@ import java.util.function.Function;
  *
  * @author Lei Chen (2016-03-17)
  */
-public class CollectionExpectation<E> extends GeneralExpectation<Collection<E>> {
+public class CollectionExpectation<E> extends AbstractGenericExpectation<Collection<E>, CollectionExpectation<E>> {
 
   CollectionExpectation(Collection<E> candidate,
                         String name,
@@ -19,81 +19,81 @@ public class CollectionExpectation<E> extends GeneralExpectation<Collection<E>> 
     super(candidate, name, exceptionProvider);
   }
 
-  public void isEmpty() {
+  public CollectionExpectation<E> isEmpty() {
 
     String message = "";
     if (name() != null) {
       message = "'" + name() + "' should be empty but is not: " + getCandidate();
     }
-    isEmpty(message);
+    return isEmpty(message);
   }
 
-  public void isEmpty(String message) {
+  public CollectionExpectation<E> isEmpty(String message) {
 
     setMessage(message);
     setPredicate(CollectionPredicates.isEmpty());
-    evaluate();
+    return evaluate();
   }
 
-  public void isNullOrEmpty() {
+  public CollectionExpectation<E> isNullOrEmpty() {
 
     if (getCandidate() == null) {
-      return;
+      return getThis();
     }
     String message = "Collection " + candidateForMessage() + "should be null or empty, but has size: " +
             getCandidate().size();
-    isNullOrEmpty(message);
+    return isNullOrEmpty(message);
   }
 
-  public void isNullOrEmpty(String message) {
+  public CollectionExpectation<E> isNullOrEmpty(String message) {
 
     if (getCandidate() == null) {
-      return;
+      return getThis();
     }
     setMessage(message);
     setPredicate(CollectionPredicates.isEmpty());
-    evaluate();
+    return evaluate();
   }
 
-  public void notEmpty() {
+  public CollectionExpectation<E> notEmpty() {
 
     String message = "Collection " + candidateForMessage() + "should be not empty, but " +
             (getCandidate() == null ? " is null" : " it is");
-    notEmpty(message);
+    return notEmpty(message);
   }
 
-  public void notEmpty(String message) {
+  public CollectionExpectation<E> notEmpty(String message) {
 
     isNotNull(message);
     setMessage(message);
     setPredicate(CollectionPredicates.notEmpty());
-    evaluate();
+    return evaluate();
   }
 
-  public void hasSize(int size) {
+  public CollectionExpectation<E> hasSize(int size) {
 
     String message = "Collection " + candidateForMessage() + "should have size " + size + ", " +
             ((getCandidate() == null) ? "but is null" : "but size is " + getCandidate().size());
-    hasSize(size, message);
+    return hasSize(size, message);
   }
 
-  public void hasSize(int size, String message) {
+  public CollectionExpectation<E> hasSize(int size, String message) {
 
     setMessage(message);
     setPredicate(CollectionPredicates.hasSize(size));
-    evaluate();
+    return evaluate();
   }
 
-  public void contains(E element) {
+  public CollectionExpectation<E> contains(E element) {
 
     String message = "Collection " + candidateForMessage() + "should contains '" + element + "' but not.";
-    contains(element, message);
+    return contains(element, message);
   }
 
-  public void contains(E element, String message) {
+  public CollectionExpectation<E> contains(E element, String message) {
 
     setMessage(message);
     setPredicate(CollectionPredicates.contains(element));
-    evaluate();
+    return evaluate();
   }
 }

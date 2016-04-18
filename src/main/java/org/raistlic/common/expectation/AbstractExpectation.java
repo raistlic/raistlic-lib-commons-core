@@ -27,7 +27,7 @@ import java.util.function.Predicate;
  * @author Lei Chen (2015-10-14)
  */
 @SuppressWarnings("unchecked")
-class AbstractExpectation<C> {
+class AbstractExpectation<C, E extends AbstractExpectation<C, E>> {
 
   /**
    * the candidate to be evaluated.
@@ -64,6 +64,11 @@ class AbstractExpectation<C> {
     return candidate;
   }
 
+  E getThis() {
+
+    return (E) this;
+  }
+
   void setPredicate(Predicate<? super C> predicate) {
 
     assert predicate != null;
@@ -76,12 +81,13 @@ class AbstractExpectation<C> {
     this.message = message;
   }
 
-  void evaluate() {
+  E evaluate() {
 
     assert predicate != null;
 
     if (!predicate.test(candidate)) {
       throw exceptionProvider.apply(message);
     }
+    return getThis();
   }
 }

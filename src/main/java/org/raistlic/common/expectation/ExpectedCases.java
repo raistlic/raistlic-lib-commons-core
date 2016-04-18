@@ -3,13 +3,15 @@ package org.raistlic.common.expectation;
 import java.util.Collection;
 
 /**
+ * A collection of different cases to create expectations for different candidates to be checked.
+ *
  * @author Lei Chen (2015-12-29)
  */
 public interface ExpectedCases {
 
-  <V> GeneralExpectation<V> expect(V value);
+  <V> GenericExpectation<V> expect(V value);
 
-  <V> GeneralExpectation<V> expect(V value, String name);
+  <V> GenericExpectation<V> expect(V value, String name);
 
   StringExpectation expect(String value);
 
