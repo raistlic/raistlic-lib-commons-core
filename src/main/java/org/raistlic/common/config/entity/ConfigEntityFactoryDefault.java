@@ -375,7 +375,7 @@ class ConfigEntityFactoryDefault implements ConfigEntityFactory {
   private static final Map<Class<?>, Deserializer<?>> FIXED_DESERIALIZERS
           = Collections.unmodifiableMap(initFixedDeserializers());
 
-  private static final ExpectedCases VALIDATOR = Expectations.with(ConfigValueConvertException::new);
+  private static final ExpectedCases VALIDATOR = Expectations.createDefaultExpectedCases(ConfigValueConvertException::new);
 
   private static final Predicate<Class<?>> VALID_DESERIALIZE_CUSTOMIZABLE_TYPE_PREDICATE =
           aClass -> ! (aClass.isPrimitive() || FIXED_DESERIALIZERS.containsKey(aClass));
