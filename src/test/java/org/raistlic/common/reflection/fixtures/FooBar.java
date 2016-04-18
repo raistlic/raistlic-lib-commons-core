@@ -1,6 +1,6 @@
 package org.raistlic.common.reflection.fixtures;
 
-public class FooBar extends AbstractFooBar<String, Integer> {
+public class FooBar extends AbstractFooBar<String, Integer> implements GenericComparableFoo<String> {
 
   @Override
   public Integer getBar() {

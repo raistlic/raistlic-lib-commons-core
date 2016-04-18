@@ -28,13 +28,16 @@ public final class Types {
    */
   public static ParameterizedType findParameterizedTypeFor(Class<?> concreteType, Class<?> rawType) {
 
-    Precondition.param(concreteType, "concreteType").isNotNull();
     Precondition.param(rawType, "rawType").isNotNull();
+    Precondition.param(concreteType, "concreteType")
+        .isNotNull()
+        .matches(rawType::isAssignableFrom);
 
     if (concreteType == Object.class) {
       return null;
     }
     for (Type type : concreteType.getGenericInterfaces()) {
+      @SuppressWarnings("unchecked")
       ParameterizedType pt = (ParameterizedType) type;
       if (pt.getRawType() == rawType) {
         return pt;

@@ -2,6 +2,7 @@ package org.raistlic.common.reflection;
 
 import org.raistlic.common.precondition.Precondition;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

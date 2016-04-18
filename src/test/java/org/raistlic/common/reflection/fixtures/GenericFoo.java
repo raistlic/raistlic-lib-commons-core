@@ -1,5 +1,6 @@
 package org.raistlic.common.reflection.fixtures;
 
+@Mark("GenericFoo<E>")
 public interface GenericFoo<E> {
 
   E getFoo();
