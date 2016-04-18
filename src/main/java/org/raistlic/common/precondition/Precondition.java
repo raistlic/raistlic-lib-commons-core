@@ -20,7 +20,7 @@ import org.raistlic.common.expectation.BooleanExpectation;
 import org.raistlic.common.expectation.CollectionExpectation;
 import org.raistlic.common.expectation.Expectations;
 import org.raistlic.common.expectation.ExpectedCases;
-import org.raistlic.common.expectation.GeneralExpectation;
+import org.raistlic.common.expectation.GenericExpectation;
 import org.raistlic.common.expectation.NumberExpectation;
 import org.raistlic.common.expectation.StringExpectation;
 import org.raistlic.common.expectation.ThreadExpectation;
@@ -39,12 +39,12 @@ public final class Precondition {
 
   // parameter preconditions -----------------------------------------------------------------------
 
-  public static <E> GeneralExpectation<E> param(E parameter) {
+  public static <E> GenericExpectation<E> param(E parameter) {
 
     return param(parameter, null);
   }
 
-  public static <E> GeneralExpectation<E> param(E parameter, String name) {
+  public static <E> GenericExpectation<E> param(E parameter, String name) {
 
     return PARAMETER_EXPECTED_CASES.expect(parameter, name);
   }
@@ -111,12 +111,12 @@ public final class Precondition {
 
   // state preconditions ---------------------------------------------------------------------------
 
-  public static <E> GeneralExpectation<E> state(E state) {
+  public static <E> GenericExpectation<E> state(E state) {
 
     return state(state, null);
   }
 
-  public static <E> GeneralExpectation<E> state(E state, String name) {
+  public static <E> GenericExpectation<E> state(E state, String name) {
 
     return STATE_EXPECTED_CASES.expect(state, name);
   }
@@ -183,11 +183,11 @@ public final class Precondition {
 
   private Precondition() { }
 
-  private static final ExpectedCases PARAMETER_EXPECTED_CASES = Expectations.with(
+  private static final ExpectedCases PARAMETER_EXPECTED_CASES = Expectations.createDefaultExpectedCases(
           ExceptionProviders.invalidParameterExceptionProvider()
   );
 
-  private static final ExpectedCases STATE_EXPECTED_CASES = Expectations.with(
+  private static final ExpectedCases STATE_EXPECTED_CASES = Expectations.createDefaultExpectedCases(
           ExceptionProviders.invalidStateExceptionProvider()
   );
 }

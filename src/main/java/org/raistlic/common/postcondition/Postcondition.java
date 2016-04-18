@@ -4,7 +4,7 @@ import org.raistlic.common.expectation.BooleanExpectation;
 import org.raistlic.common.expectation.CollectionExpectation;
 import org.raistlic.common.expectation.Expectations;
 import org.raistlic.common.expectation.ExpectedCases;
-import org.raistlic.common.expectation.GeneralExpectation;
+import org.raistlic.common.expectation.GenericExpectation;
 import org.raistlic.common.expectation.NumberExpectation;
 import org.raistlic.common.expectation.StringExpectation;
 import org.raistlic.common.precondition.Precondition;
@@ -23,12 +23,12 @@ import java.util.function.Function;
 public final class Postcondition {
 
   private static final AtomicReference<ExpectedCases> EXPECTED_CASES =
-          new AtomicReference<>(Expectations.with(PostconditionException::new));
+          new AtomicReference<>(Expectations.createDefaultExpectedCases(PostconditionException::new));
 
   public static void setPostconditionExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
     Precondition.param(exceptionMapper, "exceptionMapper").isNotNull();
-    EXPECTED_CASES.set(Expectations.with(exceptionMapper));
+    EXPECTED_CASES.set(Expectations.createDefaultExpectedCases(exceptionMapper));
   }
 
   private static ExpectedCases expectedCases() {
@@ -36,12 +36,12 @@ public final class Postcondition {
     return EXPECTED_CASES.get();
   }
 
-  public static <E> GeneralExpectation<E> assertThat(E entity) {
+  public static <E> GenericExpectation<E> assertThat(E entity) {
 
     return assertThat(entity, null);
   }
 
-  public static <E> GeneralExpectation<E> assertThat(E entity, String name) {
+  public static <E> GenericExpectation<E> assertThat(E entity, String name) {
 
     return expectedCases().expect(entity, name);
   }
