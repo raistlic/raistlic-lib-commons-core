@@ -199,6 +199,7 @@ public class GeneralExpectation<E> extends AbstractExpectation<E> {
    * otherwise a runtime exception with the specified {@code message} will be thrown.
    *
    * @param type the type of which the {@code candidate} claims to be.
+   * @param message the exception message when the test fails.
    */
   public void isInstanceOf(Class<?> type, String message) {
 

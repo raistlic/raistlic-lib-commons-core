@@ -26,10 +26,7 @@ import org.raistlic.common.config.source.ConfigSource;
 import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -48,10 +45,18 @@ enum YamlConfigIO implements ConfigIO {
 
     try {
       Map<String, Object> map = NestedMapHelper.configToMap(config);
-      OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      OutputStreamWriter writer = new OutputStreamWriter(buffer);
       YamlWriter yamlWriter = new YamlWriter(writer);
       yamlWriter.write(map);
       yamlWriter.close();
+      // use PrintStream because YamlWriter is handling new line characters
+      // in a wrong way (not cross OS proof), which causes tests to fail in
+      // Windows.
+      PrintStream ps = new PrintStream(outputStream);
+      for (String line : new String(buffer.toByteArray()).split("\n")) {
+        ps.println(line);
+      }
     }
     catch (Exception ex) {
       throw new ConfigIOException(ex);

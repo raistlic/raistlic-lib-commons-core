@@ -23,7 +23,7 @@ public class Methods {
    * The method finds all overridden methods by the specified {@code method}, in such an order that, overridden methods
    * declared in interfaces {@code >} the ones declared in super classes {@code >} the ones declared in super class'
    * interfaces, etc.
-   * <br/>
+   *
    * The method does not support methods with generic parameter types, nor does it support finding overridden methods
    * with generic parameter types... yet. Simply because matching generic signatures at runtime using reflection is
    * so tedious, and the inheritance hierarchy has so many possible cases to handle, it (potentially) requires large

@@ -47,7 +47,8 @@ public class Reflections {
    * @param <A> the actual annotation type.
    * @return the annotation instance found, or {@code null} if none found.
    *
-   * @Throws InvalidParameterException when {@code targetMethod} or {@code annotationType} is {@code null}.
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code targetMethod} or
+   *         {@code annotationType} is {@code null}.
    */
   public static <A extends Annotation> A getAnnotation(Method targetMethod,
                                                        Class<A> annotationType,

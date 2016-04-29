@@ -32,8 +32,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +65,15 @@ enum XmlConfigIO implements ConfigIO {
       JAXBContext jaxbContext = JAXBContext.newInstance(Configuration.class);
       Marshaller marshaller = jaxbContext.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-      marshaller.marshal(configuration, outputStream);
+      // use PrintStream instead of Marshaller, because Marshaller seems to handle
+      // new line characters in the wrong way (not cross OS proof), which causes
+      // tests to fail on Windows.
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      marshaller.marshal(configuration, buffer);
+      PrintStream ps = new PrintStream(outputStream);
+      for (String line : new String(buffer.toByteArray()).split("\n")) {
+        ps.println(line);
+      }
     }
     catch (Exception ex) {
       throw new ConfigIOException(ex);
