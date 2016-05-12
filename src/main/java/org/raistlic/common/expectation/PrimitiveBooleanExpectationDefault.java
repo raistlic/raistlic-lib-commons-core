@@ -25,14 +25,14 @@ import java.util.function.Function;
  *
  * @author Lei CHEN (2015-11-20)
  */
-final class BooleanExpectationDefault implements BooleanExpectation {
+final class PrimitiveBooleanExpectationDefault implements PrimitiveBooleanExpectation {
 
   private final boolean candidate;
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
-  BooleanExpectationDefault(boolean candidate,
-                            Function<String, ? extends RuntimeException> exceptionMapper) {
+  PrimitiveBooleanExpectationDefault(boolean candidate,
+                                     Function<String, ? extends RuntimeException> exceptionMapper) {
 
     Precondition.assertParam(exceptionMapper != null, "exceptionMapper cannot be null.");
 

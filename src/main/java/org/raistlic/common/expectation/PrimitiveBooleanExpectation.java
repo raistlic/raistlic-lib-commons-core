@@ -1,6 +1,6 @@
 package org.raistlic.common.expectation;
 
-public interface BooleanExpectation {
+public interface PrimitiveBooleanExpectation {
 
   void isTrue();
 
