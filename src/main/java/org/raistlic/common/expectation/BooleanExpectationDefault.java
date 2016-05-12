@@ -4,14 +4,14 @@ import org.raistlic.common.precondition.InvalidParameterException;
 
 import java.util.function.Function;
 
-final class GenericBooleanExpectationDefault extends AbstractGenericExpectation<Boolean, GenericBooleanExpectation>
-    implements GenericBooleanExpectation {
+final class BooleanExpectationDefault extends AbstractGenericExpectation<Boolean, BooleanExpectation>
+    implements BooleanExpectation {
 
   private final Boolean candidate;
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
-  GenericBooleanExpectationDefault(Boolean candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
+  BooleanExpectationDefault(Boolean candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
 
     if (exceptionMapper == null) {
       throw new InvalidParameterException("exceptionMapper cannot be null.");
@@ -22,7 +22,7 @@ final class GenericBooleanExpectationDefault extends AbstractGenericExpectation<
   }
 
   @Override
-  GenericBooleanExpectation getThis() {
+  BooleanExpectation getThis() {
 
     return this;
   }
@@ -67,23 +67,6 @@ final class GenericBooleanExpectationDefault extends AbstractGenericExpectation<
   public void isFalse(String message) {
 
     if (!Boolean.FALSE.equals(candidate)) {
-      throw exceptionMapper.apply(message);
-    }
-  }
-
-  @Override
-  public void isEqualTo(boolean expected) {
-
-    if (!Boolean.valueOf(expected).equals(candidate)) {
-      String message = "Candidate should be equal to " + expected + ", but it's not.";
-      throw exceptionMapper.apply(message);
-    }
-  }
-
-  @Override
-  public void isEqualTo(boolean expected, String message) {
-
-    if (!Boolean.valueOf(expected).equals(candidate)) {
       throw exceptionMapper.apply(message);
     }
   }
