@@ -4,7 +4,7 @@ import org.raistlic.common.precondition.Precondition;
 
 import java.util.function.Function;
 
-final class GenericExpectationDefault<E> extends AbstractGenericExpectation<E, GenericExpectation<E>>
+final class GenericExpectationDefault<E> extends GenericExpectationAbstract<E, GenericExpectation<E>>
     implements GenericExpectation<E> {
 
   private final E candidate;
