@@ -19,6 +19,7 @@ package org.raistlic.common.expectation;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -28,32 +29,13 @@ import java.util.function.Predicate;
  *
  * @author Lei Chen (2015-10-14)
  */
-public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericExpectation<E, GE>> extends AbstractExpectation<E, GE> {
+public abstract class GenericExpectationAbstract<C, E extends Expectation<C, E>> implements Expectation<C, E> {
 
-  private final String name;
+  abstract E getThis();
 
-  AbstractGenericExpectation(E candidate,
-                             String name,
-                             Function<String, ? extends RuntimeException> exceptionProvider) {
+  abstract C getCandidate();
 
-    super(candidate, exceptionProvider);
-    this.name = name;
-  }
-
-  String name() {
-
-    return name;
-  }
-
-  String candidateForMessage() {
-
-    return name == null ? "'" + String.valueOf(getCandidate()) + "' " : "'" + name + "' ";
-  }
-
-  String nameForMessage() {
-
-    return name == null ? "(unnamed candidate) " : "'" + name + "' ";
-  }
+  abstract Function<String, ? extends RuntimeException> getExceptionMapper();
 
   /**
    * The method claims that the {@code candidate} should be {@code null}, otherwise a runtime
@@ -64,10 +46,10 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isNull() {
+  @Override
+  public E isNull() {
 
-    String message = candidateForMessage() + "is (unexpectedly) not null.";
-    return isNull(message);
+    return isNull("Candidate should be null, but it is " + getCandidate());
   }
 
   /**
@@ -80,11 +62,12 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isNull(String message) {
+  public E isNull(String message) {
 
-    setMessage(message);
-    setPredicate(Predicates.isNull());
-    return evaluate();
+    if (getCandidate() != null) {
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -96,10 +79,9 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isNotNull() {
+  public E isNotNull() {
 
-    String message = nameForMessage() + "is (unexpectedly) null.";
-    return isNotNull(message);
+    return isNotNull("Candidate should not be null, but it is.");
   }
 
   /**
@@ -112,11 +94,12 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isNotNull(String message) {
+  public E isNotNull(String message) {
 
-    setMessage(message);
-    setPredicate(Predicates.notNull());
-    return evaluate();
+    if (getCandidate() == null) {
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -130,10 +113,13 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isEqualTo(E target) {
+  public E isEqualTo(C target) {
 
-    String message = candidateForMessage() + "is (unexpectedly) not equal to '" + target + "'.";
-    return isEqualTo(target, message);
+    if (!Objects.equals(getCandidate(), target)) {
+      String message = "'" + getCandidate() + "' and '" + target + "' is not equal.";
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -148,11 +134,12 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isEqualTo(E target, String message) {
+  public E isEqualTo(C target, String message) {
 
-    setMessage(message);
-    setPredicate(Predicates.equalTo(target));
-    return evaluate();
+    if (!Objects.equals(getCandidate(), target)) {
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -166,10 +153,13 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isNotEqualTo(E target) {
+  public E isNotEqualTo(C target) {
 
-    String message = candidateForMessage() + "is (unexpectedly) equal to '" + target + "'.";
-    return isNotEqualTo(target, message);
+    if (Objects.equals(getCandidate(), target)) {
+      String message = "'" + getCandidate() + "' and '" + target + "' are (unexpectedly) equal.";
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -184,11 +174,12 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE isNotEqualTo(E target, String message) {
+  public E isNotEqualTo(C target, String message) {
 
-    setMessage(message);
-    setPredicate(Predicates.notEqualTo(target));
-    return evaluate();
+    if (Objects.equals(getCandidate(), target)) {
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -198,11 +189,16 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @param type the type of which the {@code candidate} claims to be.
    * @return the expectation instance itself, for method calling chain.
    */
-  public GE isInstanceOf(Class<?> type) {
+  public E isInstanceOf(Class<?> type) {
 
-    String message = candidateForMessage() + "should be instance of type '" + type + "', but is " +
-        (getCandidate() == null ? "null" : "not (actual type: '" + getCandidate().getClass().getName() + "')");
-    return isInstanceOf(type, message);
+    Precondition.assertParam(type != null, "'type' should not be null, but it is.");
+
+    if (!Predicates.instanceOf(type).test(getCandidate())) {
+      String message = "'" + getCandidate() + "' should be instance of type '" + type + "', but is " +
+          (getCandidate() == null ? "null" : "not (actual type: '" + getCandidate().getClass().getName() + "')");
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -213,11 +209,14 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @param message the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
    */
-  public GE isInstanceOf(Class<?> type, String message) {
+  public E isInstanceOf(Class<?> type, String message) {
 
-    setMessage(message);
-    setPredicate(Predicates.instanceOf(type));
-    return evaluate();
+    Precondition.assertParam(type != null, "'type' should not be null, but it is.");
+
+    if (!Predicates.instanceOf(type).test(getCandidate())) {
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -230,10 +229,15 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE matches(Predicate<? super E> predicate) {
+  public E matches(Predicate<? super C> predicate) {
 
-    String message = candidateForMessage() + "does not match the specified predicate: '" + predicate + "'";
-    return matches(predicate, message);
+    Precondition.assertParam(predicate != null, "'predicate' should not be null, but it is.");
+
+    if (!predicate.test(getCandidate())) {
+      String message = "'" + getCandidate() + "' does not match the specified predicate: '" + predicate + "'";
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 
   /**
@@ -247,12 +251,13 @@ public abstract class AbstractGenericExpectation<E, GE extends AbstractGenericEx
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
    *         where the expectation is used.
    */
-  public GE matches(Predicate<? super E> predicate, String message) {
+  public E matches(Predicate<? super C> predicate, String message) {
 
-    Precondition.param(predicate).isNotNull();
+    Precondition.assertParam(predicate != null, "'predicate' should not be null, but it is.");
 
-    setMessage(message);
-    setPredicate(predicate);
-    return evaluate();
+    if (!predicate.test(getCandidate())) {
+      throw getExceptionMapper().apply(message);
+    }
+    return getThis();
   }
 }
