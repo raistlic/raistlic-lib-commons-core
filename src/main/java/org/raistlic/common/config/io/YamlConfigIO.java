@@ -40,8 +40,8 @@ enum YamlConfigIO implements ConfigIO {
   public void writeConfig(ConfigSource config, OutputStream outputStream)
       throws InvalidParameterException, ConfigIOException {
 
-    Precondition.param(config, "config").isNotNull();
-    Precondition.param(outputStream, "outputStream").isNotNull();
+    Precondition.param(config).isNotNull();
+    Precondition.param(outputStream).isNotNull();
 
     try {
       Map<String, Object> map = NestedMapHelper.configToMap(config);
@@ -66,7 +66,7 @@ enum YamlConfigIO implements ConfigIO {
   @Override
   public Config readConfig(InputStream inputStream) throws ConfigIOException {
 
-    Precondition.param(inputStream, "inputStream").isNotNull();
+    Precondition.param(inputStream).isNotNull();
 
     ConfigBuilder configBuilder = ConfigFactory.newMutableConfig();
     readConfig(configBuilder, inputStream);
@@ -76,8 +76,8 @@ enum YamlConfigIO implements ConfigIO {
   @Override
   public void readConfig(ConfigBuilder configBuilder, InputStream inputStream) throws ConfigIOException {
 
-    Precondition.param(configBuilder, "configBuilder").isNotNull();
-    Precondition.param(inputStream, "inputStream").isNotNull();
+    Precondition.param(configBuilder).isNotNull();
+    Precondition.param(inputStream).isNotNull();
 
     try {
       InputStreamReader reader = new InputStreamReader(inputStream);

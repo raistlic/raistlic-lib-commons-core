@@ -19,13 +19,13 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
 
   public static FieldStream of(Stream<Field> fieldStream) {
 
-    Precondition.param(fieldStream, "fieldStream").isNotNull();
+    Precondition.param(fieldStream).isNotNull();
     return new FieldStream(fieldStream);
   }
 
   public static FieldStream of(Collection<Field> fieldCollection) {
 
-    Precondition.param(fieldCollection, "fieldCollection").isNotNull();
+    Precondition.param(fieldCollection).isNotNull();
     return new FieldStream(fieldCollection.stream());
   }
 
@@ -36,19 +36,19 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
 
   public FieldStream nameEquals(String expectedName) {
 
-    Precondition.param(expectedName, "expectedName").isNotNull();
+    Precondition.param(expectedName).isNotNull();
     return filter(f -> f.getName().equals(expectedName));
   }
 
   public FieldStream nameMatches(Predicate<String> namePredicate) {
 
-    Precondition.param(namePredicate, "namePredicate").isNotNull();
+    Precondition.param(namePredicate).isNotNull();
     return filter(f -> namePredicate.test(f.getName()));
   }
 
   public FieldStream ofType(Class<?> expectedType) {
 
-    Precondition.param(expectedType, "expectedType").isNotNull();
+    Precondition.param(expectedType).isNotNull();
     return filter(f -> f.getType() == expectedType);
   }
 
@@ -64,7 +64,7 @@ public final class FieldStream extends CustomStreamAdapter<Field, FieldStream>
 
   public FieldStream annotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(annotationType).isNotNull();
     return filter(ReflectionPredicates.elementAnnotatedWith(annotationType));
   }
 

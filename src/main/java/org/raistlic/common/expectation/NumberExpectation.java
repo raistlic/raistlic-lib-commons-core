@@ -1,6 +1,6 @@
 package org.raistlic.common.expectation;
 
-public interface NumberExpectation<N extends Number> extends Expectation<N, NumberExpectation<N>> {
+public interface NumberExpectation<N extends Number & Comparable<N>> extends Expectation<N, NumberExpectation<N>> {
 
   NumberExpectation<N> greaterThan(N target);
 

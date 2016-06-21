@@ -38,13 +38,11 @@ public class PreconditionForNumberParamTest {
     int param2 = 123;
 
     Precondition.param(param1).isEqualTo(param2);
-    Precondition.param(param1, "name").isEqualTo(param2);
     Precondition.param(param1).isEqualTo(param2, "message");
-    Precondition.param(param1, "name").isEqualTo(param2, "message");
   }
 
   @Test
-  public void testEqualToWithNotEqualParamsNoNameNoMessage() {
+  public void testEqualToWithNotEqualParamsNoMessage() {
 
     int param1 = 123;
     int param2 = 456;
@@ -54,17 +52,7 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testEqualToWithNotEqualParamsWithNameNoMessage() {
-
-    int param1 = 123;
-    int param2 = 456;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").isEqualTo(param2);
-  }
-
-  @Test
-  public void testEqualToWithNotEqualParamsNoNameWithMessage() {
+  public void testEqualToWithNotEqualParamsWithMessage() {
 
     int param1 = 123;
     int param2 = 456;
@@ -74,29 +62,17 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testEqualToWithNotEqualParamsWithNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 456;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").isEqualTo(param2, "message");
-  }
-
-  @Test
   public void testNotEqualToWithNotEqualParams() {
 
     int param1 = 123;
     int param2 = 456;
 
     Precondition.param(param1).isNotEqualTo(param2);
-    Precondition.param(param1, "name").isNotEqualTo(param2);
     Precondition.param(param1).isNotEqualTo(param2, "message");
-    Precondition.param(param1, "name").isNotEqualTo(param2, "message");
   }
 
   @Test
-  public void testNotEqualToWIthEqualParamsNoNameNoMessage() {
+  public void testNotEqualToWIthEqualParamsNoMessage() {
 
     int param1 = 123;
     int param2 = 123;
@@ -106,33 +82,13 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testNotEqualToWIthEqualParamsWithNameNoMessage() {
-
-    int param1 = 123;
-    int param2 = 123;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").isNotEqualTo(param2);
-  }
-
-  @Test
-  public void testNotEqualToWIthEqualParamsNoNameWithMessage() {
+  public void testNotEqualToWIthEqualParamsWithMessage() {
 
     int param1 = 123;
     int param2 = 123;
 
     exception.expect(InvalidParameterException.class);
     Precondition.param(param1).isNotEqualTo(param2, "message");
-  }
-
-  @Test
-  public void testNotEqualToWithEqualParamsWithNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 123;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").isNotEqualTo(param2, "message");
   }
 
   @Test
@@ -142,13 +98,11 @@ public class PreconditionForNumberParamTest {
     int param2 = 124;
 
     Precondition.param(param1).lessThan(param2);
-    Precondition.param(param1, "name").lessThan(param2);
     Precondition.param(param1).lessThan(param2, "message");
-    Precondition.param(param1, "name").lessThan(param2, "message");
   }
 
   @Test
-  public void testLessThanCheckFailsNoNameNoMessage() {
+  public void testLessThanCheckFailsNoMessage() {
 
     int param1 = 123;
     int param2 = 122;
@@ -158,17 +112,7 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testLessThanCheckFailsWithNameNoMessage() {
-
-    int param1 = 123;
-    int param2 = 122;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").lessThan(param2);
-  }
-
-  @Test
-  public void testLessThanCheckFailsNoNameWithMessage() {
+  public void testLessThanCheckFailsWithMessage() {
 
     int param1 = 123;
     int param2 = 122;
@@ -178,100 +122,52 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testLessThanCheckFailsWithNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 122;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").lessThan(param2, "message");
-  }
-
-  @Test
-  public void testLessThanWithEqualParamsNoNameNoMessage() {
+  public void testLessThanWithEqualParamsNoMessage() {
 
     exception.expect(InvalidParameterException.class);
     Precondition.param(123).lessThan(123);
   }
 
   @Test
-  public void testLessThanWithEqualParamsWithNameNoMessage() {
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(123, "name").lessThan(123);
-  }
-
-  @Test
-  public void testLessThanWithEqualParamsNoNameWithMessage() {
+  public void testLessThanWithEqualParamsWithMessage() {
 
     exception.expect(InvalidParameterException.class);
     Precondition.param(123).lessThan(123, "message");
   }
 
   @Test
-  public void testLessThanWithEqualParamsWithNameWithMessage() {
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(123, "name").lessThan(123, "message");
-  }
-
-  @Test
-  public void testNoLessThanCheckSucceeds() {
+  public void testGreaterThanOrEqualToCheckSucceeds() {
 
     int param1 = 123;
     int param2 = 122;
 
-    Precondition.param(param1).noLessThan(param2);
-    Precondition.param(param1, "name").noLessThan(param2);
-    Precondition.param(param1).noLessThan(param2, "message");
-    Precondition.param(param1, "name").noLessThan(param2, "message");
+    Precondition.param(param1).greaterThanOrEqualTo(param2);
+    Precondition.param(param1).greaterThanOrEqualTo(param2, "message");
 
     param2 = 123;
 
-    Precondition.param(param1).noLessThan(param2);
-    Precondition.param(param1, "name").noLessThan(param2);
-    Precondition.param(param1).noLessThan(param2, "message");
-    Precondition.param(param1, "name").noLessThan(param2, "message");
+    Precondition.param(param1).greaterThanOrEqualTo(param2);
+    Precondition.param(param1).greaterThanOrEqualTo(param2, "message");
   }
 
   @Test
-  public void testNoLessThanCheckFailsNoNameNoMessage() {
+  public void testGreaterThanOrEqualToCheckFailsNoMessage() {
 
     int param1 = 123;
     int param2 = 124;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).noLessThan(param2);
+    Precondition.param(param1).greaterThanOrEqualTo(param2);
   }
 
   @Test
-  public void testNoLessThanCheckFailsWithNameNoMessage() {
+  public void testGreaterThanOrEqualToCheckFailsWithMessage() {
 
     int param1 = 123;
     int param2 = 124;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").noLessThan(param2);
-  }
-
-  @Test
-  public void testNoLessThanCheckFailsNoNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 124;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).noLessThan(param2, "message");
-  }
-
-  @Test
-  public void testNoLessThanCheckFailsWithNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 124;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").noLessThan(param2, "message");
+    Precondition.param(param1).greaterThanOrEqualTo(param2, "message");
   }
 
   @Test
@@ -281,13 +177,11 @@ public class PreconditionForNumberParamTest {
     int param2 = 122;
 
     Precondition.param(param1).greaterThan(param2);
-    Precondition.param(param1, "name").greaterThan(param2);
     Precondition.param(param1).greaterThan(param2, "message");
-    Precondition.param(param1, "name").greaterThan(param2, "message");
   }
 
   @Test
-  public void testGreaterThanCheckFailsNoNameNoMessage() {
+  public void testGreaterThanCheckFailsNoMessage() {
 
     int param1 = 123;
     int param2 = 124;
@@ -297,17 +191,7 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testGreaterThanCheckFailsWithNameNoMessage() {
-
-    int param1 = 123;
-    int param2 = 124;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").greaterThan(param2);
-  }
-
-  @Test
-  public void testGreaterThanCheckFailsNoNameWithMessage() {
+  public void testGreaterThanCheckFailsWithMessage() {
 
     int param1 = 123;
     int param2 = 124;
@@ -317,99 +201,51 @@ public class PreconditionForNumberParamTest {
   }
 
   @Test
-  public void testGreaterThanCheckFailsWithNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 124;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").greaterThan(param2, "message");
-  }
-
-  @Test
-  public void testGreaterThanWithEqualParamsNoNameNoMessage() {
+  public void testGreaterThanWithEqualParamsNoMessage() {
 
     exception.expect(InvalidParameterException.class);
     Precondition.param(123).greaterThan(123);
   }
 
   @Test
-  public void testGreaterThanWithEqualParamsWithNameNoMessage() {
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(123, "name").greaterThan(123);
-  }
-
-  @Test
-  public void testGreaterThanWithEqualParamsNoNameWithMessage() {
+  public void testGreaterThanWithEqualParamsWithMessage() {
 
     exception.expect(InvalidParameterException.class);
     Precondition.param(123).greaterThan(123, "message");
   }
 
   @Test
-  public void testGreaterThanWithEqualParamsWithNameWithMessage() {
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(123, "name").greaterThan(123, "message");
-  }
-
-  @Test
-  public void testNoGreaterThanCheckSucceeds() {
+  public void testLessThanOrEqualToCheckSucceeds() {
 
     int param1 = 123;
     int param2 = 124;
 
-    Precondition.param(param1).noGreaterThan(param2);
-    Precondition.param(param1, "name").noGreaterThan(param2);
-    Precondition.param(param1).noGreaterThan(param2, "message");
-    Precondition.param(param1, "name").noGreaterThan(param2, "message");
+    Precondition.param(param1).lessThanOrEqualTo(param2);
+    Precondition.param(param1).lessThanOrEqualTo(param2, "message");
 
     param2 = 123;
 
-    Precondition.param(param1).noGreaterThan(param2);
-    Precondition.param(param1, "name").noGreaterThan(param2);
-    Precondition.param(param1).noGreaterThan(param2, "message");
-    Precondition.param(param1, "name").noGreaterThan(param2, "message");
+    Precondition.param(param1).lessThanOrEqualTo(param2);
+    Precondition.param(param1).lessThanOrEqualTo(param2, "message");
   }
 
   @Test
-  public void testNoGreaterThanCheckFailsNoNameNoMessage() {
+  public void testLessThanOrEqualToCheckFailsNoMessage() {
 
     int param1 = 123;
     int param2 = 122;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).noGreaterThan(param2);
+    Precondition.param(param1).lessThanOrEqualTo(param2);
   }
 
   @Test
-  public void testNoGreaterThanCheckFailsWithNameNoMessage() {
+  public void testLessThanOrEqualToCheckFailsWithMessage() {
 
     int param1 = 123;
     int param2 = 122;
 
     exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").noGreaterThan(param2);
-  }
-
-  @Test
-  public void testNoGreaterThanCheckFailsNoNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 122;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1).noGreaterThan(param2, "message");
-  }
-
-  @Test
-  public void testNoGreaterThanCheckFailsWithNameWithMessage() {
-
-    int param1 = 123;
-    int param2 = 122;
-
-    exception.expect(InvalidParameterException.class);
-    Precondition.param(param1, "name").noGreaterThan(param2, "message");
+    Precondition.param(param1).lessThanOrEqualTo(param2, "message");
   }
 }

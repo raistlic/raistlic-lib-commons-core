@@ -13,66 +13,38 @@ public class PreconditionForBooleanBoxedStateTest {
   @Test
   public void testIsTrueWithTrue() {
 
-    Precondition.state(Boolean.TRUE).isTrue();
-    Precondition.state(Boolean.TRUE, "name").isTrue();
-    Precondition.state(Boolean.TRUE).isTrue("message");
-    Precondition.state(Boolean.TRUE, "name").isTrue("message");
+    Precondition.context(Boolean.TRUE).isTrue();
+    Precondition.context(Boolean.TRUE).isTrue("message");
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseNoNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsTrueWithFalseNoMessage() {
 
-    Precondition.state(Boolean.FALSE).isTrue();
+    Precondition.context(Boolean.FALSE).isTrue();
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseWithNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsTrueWithFalseWithMessage() {
 
-    Precondition.state(Boolean.FALSE, "name").isTrue();
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseNoNameWithMessage() {
-
-    Precondition.state(Boolean.FALSE).isTrue("message");
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseWithNameWithMessage() {
-
-    Precondition.state(Boolean.FALSE, "name").isTrue("message");
+    Precondition.context(Boolean.FALSE).isTrue("message");
   }
 
   @Test
   public void testIsFalseWithFalse() {
 
-    Precondition.state(Boolean.FALSE).isFalse();
-    Precondition.state(Boolean.FALSE, "name").isFalse();
-    Precondition.state(Boolean.FALSE).isFalse("message");
-    Precondition.state(Boolean.FALSE, "name").isFalse("message");
+    Precondition.context(Boolean.FALSE).isFalse();
+    Precondition.context(Boolean.FALSE).isFalse("message");
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueNoNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsFalseWithTrueNoMessage() {
 
-    Precondition.state(Boolean.TRUE).isFalse();
+    Precondition.context(Boolean.TRUE).isFalse();
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueWithNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsFalseWithTrueWithMessage() {
 
-    Precondition.state(Boolean.TRUE, "name").isFalse();
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueNoNameWithMessage() {
-
-    Precondition.state(Boolean.TRUE).isFalse("message");
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueWithNameWithMessage() {
-
-    Precondition.state(Boolean.TRUE, "name").isFalse("message");
+    Precondition.context(Boolean.TRUE).isFalse("message");
   }
 }

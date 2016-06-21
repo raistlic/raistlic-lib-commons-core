@@ -32,7 +32,7 @@ public final class ClassHelper<E> {
    */
   public static <E> ClassHelper<E> of(Class<E> targetClass) {
 
-    Precondition.param(targetClass, "targetClass").isNotNull();
+    Precondition.param(targetClass).isNotNull();
     return new ClassHelper<>(targetClass);
   }
 

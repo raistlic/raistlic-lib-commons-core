@@ -138,7 +138,7 @@ public final class Predicates {
    */
   public static <E> Predicate<E> not(Predicate<? super E> predicate) {
 
-    Precondition.param(predicate, "predicate").isNotNull();
+    Precondition.param(predicate).isNotNull();
     
     return new PredicateNotWrapper<E>(predicate);
   }
@@ -158,8 +158,8 @@ public final class Predicates {
    */
   public static <E> Predicate<E> and(Predicate<? super E> left, Predicate<? super E> right) {
 
-    Precondition.param(left, "left").isNotNull();
-    Precondition.param(right, "right").isNotNull();
+    Precondition.param(left).isNotNull();
+    Precondition.param(right).isNotNull();
 
     return new PredicateAndWrapper<E>(left, right);
   }
@@ -179,8 +179,8 @@ public final class Predicates {
    */
   public static <E> Predicate<E> or(Predicate<? super E> left, Predicate<? super E> right) {
 
-    Precondition.param(left, "left").isNotNull();
-    Precondition.param(right, "right").isNotNull();
+    Precondition.param(left).isNotNull();
+    Precondition.param(right).isNotNull();
 
     return new PredicateOrWrapper<E>(left, right);
   }
@@ -197,7 +197,7 @@ public final class Predicates {
    */
   public static <E> PredicateBuilder<E> builder(Predicate<? super E> base) {
     
-    Precondition.param(base, "base").isNotNull();
+    Precondition.param(base).isNotNull();
 
     return new PredicateBuilder<E>(Predicates.<E>dummyTrue()).and(base);
   }

@@ -22,10 +22,14 @@ import org.raistlic.common.expectation.Expectations;
 import org.raistlic.common.expectation.ExpectedCases;
 import org.raistlic.common.expectation.GenericExpectation;
 import org.raistlic.common.expectation.NumberExpectation;
+import org.raistlic.common.expectation.PrimitiveBooleanExpectation;
 import org.raistlic.common.expectation.StringExpectation;
 import org.raistlic.common.expectation.ThreadExpectation;
 
+import javax.swing.SwingUtilities;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 
 /**
  * The class is used as the entry point for precondition checks, it has utility methods for
@@ -37,66 +41,62 @@ import java.util.Collection;
  */
 public final class Precondition {
 
+  // configuration ---------------------------------------------------------------------------------
+
+  public static void setParameterExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
+
+    param(exceptionMapper).isNotNull();
+
+    PARAMETER_EXPECTED_CASES.set(EXPECTED_CASES_FACTORY.apply(exceptionMapper));
+  }
+
+  private static ExpectedCases paramExpectedCases() {
+
+    return PARAMETER_EXPECTED_CASES.get();
+  }
+
+  public static void setContextExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
+
+    param(exceptionMapper).isNotNull();
+
+    CONTEXT_EXPECTED_CASES.set(EXPECTED_CASES_FACTORY.apply(exceptionMapper));
+  }
+
+  private static ExpectedCases contextExpectedCases() {
+
+    return CONTEXT_EXPECTED_CASES.get();
+  }
+
   // parameter preconditions -----------------------------------------------------------------------
 
   public static <E> GenericExpectation<E> param(E parameter) {
 
-    return param(parameter, null);
-  }
-
-  public static <E> GenericExpectation<E> param(E parameter, String name) {
-
-    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
+    return paramExpectedCases().expect(parameter);
   }
 
   public static StringExpectation param(String parameter) {
 
-    return param(parameter, null);
-  }
-
-  public static StringExpectation param(String parameter, String name) {
-
-    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
+    return paramExpectedCases().expect(parameter);
   }
 
   public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter) {
 
-    return param(parameter, null);
+    return paramExpectedCases().expect(parameter);
   }
 
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter, String name) {
+  public static BooleanExpectation param(Boolean parameter) {
 
-    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
+    return paramExpectedCases().expect(parameter);
   }
 
-  public static BooleanExpectation.Boxed param(Boolean parameter) {
+  public static PrimitiveBooleanExpectation param(boolean parameter) {
 
-    return param(parameter, null);
-  }
-
-  public static BooleanExpectation.Boxed param(Boolean parameter, String name) {
-
-    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
-  }
-
-  public static BooleanExpectation.Primitive param(boolean parameter) {
-
-    return param(parameter, null);
-  }
-
-  public static BooleanExpectation.Primitive param(boolean parameter, String name) {
-
-    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
+    return paramExpectedCases().expect(parameter);
   }
 
   public static <E> CollectionExpectation<E> param(Collection<E> parameter) {
 
-    return param(parameter, null);
-  }
-
-  public static <E> CollectionExpectation<E> param(Collection<E> parameter, String name) {
-
-    return PARAMETER_EXPECTED_CASES.expect(parameter, name);
+    return paramExpectedCases().expect(parameter);
   }
 
   public static void assertParam(boolean statement) {
@@ -106,88 +106,67 @@ public final class Precondition {
 
   public static void assertParam(boolean statement, String message) {
 
-    PARAMETER_EXPECTED_CASES.assertThat(statement, message);
-  }
-
-  // state preconditions ---------------------------------------------------------------------------
-
-  public static <E> GenericExpectation<E> state(E state) {
-
-    return state(state, null);
-  }
-
-  public static <E> GenericExpectation<E> state(E state, String name) {
-
-    return STATE_EXPECTED_CASES.expect(state, name);
-  }
-
-  public static StringExpectation state(String state) {
-
-    return state(state, null);
-  }
-
-  public static StringExpectation state(String state, String name) {
-
-    return STATE_EXPECTED_CASES.expect(state, name);
-  }
-
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> state(N state) {
-
-    return state(state, null);
-  }
-
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> state(N state, String name) {
-
-    return STATE_EXPECTED_CASES.expect(state, name);
-  }
-
-  public static BooleanExpectation.Boxed state(Boolean state) {
-
-    return state(state, null);
-  }
-
-  public static BooleanExpectation.Boxed state(Boolean state, String name) {
-
-    return STATE_EXPECTED_CASES.expect(state, name);
-  }
-
-  public static BooleanExpectation.Primitive state(boolean state) {
-
-    return state(state, null);
-  }
-
-  public static BooleanExpectation.Primitive state(boolean state, String name) {
-
-    return STATE_EXPECTED_CASES.expect(state, name);
-  }
-
-  public static void assertState(boolean statement) {
-
-    assertState(statement, "");
-  }
-
-  public static void assertState(boolean statement, String message) {
-
-    STATE_EXPECTED_CASES.assertThat(statement, message);
+    paramExpectedCases().assertThat(statement, message);
   }
 
   // context preconditions -------------------------------------------------------------------------
 
-  public static ThreadExpectation threadContext() {
+  public static BooleanExpectation context(Boolean contextState) {
 
-    return new ThreadExpectation(
-            Thread.currentThread(),
-            ExceptionProviders.invalidContextExceptionProvider()
-    );
+    return contextExpectedCases().expect(contextState);
+  }
+
+  public static PrimitiveBooleanExpectation context(boolean contextState) {
+
+    return contextExpectedCases().expect(contextState);
+  }
+
+  public static StringExpectation context(String contextState) {
+
+    return contextExpectedCases().expect(contextState);
+  }
+
+  public static <E> GenericExpectation<E> context(E contextState) {
+
+    return contextExpectedCases().expect(contextState);
+  }
+
+  public static <N extends Number & Comparable<N>> NumberExpectation<N> context(N contextState) {
+
+    return contextExpectedCases().expect(contextState);
+  }
+
+  public static void assertContext(boolean statement) {
+
+    assertContext(statement, "");
+  }
+
+  public static void assertContext(boolean statement, String message) {
+
+    contextExpectedCases().assertThat(statement, message);
+  }
+
+  public static ThreadExpectation currentThread() {
+
+    return contextExpectedCases().expect(Thread.currentThread());
+  }
+
+  public static void isInEventDispatchThread() {
+
+    assertContext(SwingUtilities.isEventDispatchThread(),
+        "Expected in EDT, but is not, thread id is: '" + Thread.currentThread().getId() + "'");
   }
 
   private Precondition() { }
 
-  private static final ExpectedCases PARAMETER_EXPECTED_CASES = Expectations.createDefaultExpectedCases(
-          ExceptionProviders.invalidParameterExceptionProvider()
+  private static final Function<Function<String, ? extends RuntimeException>, ExpectedCases> EXPECTED_CASES_FACTORY =
+      Expectations::createDefaultExpectedCases;
+
+  private static final AtomicReference<ExpectedCases> PARAMETER_EXPECTED_CASES = new AtomicReference<>(
+      EXPECTED_CASES_FACTORY.apply(ExceptionProviders.invalidParameterExceptionProvider())
   );
 
-  private static final ExpectedCases STATE_EXPECTED_CASES = Expectations.createDefaultExpectedCases(
-          ExceptionProviders.invalidStateExceptionProvider()
+  private static final AtomicReference<ExpectedCases> CONTEXT_EXPECTED_CASES = new AtomicReference<>(
+      EXPECTED_CASES_FACTORY.apply(ExceptionProviders.invalidContextExceptionProvider())
   );
 }

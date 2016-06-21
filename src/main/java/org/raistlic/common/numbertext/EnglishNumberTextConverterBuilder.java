@@ -37,7 +37,7 @@ public class EnglishNumberTextConverterBuilder implements Supplier<NumberTextCon
 
   public EnglishNumberTextConverterBuilder withEnglishLetterCase(EnglishLetterCase englishLetterCase) {
 
-    Precondition.param(englishLetterCase, "englishLetterCase").isNotNull();
+    Precondition.param(englishLetterCase).isNotNull();
 
     this.englishLetterCase = englishLetterCase;
     return this;

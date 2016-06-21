@@ -4,7 +4,7 @@ import org.raistlic.common.precondition.InvalidParameterException;
 
 import java.util.function.Function;
 
-final class BooleanExpectationDefault extends AbstractGenericExpectation<Boolean, BooleanExpectation>
+final class BooleanExpectationDefault extends GenericExpectationAbstract<Boolean, BooleanExpectation>
     implements BooleanExpectation {
 
   private final Boolean candidate;

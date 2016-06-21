@@ -16,13 +16,13 @@ public final class MethodStream extends ExecutableStream<Method, MethodStream>
 
   public static MethodStream of(Stream<Method> methodStream) {
 
-    Precondition.param(methodStream, "methodStream").isNotNull();
+    Precondition.param(methodStream).isNotNull();
     return new MethodStream(methodStream);
   }
 
   public static MethodStream of(Collection<Method> methodCollection) {
 
-    Precondition.param(methodCollection, "methodCollection").isNotNull();
+    Precondition.param(methodCollection).isNotNull();
     return new MethodStream(methodCollection.stream());
   }
 
@@ -38,7 +38,7 @@ public final class MethodStream extends ExecutableStream<Method, MethodStream>
 
   public MethodStream hasReturnType(Class<?> returnType) {
 
-    Precondition.param(returnType, "returnType").isNotNull();
+    Precondition.param(returnType).isNotNull();
     return filter(m -> m.getReturnType() == returnType);
   }
 

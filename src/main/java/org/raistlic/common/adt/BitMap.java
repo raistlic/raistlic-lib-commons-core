@@ -66,8 +66,8 @@ public abstract class BitMap {
    */
   public static <E> BitMap newInstance(List<E> list, Predicate<? super E> condition) {
 
-    Precondition.param(list, "list").isNotNull();
-    Precondition.param(condition, "condition").isNotNull();
+    Precondition.param(list).isNotNull();
+    Precondition.param(condition).isNotNull();
 
     Builder builder = builder(list.size());
 
@@ -96,7 +96,7 @@ public abstract class BitMap {
    */
   public static Builder builder(int size) {
 
-    Precondition.param(size, "size").noLessThan(0);
+    Precondition.param(size).greaterThanOrEqualTo(0);
 
     return new Builder(size);
   }
@@ -140,8 +140,8 @@ public abstract class BitMap {
      */
     public Builder set(int index) {
 
-      Precondition.param(index, "index").noLessThan(0);
-      Precondition.param(index, "index").lessThan(size);
+      Precondition.param(index).greaterThanOrEqualTo(0)
+          .lessThan(size);
 
       map[index / 8] |= (1 << (index % 8));
       return this;
@@ -158,8 +158,8 @@ public abstract class BitMap {
      */
     public Builder unset(int index) {
 
-      Precondition.param(index, "index").noLessThan(0);
-      Precondition.param(index, "index").lessThan(size);
+      Precondition.param(index).greaterThanOrEqualTo(0)
+          .lessThan(size);
 
       map[index / 8] &= ~(1 << (index % 8));
       return this;
@@ -275,8 +275,8 @@ public abstract class BitMap {
     @Override
     public int rankOne(int index) {
 
-      Precondition.param(index, "index").noLessThan(0);
-      Precondition.param(index, "index").lessThan(size);
+      Precondition.param(index).greaterThanOrEqualTo(0)
+          .lessThan(size);
 
       int offset = index % 8;
       index /= 8;
@@ -287,8 +287,8 @@ public abstract class BitMap {
     @Override
     public int rankZero(int index) {
 
-      Precondition.param(index, "index").noLessThan(0);
-      Precondition.param(index, "index").lessThan(size);
+      Precondition.param(index).greaterThanOrEqualTo(0)
+          .lessThan(size);
 
       return index - rankOne(index) + 1;
     }
@@ -296,7 +296,7 @@ public abstract class BitMap {
     @Override
     public int selectOne(int i) {
 
-      Precondition.param(i, "i").noLessThan(0);
+      Precondition.param(i).greaterThanOrEqualTo(0);
 
       if (i >= rankOne(size - 1)) {
         return -1;
@@ -311,7 +311,7 @@ public abstract class BitMap {
     @Override
     public int selectZero(int i) {
 
-      Precondition.param(i, "i").noLessThan(0);
+      Precondition.param(i).greaterThanOrEqualTo(0);
 
       if (i >= rankZero(size - 1)) {
         return -1;
@@ -347,8 +347,8 @@ public abstract class BitMap {
     @Override
     public boolean isOne(int index) {
 
-      Precondition.param(index, "index").noLessThan(0);
-      Precondition.param(index, "index").lessThan(size);
+      Precondition.param(index).greaterThanOrEqualTo(0)
+          .lessThan(size);
 
       return (map[index / 8] & (1 << (index % 8))) != 0;
     }

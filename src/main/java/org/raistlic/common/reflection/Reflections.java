@@ -18,8 +18,8 @@ public class Reflections {
                                                        Class<A> annotationType,
                                                        boolean includeSuperTypes) {
 
-    Precondition.param(targetType, "targetType").isNotNull();
-    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(targetType).isNotNull();
+    Precondition.param(annotationType).isNotNull();
 
     if (includeSuperTypes) {
       for (Class<?> type : gatherAllSuperTypes(targetType)) {
@@ -54,8 +54,8 @@ public class Reflections {
                                                        Class<A> annotationType,
                                                        boolean includeOverriddenMethods) {
 
-    Precondition.param(targetMethod, "targetMethod").isNotNull();
-    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(targetMethod).isNotNull();
+    Precondition.param(annotationType).isNotNull();
 
     if (includeOverriddenMethods) {
       throw new UnsupportedOperationException();

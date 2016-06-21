@@ -50,7 +50,7 @@ class ConfigManagerDefault extends AbstractMutableConfigDecorator implements Con
 
     super(mutableConfig);
 
-    Precondition.param(configEntityFactory, "configEntityFactory").isNotNull();
+    Precondition.param(configEntityFactory).isNotNull();
 
     this.lock = new Object();
     this.configEntityFactory = configEntityFactory;
@@ -61,7 +61,7 @@ class ConfigManagerDefault extends AbstractMutableConfigDecorator implements Con
   @Override
   public <B> B getConfigEntity(Class<B> entityType, String path) {
 
-    Precondition.param(entityType, "entityType").isNotNull();
+    Precondition.param(entityType).isNotNull();
     if (entityType.isInstance(this)) {
       return entityType.cast(this);
     }
@@ -77,7 +77,7 @@ class ConfigManagerDefault extends AbstractMutableConfigDecorator implements Con
   @Override
   public <C> void registerConfigurable(Configurable<C> configurable) {
 
-    Precondition.param(configurable, "configurable").isNotNull();
+    Precondition.param(configurable).isNotNull();
 
     Class<C> configType = configurable.getConfigType();
     synchronized (lock) {
@@ -122,7 +122,7 @@ class ConfigManagerDefault extends AbstractMutableConfigDecorator implements Con
   @Override
   public <C> void removeConfigurable(Configurable<C> configurable) {
 
-    Precondition.param(configurable, "configurable").isNotNull();
+    Precondition.param(configurable).isNotNull();
 
     Class<C> configType = configurable.getConfigType();
     synchronized (lock) {

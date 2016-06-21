@@ -32,16 +32,16 @@ public final class StopWatchFactory implements Supplier<StopWatch> {
                                           long tickAmount,
                                           TimeUnit timeUnit) {
 
-    Precondition.param(timeStrategy, "timeStrategy").isNotNull();
-    Precondition.param(tickAmount, "tickAmount").greaterThan(0L);
-    Precondition.param(timeUnit, "timeUnit").isNotNull();
+    Precondition.param(timeStrategy).isNotNull();
+    Precondition.param(tickAmount).greaterThan(0L);
+    Precondition.param(timeUnit).isNotNull();
 
     return doCreateStopWatch(timeStrategy, tickAmount, timeUnit);
   }
 
   public static StopWatchFactory newFactory(StopWatch.TimeStrategy timeStrategy) {
 
-    Precondition.param(timeStrategy, "timeStrategy").isNotNull();
+    Precondition.param(timeStrategy).isNotNull();
     return new StopWatchFactory(timeStrategy);
   }
 
@@ -70,8 +70,8 @@ public final class StopWatchFactory implements Supplier<StopWatch> {
 
   public StopWatchFactory withTick(long tickAmount, TimeUnit timeUnit) {
 
-    Precondition.param(tickAmount, "tickAmount").greaterThan(0L);
-    Precondition.param(timeUnit, "timeUnit").isNotNull();
+    Precondition.param(tickAmount).greaterThan(0L);
+    Precondition.param(timeUnit).isNotNull();
 
     this.tickAmount = tickAmount;
     this.timeUnit = timeUnit;

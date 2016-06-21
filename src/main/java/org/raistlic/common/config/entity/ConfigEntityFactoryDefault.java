@@ -63,8 +63,8 @@ class ConfigEntityFactoryDefault implements ConfigEntityFactory {
   @SuppressWarnings("unchecked")
   public <E> E createConfigEntity(Class<E> configEntityType, ConfigSource configSource, String path) {
 
-    Precondition.param(configSource, "configSource").isNotNull();
-    Precondition.param(configEntityType, "configEntityType").isNotNull();
+    Precondition.param(configSource).isNotNull();
+    Precondition.param(configEntityType).isNotNull();
 
     path = (path == null) ? "" : path.trim();
     ClassHelper<E> classHelper = ClassHelper.of(configEntityType);
@@ -178,12 +178,12 @@ class ConfigEntityFactoryDefault implements ConfigEntityFactory {
   @Override
   public <E> void registerDeserializer(Class<E> type, Deserializer<E> deserializer) {
 
-    Precondition.param(deserializer, "deserializer").isNotNull();
-    Precondition.param(type, "type").isNotNull();
-    Precondition.param(type).matches(
-            VALID_DESERIALIZE_CUSTOMIZABLE_TYPE_PREDICATE,
-            "The de-serialize logic for type '" + type.getName() + "' cannot be customized."
-    );
+    Precondition.param(deserializer).isNotNull();
+    Precondition.param(type).isNotNull()
+        .matches(
+                VALID_DESERIALIZE_CUSTOMIZABLE_TYPE_PREDICATE,
+                "The de-serialize logic for type '" + type.getName() + "' cannot be customized."
+        );
 
     deserializers.put(type, deserializer);
   }
@@ -270,12 +270,8 @@ class ConfigEntityFactoryDefault implements ConfigEntityFactory {
 
   private Object getConfigValue(ConfigSource configSource, String key, Class<?> type) {
 
-    VALIDATOR.expect(key).isNotNull(
-            "ConfigProperty annotation value for property type '" + type.getName() + "' is null."
-    );
-    VALIDATOR.expect(key).notEmpty(
-            "ConfigProperty annotation value for property type '" + type.getName() + "' is empty."
-    );
+    VALIDATOR.expect(key).isNotNull("ConfigProperty annotation value for property type '" + type.getName() + "' is null.")
+        .isNotEmpty("ConfigProperty annotation value for property type '" + type.getName() + "' is empty.");
 
     Deserializer<?> deserializer = getDeserializer(type);
     if (deserializer == null) {

@@ -39,8 +39,8 @@ enum PropertiesConfigIO implements ConfigIO {
   @Override
   public void writeConfig(ConfigSource config, OutputStream outputStream) throws ConfigIOException {
 
-    Precondition.param(config, "config").isNotNull();
-    Precondition.param(outputStream, "outputStream").isNotNull();
+    Precondition.param(config).isNotNull();
+    Precondition.param(outputStream).isNotNull();
 
     Properties properties = new Properties();
     for (String key : config.getKeys()) {
@@ -66,7 +66,7 @@ enum PropertiesConfigIO implements ConfigIO {
   @Override
   public Config readConfig(InputStream inputStream) throws ConfigIOException {
 
-    Precondition.param(inputStream, "inputStream").isNotNull();
+    Precondition.param(inputStream).isNotNull();
 
     ConfigBuilder configBuilder = ConfigFactory.newMutableConfig();
     readConfig(configBuilder, inputStream);
@@ -76,8 +76,8 @@ enum PropertiesConfigIO implements ConfigIO {
   @Override
   public void readConfig(ConfigBuilder configBuilder, InputStream inputStream) throws ConfigIOException {
 
-    Precondition.param(configBuilder, "configBuilder").isNotNull();
-    Precondition.param(inputStream, "inputStream").isNotNull();
+    Precondition.param(configBuilder).isNotNull();
+    Precondition.param(inputStream).isNotNull();
 
     Properties properties = new Properties();
     try {

@@ -104,7 +104,7 @@ public final class TaskQueues {
     @Override
     public Thread newThread(Runnable r) {
 
-      Precondition.param(r, "runnable").isNotNull();
+      Precondition.param(r).isNotNull();
 
       Thread thread = new Thread(r);
       if (daemon != null) {

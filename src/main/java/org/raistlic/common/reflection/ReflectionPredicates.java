@@ -1,7 +1,6 @@
 package org.raistlic.common.reflection;
 
 import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.predicate.Predicates;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -191,7 +190,7 @@ public final class ReflectionPredicates {
 
   public static Predicate<Executable> executableWithParameterCount(int parametersCount) {
 
-    Precondition.param(parametersCount, "parametersCount").noLessThan(0);
+    Precondition.param(parametersCount).greaterThanOrEqualTo(0);
 
     if (parametersCount == 0) {
       return ExecutableWithParametersCountPredicate.WITH_ZERO;
@@ -220,14 +219,14 @@ public final class ReflectionPredicates {
   public static Predicate<Executable> executableWithAllParametersMatch(
           Predicate<? super Parameter> parameterPredicate) {
 
-    Precondition.param(parameterPredicate, "parameterPredicate").isNotNull();
+    Precondition.param(parameterPredicate).isNotNull();
     return new ExecutableWithAllParametersMatchPredicate(parameterPredicate);
   }
 
   public static Predicate<Executable> executableWithAnyParameterMatches(
           Predicate<? super Parameter> parameterPredicate) {
 
-    Precondition.param(parameterPredicate, "parameterPredicate").isNotNull();
+    Precondition.param(parameterPredicate).isNotNull();
     return new ExecutableWithAnyParameterMatchesPredicate(parameterPredicate);
   }
 
@@ -315,15 +314,15 @@ public final class ReflectionPredicates {
 
   public static Predicate<AnnotatedElement> elementAnnotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(annotationType).isNotNull();
     return new AnnotatedElementAnnotatedWithTypePredicate(annotationType);
   }
 
   public static <A extends Annotation> Predicate<AnnotatedElement> elementAnnotatedWith(
           Class<A> annotationType, Predicate<? super A> annotationPredicate) {
 
-    Precondition.param(annotationType, "annotationType").isNotNull();
-    Precondition.param(annotationPredicate, "annotationPredicate").isNotNull();
+    Precondition.param(annotationType).isNotNull();
+    Precondition.param(annotationPredicate).isNotNull();
     return new AnnotatedElementAnnotatedWithSpecificPredicate<>(annotationType, annotationPredicate);
   }
 
@@ -372,19 +371,20 @@ public final class ReflectionPredicates {
 
   public static Predicate<Method> methodNameMatches(Predicate<? super String> namePredicate) {
 
-    Precondition.param(namePredicate, "namePredicate").isNotNull();
+    Precondition.param(namePredicate).isNotNull();
     return new MethodNamePredicate(namePredicate);
   }
 
   public static Predicate<Method> methodHasName(String name) {
 
-    Precondition.param(name).notNullOrEmpty();
+    Precondition.param(name).isNotNull()
+        .isNotEmpty();
     return methodNameMatches(name::equals);
   }
 
   public static Predicate<Method> methodOverrides(Method methodOverridden) {
 
-    Precondition.param(methodOverridden, "methodOverridden").isNotNull();
+    Precondition.param(methodOverridden).isNotNull();
     return new MethodOverridesAnotherPredicate(methodOverridden);
   }
 
@@ -417,7 +417,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Method> methodOverriddenBy(Method overridingMethod) {
 
-    Precondition.param(overridingMethod, "overridingMethod").isNotNull();
+    Precondition.param(overridingMethod).isNotNull();
     return new MethodOverriddenByAnotherPredicate(overridingMethod);
   }
 
@@ -507,7 +507,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Class<?>> hasSuperType(Class<?> superType) {
 
-    Precondition.param(superType, "superType").isNotNull();
+    Precondition.param(superType).isNotNull();
     return new ClassHasSuperTypePredicate(superType);
   }
 
@@ -523,7 +523,7 @@ public final class ReflectionPredicates {
    */
   public static Predicate<Class<?>> hasSubType(Class<?> subType) {
 
-    Precondition.param(subType, "subType").isNotNull();
+    Precondition.param(subType).isNotNull();
     return new ClassHasSubTypePredicate(subType);
   }
 

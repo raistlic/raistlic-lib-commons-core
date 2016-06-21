@@ -16,8 +16,8 @@ public abstract class FilteredList<E> implements Iterable<E> {
   @SuppressWarnings("unchecked")
   public static <E> FilteredList<E> of(E[] elements, Predicate<? super E> predicate) {
 
-    Precondition.param(elements, "elements").isNotNull();
-    Precondition.param(predicate, "predicate").isNotNull();
+    Precondition.param(elements).isNotNull();
+    Precondition.param(predicate).isNotNull();
 
     if (elements.length == 0) {
       return (FilteredList<E>) EMPTY;
@@ -35,8 +35,8 @@ public abstract class FilteredList<E> implements Iterable<E> {
   @SuppressWarnings("unchecked")
   public static <E> FilteredList<E> of(List<E> elements, Predicate<? super E> predicate) {
 
-    Precondition.param(elements, "elements").isNotNull();
-    Precondition.param(predicate, "predicate").isNotNull();
+    Precondition.param(elements).isNotNull();
+    Precondition.param(predicate).isNotNull();
 
     if (elements.isEmpty()) {
       return (FilteredList<E>) EMPTY;
@@ -101,7 +101,7 @@ public abstract class FilteredList<E> implements Iterable<E> {
     @Override
     public E get(int index) {
 
-      Precondition.param(index).noLessThan(0, "Index out of bounds: " + index);
+      Precondition.param(index).greaterThanOrEqualTo(0, "Index out of bounds: " + index);
       Precondition.param(index).lessThan(size(), "Index out of bounds: " + index);
 
       index = bitMap.selectOne(index);
@@ -130,7 +130,7 @@ public abstract class FilteredList<E> implements Iterable<E> {
     @Override
     public E get(int index) {
 
-      Precondition.param(index).noLessThan(0, "Index out of bounds: " + index);
+      Precondition.param(index).greaterThanOrEqualTo(0, "Index out of bounds: " + index);
       Precondition.param(index).lessThan(size(), "Index out of bounds: " + index);
 
       index = bitMap.selectOne(index);

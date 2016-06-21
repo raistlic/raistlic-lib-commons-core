@@ -26,7 +26,7 @@ public final class ConfigFactory {
 
   public static Config wrap(ConfigSource configSource) {
 
-    Precondition.param(configSource, "configSource").isNotNull();
+    Precondition.param(configSource).isNotNull();
     return new ConfigSourceWrapper(configSource);
   }
 

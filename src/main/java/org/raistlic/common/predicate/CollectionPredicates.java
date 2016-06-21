@@ -25,7 +25,7 @@ public final class CollectionPredicates {
 
   public static Predicate<Collection<?>> hasSize(int size) {
 
-    Precondition.param(size, "size").greaterThanOrEqualTo(0);
+    Precondition.param(size).greaterThanOrEqualTo(0);
     return new CollectionWithSizePredicate(size);
   }
 

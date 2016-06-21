@@ -40,7 +40,7 @@ public final class PredicateNotWrapper<E> implements Predicate<E> {
    */
   public PredicateNotWrapper(Predicate<? super E> original) {
 
-    Precondition.param(original, "original").isNotNull();
+    Precondition.param(original).isNotNull();
 
     this.original = original;
   }

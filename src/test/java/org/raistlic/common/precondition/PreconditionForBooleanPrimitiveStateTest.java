@@ -13,66 +13,38 @@ public class PreconditionForBooleanPrimitiveStateTest {
   @Test
   public void testIsTrueWithTrue() {
 
-    Precondition.state(true).isTrue();
-    Precondition.state(true, "name").isTrue();
-    Precondition.state(true).isTrue("message");
-    Precondition.state(true, "name").isTrue("message");
+    Precondition.context(true).isTrue();
+    Precondition.context(true).isTrue("message");
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseNoNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsTrueWithFalseNoMessage() {
 
-    Precondition.state(false).isTrue();
+    Precondition.context(false).isTrue();
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseWithNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsTrueWithFalseWithMessage() {
 
-    Precondition.state(false, "name").isTrue();
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseNoNameWithMessage() {
-
-    Precondition.state(false).isTrue("message");
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsTrueWithFalseWithNameWithMessage() {
-
-    Precondition.state(false, "name").isTrue("message");
+    Precondition.context(false).isTrue("message");
   }
 
   @Test
   public void testIsFalseWithFalse() {
 
-    Precondition.state(false).isFalse();
-    Precondition.state(false, "name").isFalse();
-    Precondition.state(false).isFalse("message");
-    Precondition.state(false, "name").isFalse("message");
+    Precondition.context(false).isFalse();
+    Precondition.context(false).isFalse("message");
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueNoNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsFalseWithTrueNoMessage() {
 
-    Precondition.state(true).isFalse();
+    Precondition.context(true).isFalse();
   }
 
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueWithNameNoMessage() {
+  @Test(expected = InvalidContextException.class)
+  public void testIsFalseWithTrueWithMessage() {
 
-    Precondition.state(true, "name").isFalse();
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueNoNameWithMessage() {
-
-    Precondition.state(true).isFalse("message");
-  }
-
-  @Test(expected = InvalidStateException.class)
-  public void testIsFalseWithTrueWithNameWithMessage() {
-
-    Precondition.state(true, "name").isFalse("message");
+    Precondition.context(true).isFalse("message");
   }
 }

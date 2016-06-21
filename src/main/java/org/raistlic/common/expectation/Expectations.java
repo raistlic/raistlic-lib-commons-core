@@ -25,7 +25,7 @@ public class Expectations {
     if (exceptionProvider == null) {
       throw new InvalidParameterException("'exceptionProvider' is null.");
     }
-    return new DefaultExpectedCases(exceptionProvider);
+    return new ExpectedCasesDefault(exceptionProvider);
   }
 
   public static ExpectedCases createThreadLocalExpectedCases(Function<String, ? extends RuntimeException> exceptionProvider) {

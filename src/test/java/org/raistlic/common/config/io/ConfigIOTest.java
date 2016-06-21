@@ -211,7 +211,7 @@ public class ConfigIOTest {
 
   private static String readAll(InputStream inputStream) throws IOException {
 
-    Precondition.param(inputStream, "inputStream").isNotNull();
+    Precondition.param(inputStream).isNotNull();
 
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     int read;

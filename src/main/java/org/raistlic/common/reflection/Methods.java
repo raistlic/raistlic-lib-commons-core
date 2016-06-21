@@ -37,8 +37,8 @@ public class Methods {
    */
   public static List<Method> findOverriddenMethods(Method method) {
 
-    Precondition.param(method, "method").isNotNull();
-    Precondition.param(method, "method").matches(ReflectionPredicates.memberIsNotStatic());
+    Precondition.param(method).isNotNull();
+    Precondition.param(method).matches(ReflectionPredicates.memberIsNotStatic());
     Arrays.asList(method.getParameters()).forEach(parameter -> {
       if (parameter.getParameterizedType() != null) {
         throw new UnsupportedOperationException("Methods with generic type parameters are not supported.");
@@ -59,7 +59,7 @@ public class Methods {
 
   public static Predicate<Method> predicateParametersAnnotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(annotationType).isNotNull();
 
     return new MethodParametersAnnotatedWith(annotationType);
   }
@@ -90,7 +90,7 @@ public class Methods {
 
   public static Predicate<Method> predicateWithParameterCount(int parametersCount) {
 
-    Precondition.param(parametersCount, "parametersCount").noLessThan(0);
+    Precondition.param(parametersCount).greaterThanOrEqualTo(0);
 
     if (parametersCount == 0) {
       return MethodWithParametersCount.WITH_ZERO;
@@ -168,7 +168,7 @@ public class Methods {
 
     Method getOverridenMethod(Type type) {
 
-      Precondition.param(type, "type").isNotNull();
+      Precondition.param(type).isNotNull();
       throw new UnsupportedOperationException();
 
 //      Type genericType = getPossibleGenericType(type);

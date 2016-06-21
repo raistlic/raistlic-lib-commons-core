@@ -16,9 +16,8 @@
 
 package org.raistlic.common.taskqueue;
 
-import org.raistlic.common.precondition.InvalidContextException;
 import org.raistlic.common.precondition.InvalidParameterException;
-import org.raistlic.common.precondition.InvalidStateException;
+import org.raistlic.common.precondition.InvalidContextException;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -36,9 +35,9 @@ public interface TaskQueue {
    *
    * @param task the task to be scheduled, cannot be {@code null}.
    * @throws InvalidParameterException when {@code task} is {@code null}.
-   * @throws InvalidStateException if the task queue is not running.
+   * @throws InvalidContextException if the task queue is not running.
    */
-  void schedule(Runnable task) throws InvalidParameterException, InvalidStateException;
+  void schedule(Runnable task) throws InvalidParameterException, InvalidContextException;
 
   /**
    * The method submits a runnable task that has a returned result when executed into the queue,
@@ -48,9 +47,9 @@ public interface TaskQueue {
    * @param <R> the actual return type of the {@link Task}'s run method.
    * @return the promise that references the scheduled task.
    * @throws InvalidParameterException when {@code task} is {@code null}.
-   * @throws InvalidStateException if the task queue is not running.
+   * @throws InvalidContextException if the task queue is not running.
    */
-  <R> Promise<R> schedule(Task<R> task) throws InvalidParameterException, InvalidStateException;
+  <R> Promise<R> schedule(Task<R> task) throws InvalidParameterException, InvalidContextException;
 
   /**
    * The method submits the {@code task} into the task queue, waits until it's executed,
@@ -60,7 +59,7 @@ public interface TaskQueue {
    * @param <R> the actual return type of the {@link Task}'s run method.
    * @return the {@code task} 's execution result.
    * @throws InvalidParameterException when {@code task} is {@code null}.
-   * @throws InvalidStateException if the task queue is not running.
+   * @throws InvalidContextException if the task queue is not running.
    * @throws InvalidContextException when the method is called within the task queue execution thread,
    *         see {@link #isTaskExecutionThread()} .
    * @throws TaskExecutionException if the {@code task}'s {@link java.util.concurrent.Callable#call()}
@@ -69,7 +68,7 @@ public interface TaskQueue {
    *         for the {@code task} to be executed.
    */
   <R> R scheduleAndWait(Task<R> task) throws InvalidParameterException,
-          InvalidStateException,
+          InvalidContextException,
           InvalidContextException,
           TaskExecutionException,
           InterruptedException;
@@ -86,7 +85,7 @@ public interface TaskQueue {
    * @return the {@code task} 's execution result.
    * @throws InvalidParameterException when {@code task} is {@code null}, or when {@code timeout} is
    *         less than {@code 0} .
-   * @throws InvalidStateException if the task queue is not running.
+   * @throws InvalidContextException if the task queue is not running.
    * @throws InvalidContextException when the method is called within the task queue execution thread,
    *         see {@link #isTaskExecutionThread()} .
    * @throws TaskExecutionException if the {@code task}'s {@link java.util.concurrent.Callable#call()}
@@ -97,7 +96,7 @@ public interface TaskQueue {
    */
   <R> R scheduleAndWait(Task<R> task, long timeout, TimeUnit timeUnit)
           throws InvalidParameterException,
-          InvalidStateException,
+          InvalidContextException,
           InvalidContextException,
           TaskExecutionException,
           InterruptedException,
@@ -107,9 +106,9 @@ public interface TaskQueue {
    * The method returns whether the current (calling) thread is the task queue thread.
    *
    * @return {@code true} if the current (calling) thread is the task queue thread.
-   * @throws InvalidStateException if the task queue is not running.
+   * @throws InvalidContextException if the task queue is not running.
    */
-  boolean isTaskExecutionThread() throws InvalidStateException;
+  boolean isTaskExecutionThread() throws InvalidContextException;
 
   /**
    * The method returns whether the task queue is running. Attempting to submit a task to a not

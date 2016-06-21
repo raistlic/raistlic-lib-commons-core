@@ -30,65 +30,37 @@ public class PreconditionForBooleanPrimitiveParamTest {
   public void testIsTrueWithTrue() {
 
     Precondition.param(true).isTrue();
-    Precondition.param(true, "name").isTrue();
     Precondition.param(true).isTrue("message");
-    Precondition.param(true, "name").isTrue("message");
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseNoNameNoMessage() {
+  public void testIsTrueWithFalseNoMessage() {
 
     Precondition.param(false).isTrue();
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseWithNameNoMessage() {
-
-    Precondition.param(false, "name").isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseNoNameWithMessage() {
+  public void testIsTrueWithFalseWithMessage() {
 
     Precondition.param(false).isTrue("message");
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseWithNameWithMessage() {
-
-    Precondition.param(false, "name").isTrue("message");
   }
 
   @Test
   public void testIsFalseWithFalse() {
 
     Precondition.param(false).isFalse();
-    Precondition.param(false, "name").isFalse();
     Precondition.param(false).isFalse("message");
-    Precondition.param(false, "name").isFalse("message");
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueNoNameNoMessage() {
+  public void testIsFalseWithTrueNoMessage() {
 
     Precondition.param(true).isFalse();
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueWithNameNoMessage() {
-
-    Precondition.param(true, "name").isFalse();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueNoNameWithMessage() {
+  public void testIsFalseWithTrueWithMessage() {
 
     Precondition.param(true).isFalse("message");
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueWithNameWithMessage() {
-
-    Precondition.param(true, "name").isFalse("message");
   }
 }

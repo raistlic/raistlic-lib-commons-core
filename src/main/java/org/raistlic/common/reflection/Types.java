@@ -28,8 +28,8 @@ public final class Types {
    */
   public static ParameterizedType findParameterizedTypeFor(Class<?> concreteType, Class<?> rawType) {
 
-    Precondition.param(rawType, "rawType").isNotNull();
-    Precondition.param(concreteType, "concreteType")
+    Precondition.param(rawType).isNotNull();
+    Precondition.param(concreteType)
         .isNotNull()
         .matches(rawType::isAssignableFrom);
 

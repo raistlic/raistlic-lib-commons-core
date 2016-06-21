@@ -31,7 +31,7 @@ class ConfigSourcePropertiesWrapper implements ConfigSource {
 
   ConfigSourcePropertiesWrapper(Properties properties) {
 
-    Precondition.param(properties, "properties").isNotNull();
+    Precondition.param(properties).isNotNull();
 
     this.properties = properties;
   }
@@ -47,14 +47,14 @@ class ConfigSourcePropertiesWrapper implements ConfigSource {
   @Override
   public boolean hasKey(String key) {
 
-    Precondition.param(key, "key").isNotNull();
+    Precondition.param(key).isNotNull();
     return properties.contains(key);
   }
 
   @Override
   public String getString(String key) {
 
-    Precondition.param(key, "key").isNotNull();
+    Precondition.param(key).isNotNull();
     return properties.getProperty(key);
   }
 }

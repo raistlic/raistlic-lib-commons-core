@@ -16,9 +16,8 @@
 
 package org.raistlic.common.taskqueue;
 
-import org.raistlic.common.precondition.InvalidContextException;
 import org.raistlic.common.precondition.InvalidParameterException;
-import org.raistlic.common.precondition.InvalidStateException;
+import org.raistlic.common.precondition.InvalidContextException;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 import org.raistlic.common.util.ExceptionHandler;
@@ -55,8 +54,8 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   DefaultTaskQueue(ThreadFactory threadFactory,
                    ExceptionHandler exceptionHandler) {
 
-    Precondition.param(threadFactory, "threadFactory").isNotNull();
-    Precondition.param(exceptionHandler, "exceptionHandler").isNotNull();
+    Precondition.param(threadFactory).isNotNull();
+    Precondition.param(exceptionHandler).isNotNull();
 
     this.executorService = Executors.newSingleThreadExecutor(threadFactory);
     this.exceptionHandler = exceptionHandler;
@@ -114,18 +113,18 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   }
 
   @Override
-  public void schedule(Runnable task) throws InvalidParameterException, InvalidStateException {
+  public void schedule(Runnable task) throws InvalidParameterException, InvalidContextException {
 
-    Precondition.param(task, "task").isNotNull();
-    Precondition.state(running.get(), "running").isTrue();
+    Precondition.param(task).isNotNull();
+    Precondition.context(running.get()).isTrue();
 
     queue.offer(this.new ExceptionFreeTaskWrapper(task));
   }
 
   @Override
-  public <R> Promise<R> schedule(Task<R> task) throws InvalidParameterException, InvalidStateException {
+  public <R> Promise<R> schedule(Task<R> task) throws InvalidParameterException, InvalidContextException {
 
-    Precondition.param(task, "task").isNotNull();
+    Precondition.param(task).isNotNull();
 
     DefaultPromise<R> defaultPromise = new DefaultPromise<R>(task, exceptionHandler);
     queue.offer(defaultPromise);
@@ -135,17 +134,17 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   @Override
   public <R> R scheduleAndWait(Task<R> task)
           throws InvalidParameterException,
-                 InvalidStateException,
+                 InvalidContextException,
                  InvalidContextException,
                  TaskExecutionException,
                  InterruptedException {
 
-    Precondition.param(task, "task").isNotNull();
-    Precondition.threadContext().matches(
+    Precondition.param(task).isNotNull();
+    Precondition.currentThread().matches(
             isNotTaskQueuePredicate,
             "The method cannot be invoked with in the task queue execution thread."
     );
-    Precondition.state(running.get(), "running").isTrue();
+    Precondition.context(running.get()).isTrue();
 
     Promise<R> promise = schedule(task);
     try {
@@ -159,20 +158,20 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   @Override
   public <R> R scheduleAndWait(Task<R> task, long timeout, TimeUnit timeUnit)
           throws InvalidParameterException,
-                 InvalidStateException,
+                 InvalidContextException,
                  InvalidContextException,
                  TaskExecutionException,
                  InterruptedException,
                  TimeoutException {
 
-    Precondition.param(timeout, "timeout").greaterThanOrEqualTo(0L);
-    Precondition.param(timeUnit, "timeUnit").isNotNull();
-    Precondition.param(task, "task").isNotNull();
-    Precondition.threadContext().matches(
+    Precondition.param(timeout).greaterThanOrEqualTo(0L);
+    Precondition.param(timeUnit).isNotNull();
+    Precondition.param(task).isNotNull();
+    Precondition.currentThread().matches(
             isNotTaskQueuePredicate,
             "The method cannot be invoked with in the task queue execution thread."
     );
-    Precondition.state(running.get(), "running").isTrue();
+    Precondition.context(running.get()).isTrue();
 
     Promise<R> promise = schedule(task);
     try {
@@ -184,7 +183,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
   }
 
   @Override
-  public boolean isTaskExecutionThread() throws InvalidStateException {
+  public boolean isTaskExecutionThread() throws InvalidContextException {
 
     return Thread.currentThread() == taskQueueThread;
   }

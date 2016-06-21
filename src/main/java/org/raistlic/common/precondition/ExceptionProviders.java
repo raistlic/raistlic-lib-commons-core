@@ -30,11 +30,6 @@ abstract class ExceptionProviders {
     return InvalidParameterExceptionProvider.INSTANCE;
   }
 
-  static Function<String, InvalidStateException> invalidStateExceptionProvider() {
-
-    return InvalidStateExceptionProvider.INSTANCE;
-  }
-
   static Function<String, InvalidContextException> invalidContextExceptionProvider() {
 
     return InvalidContextExceptionProvider.INSTANCE;
@@ -48,17 +43,6 @@ abstract class ExceptionProviders {
     public InvalidParameterException apply(String message) {
 
       return new InvalidParameterException(message);
-    }
-  }
-
-  private enum InvalidStateExceptionProvider implements Function<String, InvalidStateException> {
-
-    INSTANCE;
-
-    @Override
-    public InvalidStateException apply(String message) {
-
-      return new InvalidStateException(message);
     }
   }
 

@@ -49,14 +49,14 @@ final class ConfigSourceMapWrapper implements ConfigSource {
   @Override
   public boolean hasKey(String key) {
 
-    Precondition.param(key, "key").isNotNull();
+    Precondition.param(key).isNotNull();
     return keys.contains(key);
   }
 
   @Override
   public String getString(String key) {
 
-    Precondition.param(key, "key").isNotNull();
+    Precondition.param(key).isNotNull();
     return map.get(key);
   }
 }

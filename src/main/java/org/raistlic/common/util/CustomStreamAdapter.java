@@ -32,7 +32,7 @@ public abstract class CustomStreamAdapter<T, CS extends CustomStreamAdapter<T, C
 
   protected CustomStreamAdapter(Stream<T> originalStream) {
 
-    Precondition.param(originalStream, "originalStream").isNotNull();
+    Precondition.param(originalStream).isNotNull();
     this.originalStream = originalStream;
   }
 

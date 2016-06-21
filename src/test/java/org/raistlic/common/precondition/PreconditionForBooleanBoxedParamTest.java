@@ -14,65 +14,37 @@ public class PreconditionForBooleanBoxedParamTest {
   public void testIsTrueWithTrue() {
 
     Precondition.param(Boolean.TRUE).isTrue();
-    Precondition.param(Boolean.TRUE, "name").isTrue();
     Precondition.param(Boolean.TRUE).isTrue("message");
-    Precondition.param(Boolean.TRUE, "name").isTrue("message");
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseNoNameNoMessage() {
+  public void testIsTrueWithFalseNoMessage() {
 
     Precondition.param(Boolean.FALSE).isTrue();
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseWithNameNoMessage() {
-
-    Precondition.param(Boolean.FALSE, "name").isTrue();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseNoNameWithMessage() {
+  public void testIsTrueWithFalseWithMessage() {
 
     Precondition.param(Boolean.FALSE).isTrue("message");
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsTrueWithFalseWithNameWithMessage() {
-
-    Precondition.param(Boolean.FALSE, "name").isTrue("message");
   }
 
   @Test
   public void testIsFalseWithFalse() {
 
     Precondition.param(Boolean.FALSE).isFalse();
-    Precondition.param(Boolean.FALSE, "name").isFalse();
     Precondition.param(Boolean.FALSE).isFalse("message");
-    Precondition.param(Boolean.FALSE, "name").isFalse("message");
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueNoNameNoMessage() {
+  public void testIsFalseWithTrueNoMessage() {
 
     Precondition.param(Boolean.TRUE).isFalse();
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueWithNameNoMessage() {
-
-    Precondition.param(Boolean.TRUE, "name").isFalse();
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueNoNameWithMessage() {
+  public void testIsFalseWithTrueWithMessage() {
 
     Precondition.param(Boolean.TRUE).isFalse("message");
-  }
-
-  @Test(expected = InvalidParameterException.class)
-  public void testIsFalseWithTrueWithNameWithMessage() {
-
-    Precondition.param(Boolean.TRUE, "name").isFalse("message");
   }
 }

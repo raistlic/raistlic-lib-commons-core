@@ -18,13 +18,13 @@ public class ConstructorStream<E> extends ExecutableStream<Constructor<E>, Const
 
   public static <E> ConstructorStream<E> of(Stream<Constructor<E>> constructorStream) {
 
-    Precondition.param(constructorStream, "constructorStream").isNotNull();
+    Precondition.param(constructorStream).isNotNull();
     return new ConstructorStream<>(constructorStream);
   }
 
   public static <E> ConstructorStream<E> of(Collection<Constructor<E>> constructorCollection) {
 
-    Precondition.param(constructorCollection, "constructorCollection").isNotNull();
+    Precondition.param(constructorCollection).isNotNull();
     return new ConstructorStream<>(constructorCollection.stream());
   }
 
@@ -35,7 +35,7 @@ public class ConstructorStream<E> extends ExecutableStream<Constructor<E>, Const
   @Deprecated
   public static Predicate<Constructor<?>> predicateParametersAnnotatedWith(Class<? extends Annotation> annotationType) {
 
-    Precondition.param(annotationType, "annotationType").isNotNull();
+    Precondition.param(annotationType).isNotNull();
 
     return new ConstructorParametersAnnotatedWith(annotationType);
   }

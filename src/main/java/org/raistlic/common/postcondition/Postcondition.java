@@ -6,6 +6,7 @@ import org.raistlic.common.expectation.Expectations;
 import org.raistlic.common.expectation.ExpectedCases;
 import org.raistlic.common.expectation.GenericExpectation;
 import org.raistlic.common.expectation.NumberExpectation;
+import org.raistlic.common.expectation.PrimitiveBooleanExpectation;
 import org.raistlic.common.expectation.StringExpectation;
 import org.raistlic.common.precondition.Precondition;
 
@@ -27,7 +28,7 @@ public final class Postcondition {
 
   public static void setPostconditionExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    Precondition.param(exceptionMapper, "exceptionMapper").isNotNull();
+    Precondition.param(exceptionMapper).isNotNull();
     EXPECTED_CASES.set(Expectations.createDefaultExpectedCases(exceptionMapper));
   }
 
@@ -38,62 +39,32 @@ public final class Postcondition {
 
   public static <E> GenericExpectation<E> assertThat(E entity) {
 
-    return assertThat(entity, null);
-  }
-
-  public static <E> GenericExpectation<E> assertThat(E entity, String name) {
-
-    return expectedCases().expect(entity, name);
+    return expectedCases().expect(entity);
   }
 
   public static StringExpectation assertThat(String entity) {
 
-    return assertThat(entity, null);
-  }
-
-  public static StringExpectation assertThat(String entity, String name) {
-
-    return expectedCases().expect(entity, name);
+    return expectedCases().expect(entity);
   }
 
   public static <N extends Number & Comparable<N>> NumberExpectation<N> assertThat(N entity) {
 
-    return assertThat(entity, null);
+    return expectedCases().expect(entity);
   }
 
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> assertThat(N entity, String name) {
+  public static BooleanExpectation assertThat(Boolean entity) {
 
-    return expectedCases().expect(entity, name);
+    return expectedCases().expect(entity);
   }
 
-  public static BooleanExpectation.Boxed assertThat(Boolean entity) {
+  public static PrimitiveBooleanExpectation assertThat(boolean entity) {
 
-    return assertThat(entity, null);
-  }
-
-  public static BooleanExpectation.Boxed assertThat(Boolean entity, String name) {
-
-    return expectedCases().expect(entity, name);
-  }
-
-  public static BooleanExpectation.Primitive assertThat(boolean entity) {
-
-    return assertThat(entity, null);
-  }
-
-  public static BooleanExpectation.Primitive assertThat(boolean entity, String name) {
-
-    return expectedCases().expect(entity, name);
+    return expectedCases().expect(entity);
   }
 
   public static <E> CollectionExpectation<E> assertThat(Collection<E> entity) {
 
-    return assertThat(entity, null);
-  }
-
-  public static <E> CollectionExpectation<E> assertThat(Collection<E> entity, String name) {
-
-    return expectedCases().expect(entity, name);
+    return expectedCases().expect(entity);
   }
 
   public static void isTrue(boolean statement) {
