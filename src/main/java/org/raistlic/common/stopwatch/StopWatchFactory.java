@@ -16,83 +16,19 @@
 
 package org.raistlic.common.stopwatch;
 
-import org.raistlic.common.precondition.Precondition;
-
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  *
  * @author Lei CHEN (2013-03-27)
  * @since 1.0
  */
-public final class StopWatchFactory implements Supplier<StopWatch> {
+public final class StopWatchFactory {
 
-  public static StopWatch createStopWatch(StopWatch.TimeStrategy timeStrategy,
-                                          long tickAmount,
-                                          TimeUnit timeUnit) {
+  public static StopWatch createStopWatch(long tickAmount, TimeUnit tickUnit) {
 
-    Precondition.param(timeStrategy).isNotNull();
-    Precondition.param(tickAmount).greaterThan(0L);
-    Precondition.param(timeUnit).isNotNull();
-
-    return doCreateStopWatch(timeStrategy, tickAmount, timeUnit);
+    return new StopWatchDefault(tickUnit.toNanos(tickAmount));
   }
 
-  public static StopWatchFactory newFactory(StopWatch.TimeStrategy timeStrategy) {
-
-    Precondition.param(timeStrategy).isNotNull();
-    return new StopWatchFactory(timeStrategy);
-  }
-
-  public static StopWatchFactory newNanoWatchFactory() {
-
-    return newFactory(newNanoTimeStrategy());
-  }
-
-  public static StopWatch.TimeStrategy newNanoTimeStrategy() {
-
-    return new NanoTimeStrategy();
-  }
-
-  private final StopWatch.TimeStrategy timeStrategy;
-
-  private long tickAmount;
-
-  private TimeUnit timeUnit;
-
-  private StopWatchFactory(StopWatch.TimeStrategy timeStrategy) {
-
-    this.timeStrategy = timeStrategy;
-    this.tickAmount = 1L;
-    this.timeUnit = TimeUnit.SECONDS;
-  }
-
-  public StopWatchFactory withTick(long tickAmount, TimeUnit timeUnit) {
-
-    Precondition.param(tickAmount).greaterThan(0L);
-    Precondition.param(timeUnit).isNotNull();
-
-    this.tickAmount = tickAmount;
-    this.timeUnit = timeUnit;
-    return this;
-  }
-
-  public StopWatch.TimeStrategy getTimeStrategy() {
-
-    return timeStrategy;
-  }
-
-  @Override
-  public StopWatch get() {
-
-    return doCreateStopWatch(timeStrategy, tickAmount, timeUnit);
-  }
-
-  private static StopWatch doCreateStopWatch(StopWatch.TimeStrategy timeStrategy,
-                                             long tickAmount,
-                                             TimeUnit timeUnit) {
-
-    return new DefaultStopWatch(timeStrategy, tickAmount, timeUnit);
-  }
+  private StopWatchFactory() { }
 }
