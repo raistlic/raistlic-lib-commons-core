@@ -23,6 +23,7 @@ import org.raistlic.common.precondition.Precondition;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -159,61 +160,55 @@ public abstract class AbstractMutableConfigDecorator implements MutableConfig {
   }
 
   @Override
-  public String getString(String key, String value) {
+  public Optional<Boolean> getBoolean(String key) {
 
-    return mutableConfig.getString(key, value);
+    return mutableConfig.getBoolean(key);
   }
 
   @Override
-  public boolean getBoolean(String key, boolean value) {
+  public Optional<Byte> getByte(String key) {
 
-    return mutableConfig.getBoolean(key, value);
+    return mutableConfig.getByte(key);
   }
 
   @Override
-  public byte getByte(String key, byte value) {
+  public Optional<Character> getChar(String key) {
 
-    return mutableConfig.getByte(key, value);
+    return mutableConfig.getChar(key);
   }
 
   @Override
-  public char getChar(String key, char value) {
+  public Optional<Short> getShort(String key) {
 
-    return mutableConfig.getChar(key, value);
+    return mutableConfig.getShort(key);
   }
 
   @Override
-  public short getShort(String key, short value) {
+  public Optional<Integer> getInt(String key) {
 
-    return mutableConfig.getShort(key, value);
+    return mutableConfig.getInt(key);
   }
 
   @Override
-  public int getInt(String key, int value) {
+  public Optional<Long> getLong(String key) {
 
-    return mutableConfig.getInt(key, value);
+    return mutableConfig.getLong(key);
   }
 
   @Override
-  public long getLong(String key, long value) {
+  public Optional<Float> getFloat(String key) {
 
-    return mutableConfig.getLong(key, value);
+    return mutableConfig.getFloat(key);
   }
 
   @Override
-  public float getFloat(String key, float value) {
+  public Optional<Double> getDouble(String key) {
 
-    return mutableConfig.getFloat(key, value);
+    return mutableConfig.getDouble(key);
   }
 
   @Override
-  public double getDouble(String key, double value) {
-
-    return mutableConfig.getDouble(key, value);
-  }
-
-  @Override
-  public <E> E getValue(String key, Decoder<? extends E, String> decoder) {
+  public <E> Optional<E> getValue(String key, Decoder<? extends E, String> decoder) {
 
     return mutableConfig.getValue(key, decoder);
   }

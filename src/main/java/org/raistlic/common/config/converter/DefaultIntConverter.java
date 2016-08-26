@@ -20,8 +20,6 @@ import org.raistlic.common.codec.Codec;
 import org.raistlic.common.codec.ValueConversionException;
 import org.raistlic.common.config.exception.ConfigValueConvertException;
 
-import java.util.regex.Pattern;
-
 /**
  * @author Lei Chen (2015-09-15)
  */
@@ -29,16 +27,20 @@ enum DefaultIntConverter implements Codec<Integer, String> {
 
   INSTANCE;
 
-  private final Pattern pattern = Pattern.compile("[+-]?\\d+");
-
   @Override
   public Integer decode(String target) throws ValueConversionException {
 
     if (target == null) {
       return null;
     }
+
+    target = target.trim();
     try {
-      return Integer.valueOf(target.trim());
+      if (target.startsWith("0x")) {
+        return Integer.parseInt(target.substring(2), 16);
+      } else {
+        return Integer.parseInt(target.trim());
+      }
     }
     catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);

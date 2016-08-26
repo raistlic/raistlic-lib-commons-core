@@ -21,8 +21,9 @@ import org.raistlic.common.codec.Decoder;
 import org.raistlic.common.codec.ValueConversionException;
 import org.raistlic.common.config.converter.ConfigConverters;
 import org.raistlic.common.config.exception.ConfigValueConvertException;
+import org.raistlic.common.precondition.Precondition;
 
-import static org.raistlic.common.precondition.Precondition.param;
+import java.util.Optional;
 
 /**
  * @author Lei Chen (2015-09-17)
@@ -30,106 +31,69 @@ import static org.raistlic.common.precondition.Precondition.param;
 abstract class AbstractConfig implements Config {
 
   @Override
-  public String getString(String key, String value) {
+  public Optional<Boolean> getBoolean(String key) {
 
-    param(key).isNotNull();
-    String val = getString(key);
-    return val == null ? value : val;
+    return Optional.ofNullable(getString(key))
+        .map(BOOLEAN_CONVERTER::decode);
   }
 
   @Override
-  public boolean getBoolean(String key, boolean value) {
+  public Optional<Byte> getByte(String key) {
 
-    param(key).isNotNull();
-    String val = getString(key);
-    if (val == null) {
-      return value;
-    }
-    return BOOLEAN_CONVERTER.decode(val);
+    return Optional.ofNullable(getString(key))
+        .map(BYTE_CONVERTER::decode);
   }
 
   @Override
-  public byte getByte(String key, byte value) {
+  public Optional<Character> getChar(String key) {
 
-    param(key).isNotNull();
-    String val = getString(key);
-    return (val == null) ? value : BYTE_CONVERTER.decode(val);
+    return Optional.ofNullable(getString(key))
+        .map(CHAR_CONVERTER::decode);
   }
 
   @Override
-  public char getChar(String key, char value) {
+  public Optional<Short> getShort(String key) {
 
-    param(key).isNotNull();
-    String val = getString(key);
-    return (val == null) ? value : CHAR_CONVERTER.decode(val);
+    return Optional.ofNullable(getString(key))
+        .map(SHORT_CONVERTER::decode);
   }
 
   @Override
-  public short getShort(String key, short value) {
+  public Optional<Integer> getInt(String key) {
 
-    param(key).isNotNull();
-    String val = getString(key);
-    if (val == null) {
-      return value;
-    }
+    return Optional.ofNullable(getString(key))
+        .map(INT_CONVERTER::decode);
+  }
+
+  @Override
+  public Optional<Long> getLong(String key) {
+
+    return Optional.ofNullable(getString(key))
+        .map(LONG_CONVERTER::decode);
+  }
+
+  @Override
+  public Optional<Float> getFloat(String key) {
+
+    return Optional.ofNullable(getString(key))
+        .map(FLOAT_CONVERTER::decode);
+  }
+
+  @Override
+  public Optional<Double> getDouble(String key) {
+
+    return Optional.ofNullable(getString(key))
+        .map(DOUBLE_CONVERTER::decode);
+  }
+
+  @Override
+  public <E> Optional<E> getValue(String key, Decoder<? extends E, String> decoder) {
+
+    Precondition.param(decoder).isNotNull();
+
     try {
-      return Short.parseShort(val);
-    }
-    catch (NumberFormatException ex) {
-      throw new ConfigValueConvertException(ex);
-    }
-  }
-
-  @Override
-  public int getInt(String key, int value) {
-
-    param(key).isNotNull();
-    String val = getString(key);
-    return (val == null) ? value : INT_CONVERTER.decode(val);
-  }
-
-  @Override
-  public long getLong(String key, long value) {
-
-    param(key).isNotNull();
-    String val = getString(key);
-    return (val == null) ? value : LONG_CONVERTER.decode(val);
-  }
-
-  @Override
-  public float getFloat(String key, float value) {
-
-    param(key).isNotNull();
-    String val = getString(key);
-    return (val == null) ? value : FLOAT_CONVERTER.decode(val);
-  }
-
-  @Override
-  public double getDouble(String key, double value) {
-
-    param(key).isNotNull();
-    String val = getString(key);
-    return (val == null) ? value : DOUBLE_CONVERTER.decode(val);
-  }
-
-  @Override
-  public <E> E getValue(String key, Decoder<? extends E, String> decoder) {
-
-    return getValue(key, decoder, null);
-  }
-
-  @Override
-  public <E> E getValue(String key, Decoder<? extends E, String> decoder, E value) {
-
-    param(key).isNotNull();
-    param(decoder).isNotNull();
-
-    String val = getString(key);
-    if (val == null) {
-      return value;
-    }
-    try {
-      return decoder.decode(val);
+      return Optional.ofNullable(getString(key))
+          .map(decoder::decode);
     }
     catch (ValueConversionException ex) {
       throw new ConfigValueConvertException(ex);

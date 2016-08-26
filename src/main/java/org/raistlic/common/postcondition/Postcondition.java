@@ -4,6 +4,7 @@ import org.raistlic.common.expectation.BooleanExpectation;
 import org.raistlic.common.expectation.CollectionExpectation;
 import org.raistlic.common.expectation.Expectations;
 import org.raistlic.common.expectation.ExpectedCases;
+import org.raistlic.common.expectation.ExpectedCasesFactory;
 import org.raistlic.common.expectation.GenericExpectation;
 import org.raistlic.common.expectation.NumberExpectation;
 import org.raistlic.common.expectation.PrimitiveBooleanExpectation;
@@ -23,18 +24,35 @@ import java.util.function.Function;
  */
 public final class Postcondition {
 
-  private static final AtomicReference<ExpectedCases> EXPECTED_CASES =
-          new AtomicReference<>(Expectations.createDefaultExpectedCases(PostconditionException::new));
-
-  public static void setPostconditionExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
+  public static void setExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
     Precondition.param(exceptionMapper).isNotNull();
-    EXPECTED_CASES.set(Expectations.createDefaultExpectedCases(exceptionMapper));
+
+    expectedCasesFactory.setExceptionMapper(exceptionMapper)
+        .ifPresent(expectedCasesReference::set);
+  }
+
+  public static void setExpectedCasesStrategy(ExpectedCases.Strategy strategy) {
+
+    Precondition.param(strategy).isNotNull();
+
+    expectedCasesFactory.setExpectedCasesStrategy(strategy)
+        .ifPresent(expectedCasesReference::set);
+  }
+
+  public static void switchOn() {
+
+    expectedCasesFactory.setSwitch(true);
+  }
+
+  public static void switchOff() {
+
+    expectedCasesFactory.setSwitch(false);
   }
 
   private static ExpectedCases expectedCases() {
 
-    return EXPECTED_CASES.get();
+    return expectedCasesReference.get();
   }
 
   public static <E> GenericExpectation<E> assertThat(E entity) {
@@ -81,4 +99,11 @@ public final class Postcondition {
    * Not to be instantiated or inherited.
    */
   private Postcondition() { }
+
+  private static final ExpectedCasesFactory expectedCasesFactory = new ExpectedCasesFactory(
+      PostconditionException::new, ExpectedCases.Strategy.CREATE_NEW
+  );
+
+  private static final AtomicReference<ExpectedCases> expectedCasesReference =
+      new AtomicReference<>(Expectations.createDefaultExpectedCases(PostconditionException::new));
 }

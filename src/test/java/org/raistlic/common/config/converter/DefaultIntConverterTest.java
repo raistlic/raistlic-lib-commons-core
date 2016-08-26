@@ -59,7 +59,6 @@ public class DefaultIntConverterTest extends BaseConverterTest {
     cases.add(new Object[] {"123a"});
     cases.add(new Object[] {"a123"});
     cases.add(new Object[] {"asdf"});
-    cases.add(new Object[]{"0xb1d2"});
     return cases;
   }
 
@@ -88,7 +87,8 @@ public class DefaultIntConverterTest extends BaseConverterTest {
     cases.add(new Object[] { "0123", 123 });
     cases.add(new Object[] { "1", 1 });
     cases.add(new Object[] { "0", 0 });
-    cases.add(new Object[]{"2134234", 2134234});
+    cases.add(new Object[] { "2134234", 2134234 });
+    cases.add(new Object[] { "0xb1d2", 0xb1d2 });
     return cases;
   }
 

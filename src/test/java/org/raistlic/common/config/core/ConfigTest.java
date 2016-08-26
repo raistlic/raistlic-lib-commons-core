@@ -32,13 +32,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 /**
  * The unit test for common contract of the {@link Config} interface.
@@ -458,11 +458,11 @@ public class ConfigTest {
   public void getValueNotFound(Config config, String description) {
 
     String key = "140855fb-8e07-494b-94df-43050888030f";
-    Object actual = config.getValue(key, valueConverter);
-    assertThat(actual).isNull();
+    Optional<Object> actualOptional = config.getValue(key, valueConverter);
+    assertThat(actualOptional.isPresent()).isFalse();
 
     Object value = new Object();
-    actual = config.getValue(key, valueConverter, value);
+    Object actual = config.getValue(key, valueConverter, value);
     assertThat(actual).isEqualTo(value);
   }
 
@@ -479,8 +479,8 @@ public class ConfigTest {
   @TestCaseName("getValueExpected {1}")
   public void getValueExpected(Config config, String description) {
 
-    Object actual = config.getValue(KEY_VALUE, valueConverter);
-    assertThat(actual).isEqualTo(FIXTURE_VALUE);
+    Optional<Object> actual = config.getValue(KEY_VALUE, valueConverter);
+    assertThat(actual.orElse(null)).isEqualTo(FIXTURE_VALUE);
   }
 
   private static Map<String, String> createFixtureMap() {

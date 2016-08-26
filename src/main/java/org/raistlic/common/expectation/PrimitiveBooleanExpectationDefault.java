@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ * Copyright 2016 Lei CHEN (raistlic@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import java.util.function.Function;
  */
 final class PrimitiveBooleanExpectationDefault implements PrimitiveBooleanExpectation {
 
-  private final boolean candidate;
-
   private final Function<String, ? extends RuntimeException> exceptionMapper;
+
+  boolean candidate;
 
   PrimitiveBooleanExpectationDefault(boolean candidate,
                                      Function<String, ? extends RuntimeException> exceptionMapper) {
@@ -46,6 +46,12 @@ final class PrimitiveBooleanExpectationDefault implements PrimitiveBooleanExpect
     if (!candidate) {
       throw exceptionMapper.apply("Candidate should be true, but is " + candidate);
     }
+  }
+
+  PrimitiveBooleanExpectation setCandidate(boolean candidate) {
+
+    this.candidate = candidate;
+    return this;
   }
 
   @Override

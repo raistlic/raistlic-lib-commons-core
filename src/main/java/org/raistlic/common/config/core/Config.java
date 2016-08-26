@@ -19,6 +19,8 @@ package org.raistlic.common.config.core;
 import org.raistlic.common.codec.Decoder;
 import org.raistlic.common.config.source.ConfigSource;
 
+import java.util.Optional;
+
 /**
  * The interface abstracts the functionality of a configuration entity instance, which include
  * queries to multiple types of values using {@link String} key.
@@ -38,7 +40,11 @@ public interface Config extends ConfigSource {
    *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
-  String getString(String key, String value);
+  default String getString(String key, String value) {
+
+    return Optional.ofNullable(getString(key))
+        .orElse(value);
+  }
 
   /**
    * The method queries the {@code boolean} value specified by the {@code key} .
@@ -53,7 +59,23 @@ public interface Config extends ConfigSource {
    *         found for the {@code key} , but error occur when trying to convert it to a {@code boolean}
    *         value. See also {@link #hasKey(String)} .
    */
-  boolean getBoolean(String key, boolean value);
+  default boolean getBoolean(String key, boolean value) {
+
+    return getBoolean(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code Boolean} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the value mapped for {@code key} in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException when there is a value
+   *         found for the {@code key} , but error occur when trying to convert it to a {@code boolean}
+   *         value. See also {@link #hasKey(String)} .
+   */
+  Optional<Boolean> getBoolean(String key);
 
   /**
    * The method queries the {@code byte} value specified by the {@code key} .
@@ -67,7 +89,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code byte} .
    */
-  byte getByte(String key, byte value);
+  default byte getByte(String key, byte value) {
+
+    return getByte(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code byte} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code byte} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code byte} .
+   */
+  Optional<Byte> getByte(String key);
 
   /**
    * The method queries the {@code char} value specified by the {@code key} .
@@ -81,7 +118,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code char} .
    */
-  char getChar(String key, char value);
+  default char getChar(String key, char value) {
+
+    return getChar(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code char} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code char} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code char} .
+   */
+  Optional<Character> getChar(String key);
 
   /**
    * The method queries the {@code short} value specified by the {@code key} .
@@ -95,7 +147,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code short} .
    */
-  short getShort(String key, short value);
+  default short getShort(String key, short value) {
+
+    return getShort(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code short} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code short} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code short} .
+   */
+  Optional<Short> getShort(String key);
 
   /**
    * The method queries the {@code int} value specified by the {@code key} .
@@ -109,7 +176,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code int} .
    */
-  int getInt(String key, int value);
+  default int getInt(String key, int value) {
+
+    return getInt(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code int} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code int} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code int} .
+   */
+  Optional<Integer> getInt(String key);
 
   /**
    * The method queries the {@code long} value specified by the {@code key} .
@@ -123,7 +205,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code long} .
    */
-  long getLong(String key, long value);
+  default long getLong(String key, long value) {
+
+    return getLong(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code long} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code long} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code long} .
+   */
+  Optional<Long> getLong(String key);
 
   /**
    * The method queries the {@code float} value specified by the {@code key} .
@@ -137,7 +234,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code float} .
    */
-  float getFloat(String key, float value);
+  default float getFloat(String key, float value) {
+
+    return getFloat(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code float} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code float} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code float} .
+   */
+  Optional<Float> getFloat(String key);
 
   /**
    * The method queries the {@code double} value specified by the {@code key} .
@@ -151,7 +263,22 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to {@code double} .
    */
-  double getDouble(String key, double value);
+  default double getDouble(String key, double value) {
+
+    return getDouble(key).orElse(value);
+  }
+
+  /**
+   * The method queries the {@code double} value specified by the {@code key} .
+   *
+   * @param key the key to search, cannot be {@code null}.
+   * @return the {@code double} value found in the {@link Config}, or an empty {@link Optional} if it's not found.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
+   * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
+   *         for the {@code key} , but failed when being converted to {@code double} .
+   */
+  Optional<Double> getDouble(String key);
 
   /**
    * The method queries the value (of type {@code <E>} specified by the {@code key} .
@@ -172,7 +299,7 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to type {@code <E>} .
    */
-  <E> E getValue(String key, Decoder<? extends E, String> decoder);
+  <E> Optional<E> getValue(String key, Decoder<? extends E, String> decoder);
 
   /**
    * The method queries the value (of type {@code <E>} specified by the {@code key} .
@@ -190,5 +317,8 @@ public interface Config extends ConfigSource {
    * @throws org.raistlic.common.config.exception.ConfigValueConvertException if a value is found
    *         for the {@code key} , but failed when being converted to type {@code <E>} .
    */
-  <E> E getValue(String key, Decoder<? extends E, String> decoder, E value);
+  default <E> E getValue(String key, Decoder<? extends E, String> decoder, E value) {
+
+    return this.<E>getValue(key, decoder).orElse(value);
+  }
 }

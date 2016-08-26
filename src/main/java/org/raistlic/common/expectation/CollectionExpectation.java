@@ -1,150 +1,144 @@
+/*
+ * Copyright 2016 Lei Chen (raistlic@gmail.com)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.raistlic.common.expectation;
 
-import org.raistlic.common.precondition.Precondition;
-import org.raistlic.common.predicate.CollectionPredicates;
-import org.raistlic.common.predicate.Predicates;
-
 import java.util.Collection;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.Comparator;
 
 /**
- * Expectations to validate {@link Collection} instances.
+ * Defines useful expectations around {@link Collection} candidates.
  *
- * @author Lei Chen (2016-03-17)
+ * @param <E> the actual element type of the {@link Collection} candidate.
  */
-public class CollectionExpectation<E> extends GenericExpectationAbstract<Collection<E>, CollectionExpectation<E>> {
+public interface CollectionExpectation<E> extends Expectation<Collection<E>, CollectionExpectation<E>> {
 
-  private final Collection<E> candidate;
+  /**
+   * Checks that the collection candidate is empty, or otherwise throws an exception.
+   *
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> isEmpty();
 
-  private final Function<String, ? extends RuntimeException> exceptionMapper;
+  /**
+   * Checks that the collection candidate is empty, or otherwise throws an exception with the specified {@code message} .
+   *
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> isEmpty(String message);
 
-  CollectionExpectation(Collection<E> candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
+  /**
+   * Checks that the collection is either {@code null} or empty, otherwise throws an exception.
+   *
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> isNullOrEmpty();
 
-    Precondition.assertParam(exceptionMapper != null, "'exceptionMapper' cannot be null.");
+  /**
+   * Checks that the collection is either {@code null} or empty, otherwise throws an exception with the specified
+   * {@code message} .
+   *
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> isNullOrEmpty(String message);
 
-    this.candidate = candidate;
-    this.exceptionMapper = exceptionMapper;
-  }
+  /**
+   * Checks that the collection is empty, otherwise throws an exception.
+   *
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> notEmpty();
 
-  public CollectionExpectation<E> isEmpty() {
+  /**
+   * Checks that the collection is empty, otherwise throws an exception with the specified {@code message} .
+   *
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> notEmpty(String message);
 
-    if (CollectionPredicates.isEmpty().test(getCandidate())) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply("Collection should be empty but is not.");
-  }
+  /**
+   * Checks that the collection has the specified {@code size} , or otherwise throws an exception.
+   *
+   * @param size the size that the collection candidate is expected to have.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> hasSize(int size);
 
-  public CollectionExpectation<E> isEmpty(String message) {
+  /**
+   * Checks that the collection has the specified {@code size} , or otherwise throws an exception with the specified
+   * {@code message} .
+   *
+   * @param size the size that the collection candidate is expected to have.
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> hasSize(int size, String message);
 
-    if (CollectionPredicates.isEmpty().test(getCandidate())) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply(message);
-  }
+  /**
+   * Checks that the collection contains the specified {@code element} , or otherwise throws an exception.
+   *
+   * @param element the element that the collection candidate is expected to contain.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> contains(E element);
 
-  public CollectionExpectation<E> isNullOrEmpty() {
+  /**
+   * Checks that the collection contains the specified {@code element} , or otherwise throws an exception with the
+   * specified {@code message} .
+   *
+   * @param element the element that the collection candidate is expected to contain.
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   */
+  CollectionExpectation<E> contains(E element, String message);
 
-    if (IS_NULL_OR_EMPTY.test(getCandidate())) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply("Collection should be null or empty, but is not.");
-  }
+  /**
+   * Checks that the collection contains all of the specified elements, or otherwise throws an exception.
+   *
+   * @param elements the elements that the collection candidate is expected to contain, cannot be {@code null}.
+   * @return the expectation instance itself, for fluent call.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code elements} is {@code null}.
+   */
+  CollectionExpectation<E> containsAll(Collection<E> elements);
 
-  public CollectionExpectation<E> isNullOrEmpty(String message) {
+  /**
+   * Checks that the collection contains all of the specified elements, or otherwise throws an exception with the
+   * specified {@code message} .
+   *
+   * @param elements the elements that the collection candidate is expected to contain, cannot be {@code null}.
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code elements} is {@code null}.
+   */
+  CollectionExpectation<E> containsAll(Collection<E> elements, String message);
 
-    if (IS_NULL_OR_EMPTY.test(getCandidate())) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply(message);
-  }
-
-  public CollectionExpectation<E> notEmpty() {
-
-    if (CollectionPredicates.notEmpty().test(getCandidate())) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply("Collection should not be empty, but is.");
-  }
-
-  public CollectionExpectation<E> notEmpty(String message) {
-
-    if (CollectionPredicates.notEmpty().test(getCandidate())) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply(message);
-  }
-
-  public CollectionExpectation<E> hasSize(int size) {
-
-    Collection<E> c = getCandidate();
-    if (c != null && c.size() == size) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply("Collection should have size '" + size + "', but does not.");
-  }
-
-  public CollectionExpectation<E> hasSize(int size, String message) {
-
-    Collection<E> c = getCandidate();
-    if (c != null && c.size() == size) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply(message);
-  }
-
-  public CollectionExpectation<E> contains(E element) {
-
-    Collection<E> c = getCandidate();
-    if (c != null && c.contains(element)) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply("Collection should contain '" + element + "', but does not.");
-  }
-
-  public CollectionExpectation<E> contains(E element, String message) {
-
-    Collection<E> c = getCandidate();
-    if (c != null && c.contains(element)) {
-      return getThis();
-    }
-    throw getExceptionMapper().apply(message);
-  }
-
-  public CollectionExpectation<E> containsAll(Collection<E> elements) {
-
-    Precondition.assertParam(elements != null, "'elements' can not be null.");
-    elements.forEach(this::contains);
-    return this;
-  }
-
-  public CollectionExpectation<E> containsAll(Collection<E> elements, String message) {
-
-    Precondition.assertParam(elements != null, "'elements' can not be null.");
-    elements.forEach(e -> this.contains(e, message));
-    return this;
-  }
-
-  @Override
-  CollectionExpectation<E> getThis() {
-
-    return this;
-  }
-
-  @Override
-  Collection<E> getCandidate() {
-
-    return candidate;
-  }
-
-  @Override
-  Function<String, ? extends RuntimeException> getExceptionMapper() {
-
-    return exceptionMapper;
-  }
-
-  private final Predicate<Collection<?>> IS_NULL_OR_EMPTY = Predicates.or(
-      Predicates.isNull(),
-      CollectionPredicates.isEmpty()
-  );
+  /**
+   * Checks that the collection is sorted by the specified {@code comparator} , or otherwise throws an exception with the
+   * specified {@code message} .
+   *
+   * @param comparator the comparator that the collection candidate is expected to be sorted by, cannot be {@code null}.
+   * @param message the message to throw exception with, when the check fails.
+   * @return the expectation instance itself, for fluent call.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code comparator} is {@code null}.
+   */
+  CollectionExpectation<E> isOrderedBy(Comparator<? super E> comparator, String message);
 }
