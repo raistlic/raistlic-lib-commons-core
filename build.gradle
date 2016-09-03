@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+
+group = 'org.raistlic.lib'
+version = '1.4-SNAPSHOT'
+
+description = """Raistlic's Commons Library"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.6.2'
+    compile group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version:'1.09'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+    testCompile group: 'pl.pragmatists', name: 'JUnitParams', version:'1.0.4'
+    testCompile group: 'org.easytesting', name: 'fest-assert-core', version:'2.0M10'
+}
