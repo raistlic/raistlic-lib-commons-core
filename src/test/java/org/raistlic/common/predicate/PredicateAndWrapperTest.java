@@ -23,12 +23,12 @@ import org.raistlic.common.precondition.InvalidParameterException;
 
 import java.util.function.Predicate;
 
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2015-10-13)

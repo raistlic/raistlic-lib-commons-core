@@ -10,7 +10,7 @@ import org.raistlic.common.precondition.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2015-12-25)

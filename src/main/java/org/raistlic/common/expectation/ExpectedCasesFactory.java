@@ -32,7 +32,7 @@ public final class ExpectedCasesFactory {
 
     this.exceptionMapper = exceptionMapper;
     this.strategy = strategy;
-    this.switchFlag = new AtomicBoolean(false);
+    this.switchFlag = new AtomicBoolean(true);
   }
 
   public void setSwitch(boolean flag) {

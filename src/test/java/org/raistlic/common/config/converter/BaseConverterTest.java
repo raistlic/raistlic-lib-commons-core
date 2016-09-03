@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.raistlic.common.codec.Codec;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2015-09-15)

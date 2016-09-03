@@ -7,7 +7,7 @@ import org.raistlic.common.precondition.InvalidParameterException;
 
 import java.util.function.Predicate;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2015-10-16)

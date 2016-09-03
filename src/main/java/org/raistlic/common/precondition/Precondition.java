@@ -393,11 +393,11 @@ public final class Precondition {
   private Precondition() { }
 
   private static final ExpectedCasesFactory paramExpectedCasesFactory = new ExpectedCasesFactory(
-      InvalidParameterException::new, ExpectedCases.Strategy.THREAD_LOCAL
+      InvalidParameterException::new, ExpectedCases.Strategy.CREATE_NEW
   );
 
   private static final ExpectedCasesFactory contextExpectedCasesFactory = new ExpectedCasesFactory(
-      InvalidContextException::new, ExpectedCases.Strategy.THREAD_LOCAL
+      InvalidContextException::new, ExpectedCases.Strategy.CREATE_NEW
   );
 
   private static final AtomicReference<ExpectedCases> paramExpectedCasesReference = new AtomicReference<>(

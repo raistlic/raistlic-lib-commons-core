@@ -57,7 +57,7 @@ public class Expectations {
 
   public static ExpectedCases createSwitchableProxy(ExpectedCases expectedCases, AtomicBoolean theSwitch) {
 
-    return new ExpectedCasesSwithableProxy(expectedCases, theSwitch);
+    return new ExpectedCasesSwitchableProxy(expectedCases, theSwitch);
   }
 
   /*

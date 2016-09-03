@@ -34,11 +34,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * The unit test for common contract of the {@link Config} interface.

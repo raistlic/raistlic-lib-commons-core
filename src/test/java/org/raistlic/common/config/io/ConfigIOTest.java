@@ -20,11 +20,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * Unit test for the common contract of {@link ConfigIO} interface.
@@ -203,7 +203,7 @@ public class ConfigIOTest {
     Config expected = ConfigFixture.getConfigFixture();
 
     assertThat(actual.getKeys()).hasSize(expected.getKeys().size());
-    assertThat(actual.getKeys()).containsOnly(expected.getKeys().toArray(new String[expected.getKeys().size()]));
+    assertThat(actual.getKeys()).containsAll(expected.getKeys());
     for (String key : expected.getKeys()) {
       assertThat(actual.getString(key)).isEqualTo(expected.getString(key));
     }

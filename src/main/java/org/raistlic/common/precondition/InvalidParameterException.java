@@ -21,6 +21,11 @@ package org.raistlic.common.precondition;
  * @since 1.2
  */
 public class InvalidParameterException extends PreconditionException {
+  
+  public InvalidParameterException() {
+
+    super("Invalid parameter");
+  }
 
   public InvalidParameterException(String message) {
 

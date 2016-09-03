@@ -21,6 +21,8 @@ import org.raistlic.common.predicate.CollectionPredicates;
 import org.raistlic.common.predicate.Predicates;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -155,9 +157,29 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
+  public CollectionExpectation<E> isOrderedBy(Comparator<? super E> comparator, String message) {
+
+    Precondition.assertParam(comparator != null, "'comparator' cannot be null.");
+
+    if (this.candidate.isEmpty()) {
+      return getThis();
+    }
+    Iterator<E> iterator = this.candidate.iterator();
+    E prev = iterator.next();
+    while (iterator.hasNext()) {
+      E current = iterator.next();
+      if (comparator.compare(prev, current) > 0) {
+        throw this.exceptionMapper.apply("Out of order: '" + prev + "' and '" + current + "'");
+      }
+      prev = current;
+    }
+    return getThis();
+  }
+
+  @Override
   CollectionExpectationDefault<E> getThis() {
 
-    return getThis();
+    return this;
   }
 
   @Override

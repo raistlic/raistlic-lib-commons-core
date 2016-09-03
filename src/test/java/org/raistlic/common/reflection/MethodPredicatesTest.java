@@ -16,7 +16,7 @@ import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2016-03-12)

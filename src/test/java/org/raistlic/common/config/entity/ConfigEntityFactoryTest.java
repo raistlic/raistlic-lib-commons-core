@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4;
 import org.raistlic.common.config.core.Config;
 import org.raistlic.common.config.core.ConfigFactory;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2015-12-29)

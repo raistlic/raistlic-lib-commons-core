@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.raistlic.common.precondition.InvalidParameterException;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei CHEN (2015-03-03)
@@ -164,7 +164,7 @@ public class BitMapTest {
     BitMap bitMap = buildBitMap(pattern);
 
     exception.expect(InvalidParameterException.class);
-    assertThat(bitMap.rankZero(-1)).isPositive();
+    assertThat(bitMap.rankZero(-1)).greaterThan(0);
   }
 
   @Test
@@ -174,7 +174,7 @@ public class BitMapTest {
     BitMap bitMap = buildBitMap(pattern);
 
     exception.expect(InvalidParameterException.class);
-    assertThat(bitMap.rankZero(100)).isPositive();
+    assertThat(bitMap.rankZero(100)).greaterThan(0);
   }
 
   @Test
@@ -184,7 +184,7 @@ public class BitMapTest {
     BitMap bitMap = buildBitMap(pattern);
 
     exception.expect(InvalidParameterException.class);
-    assertThat(bitMap.rankZero(pattern.replaceAll(" ", "").length())).isPositive();
+    assertThat(bitMap.rankZero(pattern.replaceAll(" ", "").length())).greaterThan(0);
   }
 
   @Test

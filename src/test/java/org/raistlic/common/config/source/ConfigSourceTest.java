@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * The unit test for common contract of the {@link ConfigSource} interface.

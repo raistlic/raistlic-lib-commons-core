@@ -16,22 +16,26 @@
 
 package org.raistlic.common.expectation;
 
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-final class ExpectedCasesSwithableProxy implements ExpectedCases {
+final class ExpectedCasesSwitchableProxy implements ExpectedCases {
 
   private final ExpectedCases original;
 
   private final AtomicBoolean switchFlag;
 
-  ExpectedCasesSwithableProxy(ExpectedCases original, AtomicBoolean switchFlag) {
+  ExpectedCasesSwitchableProxy(ExpectedCases original, AtomicBoolean switchFlag) {
 
-    Precondition.assertParam(original != null);
-    Precondition.assertParam(switchFlag != null);
-
+    if (original == null) {
+      throw new InvalidParameterException();
+    }
+    if (switchFlag == null) {
+      throw new InvalidParameterException();
+    }
     this.original = original;
     this.switchFlag = switchFlag;
   }

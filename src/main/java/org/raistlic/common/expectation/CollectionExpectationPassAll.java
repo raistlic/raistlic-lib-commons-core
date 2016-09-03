@@ -17,6 +17,7 @@
 package org.raistlic.common.expectation;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 @SuppressWarnings("rawtypes")
@@ -170,6 +171,12 @@ enum CollectionExpectationPassAll implements CollectionExpectation {
 
   @Override
   public CollectionExpectation containsAll(Collection elements, String message) {
+
+    return this;
+  }
+
+  @Override
+  public CollectionExpectation isOrderedBy(Comparator comparator, String message) {
 
     return this;
   }

@@ -25,7 +25,7 @@ import org.raistlic.common.config.exception.ConfigValueConvertException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.raistlic.common.postcondition.Postcondition.assertThat;
 
 /**
  * @author Lei Chen (2015-09-14)
