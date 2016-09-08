@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
@@ -15,6 +16,7 @@ repositories {
     
     mavenLocal()
     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 dependencies {
@@ -22,6 +24,12 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.6.2'
     compile group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version:'1.09'
+    
+    testCompile "org.codehaus.groovy:groovy-all:2.4.1"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testCompile "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
+    testRuntime "cglib:cglib-nodep:3.1"          // allows mocking of classes (in addition to interfaces)
+    testRuntime "org.objenesis:objenesis:2.1"    // allows mocking of classes without default constructor (together with CGLIB)
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
     testCompile group: 'pl.pragmatists', name: 'JUnitParams', version:'1.0.4'

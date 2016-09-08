@@ -17,6 +17,7 @@
 package org.raistlic.common.adt;
 
 import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.util.ObjectBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -104,7 +105,7 @@ public abstract class BitMap {
   /**
    * The builder to create new bit map instances.
    */
-  public static class Builder implements Supplier<BitMap> {
+  public static class Builder implements ObjectBuilder<BitMap> {
 
     private final byte[] map;
 
@@ -172,7 +173,7 @@ public abstract class BitMap {
      * @return the created {@link BitMap} .
      */
     @Override
-    public BitMap get() {
+    public BitMap build() {
 
       return new DefaultBitMap(this);
     }
