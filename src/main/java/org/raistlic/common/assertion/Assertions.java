@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.InvalidParameterException;
 
@@ -26,42 +26,42 @@ import java.util.function.Function;
  *
  * @author Lei Chen (2015-12-29)
  */
-public class Expectations {
+public final class Assertions {
 
   /**
-   * Creates and returns a new instance of {@link ExpectedCases} with the specified exception mapper.
+   * Creates and returns a new instance of {@link AssertionFactory} with the specified exception mapper.
    *
    * @param exceptionMapper the exception mapper to use, cannot be {@code null}.
-   * @return the created {@link ExpectedCases} instance.
+   * @return the created {@link AssertionFactory} instance.
    *
    * @throws InvalidParameterException when {@code exceptionMapper} is {@code null}.
    */
-  public static ExpectedCases createDefaultExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
+  public static AssertionFactory createDefaultExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    return new ExpectedCasesDefault(exceptionMapper);
+    return new AssertionFactoryDefault(exceptionMapper);
   }
 
   /**
-   * Creates and returns a new instance of {@link ExpectedCases} with the specified exception mapper, which reuses
+   * Creates and returns a new instance of {@link AssertionFactory} with the specified exception mapper, which reuses
    * thread local expectation instances on invocation.
    *
    * @param exceptionMapper the exception mapper that creates proper exception with message when needed.
-   * @return the created {@link ExpectedCases} instance.
+   * @return the created {@link AssertionFactory} instance.
    *
    * @throws InvalidParameterException when {@code exceptionMapper} is {@code null}.
    */
-  public static ExpectedCases createThreadLocalExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
+  public static AssertionFactory createThreadLocalExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    return new ExpectedCasesLocal(exceptionMapper);
+    return new AssertionFactoryThreadLocal(exceptionMapper);
   }
 
-  public static ExpectedCases createSwitchableProxy(ExpectedCases expectedCases, AtomicBoolean theSwitch) {
+  public static AssertionFactory createSwitchableProxy(AssertionFactory assertionFactory, AtomicBoolean theSwitch) {
 
-    return new ExpectedCasesSwitchableProxy(expectedCases, theSwitch);
+    return new AssertionFactorySwitchableProxy(assertionFactory, theSwitch);
   }
 
   /*
    * Static method holder, not to be instanticated or inherited.
    */
-  private Expectations() { }
+  private Assertions() { }
 }

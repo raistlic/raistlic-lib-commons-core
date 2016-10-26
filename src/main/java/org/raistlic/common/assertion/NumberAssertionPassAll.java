@@ -14,137 +14,137 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import java.util.function.Predicate;
 
 @SuppressWarnings("rawtypes")
-enum NumberExpectationPassAll implements NumberExpectation {
+enum NumberAssertionPassAll implements NumberAssertion {
 
   INSTANCE;
 
   @SuppressWarnings("unchecked")
-  static <C extends Number & Comparable<C>> NumberExpectation<C> getInstance() {
+  static <C extends Number & Comparable<C>> NumberAssertion<C> getInstance() {
 
     return INSTANCE;
   }
 
   @Override
-  public NumberExpectation greaterThan(Number target) {
+  public NumberAssertion greaterThan(Number target) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation greaterThan(Number target, String message) {
+  public NumberAssertion greaterThan(Number target, String message) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation greaterThanOrEqualTo(Number target) {
+  public NumberAssertion greaterThanOrEqualTo(Number target) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation greaterThanOrEqualTo(Number target, String message) {
+  public NumberAssertion greaterThanOrEqualTo(Number target, String message) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation lessThan(Number target) {
+  public NumberAssertion lessThan(Number target) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation lessThan(Number target, String message) {
+  public NumberAssertion lessThan(Number target, String message) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation lessThanOrEqualTo(Number target) {
+  public NumberAssertion lessThanOrEqualTo(Number target) {
 
     return this;
   }
 
   @Override
-  public NumberExpectation lessThanOrEqualTo(Number target, String message) {
+  public NumberAssertion lessThanOrEqualTo(Number target, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isNull() {
+  public Assertion isNull() {
 
     return this;
   }
 
   @Override
-  public Expectation isNull(String message) {
+  public Assertion isNull(String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isNotNull() {
+  public Assertion isNotNull() {
 
     return this;
   }
 
   @Override
-  public Expectation isNotNull(String message) {
+  public Assertion isNotNull(String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isEqualTo(Object target) {
+  public Assertion isEqualTo(Object target) {
 
     return this;
   }
 
   @Override
-  public Expectation isEqualTo(Object target, String message) {
+  public Assertion isEqualTo(Object target, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isNotEqualTo(Object target) {
+  public Assertion isNotEqualTo(Object target) {
 
     return this;
   }
 
   @Override
-  public Expectation isNotEqualTo(Object target, String message) {
+  public Assertion isNotEqualTo(Object target, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation matches(Predicate predicate) {
+  public Assertion matches(Predicate predicate) {
 
     return this;
   }
 
   @Override
-  public Expectation matches(Predicate predicate, String message) {
+  public Assertion matches(Predicate predicate, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isInstanceOf(Class type, String message) {
+  public Assertion isInstanceOf(Class type, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isInstanceOf(Class type) {
+  public Assertion isInstanceOf(Class type) {
 
     return this;
   }

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import java.util.Collection;
 
 /**
- * Export a collection of expectation instances for different types of candidates.
+ * Export a collection of assertion instances for different types of candidates.
  */
-public interface ExpectedCases {
+public interface AssertionFactory {
 
   /**
    * The strategy of managing the expectation instances.
@@ -45,7 +45,7 @@ public interface ExpectedCases {
    * @param candidate the candidate to be wrapped.
    * @return the expectation instance.
    */
-  BooleanExpectation expect(Boolean candidate);
+  BooleanAssertion expect(Boolean candidate);
 
   /**
    * Wraps the specified {@code boolean} candidate and returns an expectation instance to check it.
@@ -53,7 +53,7 @@ public interface ExpectedCases {
    * @param candidate the candidate to be wrapped.
    * @return the expectation instance.
    */
-  PrimitiveBooleanExpectation expect(boolean candidate);
+  PrimitiveBooleanAssertion expect(boolean candidate);
 
   /**
    * Wraps the specified {@link String} candidate and returns an expectation instance to check it.
@@ -61,7 +61,7 @@ public interface ExpectedCases {
    * @param candidate the candidate to be wrapped.
    * @return the expectation instance.
    */
-  StringExpectation expect(String candidate);
+  StringAssertion expect(String candidate);
 
   /**
    * Wraps the specified generic candidate and returns an expectation instance to check it.
@@ -69,7 +69,7 @@ public interface ExpectedCases {
    * @param candidate the candidate to be wrapped.
    * @return the expectation instance.
    */
-  <V> GenericExpectation<V> expect(V candidate);
+  <V> GenericAssertion<V> expect(V candidate);
 
   /**
    * Wraps the specified {@link Collection} candidate and returns an expectation instance to check it.
@@ -77,7 +77,7 @@ public interface ExpectedCases {
    * @param candidate the candidate to be wrapped.
    * @return the expectation instance.
    */
-  <E> CollectionExpectation<E> expect(Collection<E> candidate);
+  <E> CollectionAssertion<E> expect(Collection<E> candidate);
 
   /**
    * Wraps the specified {@link Number} candidate and returns an expectation instance to check it.
@@ -85,7 +85,7 @@ public interface ExpectedCases {
    * @param candidate the candidate to be wrapped.
    * @return the expectation instance.
    */
-  <N extends Number & Comparable<N>> NumberExpectation<N> expect(N candidate);
+  <N extends Number & Comparable<N>> NumberAssertion<N> expect(N candidate);
 
   /**
    * Wraps the specified {@link Thread} candidate and returns an expectation instance to check it.
@@ -93,7 +93,7 @@ public interface ExpectedCases {
    * @param thread the candidate to be wrapped.
    * @return the expectation instance.
    */
-  ThreadExpectation expect(Thread thread);
+  ThreadAssertion expect(Thread thread);
 
   /**
    * Makes a claim that the specified {@code assertion} is {@code true}, or otherwise throws an exception with the

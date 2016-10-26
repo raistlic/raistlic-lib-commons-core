@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -24,14 +24,14 @@ import java.util.Comparator;
  *
  * @param <E> the actual element type of the {@link Collection} candidate.
  */
-public interface CollectionExpectation<E> extends Expectation<Collection<E>, CollectionExpectation<E>> {
+public interface CollectionAssertion<E> extends Assertion<Collection<E>, CollectionAssertion<E>> {
 
   /**
    * Checks that the collection candidate is empty, or otherwise throws an exception.
    *
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> isEmpty();
+  CollectionAssertion<E> isEmpty();
 
   /**
    * Checks that the collection candidate is empty, or otherwise throws an exception with the specified {@code message} .
@@ -39,14 +39,14 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param message the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> isEmpty(String message);
+  CollectionAssertion<E> isEmpty(String message);
 
   /**
    * Checks that the collection is either {@code null} or empty, otherwise throws an exception.
    *
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> isNullOrEmpty();
+  CollectionAssertion<E> isNullOrEmpty();
 
   /**
    * Checks that the collection is either {@code null} or empty, otherwise throws an exception with the specified
@@ -55,14 +55,14 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param message the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> isNullOrEmpty(String message);
+  CollectionAssertion<E> isNullOrEmpty(String message);
 
   /**
    * Checks that the collection is empty, otherwise throws an exception.
    *
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> notEmpty();
+  CollectionAssertion<E> notEmpty();
 
   /**
    * Checks that the collection is empty, otherwise throws an exception with the specified {@code message} .
@@ -70,7 +70,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param message the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> notEmpty(String message);
+  CollectionAssertion<E> notEmpty(String message);
 
   /**
    * Checks that the collection has the specified {@code size} , or otherwise throws an exception.
@@ -78,7 +78,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param size the size that the collection candidate is expected to have.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> hasSize(int size);
+  CollectionAssertion<E> hasSize(int size);
 
   /**
    * Checks that the collection has the specified {@code size} , or otherwise throws an exception with the specified
@@ -88,7 +88,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param message the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> hasSize(int size, String message);
+  CollectionAssertion<E> hasSize(int size, String message);
 
   /**
    * Checks that the collection contains the specified {@code element} , or otherwise throws an exception.
@@ -96,7 +96,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param element the element that the collection candidate is expected to contain.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> contains(E element);
+  CollectionAssertion<E> contains(E element);
 
   /**
    * Checks that the collection contains the specified {@code element} , or otherwise throws an exception with the
@@ -106,7 +106,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    * @param message the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
    */
-  CollectionExpectation<E> contains(E element, String message);
+  CollectionAssertion<E> contains(E element, String message);
 
   /**
    * Checks that the collection contains all of the specified elements, or otherwise throws an exception.
@@ -116,7 +116,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code elements} is {@code null}.
    */
-  CollectionExpectation<E> containsAll(Collection<E> elements);
+  CollectionAssertion<E> containsAll(Collection<E> elements);
 
   /**
    * Checks that the collection contains all of the specified elements, or otherwise throws an exception with the
@@ -128,7 +128,7 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code elements} is {@code null}.
    */
-  CollectionExpectation<E> containsAll(Collection<E> elements, String message);
+  CollectionAssertion<E> containsAll(Collection<E> elements, String message);
 
   /**
    * Checks that the collection is sorted by the specified {@code comparator} , or otherwise throws an exception with the
@@ -140,5 +140,5 @@ public interface CollectionExpectation<E> extends Expectation<Collection<E>, Col
    *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code comparator} is {@code null}.
    */
-  CollectionExpectation<E> isOrderedBy(Comparator<? super E> comparator, String message);
+  CollectionAssertion<E> isOrderedBy(Comparator<? super E> comparator, String message);
 }

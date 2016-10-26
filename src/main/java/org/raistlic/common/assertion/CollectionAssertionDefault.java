@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.CollectionPredicates;
@@ -31,14 +31,14 @@ import java.util.function.Predicate;
  *
  * @author Lei Chen (2016-03-17)
  */
-final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<Collection<E>, CollectionExpectation<E>>
-    implements CollectionExpectation<E> {
+final class CollectionAssertionDefault<E> extends GenericAssertionAbstract<Collection<E>, CollectionAssertion<E>>
+    implements CollectionAssertion<E> {
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
   private Collection<E> candidate;
 
-  CollectionExpectationDefault(Collection<E> candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
+  CollectionAssertionDefault(Collection<E> candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
 
     Precondition.assertParam(exceptionMapper != null, "'exceptionMapper' cannot be null.");
 
@@ -47,7 +47,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> isEmpty() {
+  public CollectionAssertion<E> isEmpty() {
 
     if (CollectionPredicates.isEmpty().test(getCandidate())) {
       return getThis();
@@ -56,7 +56,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> isEmpty(String message) {
+  public CollectionAssertion<E> isEmpty(String message) {
 
     if (CollectionPredicates.isEmpty().test(getCandidate())) {
       return getThis();
@@ -65,7 +65,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> isNullOrEmpty() {
+  public CollectionAssertion<E> isNullOrEmpty() {
 
     if (IS_NULL_OR_EMPTY.test(getCandidate())) {
       return getThis();
@@ -74,7 +74,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> isNullOrEmpty(String message) {
+  public CollectionAssertion<E> isNullOrEmpty(String message) {
 
     if (IS_NULL_OR_EMPTY.test(getCandidate())) {
       return getThis();
@@ -83,7 +83,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> notEmpty() {
+  public CollectionAssertion<E> notEmpty() {
 
     if (CollectionPredicates.notEmpty().test(getCandidate())) {
       return getThis();
@@ -92,7 +92,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> notEmpty(String message) {
+  public CollectionAssertion<E> notEmpty(String message) {
 
     if (CollectionPredicates.notEmpty().test(getCandidate())) {
       return getThis();
@@ -101,7 +101,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> hasSize(int size) {
+  public CollectionAssertion<E> hasSize(int size) {
 
     Collection<E> c = getCandidate();
     if (c != null && c.size() == size) {
@@ -111,7 +111,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> hasSize(int size, String message) {
+  public CollectionAssertion<E> hasSize(int size, String message) {
 
     Collection<E> c = getCandidate();
     if (c != null && c.size() == size) {
@@ -121,7 +121,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> contains(E element) {
+  public CollectionAssertion<E> contains(E element) {
 
     Collection<E> c = getCandidate();
     if (c != null && c.contains(element)) {
@@ -131,7 +131,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> contains(E element, String message) {
+  public CollectionAssertion<E> contains(E element, String message) {
 
     Collection<E> c = getCandidate();
     if (c != null && c.contains(element)) {
@@ -141,7 +141,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> containsAll(Collection<E> elements) {
+  public CollectionAssertion<E> containsAll(Collection<E> elements) {
 
     Precondition.assertParam(elements != null, "'elements' can not be null.");
     elements.forEach(this::contains);
@@ -149,7 +149,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> containsAll(Collection<E> elements, String message) {
+  public CollectionAssertion<E> containsAll(Collection<E> elements, String message) {
 
     Precondition.assertParam(elements != null, "'elements' can not be null.");
     elements.forEach(e -> this.contains(e, message));
@@ -157,7 +157,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  public CollectionExpectation<E> isOrderedBy(Comparator<? super E> comparator, String message) {
+  public CollectionAssertion<E> isOrderedBy(Comparator<? super E> comparator, String message) {
 
     Precondition.assertParam(comparator != null, "'comparator' cannot be null.");
 
@@ -177,7 +177,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
   }
 
   @Override
-  CollectionExpectationDefault<E> getThis() {
+  CollectionAssertionDefault<E> getThis() {
 
     return this;
   }
@@ -188,7 +188,7 @@ final class CollectionExpectationDefault<E> extends GenericExpectationAbstract<C
     return candidate;
   }
 
-  CollectionExpectation<E> setCandidate(Collection<E> candidate) {
+  CollectionAssertion<E> setCandidate(Collection<E> candidate) {
 
     this.candidate = candidate;
     return getThis();

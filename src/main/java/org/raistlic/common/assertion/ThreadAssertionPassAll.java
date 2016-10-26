@@ -14,94 +14,94 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import java.util.function.Predicate;
 
-enum ThreadExpectationPassAll implements ThreadExpectation {
+enum ThreadAssertionPassAll implements ThreadAssertion {
 
   INSTANCE;
 
   @Override
-  public ThreadExpectation hasId(long id) {
+  public ThreadAssertion hasId(long id) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation hasId(long id, String message) {
+  public ThreadAssertion hasId(long id, String message) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation hasPriority(int priority) {
+  public ThreadAssertion hasPriority(int priority) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation hasPriority(int priority, String message) {
+  public ThreadAssertion hasPriority(int priority, String message) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isDaemon() {
+  public ThreadAssertion isDaemon() {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isDaemon(String message) {
+  public ThreadAssertion isDaemon(String message) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isNotDaemon() {
+  public ThreadAssertion isNotDaemon() {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isNotDaemon(String message) {
+  public ThreadAssertion isNotDaemon(String message) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isInterrupted() {
+  public ThreadAssertion isInterrupted() {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isInterrupted(String message) {
+  public ThreadAssertion isInterrupted(String message) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isNotInterrupted() {
+  public ThreadAssertion isNotInterrupted() {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation isNotInterrupted(String message) {
+  public ThreadAssertion isNotInterrupted(String message) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation matches(Predicate<? super Thread> predicate) {
+  public ThreadAssertion matches(Predicate<? super Thread> predicate) {
 
     return this;
   }
 
   @Override
-  public ThreadExpectation matches(Predicate<? super Thread> predicate, String message) {
+  public ThreadAssertion matches(Predicate<? super Thread> predicate, String message) {
 
     return this;
   }

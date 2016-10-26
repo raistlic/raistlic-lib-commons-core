@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.Precondition;
 
@@ -25,14 +25,14 @@ import java.util.function.Function;
  *
  * @author Lei CHEN (2015-11-20)
  */
-final class PrimitiveBooleanExpectationDefault implements PrimitiveBooleanExpectation {
+final class PrimitiveBooleanAssertionDefault implements PrimitiveBooleanAssertion {
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
-  boolean candidate;
+  private boolean candidate;
 
-  PrimitiveBooleanExpectationDefault(boolean candidate,
-                                     Function<String, ? extends RuntimeException> exceptionMapper) {
+  PrimitiveBooleanAssertionDefault(boolean candidate,
+                                   Function<String, ? extends RuntimeException> exceptionMapper) {
 
     Precondition.assertParam(exceptionMapper != null, "exceptionMapper cannot be null.");
 
@@ -48,7 +48,7 @@ final class PrimitiveBooleanExpectationDefault implements PrimitiveBooleanExpect
     }
   }
 
-  PrimitiveBooleanExpectation setCandidate(boolean candidate) {
+  PrimitiveBooleanAssertion setCandidate(boolean candidate) {
 
     this.candidate = candidate;
     return this;

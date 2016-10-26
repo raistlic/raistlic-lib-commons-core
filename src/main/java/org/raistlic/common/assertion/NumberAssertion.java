@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 /**
  * Defines a collection of useful checks around a wrapped {@link Number} candidate.
  *
  * @param <N> the actual type of the wrapped candidate.
  */
-public interface NumberExpectation<N extends Number & Comparable<N>> extends Expectation<N, NumberExpectation<N>> {
+public interface NumberAssertion<N extends Number & Comparable<N>> extends Assertion<N, NumberAssertion<N>> {
 
-  NumberExpectation<N> greaterThan(N target);
+  NumberAssertion<N> greaterThan(N target);
 
-  NumberExpectation<N> greaterThan(N target, String message);
+  NumberAssertion<N> greaterThan(N target, String message);
 
-  NumberExpectation<N> greaterThanOrEqualTo(N target);
+  NumberAssertion<N> greaterThanOrEqualTo(N target);
 
-  NumberExpectation<N> greaterThanOrEqualTo(N target, String message);
+  NumberAssertion<N> greaterThanOrEqualTo(N target, String message);
 
-  NumberExpectation<N> lessThan(N target);
+  NumberAssertion<N> lessThan(N target);
 
-  NumberExpectation<N> lessThan(N target, String message);
+  NumberAssertion<N> lessThan(N target, String message);
 
-  NumberExpectation<N> lessThanOrEqualTo(N target);
+  NumberAssertion<N> lessThanOrEqualTo(N target);
 
-  NumberExpectation<N> lessThanOrEqualTo(N target, String message);
+  NumberAssertion<N> lessThanOrEqualTo(N target, String message);
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.InvalidParameterException;
 
@@ -22,15 +22,15 @@ import java.util.Collection;
 import java.util.function.Function;
 
 /**
- * The default implementation for {@link ExpectedCases} .
+ * The default implementation for {@link AssertionFactory} .
  *
  * @author Lei Chen (2015-12-29)
  */
-final class ExpectedCasesDefault implements ExpectedCases {
+final class AssertionFactoryDefault implements AssertionFactory {
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
-  ExpectedCasesDefault(Function<String, ? extends RuntimeException> exceptionMapper) {
+  AssertionFactoryDefault(Function<String, ? extends RuntimeException> exceptionMapper) {
 
     if (exceptionMapper == null) {
       throw new InvalidParameterException("'exceptionMapper' cannot be null.");
@@ -39,45 +39,45 @@ final class ExpectedCasesDefault implements ExpectedCases {
   }
 
   @Override
-  public BooleanExpectation expect(Boolean value) {
+  public BooleanAssertion expect(Boolean value) {
 
-    return new BooleanExpectationDefault(value, exceptionMapper);
+    return new BooleanAssertionDefault(value, exceptionMapper);
   }
 
   @Override
-  public PrimitiveBooleanExpectation expect(boolean value) {
+  public PrimitiveBooleanAssertion expect(boolean value) {
 
-    return new PrimitiveBooleanExpectationDefault(value, exceptionMapper);
+    return new PrimitiveBooleanAssertionDefault(value, exceptionMapper);
   }
 
   @Override
-  public StringExpectation expect(String value) {
+  public StringAssertion expect(String value) {
 
-    return new StringExpectationDefault(value, exceptionMapper);
+    return new StringAssertionDefault(value, exceptionMapper);
   }
 
   @Override
-  public <E> GenericExpectation<E> expect(E value) {
+  public <E> GenericAssertion<E> expect(E value) {
 
-    return new GenericExpectationDefault<>(value, exceptionMapper);
+    return new GenericAssertionDefault<>(value, exceptionMapper);
   }
 
   @Override
-  public <E> CollectionExpectation<E> expect(Collection<E> collection) {
+  public <E> CollectionAssertion<E> expect(Collection<E> collection) {
 
-    return new CollectionExpectationDefault<>(collection, exceptionMapper);
+    return new CollectionAssertionDefault<>(collection, exceptionMapper);
   }
 
   @Override
-  public <N extends Number & Comparable<N>> NumberExpectation<N> expect(N value) {
+  public <N extends Number & Comparable<N>> NumberAssertion<N> expect(N value) {
 
-    return new NumberExpectationDefault<>(value, exceptionMapper);
+    return new NumberAssertionDefault<>(value, exceptionMapper);
   }
 
   @Override
-  public ThreadExpectation expect(Thread thread) {
+  public ThreadAssertion expect(Thread thread) {
 
-    return new ThreadExpectationDefault(thread, exceptionMapper);
+    return new ThreadAssertionDefault(thread, exceptionMapper);
   }
 
   @Override

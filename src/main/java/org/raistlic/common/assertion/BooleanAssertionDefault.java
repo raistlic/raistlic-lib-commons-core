@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.Precondition;
 
 import java.util.function.Function;
 
-final class BooleanExpectationDefault extends GenericExpectationAbstract<Boolean, BooleanExpectation>
-    implements BooleanExpectation {
+final class BooleanAssertionDefault extends GenericAssertionAbstract<Boolean, BooleanAssertion>
+    implements BooleanAssertion {
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
   private Boolean candidate;
 
-  BooleanExpectationDefault(Boolean candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
+  BooleanAssertionDefault(Boolean candidate, Function<String, ? extends RuntimeException> exceptionMapper) {
 
     Precondition.assertParam(exceptionMapper != null, "expectationMapper cannot be null.");
 
@@ -36,12 +36,12 @@ final class BooleanExpectationDefault extends GenericExpectationAbstract<Boolean
   }
 
   @Override
-  final BooleanExpectation getThis() {
+  final BooleanAssertion getThis() {
 
     return this;
   }
 
-  BooleanExpectation setCandidate(Boolean candidate) {
+  BooleanAssertion setCandidate(Boolean candidate) {
 
     this.candidate = candidate;
     return getThis();

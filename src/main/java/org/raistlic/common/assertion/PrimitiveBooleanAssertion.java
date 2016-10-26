@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
-public interface GenericExpectation<C> extends Expectation<C, GenericExpectation<C>> {
+public interface PrimitiveBooleanAssertion {
 
+  void isTrue();
+
+  void isTrue(String message);
+
+  void isFalse();
+
+  void isFalse(String message);
+
+  void isEqualTo(boolean expected);
+
+  void isEqualTo(boolean expected, String message);
 }

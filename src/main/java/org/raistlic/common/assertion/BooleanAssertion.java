@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 /**
  * Defines useful expectations on a {@link Boolean} candidate.
  */
-public interface BooleanExpectation extends Expectation<Boolean, BooleanExpectation> {
+public interface BooleanAssertion extends Assertion<Boolean, BooleanAssertion> {
 
   /**
    * Checks that the wrapped {@link Boolean} candidate is equal to {@link Boolean#TRUE} , or otherwise throws an

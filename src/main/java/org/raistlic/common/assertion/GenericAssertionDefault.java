@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.Precondition;
 
 import java.util.function.Function;
 
-final class GenericExpectationDefault<E> extends GenericExpectationAbstract<E, GenericExpectation<E>>
-    implements GenericExpectation<E> {
+final class GenericAssertionDefault<E> extends GenericAssertionAbstract<E, GenericAssertion<E>>
+    implements GenericAssertion<E> {
 
-  private final E candidate;
+  private E candidate;
 
   private final Function<String, ? extends RuntimeException> exceptionProvider;
 
-  GenericExpectationDefault(E candidate, Function<String, ? extends RuntimeException> exceptionProvider) {
+  GenericAssertionDefault(E candidate, Function<String, ? extends RuntimeException> exceptionProvider) {
 
     Precondition.assertParam(exceptionProvider != null, "'exceptionProvider' should not be null, but it is.");
 
@@ -36,7 +36,7 @@ final class GenericExpectationDefault<E> extends GenericExpectationAbstract<E, G
   }
 
   @Override
-  GenericExpectation<E> getThis() {
+  GenericAssertion<E> getThis() {
 
     return this;
   }
@@ -45,6 +45,11 @@ final class GenericExpectationDefault<E> extends GenericExpectationAbstract<E, G
   E getCandidate() {
 
     return candidate;
+  }
+
+  void setCandidate(E candidate) {
+    
+    this.candidate = candidate;
   }
 
   @Override

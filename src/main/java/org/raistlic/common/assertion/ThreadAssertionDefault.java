@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.Precondition;
 
@@ -24,34 +24,37 @@ import java.util.function.Predicate;
 /**
  * @author Lei CHEN (2015-11-19)
  */
-final class ThreadExpectationDefault implements ThreadExpectation {
+final class ThreadAssertionDefault implements ThreadAssertion {
 
-  private final Thread thread;
+  private Thread candidate;
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
-  ThreadExpectationDefault(Thread thread,
-                           Function<String, ? extends RuntimeException> exceptionMapper) {
+  ThreadAssertionDefault(Thread candidate,
+                         Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    Precondition.assertParam(thread != null, "'thread' should not be null, but it is.");
-    Precondition.assertParam(exceptionMapper != null, "'exceptionMapper' should not be null, but it is.");
-
-    this.thread = thread;
     this.exceptionMapper = exceptionMapper;
+    setCandidate(candidate);
+  }
+
+  final void setCandidate(Thread candidate) {
+    
+    Precondition.assertParam(candidate != null, "'candidate' should not be null, but it is.");
+    this.candidate = candidate;
   }
 
   @Override
-  public ThreadExpectation hasId(long id) {
+  public ThreadAssertion hasId(long id) {
 
     if (!threadHasId(id)) {
-      String message = "Current thread should have id " + id + ", but it's id is " + thread.getId();
+      String message = "Current thread should have id " + id + ", but it's id is " + candidate.getId();
       throw exceptionMapper.apply(message);
     }
     return this;
   }
 
   @Override
-  public ThreadExpectation hasId(long id, String message) {
+  public ThreadAssertion hasId(long id, String message) {
 
     if (!threadHasId(id)) {
       throw exceptionMapper.apply(message);
@@ -61,23 +64,23 @@ final class ThreadExpectationDefault implements ThreadExpectation {
 
   private boolean threadHasId(long id) {
 
-    return thread.getId() == id;
+    return candidate.getId() == id;
   }
 
   @Override
-  public ThreadExpectation hasPriority(int priority) {
+  public ThreadAssertion hasPriority(int priority) {
 
     if (!threadHasPriority(priority)) {
       String message = "Current thread '" + Thread.currentThread().getName() +
               "' should have priority of " + priority +
-              ", but it's priority is " + thread.getPriority();
+              ", but it's priority is " + candidate.getPriority();
       throw exceptionMapper.apply(message);
     }
     return this;
   }
 
   @Override
-  public ThreadExpectation hasPriority(int priority, String message) {
+  public ThreadAssertion hasPriority(int priority, String message) {
 
     if (!threadHasPriority(priority)) {
       throw exceptionMapper.apply(message);
@@ -87,14 +90,14 @@ final class ThreadExpectationDefault implements ThreadExpectation {
 
   private boolean threadHasPriority(int priority) {
 
-    return thread.getPriority() == priority;
+    return candidate.getPriority() == priority;
   }
 
   @Override
-  public ThreadExpectation isDaemon() {
+  public ThreadAssertion isDaemon() {
 
-    if (!thread.isDaemon()) {
-      String message = "Current thread '" + thread.getName() +
+    if (!candidate.isDaemon()) {
+      String message = "Current thread '" + candidate.getName() +
               "' should be daemon thread, but it is not.";
       throw exceptionMapper.apply(message);
     }
@@ -102,18 +105,18 @@ final class ThreadExpectationDefault implements ThreadExpectation {
   }
 
   @Override
-  public ThreadExpectation isDaemon(String message) {
+  public ThreadAssertion isDaemon(String message) {
 
-    if (!thread.isDaemon()) {
+    if (!candidate.isDaemon()) {
       throw exceptionMapper.apply(message);
     }
     return this;
   }
 
   @Override
-  public ThreadExpectation isNotDaemon() {
+  public ThreadAssertion isNotDaemon() {
 
-    if (thread.isDaemon()) {
+    if (candidate.isDaemon()) {
       String message = "Current thread '" + Thread.currentThread().getName() +
               "' should NOT be daemon thread, but it is.";
       throw exceptionMapper.apply(message);
@@ -122,19 +125,19 @@ final class ThreadExpectationDefault implements ThreadExpectation {
   }
 
   @Override
-  public ThreadExpectation isNotDaemon(String message) {
+  public ThreadAssertion isNotDaemon(String message) {
 
-    if (thread.isDaemon()) {
+    if (candidate.isDaemon()) {
       throw exceptionMapper.apply(message);
     }
     return this;
   }
 
   @Override
-  public ThreadExpectation isInterrupted() {
+  public ThreadAssertion isInterrupted() {
 
-    if (!thread.isInterrupted()) {
-      String message = "Current thread '" + thread.getName() +
+    if (!candidate.isInterrupted()) {
+      String message = "Current thread '" + candidate.getName() +
               "' is expected to be interrupted but not.";
       throw exceptionMapper.apply(message);
     }
@@ -142,19 +145,19 @@ final class ThreadExpectationDefault implements ThreadExpectation {
   }
 
   @Override
-  public ThreadExpectation isInterrupted(String message) {
+  public ThreadAssertion isInterrupted(String message) {
 
-    if (!thread.isInterrupted()) {
+    if (!candidate.isInterrupted()) {
       throw exceptionMapper.apply(message);
     }
     return this;
   }
 
   @Override
-  public ThreadExpectation isNotInterrupted() {
+  public ThreadAssertion isNotInterrupted() {
 
-    if (thread.isInterrupted()) {
-      String message = "Current thread '" + thread.getName() +
+    if (candidate.isInterrupted()) {
+      String message = "Current thread '" + candidate.getName() +
               "' is unexpectedly interrupted.";
       throw exceptionMapper.apply(message);
     }
@@ -162,20 +165,20 @@ final class ThreadExpectationDefault implements ThreadExpectation {
   }
 
   @Override
-  public ThreadExpectation isNotInterrupted(String message) {
+  public ThreadAssertion isNotInterrupted(String message) {
 
-    if (thread.isInterrupted()) {
+    if (candidate.isInterrupted()) {
       throw exceptionMapper.apply(message);
     }
     return this;
   }
 
   @Override
-  public ThreadExpectation matches(Predicate<? super Thread> predicate) {
+  public ThreadAssertion matches(Predicate<? super Thread> predicate) {
 
     Precondition.assertParam(predicate != null, "'predicate' should not be null, but it is.");
 
-    if (!predicate.test(thread)) {
+    if (!predicate.test(candidate)) {
       String message = "Current thread does not match the specified predicate '" + predicate + "'.";
       throw exceptionMapper.apply(message);
     }
@@ -183,11 +186,11 @@ final class ThreadExpectationDefault implements ThreadExpectation {
   }
 
   @Override
-  public ThreadExpectation matches(Predicate<? super Thread> predicate, String message) {
+  public ThreadAssertion matches(Predicate<? super Thread> predicate, String message) {
 
     Precondition.assertParam(predicate != null, "'predicate' should not be null, but it is.");
 
-    if (!predicate.test(thread)) {
+    if (!predicate.test(candidate)) {
       throw exceptionMapper.apply(message);
     }
     return this;

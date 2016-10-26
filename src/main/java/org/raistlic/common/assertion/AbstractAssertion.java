@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.InvalidParameterException;
 
@@ -27,7 +27,7 @@ import java.util.function.Predicate;
  * @author Lei Chen (2015-10-14)
  */
 @SuppressWarnings("unchecked")
-abstract class AbstractExpectation<C, E> {
+abstract class AbstractAssertion<C, E> {
 
   /**
    * the candidate to be evaluated.
@@ -49,7 +49,7 @@ abstract class AbstractExpectation<C, E> {
    */
   private String message;
 
-  AbstractExpectation(C candidate, Function<String, ? extends RuntimeException> exceptionProvider) {
+  AbstractAssertion(C candidate, Function<String, ? extends RuntimeException> exceptionProvider) {
 
     if (exceptionProvider == null) {
       throw new InvalidParameterException("'exceptionProvider' should not be null.");

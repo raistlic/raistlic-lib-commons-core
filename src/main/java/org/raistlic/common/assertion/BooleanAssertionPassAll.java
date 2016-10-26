@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import java.util.function.Predicate;
 
-enum BooleanExpectationPassAll implements BooleanExpectation {
+enum BooleanAssertionPassAll implements BooleanAssertion {
 
   INSTANCE;
 
@@ -43,73 +43,73 @@ enum BooleanExpectationPassAll implements BooleanExpectation {
   }
 
   @Override
-  public BooleanExpectation isNull() {
+  public BooleanAssertion isNull() {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isNull(String message) {
+  public BooleanAssertion isNull(String message) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isNotNull() {
+  public BooleanAssertion isNotNull() {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isNotNull(String message) {
+  public BooleanAssertion isNotNull(String message) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isEqualTo(Boolean target) {
+  public BooleanAssertion isEqualTo(Boolean target) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isEqualTo(Boolean target, String message) {
+  public BooleanAssertion isEqualTo(Boolean target, String message) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isNotEqualTo(Boolean target) {
+  public BooleanAssertion isNotEqualTo(Boolean target) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isNotEqualTo(Boolean target, String message) {
+  public BooleanAssertion isNotEqualTo(Boolean target, String message) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isInstanceOf(Class<?> type) {
+  public BooleanAssertion isInstanceOf(Class<?> type) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation isInstanceOf(Class<?> type, String message) {
+  public BooleanAssertion isInstanceOf(Class<?> type, String message) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation matches(Predicate<? super Boolean> predicate) {
+  public BooleanAssertion matches(Predicate<? super Boolean> predicate) {
 
     return this;
   }
 
   @Override
-  public BooleanExpectation matches(Predicate<? super Boolean> predicate, String message) {
+  public BooleanAssertion matches(Predicate<? super Boolean> predicate, String message) {
 
     return this;
   }

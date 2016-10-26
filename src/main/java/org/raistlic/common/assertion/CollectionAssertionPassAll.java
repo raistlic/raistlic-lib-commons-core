@@ -14,169 +14,169 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
 @SuppressWarnings("rawtypes")
-enum CollectionExpectationPassAll implements CollectionExpectation {
+enum CollectionAssertionPassAll implements CollectionAssertion {
 
   INSTANCE;
 
   @SuppressWarnings("unchecked")
-  static <C> CollectionExpectation<C> getInstance() {
+  static <C> CollectionAssertion<C> getInstance() {
 
     return INSTANCE;
   }
 
   @Override
-  public Expectation isNull() {
+  public Assertion isNull() {
 
     return this;
   }
 
   @Override
-  public Expectation isNull(String message) {
+  public Assertion isNull(String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isNotNull() {
+  public Assertion isNotNull() {
 
     return this;
   }
 
   @Override
-  public Expectation isNotNull(String message) {
+  public Assertion isNotNull(String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isEqualTo(Object target) {
+  public Assertion isEqualTo(Object target) {
 
     return this;
   }
 
   @Override
-  public Expectation isEqualTo(Object target, String message) {
+  public Assertion isEqualTo(Object target, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isNotEqualTo(Object target) {
+  public Assertion isNotEqualTo(Object target) {
 
     return this;
   }
 
   @Override
-  public Expectation isNotEqualTo(Object target, String message) {
+  public Assertion isNotEqualTo(Object target, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation matches(Predicate predicate) {
+  public Assertion matches(Predicate predicate) {
 
     return this;
   }
 
   @Override
-  public Expectation matches(Predicate predicate, String message) {
+  public Assertion matches(Predicate predicate, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isInstanceOf(Class type, String message) {
+  public Assertion isInstanceOf(Class type, String message) {
 
     return this;
   }
 
   @Override
-  public Expectation isInstanceOf(Class type) {
+  public Assertion isInstanceOf(Class type) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation isEmpty() {
+  public CollectionAssertion isEmpty() {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation isEmpty(String message) {
+  public CollectionAssertion isEmpty(String message) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation isNullOrEmpty() {
+  public CollectionAssertion isNullOrEmpty() {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation isNullOrEmpty(String message) {
+  public CollectionAssertion isNullOrEmpty(String message) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation notEmpty() {
+  public CollectionAssertion notEmpty() {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation notEmpty(String message) {
+  public CollectionAssertion notEmpty(String message) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation hasSize(int size) {
+  public CollectionAssertion hasSize(int size) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation hasSize(int size, String message) {
+  public CollectionAssertion hasSize(int size, String message) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation contains(Object element) {
+  public CollectionAssertion contains(Object element) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation contains(Object element, String message) {
+  public CollectionAssertion contains(Object element, String message) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation containsAll(Collection elements) {
+  public CollectionAssertion containsAll(Collection elements) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation containsAll(Collection elements, String message) {
+  public CollectionAssertion containsAll(Collection elements, String message) {
 
     return this;
   }
 
   @Override
-  public CollectionExpectation isOrderedBy(Comparator comparator, String message) {
+  public CollectionAssertion isOrderedBy(Comparator comparator, String message) {
 
     return this;
   }

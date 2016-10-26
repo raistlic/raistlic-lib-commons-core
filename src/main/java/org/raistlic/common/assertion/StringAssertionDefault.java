@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
@@ -28,10 +28,10 @@ import java.util.regex.Pattern;
 /**
  * @author Lei Chen (2015-10-14)
  */
-final class StringExpectationDefault extends GenericExpectationAbstract<String, StringExpectation>
-    implements StringExpectation {
+final class StringAssertionDefault extends GenericAssertionAbstract<String, StringAssertion>
+    implements StringAssertion {
 
-  private final String candidate;
+  private String candidate;
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
@@ -45,17 +45,18 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
    *                          {@code null}.
    * @throws InvalidParameterException when {@code exceptionMapper} is {@code null}.
    */
-  StringExpectationDefault(String candidate,
-                           Function<String, ? extends RuntimeException> exceptionMapper) {
+  StringAssertionDefault(String candidate,
+                         Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    Precondition.assertParam(exceptionMapper != null, "'exceptionMapper' cannot be null.");
-
+    if (exceptionMapper == null) {
+      throw new InvalidParameterException("'exceptionMapper' cannot be null.");
+    }
     this.candidate = candidate;
     this.exceptionMapper = exceptionMapper;
   }
 
   @Override
-  StringExpectation getThis() {
+  StringAssertion getThis() {
 
     return this;
   }
@@ -66,6 +67,11 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
     return candidate;
   }
 
+  void setCandidate(String candidate) {
+    
+    this.candidate = candidate;
+  }
+
   @Override
   Function<String, ? extends RuntimeException> getExceptionMapper() {
 
@@ -73,7 +79,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isEmpty() {
+  public StringAssertion isEmpty() {
 
     if (IS_NOT_EMPTY.test(getCandidate())) {
       String message = "Candidate should be empty, but is not, instead it is '" + getCandidate() + "'";
@@ -83,7 +89,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isEmpty(String message) {
+  public StringAssertion isEmpty(String message) {
 
     if (IS_NOT_EMPTY.test(getCandidate())) {
       throw getExceptionMapper().apply(message);
@@ -92,7 +98,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isNullOrEmpty() {
+  public StringAssertion isNullOrEmpty() {
 
     if (IS_NOT_NULL_OR_EMPTY.test(getCandidate())) {
       String message = "Candidate should be null or empty, but it is not, instead it is '" + getCandidate() + "'";
@@ -102,7 +108,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isNullOrEmpty(String message) {
+  public StringAssertion isNullOrEmpty(String message) {
 
     if (IS_NOT_NULL_OR_EMPTY.test(message)) {
       throw getExceptionMapper().apply(message);
@@ -111,7 +117,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isNotEmpty() {
+  public StringAssertion isNotEmpty() {
 
     if (IS_EMPTY.test(getCandidate())) {
       String message = "Candidate is (unexpectedly) empty.";
@@ -121,7 +127,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isNotEmpty(String message) {
+  public StringAssertion isNotEmpty(String message) {
 
     if (IS_EMPTY.test(getCandidate())) {
       throw getExceptionMapper().apply(message);
@@ -130,7 +136,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isNotNullOrEmpty() {
+  public StringAssertion isNotNullOrEmpty() {
 
     if (IS_NULL_OR_EMPTY.test(getCandidate())) {
       String message = "Candidate should not be null or empty, but is '" + getCandidate() + "'";
@@ -140,7 +146,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation isNotNullOrEmpty(String message) {
+  public StringAssertion isNotNullOrEmpty(String message) {
 
     if (IS_NULL_OR_EMPTY.test(getCandidate())) {
       throw getExceptionMapper().apply(message);
@@ -149,7 +155,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation hasLength(int length) {
+  public StringAssertion hasLength(int length) {
 
     if (!StringPredicates.hasLength(length).test(getCandidate())) {
       String message = "Candidate '" + getCandidate() + "' does not have a length of " + length;
@@ -159,7 +165,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation hasLength(int length, String message) {
+  public StringAssertion hasLength(int length, String message) {
 
     if (!StringPredicates.hasLength(length).test(getCandidate())) {
       throw getExceptionMapper().apply(message);
@@ -168,7 +174,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation matchesPattern(Pattern pattern) {
+  public StringAssertion matchesPattern(Pattern pattern) {
 
     if (!StringPredicates.matchesPattern(pattern).test(getCandidate())) {
       String message = "Candidate '" + getCandidate() + "' does not match the pattern " + pattern;
@@ -178,7 +184,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation matchesPattern(Pattern pattern, String message) {
+  public StringAssertion matchesPattern(Pattern pattern, String message) {
 
     if (!StringPredicates.matchesPattern(pattern).test(getCandidate())) {
       throw getExceptionMapper().apply(message);
@@ -187,7 +193,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation matchesPattern(String pattern) {
+  public StringAssertion matchesPattern(String pattern) {
 
     Precondition.assertParam(pattern != null, "'pattern' should not be null, but it is.");
 
@@ -195,7 +201,7 @@ final class StringExpectationDefault extends GenericExpectationAbstract<String, 
   }
 
   @Override
-  public StringExpectation matchesPattern(String pattern, String message) {
+  public StringAssertion matchesPattern(String pattern, String message) {
 
     Precondition.assertParam(pattern != null, "'pattern' should not be null, but it is.");
 

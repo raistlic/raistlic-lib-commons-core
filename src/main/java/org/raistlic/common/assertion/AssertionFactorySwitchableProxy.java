@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.expectation;
+package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.InvalidParameterException;
-import org.raistlic.common.precondition.Precondition;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-final class ExpectedCasesSwitchableProxy implements ExpectedCases {
+final class AssertionFactorySwitchableProxy implements AssertionFactory {
 
-  private final ExpectedCases original;
+  private final AssertionFactory original;
 
   private final AtomicBoolean switchFlag;
 
-  ExpectedCasesSwitchableProxy(ExpectedCases original, AtomicBoolean switchFlag) {
+  AssertionFactorySwitchableProxy(AssertionFactory original, AtomicBoolean switchFlag) {
 
     if (original == null) {
       throw new InvalidParameterException();
@@ -41,79 +40,79 @@ final class ExpectedCasesSwitchableProxy implements ExpectedCases {
   }
 
   @Override
-  public BooleanExpectation expect(Boolean candidate) {
+  public BooleanAssertion expect(Boolean candidate) {
 
     if (switchFlag.get()) {
       return original.expect(candidate);
     }
     else {
-      return BooleanExpectationPassAll.INSTANCE;
+      return BooleanAssertionPassAll.INSTANCE;
     }
   }
 
   @Override
-  public PrimitiveBooleanExpectation expect(boolean candidate) {
+  public PrimitiveBooleanAssertion expect(boolean candidate) {
 
     if (switchFlag.get()) {
       return original.expect(candidate);
     }
     else {
-      return PrimitiveBooleanExpectationPassAll.INSTANCE;
+      return PrimitiveBooleanAssertionPassAll.INSTANCE;
     }
   }
 
   @Override
-  public StringExpectation expect(String candidate) {
+  public StringAssertion expect(String candidate) {
 
     if (switchFlag.get()) {
       return original.expect(candidate);
     }
     else {
-      return StringExpectationPassAll.INSTANCE;
+      return StringAssertionPassAll.INSTANCE;
     }
   }
 
   @Override
-  public <V> GenericExpectation<V> expect(V candidate) {
+  public <V> GenericAssertion<V> expect(V candidate) {
 
     if (switchFlag.get()) {
       return original.expect(candidate);
     }
     else {
-      return GenericExpectationPassAll.getInstance();
+      return GenericAssertionPassAll.getInstance();
     }
   }
 
   @Override
-  public <E> CollectionExpectation<E> expect(Collection<E> candidate) {
+  public <E> CollectionAssertion<E> expect(Collection<E> candidate) {
 
     if (switchFlag.get()) {
       return original.expect(candidate);
     }
     else {
-      return CollectionExpectationPassAll.getInstance();
+      return CollectionAssertionPassAll.getInstance();
     }
   }
 
   @Override
-  public <N extends Number & Comparable<N>> NumberExpectation<N> expect(N candidate) {
+  public <N extends Number & Comparable<N>> NumberAssertion<N> expect(N candidate) {
 
     if (switchFlag.get()) {
       return original.expect(candidate);
     }
     else {
-      return NumberExpectationPassAll.getInstance();
+      return NumberAssertionPassAll.getInstance();
     }
   }
 
   @Override
-  public ThreadExpectation expect(Thread thread) {
+  public ThreadAssertion expect(Thread thread) {
 
     if (switchFlag.get()) {
       return original.expect(thread);
     }
     else {
-      return ThreadExpectationPassAll.INSTANCE;
+      return ThreadAssertionPassAll.INSTANCE;
     }
   }
 
