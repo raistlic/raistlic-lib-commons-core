@@ -1,23 +1,21 @@
 package org.raistlic.common.postcondition;
 
-import org.raistlic.common.expectation.BooleanExpectation;
-import org.raistlic.common.expectation.CollectionExpectation;
-import org.raistlic.common.expectation.Expectations;
-import org.raistlic.common.expectation.ExpectedCases;
-import org.raistlic.common.expectation.ExpectedCasesFactory;
-import org.raistlic.common.expectation.GenericExpectation;
-import org.raistlic.common.expectation.NumberExpectation;
-import org.raistlic.common.expectation.PrimitiveBooleanExpectation;
-import org.raistlic.common.expectation.StringExpectation;
-import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.assertion.AssertionFactory;
+import org.raistlic.common.assertion.AssertionFactoryManager;
+import org.raistlic.common.assertion.Assertions;
+import org.raistlic.common.assertion.BooleanAssertion;
+import org.raistlic.common.assertion.CollectionAssertion;
+import org.raistlic.common.assertion.GenericAssertion;
+import org.raistlic.common.assertion.NumberAssertion;
+import org.raistlic.common.assertion.PrimitiveBooleanAssertion;
+import org.raistlic.common.assertion.StringAssertion;
 
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 /**
  * The class is used as the entry point for post condition checks, it has utility methods for
- * validation work, as well as some static factory methods that expose proper {@link ExpectedCases}
+ * validation work, as well as some static factory methods that expose proper {@link AssertionFactory}
  * instances for different types of objects.
  *
  * @author Lei Chen (2016-03-17)
@@ -26,63 +24,52 @@ public final class Postcondition {
 
   public static void setExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    Precondition.param(exceptionMapper).isNotNull();
-
-    expectedCasesFactory.setExceptionMapper(exceptionMapper)
-        .ifPresent(expectedCasesReference::set);
+    assertionFactoryManager.setExceptionMapper(exceptionMapper);
   }
 
-  public static void setExpectedCasesStrategy(ExpectedCases.Strategy strategy) {
+  public static void setExpectedCasesStrategy(AssertionFactory.Strategy strategy) {
 
-    Precondition.param(strategy).isNotNull();
-
-    expectedCasesFactory.setExpectedCasesStrategy(strategy)
-        .ifPresent(expectedCasesReference::set);
+    assertionFactoryManager.setStrategy(strategy);
   }
 
   public static void switchOn() {
 
-    expectedCasesFactory.setSwitch(true);
+    assertionFactoryManager.switchOn();
   }
 
   public static void switchOff() {
 
-    expectedCasesFactory.setSwitch(false);
+    assertionFactoryManager.switchOff();
   }
 
-  private static ExpectedCases expectedCases() {
+  public static <E> GenericAssertion<E> assertThat(E entity) {
 
-    return expectedCasesReference.get();
+    return getAssertionFactory().expect(entity);
   }
 
-  public static <E> GenericExpectation<E> assertThat(E entity) {
+  public static StringAssertion assertThat(String entity) {
 
-    return expectedCases().expect(entity);
+    return getAssertionFactory().expect(entity);
   }
 
-  public static StringExpectation assertThat(String entity) {
+  public static <N extends Number & Comparable<N>> NumberAssertion<N> assertThat(N entity) {
 
-    return expectedCases().expect(entity);
+    return getAssertionFactory().expect(entity);
   }
 
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> assertThat(N entity) {
+  public static BooleanAssertion assertThat(Boolean entity) {
 
-    return expectedCases().expect(entity);
+    return getAssertionFactory().expect(entity);
   }
 
-  public static BooleanExpectation assertThat(Boolean entity) {
+  public static PrimitiveBooleanAssertion assertThat(boolean entity) {
 
-    return expectedCases().expect(entity);
+    return getAssertionFactory().expect(entity);
   }
 
-  public static PrimitiveBooleanExpectation assertThat(boolean entity) {
+  public static <E> CollectionAssertion<E> assertThat(Collection<E> entity) {
 
-    return expectedCases().expect(entity);
-  }
-
-  public static <E> CollectionExpectation<E> assertThat(Collection<E> entity) {
-
-    return expectedCases().expect(entity);
+    return getAssertionFactory().expect(entity);
   }
 
   public static void isTrue(boolean statement) {
@@ -92,7 +79,7 @@ public final class Postcondition {
 
   public static void isTrue(boolean statement, String message) {
 
-    expectedCases().assertThat(statement, message);
+    getAssertionFactory().assertThat(statement, message);
   }
 
   /*
@@ -100,10 +87,11 @@ public final class Postcondition {
    */
   private Postcondition() { }
 
-  private static final ExpectedCasesFactory expectedCasesFactory = new ExpectedCasesFactory(
-      PostconditionException::new, ExpectedCases.Strategy.CREATE_NEW
-  );
+  private static AssertionFactory getAssertionFactory() {
 
-  private static final AtomicReference<ExpectedCases> expectedCasesReference =
-      new AtomicReference<>(Expectations.createDefaultExpectedCases(PostconditionException::new));
+    return assertionFactoryManager.getCurrentFactory();
+  }
+
+  private static final AssertionFactoryManager assertionFactoryManager =
+      Assertions.createAssertionFactoryManager(PostconditionException::new);
 }

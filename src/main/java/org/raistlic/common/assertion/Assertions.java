@@ -17,6 +17,7 @@
 package org.raistlic.common.assertion;
 
 import org.raistlic.common.precondition.InvalidParameterException;
+import org.raistlic.common.precondition.PreconditionCheckFailedException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -27,6 +28,15 @@ import java.util.function.Function;
  * @author Lei Chen (2015-12-29)
  */
 public final class Assertions {
+
+  public static AssertionFactoryManager createAssertionFactoryManager(
+      Function<String, ? extends RuntimeException> exceptionMapper) {
+
+    if (exceptionMapper == null) {
+      throw new PreconditionCheckFailedException("'exceptionMapper' cannot be null.");
+    }
+    return new AssertionFactoryManager(exceptionMapper);
+  }
 
   /**
    * Creates and returns a new instance of {@link AssertionFactory} with the specified exception mapper.

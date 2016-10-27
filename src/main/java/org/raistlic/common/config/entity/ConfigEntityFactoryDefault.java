@@ -22,8 +22,8 @@ import org.raistlic.common.codec.ValueConversionException;
 import org.raistlic.common.config.exception.ConfigEntityCreationException;
 import org.raistlic.common.config.exception.ConfigValueConvertException;
 import org.raistlic.common.config.source.ConfigSource;
-import org.raistlic.common.expectation.Expectations;
-import org.raistlic.common.expectation.ExpectedCases;
+import org.raistlic.common.assertion.Assertions;
+import org.raistlic.common.assertion.AssertionFactory;
 import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.reflection.ClassHelper;
@@ -371,7 +371,7 @@ class ConfigEntityFactoryDefault implements ConfigEntityFactory {
   private static final Map<Class<?>, Deserializer<?>> FIXED_DESERIALIZERS
           = Collections.unmodifiableMap(initFixedDeserializers());
 
-  private static final ExpectedCases VALIDATOR = Expectations.createDefaultExpectedCases(ConfigValueConvertException::new);
+  private static final AssertionFactory VALIDATOR = Assertions.createDefaultExpectedCases(ConfigValueConvertException::new);
 
   private static final Predicate<Class<?>> VALID_DESERIALIZE_CUSTOMIZABLE_TYPE_PREDICATE =
           aClass -> ! (aClass.isPrimitive() || FIXED_DESERIALIZERS.containsKey(aClass));

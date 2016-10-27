@@ -16,24 +16,24 @@
 
 package org.raistlic.common.precondition;
 
-import org.raistlic.common.expectation.BooleanExpectation;
-import org.raistlic.common.expectation.CollectionExpectation;
-import org.raistlic.common.expectation.ExpectedCases;
-import org.raistlic.common.expectation.ExpectedCasesFactory;
-import org.raistlic.common.expectation.GenericExpectation;
-import org.raistlic.common.expectation.NumberExpectation;
-import org.raistlic.common.expectation.PrimitiveBooleanExpectation;
-import org.raistlic.common.expectation.StringExpectation;
-import org.raistlic.common.expectation.ThreadExpectation;
+import org.raistlic.common.assertion.AssertionFactory;
+import org.raistlic.common.assertion.AssertionFactoryManager;
+import org.raistlic.common.assertion.Assertions;
+import org.raistlic.common.assertion.BooleanAssertion;
+import org.raistlic.common.assertion.CollectionAssertion;
+import org.raistlic.common.assertion.GenericAssertion;
+import org.raistlic.common.assertion.NumberAssertion;
+import org.raistlic.common.assertion.PrimitiveBooleanAssertion;
+import org.raistlic.common.assertion.StringAssertion;
+import org.raistlic.common.assertion.ThreadAssertion;
 
 import javax.swing.SwingUtilities;
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 /**
  * The class is used as the entry point for precondition checks, it has utility methods for
- * validation work, as well as some static factory methods that expose proper {@link ExpectedCases}
+ * validation work, as well as some static factory methods that expose proper {@link AssertionFactory}
  * instances for different types of objects.
  *
  * @author Lei CHEN (2015-02-13)
@@ -53,10 +53,7 @@ public final class Precondition {
    */
   public static void setParameterExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    assertParam(exceptionMapper != null);
-
-    paramExpectedCasesFactory.setExceptionMapper(exceptionMapper)
-        .ifPresent(paramExpectedCasesReference::set);
+    paramAssertionFactoryManager.setExceptionMapper(exceptionMapper);
   }
 
   /**
@@ -69,14 +66,11 @@ public final class Precondition {
    */
   public static void setContextExceptionMapper(Function<String, ? extends RuntimeException> exceptionMapper) {
 
-    assertParam(exceptionMapper != null);
-
-    contextExpectedCasesFactory.setExceptionMapper(exceptionMapper)
-        .ifPresent(contextExpectedCasesReference::set);
+    contextAssertionFactoryManager.setExceptionMapper(exceptionMapper);
   }
 
   /**
-   * The method sets the strategy of how expectation instances are managed in the {@link ExpectedCases} used for
+   * The method sets the strategy of how expectation instances are managed in the {@link AssertionFactory} used for
    * the checks. This sets the given {@code strategy} to both parameter and context checks.
    *
    * @param strategy the strategy to set, cannot be {@code null}.
@@ -84,14 +78,14 @@ public final class Precondition {
    * @throws InvalidParameterException or an exception of the currently configured exception type for parameter checks
    *         failure when {@code strategy} is {@code null}. See also {@link #setParameterExceptionMapper(Function)}.
    */
-  public static void setExpectedCasesStrategy(ExpectedCases.Strategy strategy) {
+  public static void setExpectedCasesStrategy(AssertionFactory.Strategy strategy) {
 
     setParameterExpectedCasesStrategy(strategy);
     setContextExpectedCasesStrategy(strategy);
   }
 
   /**
-   * Sets the strategy of how expectation instances are managed in the {@link ExpectedCases} used for parameter
+   * Sets the strategy of how expectation instances are managed in the {@link AssertionFactory} used for parameter
    * checks .
    *
    * @param strategy the strategy to set, cannot be {@code null}.
@@ -99,28 +93,22 @@ public final class Precondition {
    * @throws InvalidParameterException or an exception configured for parameter check failures when {@code strategy} is
    *         {@code null}. See also {@link #setParameterExceptionMapper(Function)}.
    */
-  public static void setParameterExpectedCasesStrategy(ExpectedCases.Strategy strategy) {
+  public static void setParameterExpectedCasesStrategy(AssertionFactory.Strategy strategy) {
 
-    assertParam(strategy != null);
-
-    paramExpectedCasesFactory.setExpectedCasesStrategy(strategy)
-        .ifPresent(paramExpectedCasesReference::set);
+    paramAssertionFactoryManager.setStrategy(strategy);
   }
 
   /**
-   * Sets the strategy of how expectation instances are managed in the {@link ExpectedCases} used for context checks.
+   * Sets the strategy of how expectation instances are managed in the {@link AssertionFactory} used for context checks.
    *
    * @param strategy the strategy to set, cannot be {@code null}.
    *
    * @throws InvalidParameterException or an exception configured for parameter check failures when {@code strategy} is
    *         {@code null}. See also {@link #setParameterExceptionMapper(Function)}.
    */
-  public static void setContextExpectedCasesStrategy(ExpectedCases.Strategy strategy) {
+  public static void setContextExpectedCasesStrategy(AssertionFactory.Strategy strategy) {
 
-    assertParam(strategy != null);
-
-    contextExpectedCasesFactory.setExpectedCasesStrategy(strategy)
-        .ifPresent(contextExpectedCasesReference::set);
+    contextAssertionFactoryManager.setStrategy(strategy);
   }
 
   /**
@@ -137,7 +125,7 @@ public final class Precondition {
    */
   public static void switchParameterCheckOn() {
 
-    paramExpectedCasesFactory.setSwitch(true);
+    paramAssertionFactoryManager.switchOn();
   }
 
   /**
@@ -145,7 +133,7 @@ public final class Precondition {
    */
   public static void switchContextCheckOn() {
 
-    contextExpectedCasesFactory.setSwitch(true);
+    contextAssertionFactoryManager.switchOn();
   }
 
   /**
@@ -163,7 +151,7 @@ public final class Precondition {
    */
   public static void switchParameterCheckOff() {
 
-    paramExpectedCasesFactory.setSwitch(false);
+    paramAssertionFactoryManager.switchOff();
   }
 
   /**
@@ -172,17 +160,7 @@ public final class Precondition {
    */
   public static void switchContextCheckOff() {
 
-    contextExpectedCasesFactory.setSwitch(false);
-  }
-
-  private static ExpectedCases contextExpectedCases() {
-
-    return contextExpectedCasesReference.get();
-  }
-
-  private static ExpectedCases paramExpectedCases() {
-
-    return paramExpectedCasesReference.get();
+    contextAssertionFactoryManager.switchOff();
   }
 
   // parameter preconditions -----------------------------------------------------------------------
@@ -192,9 +170,9 @@ public final class Precondition {
    *
    * @param parameter the parameter to be checked.
    * @param <E> the actual type of the parameter.
-   * @return the generic expectation instance. See also {@link GenericExpectation} .
+   * @return the generic expectation instance. See also {@link GenericAssertion} .
    */
-  public static <E> GenericExpectation<E> param(E parameter) {
+  public static <E> GenericAssertion<E> param(E parameter) {
 
     return paramExpectedCases().expect(parameter);
   }
@@ -203,9 +181,9 @@ public final class Precondition {
    * Returns an expectation instance for checking the specified {@link String} {@code parameter} .
    *
    * @param parameter the {@link String} parameter to be checked.
-   * @return a {@link String} expectation instance. See also {@link StringExpectation} .
+   * @return a {@link String} expectation instance. See also {@link StringAssertion} .
    */
-  public static StringExpectation param(String parameter) {
+  public static StringAssertion param(String parameter) {
 
     return paramExpectedCases().expect(parameter);
   }
@@ -215,9 +193,9 @@ public final class Precondition {
    *
    * @param parameter the {@link Number} parameter to be checked.
    * @param <N> the actual type of the {@code parameter} .
-   * @return a {@link Number} expectation instance. See also {@link NumberExpectation} .
+   * @return a {@link Number} expectation instance. See also {@link NumberAssertion} .
    */
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> param(N parameter) {
+  public static <N extends Number & Comparable<N>> NumberAssertion<N> param(N parameter) {
 
     return paramExpectedCases().expect(parameter);
   }
@@ -226,9 +204,9 @@ public final class Precondition {
    * Returns an expectation instance for checking the specified {@link Boolean} {@code parameter} .
    *
    * @param parameter the {@link Boolean} parameter to be checked.
-   * @return a {@link Boolean} expectation instance. See also {@link BooleanExpectation} .
+   * @return a {@link Boolean} expectation instance. See also {@link BooleanAssertion} .
    */
-  public static BooleanExpectation param(Boolean parameter) {
+  public static BooleanAssertion param(Boolean parameter) {
 
     return paramExpectedCases().expect(parameter);
   }
@@ -237,9 +215,9 @@ public final class Precondition {
    * Returns an expectation instance for checking the primitive {@code boolean} {@code parameter} .
    *
    * @param parameter the {@code boolean} parameter to be checked.
-   * @return a {@code boolean} expectation instance. See also {@link PrimitiveBooleanExpectation} .
+   * @return a {@code boolean} expectation instance. See also {@link PrimitiveBooleanAssertion} .
    */
-  public static PrimitiveBooleanExpectation param(boolean parameter) {
+  public static PrimitiveBooleanAssertion param(boolean parameter) {
 
     return paramExpectedCases().expect(parameter);
   }
@@ -249,9 +227,9 @@ public final class Precondition {
    *
    * @param parameter the {@link Collection} parameter to be checked.
    * @param <E> the actual element type of the {@link Collection} .
-   * @return a {@link Collection} expectation instance. See also {@link CollectionExpectation} .
+   * @return a {@link Collection} expectation instance. See also {@link CollectionAssertion} .
    */
-  public static <E> CollectionExpectation<E> param(Collection<E> parameter) {
+  public static <E> CollectionAssertion<E> param(Collection<E> parameter) {
 
     return paramExpectedCases().expect(parameter);
   }
@@ -290,9 +268,9 @@ public final class Precondition {
    * Returns an expectation for checking the specified {@link Boolean} {@code contextState} .
    *
    * @param contextState the {@link Boolean} context state to be checked.
-   * @return a {@link Boolean} expectation instance. See also {@link BooleanExpectation} .
+   * @return a {@link Boolean} expectation instance. See also {@link BooleanAssertion} .
    */
-  public static BooleanExpectation context(Boolean contextState) {
+  public static BooleanAssertion context(Boolean contextState) {
 
     return contextExpectedCases().expect(contextState);
   }
@@ -301,9 +279,9 @@ public final class Precondition {
    * Returns an expectation for checking the specified {@code boolean contextState} .
    *
    * @param contextState the {@code boolean} context state to be checked.
-   * @return a {@code boolean} expectation instance. See also {@link PrimitiveBooleanExpectation} .
+   * @return a {@code boolean} expectation instance. See also {@link PrimitiveBooleanAssertion} .
    */
-  public static PrimitiveBooleanExpectation context(boolean contextState) {
+  public static PrimitiveBooleanAssertion context(boolean contextState) {
 
     return contextExpectedCases().expect(contextState);
   }
@@ -312,9 +290,9 @@ public final class Precondition {
    * Returns an expectation instance for checking the specified {@link String} {@code contextState} .
    *
    * @param contextState the context state to be checked.
-   * @return a string expectation instance. See also {@link StringExpectation} .
+   * @return a string expectation instance. See also {@link StringAssertion} .
    */
-  public static StringExpectation context(String contextState) {
+  public static StringAssertion context(String contextState) {
 
     return contextExpectedCases().expect(contextState);
   }
@@ -324,9 +302,9 @@ public final class Precondition {
    *
    * @param contextState the context state to be checked.
    * @param <E> the actual type of the {@code contextState} .
-   * @return a generic expectation instance. See also {@link GenericExpectation} .
+   * @return a generic expectation instance. See also {@link GenericAssertion} .
    */
-  public static <E> GenericExpectation<E> context(E contextState) {
+  public static <E> GenericAssertion<E> context(E contextState) {
 
     return contextExpectedCases().expect(contextState);
   }
@@ -336,9 +314,9 @@ public final class Precondition {
    *
    * @param contextState the context state to be checked.
    * @param <N> the actual {@link Number} sub-type of the {@code contextState} .
-   * @return a number expectation instance. See also {@link NumberExpectation} .
+   * @return a number expectation instance. See also {@link NumberAssertion} .
    */
-  public static <N extends Number & Comparable<N>> NumberExpectation<N> context(N contextState) {
+  public static <N extends Number & Comparable<N>> NumberAssertion<N> context(N contextState) {
 
     return contextExpectedCases().expect(contextState);
   }
@@ -374,9 +352,9 @@ public final class Precondition {
   /**
    * Returns an expectation instance for checking the current thread.
    *
-   * @return the {@link ThreadExpectation} for current thread.
+   * @return the {@link ThreadAssertion} for current thread.
    */
-  public static ThreadExpectation currentThread() {
+  public static ThreadAssertion currentThread() {
 
     return contextExpectedCases().expect(Thread.currentThread());
   }
@@ -392,19 +370,19 @@ public final class Precondition {
 
   private Precondition() { }
 
-  private static final ExpectedCasesFactory paramExpectedCasesFactory = new ExpectedCasesFactory(
-      InvalidParameterException::new, ExpectedCases.Strategy.CREATE_NEW
-  );
+  private static AssertionFactory contextExpectedCases() {
 
-  private static final ExpectedCasesFactory contextExpectedCasesFactory = new ExpectedCasesFactory(
-      InvalidContextException::new, ExpectedCases.Strategy.CREATE_NEW
-  );
+    return contextAssertionFactoryManager.getCurrentFactory();
+  }
 
-  private static final AtomicReference<ExpectedCases> paramExpectedCasesReference = new AtomicReference<>(
-      paramExpectedCasesFactory.create()
-  );
+  private static AssertionFactory paramExpectedCases() {
 
-  private static final AtomicReference<ExpectedCases> contextExpectedCasesReference = new AtomicReference<>(
-      contextExpectedCasesFactory.create()
-  );
+    return paramAssertionFactoryManager.getCurrentFactory();
+  }
+
+  private static final AssertionFactoryManager paramAssertionFactoryManager =
+      Assertions.createAssertionFactoryManager(InvalidParameterException::new);
+
+  private static final AssertionFactoryManager contextAssertionFactoryManager =
+      Assertions.createAssertionFactoryManager(InvalidContextException::new);
 }

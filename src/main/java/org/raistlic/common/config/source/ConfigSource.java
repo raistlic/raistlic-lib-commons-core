@@ -16,6 +16,8 @@
 
 package org.raistlic.common.config.source;
 
+import org.raistlic.common.precondition.PreconditionCheckFailedException;
+
 import java.util.Set;
 
 /**
@@ -50,7 +52,7 @@ public interface ConfigSource {
    * @return the {@link String} value specified by {@code key} in the {@link ConfigSource} ,
    *         or {@code null} if the {@code key} is not found.
    *
-   * @throws org.raistlic.common.precondition.PreconditionException when {@code key} is {@code null}.
+   * @throws PreconditionCheckFailedException when {@code key} is {@code null}.
    */
   String getString(String key);
 }

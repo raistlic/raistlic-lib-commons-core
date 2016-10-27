@@ -20,7 +20,7 @@ package org.raistlic.common.precondition;
  * @author Lei CHEN (2015-02-13)
  * @since 1.2
  */
-public class InvalidContextException extends PreconditionException {
+public class InvalidContextException extends PreconditionCheckFailedException {
 
   public InvalidContextException(String message) {
 
