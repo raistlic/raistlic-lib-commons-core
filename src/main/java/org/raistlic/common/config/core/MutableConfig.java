@@ -52,4 +52,8 @@ public interface MutableConfig extends Config, ConfigBuilder {
   MutableConfig setDouble(String key, double value);
 
   <E> MutableConfig setValue(String key, E value, Encoder<? super E, String> encoder);
+
+  default <E> MutableConfig setValue(String key, E value) {
+    return setValue(key, value, Object::toString);
+  }
 }

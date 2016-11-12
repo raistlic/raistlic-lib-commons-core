@@ -187,6 +187,10 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
    */
   <E> ConfigBuilder setValue(String key, E value, Encoder<? super E, String> encoder);
 
+  default <E> ConfigBuilder setValue(String key, E value) {
+    return setValue(key, value, Object::toString);
+  }
+
   @Override
   default Class<Config> getConfigType() {
     return Config.class;
