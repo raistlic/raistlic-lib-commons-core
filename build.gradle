@@ -6,12 +6,11 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
 apply plugin: 'idea'
 
 group = 'org.raistlic.lib'
-version = '1.4-SNAPSHOT'
+version = '1.4'
+ext.packaging = 'jar'
 
 description = """Raistlic's Commons Library"""
 
@@ -41,6 +40,33 @@ dependencies {
     testCompile group: 'pl.pragmatists', name: 'JUnitParams', version:'1.0.4'
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+//  for spock unit test, to be removed: not really much better than JUnit, overall.
+// ---------------------------------------------------------------------------------------------------------------------
+sourceSets {
+    test {
+        java {
+            srcDirs.add('src/groovy')
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+//  for gradle tasks encoding on Windows machine
+// ---------------------------------------------------------------------------------------------------------------------
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+//  for maven publish
+// ---------------------------------------------------------------------------------------------------------------------
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
@@ -51,25 +77,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
-}
-
-
 artifacts {
+    archives jar
     archives sourcesJar
     archives javadocJar
 }
 
-sourceSets {
-    test {
-        java {
-            srcDirs.add('src/groovy')
-        }
-    }
-}
+apply from: "${rootProject.projectDir}/gradle/upload-archives.gradle"
