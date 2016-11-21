@@ -184,9 +184,9 @@ public class ConfigIOTest {
 
     configIO.writeConfig(config, outputStream);
 
-    String actual = new String(outputStream.toByteArray());
+    String actual = new String(outputStream.toByteArray()).trim().replaceAll("\n", "").replaceAll("\r", "");
     InputStream inputStream = getClass().getResourceAsStream(fixturePath);
-    String expected = readAll(inputStream);
+    String expected = readAll(inputStream).trim().replaceAll("\n", "").replaceAll("\r", "");
     inputStream.close();
     assertThat(actual).isEqualTo(expected);
   }
