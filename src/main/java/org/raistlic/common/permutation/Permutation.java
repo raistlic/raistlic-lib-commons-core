@@ -44,9 +44,9 @@ public class Permutation<E> implements Iterable<List<E>> {
   public interface Algorithm {
 
     /**
+     * Returns the maximum supported collection size.
      * 
-     * 
-     * @return
+     * @return the maximum supported collection size.
      */
     int getMaxSupportedSize();
 

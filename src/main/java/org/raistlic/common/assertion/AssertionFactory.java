@@ -67,6 +67,7 @@ public interface AssertionFactory {
    * Wraps the specified generic candidate and returns an expectation instance to check it.
    *
    * @param candidate the candidate to be wrapped.
+   * @param <V> type bound of the {@code candidate} .
    * @return the expectation instance.
    */
   <V> GenericAssertion<V> expect(V candidate);
@@ -75,6 +76,7 @@ public interface AssertionFactory {
    * Wraps the specified {@link Collection} candidate and returns an expectation instance to check it.
    *
    * @param candidate the candidate to be wrapped.
+   * @param <E> element type bound of the {@code candidate} collection.
    * @return the expectation instance.
    */
   <E> CollectionAssertion<E> expect(Collection<E> candidate);
@@ -83,6 +85,7 @@ public interface AssertionFactory {
    * Wraps the specified {@link Number} candidate and returns an expectation instance to check it.
    *
    * @param candidate the candidate to be wrapped.
+   * @param <N> type bound of the number {@code candidate} .
    * @return the expectation instance.
    */
   <N extends Number & Comparable<N>> NumberAssertion<N> expect(N candidate);
