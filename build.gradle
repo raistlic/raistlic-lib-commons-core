@@ -1,4 +1,8 @@
-import javax.tools.JavaCompiler
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
 
 apply plugin: 'java'
 apply plugin: 'groovy'
