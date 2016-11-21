@@ -38,7 +38,7 @@ public final class AssertionFactoryManager {
       throw new InvalidParameterException("'exceptionMapper' cannot be null.");
     }
 
-    assertionSwitch = new AtomicBoolean(false);
+    assertionSwitch = new AtomicBoolean(true);
     strategyReference = new AtomicReference<>(AssertionFactory.Strategy.THREAD_LOCAL);
     exceptionMapperReference = new AtomicReference<>(exceptionMapper);
     currentFactory = createFactory(strategyReference.get(), exceptionMapper);

@@ -25,7 +25,7 @@ public final class CollectionPredicates {
 
   public static Predicate<Collection<?>> hasSize(int size) {
 
-    Precondition.param(size).greaterThanOrEqualTo(0);
+    Precondition.assertParam(size >= 0, "hasSize('size') size must be no less than 0, but was " + size);
     return new CollectionWithSizePredicate(size);
   }
 

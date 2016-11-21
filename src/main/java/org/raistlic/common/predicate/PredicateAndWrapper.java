@@ -44,8 +44,8 @@ public final class PredicateAndWrapper<E> implements Predicate<E> {
    */
   public PredicateAndWrapper(Predicate<? super E> left, Predicate<? super E> right) {
 
-    Precondition.param(left).isNotNull();
-    Precondition.param(right).isNotNull();
+    Precondition.assertParam(left != null, "new PredicateAndWrapper(left, right): left cannot be null.");
+    Precondition.assertParam(right != null, "new PredicateAndWrapper(left, right): right cannot be null.");
 
     this.left = left;
     this.right = right;

@@ -22,7 +22,7 @@ public final class NumberPredicates {
    */
   public static <N extends Number & Comparable<N>> Predicate<N> greaterThan(N reference) {
 
-    Precondition.param(reference).isNotNull();
+    Precondition.assertParam(reference != null, "greaterThan(reference): reference cannot be null.");
 
     return new NumberGreaterThanPredicate<N>(reference);
   }
@@ -37,7 +37,7 @@ public final class NumberPredicates {
    */
   public static <N extends Number & Comparable<N>> Predicate<N> greaterThanOrEqualTo(N reference) {
 
-    Precondition.param(reference).isNotNull();
+    Precondition.assertParam(reference != null, "greaterThanOrEqualTo(reference): reference cannot be null.");
 
     return Predicates.or(Predicates.equalTo(reference), greaterThan(reference));
   }
@@ -52,7 +52,7 @@ public final class NumberPredicates {
    */
   public static <N extends Number & Comparable<N>> Predicate<N> lessThan(N reference) {
 
-    Precondition.param(reference).isNotNull();
+    Precondition.assertParam(reference != null, "lessThan(reference): reference cannot be null.");
 
     return new NumberLessThanPredicate<N>(reference);
   }
@@ -67,7 +67,7 @@ public final class NumberPredicates {
    */
   public static <N extends Number & Comparable<N>> Predicate<N> lessThanOrEqualTo(N reference) {
 
-    Precondition.param(reference).isNotNull();
+    Precondition.assertParam(reference != null, "lessThanOrEqualTo(reference): reference cannot be null.");
 
     return Predicates.or(Predicates.equalTo(reference), lessThan(reference));
   }

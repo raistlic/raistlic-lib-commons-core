@@ -16,9 +16,7 @@
 
 package org.raistlic.common.adt;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.raistlic.common.precondition.InvalidParameterException;
 
 import static org.raistlic.common.postcondition.Postcondition.assertThat;
@@ -27,9 +25,6 @@ import static org.raistlic.common.postcondition.Postcondition.assertThat;
  * @author Lei CHEN (2015-03-03)
  */
 public class BitMapTest {
-
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
 
   @Test
   public void testSize() {
@@ -84,33 +79,30 @@ public class BitMapTest {
     assertThat(bitMap.rankOne(29)).isEqualTo(13);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testRankOneWithNegativeIndex() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     bitMap.rankOne(-1);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testRankOneWithIndexGreaterThanSize() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     bitMap.rankOne(100);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testRankOneWithIndexEqualToSize() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     bitMap.rankOne(pattern.replaceAll(" ", "").length());
   }
 
@@ -157,33 +149,30 @@ public class BitMapTest {
     assertThat(bitMap.rankZero(29)).isEqualTo(17);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testRankZeroWithNegativeIndex() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.rankZero(-1)).greaterThan(0);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testRankZeroWithIndexGreaterThanSize() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.rankZero(100)).greaterThan(0);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testRankZeroWithIndexEqualToSize() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.rankZero(pattern.replaceAll(" ", "").length())).greaterThan(0);
   }
 
@@ -211,13 +200,12 @@ public class BitMapTest {
     assertThat(bitMap.selectOne(15)).isEqualTo(-1);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testSelectOneWithNegativeIndex() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.selectOne(-1)).isEqualTo(-1);
   }
 
@@ -249,13 +237,12 @@ public class BitMapTest {
     assertThat(bitMap.selectZero(19)).isEqualTo(-1);
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testSelectZeroWithNegativeIndex() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.selectZero(-1)).isEqualTo(-1);
   }
 
@@ -302,33 +289,30 @@ public class BitMapTest {
     assertThat(bitMap.isOne(29)).isTrue();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsOneWithNegativeIndex() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.isOne(-1)).isFalse();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsOneWithIndexGreaterThanSize() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.isOne(100)).isFalse();
   }
 
-  @Test
+  @Test(expected = InvalidParameterException.class)
   public void testIsOneWithIndexEqualToSize() {
 
     String pattern = "01000 10101 11010 10110 01000 00101";
     BitMap bitMap = buildBitMap(pattern);
 
-    exception.expect(InvalidParameterException.class);
     assertThat(bitMap.isOne(bitMap.size())).isFalse();
   }
 

@@ -91,9 +91,7 @@ public final class Predicates {
    */
   public static Predicate<Object> instanceOf(Class<?> type) {
 
-    if (type == null) {
-      throw new InvalidParameterException("'type' cannot be null.");
-    }
+    Precondition.assertParam(type != null, "Predicates.instanceOf(type): type cannot be null.");
     return new ObjectIsInstanceOfTypePredicate(type);
   }
 
@@ -138,8 +136,7 @@ public final class Predicates {
    */
   public static <E> Predicate<E> not(Predicate<? super E> predicate) {
 
-    Precondition.param(predicate).isNotNull();
-    
+    Precondition.assertParam(predicate != null, "Predicates.not(predicate): predicate cannot be null.");
     return new PredicateNotWrapper<E>(predicate);
   }
 
@@ -158,9 +155,8 @@ public final class Predicates {
    */
   public static <E> Predicate<E> and(Predicate<? super E> left, Predicate<? super E> right) {
 
-    Precondition.param(left).isNotNull();
-    Precondition.param(right).isNotNull();
-
+    Precondition.assertParam(left != null, "Predicates.and(left, right): left cannot be null.");
+    Precondition.assertParam(right != null, "Predicates.and(left, right): right cannot be null.");
     return new PredicateAndWrapper<E>(left, right);
   }
 
@@ -179,9 +175,8 @@ public final class Predicates {
    */
   public static <E> Predicate<E> or(Predicate<? super E> left, Predicate<? super E> right) {
 
-    Precondition.param(left).isNotNull();
-    Precondition.param(right).isNotNull();
-
+    Precondition.assertParam(left != null, "Predicates.or(left, right): left cannot be null.");
+    Precondition.assertParam(right != null, "Predicates.or(left, right): right cannot be null.");
     return new PredicateOrWrapper<E>(left, right);
   }
 
@@ -197,8 +192,7 @@ public final class Predicates {
    */
   public static <E> PredicateBuilder<E> builder(Predicate<? super E> base) {
     
-    Precondition.param(base).isNotNull();
-
+    Precondition.assertParam(base != null, "Predicates.builder(base): base cannot be null.");
     return new PredicateBuilder<E>(Predicates.<E>dummyTrue()).and(base);
   }
 

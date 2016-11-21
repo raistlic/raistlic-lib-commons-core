@@ -65,3 +65,11 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+sourceSets {
+    test {
+        java {
+            srcDirs.add('src/groovy')
+        }
+    }
+}
