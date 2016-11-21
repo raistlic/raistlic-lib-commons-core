@@ -23,32 +23,36 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class is to fulfill the needs of getting permutations from a
- * collection.
- * <p>
- * It basically provides the functionalities of :
- * 1 - enquiry the number of permutation count : p(m, n)
- * 2 - given an ordinal number i, fetch the i-th permutation result
- * as a read-only list.
- * 3 - convenient for-each iteration of all the permutations
- * <p>
- * This class is NOT thread safe.
- * <p>
- * This class re-uses one array to fetch each enquiry, so if the user
- * want to keep the i-th permutation result, make a copy.
- *
- * @author Lei CHEN
- * @since 1.0
+ * Utility class for easy query of all possible permutations from a collection.
+ * 
+ * It basically provides the following functionality:
+ * 
+ *   - enquiry the number of permutation count : p(m, n)
+ *   - given an ordinal number i, fetch the i-th permutation result as a read-only list.
+ *   - convenient for-each iteration of all the permutations
+ * 
+ * It is NOT thread safe.
+ * 
+ * It re-uses one array to fetch each enquiry, so if the user want to keep the i-th permutation 
+ * result, make a copy.
  */
 public class Permutation<E> implements Iterable<List<E>> {
 
-  public static interface Algorithm {
+  /**
+   * A callback interface that implements the permutation algorithm.
+   */
+  public interface Algorithm {
 
-    public int getMaxSupportedSize();
+    /**
+     * 
+     * 
+     * @return
+     */
+    int getMaxSupportedSize();
 
-    public BigInteger getPermutationCount(int numberOfElements);
+    BigInteger getPermutationCount(int numberOfElements);
 
-    public void fetchPermutation(Object[] elements, BigInteger ordinal);
+    void fetchPermutation(Object[] elements, BigInteger ordinal);
   }
 
   public static final Algorithm DEFAULT_ALGORITHM = DefaultAlgorithm.INSTANCE;
@@ -58,21 +62,17 @@ public class Permutation<E> implements Iterable<List<E>> {
     return of(elements, elements.size());
   }
 
-  public static <E> Permutation<E> of(Collection<E> elements,
-                                      int numberToPick) {
+  public static <E> Permutation<E> of(Collection<E> elements, int numberToPick) {
 
     return of(elements, numberToPick, DEFAULT_ALGORITHM);
   }
 
-  public static <E> Permutation<E> of(Collection<E> elements,
-                                      Algorithm pAlgorithm) {
+  public static <E> Permutation<E> of(Collection<E> elements, Algorithm pAlgorithm) {
 
     return of(elements, elements.size(), pAlgorithm);
   }
 
-  public static <E> Permutation<E> of(Collection<E> elements,
-                                      int numberToPick,
-                                      Algorithm pAlgorithm) {
+  public static <E> Permutation<E> of(Collection<E> elements, int numberToPick, Algorithm pAlgorithm) {
 
     return of(elements, numberToPick, pAlgorithm, Combination.DEFAULT_ALGORITHM);
   }
@@ -94,7 +94,6 @@ public class Permutation<E> implements Iterable<List<E>> {
 
     return new Permutation<E>(elements, numberToPick, pAlgorithm, cAlgorithm);
   }
-
 
   private E[] elements, picked;
 
@@ -195,14 +194,14 @@ public class Permutation<E> implements Iterable<List<E>> {
     }
   }
 
-  private static enum DefaultAlgorithm implements Algorithm {
+  private enum DefaultAlgorithm implements Algorithm {
 
     INSTANCE;
 
     @Override
     public int getMaxSupportedSize() {
 
-      return MAX_SUPPORT;
+      return Integer.MAX_VALUE;
     }
 
     @Override
@@ -252,7 +251,5 @@ public class Permutation<E> implements Iterable<List<E>> {
         }
       }
     }
-
-    private static final int MAX_SUPPORT = 1024;
   }
 }

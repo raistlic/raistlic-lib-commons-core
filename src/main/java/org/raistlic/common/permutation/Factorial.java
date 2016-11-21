@@ -17,38 +17,30 @@
 package org.raistlic.common.permutation;
 
 import org.raistlic.common.adt.WeakArray;
+import org.raistlic.common.precondition.Precondition;
 
 import java.math.BigInteger;
 
 /**
- * This class defines a tool to calculate mathematical factorial results of 
- * positive integers.
- * 
- * @author Lei CHEN
- * @since 1.0
+ * A factorial calculator.
  */
 public class Factorial {
   
   /**
-   * This method returns the mathematical result of {@code number!}.
+   * Returns the factorial of {@code number} .
    * 
-   * @param number the number of which to calculate the factorial, cannot be 
-   *        negative.
+   * @param number the number of which to calculate the factorial, cannot be negative.
+   * @return the factorial result of the specified {@code number}, as a {@code BigInteger}.
    * 
-   * @return the factorial result of the specified {@code number}, as a 
-   *         {@code BigInteger}.
-   * 
-   * @throws IllegalArgumentException if {@code number < 0}.
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code number < 0}.
    */
   public static BigInteger of(int number) {
 
-    if( number < 0 )
-      throw new IllegalArgumentException();
+    Precondition.param(number).greaterThanOrEqualTo(0);
     
-    int index = Math.min(RESULTS.length()-1, number);
+    int index = Math.min(RESULTS.length()-1, number), limit = index;
     BigInteger result = null;
     while (index > 1) {
-      
       result = RESULTS.get(index);
       if( result != null )
         break;
@@ -58,11 +50,12 @@ public class Factorial {
       result = BigInteger.ONE;
     }
     
-    for (int i = index + 1; i <= number; i++) {
-      
-      result = result.multiply(BigInteger.valueOf(i));
-      if( i < RESULTS.length() )
-        RESULTS.set(i, result);
+    for (++index; index <= limit; index++) {
+      result = result.multiply(BigInteger.valueOf(index));
+      RESULTS.set(index, result);
+    }
+    for (; index <= number; index++) {
+      result = result.multiply(BigInteger.valueOf(index));
     }
     return result;
   }
@@ -70,8 +63,7 @@ public class Factorial {
   /*
    * An array to cache some results.
    */
-  private static final WeakArray<BigInteger> RESULTS =
-          new WeakArray<BigInteger>(1024);
+  private static final WeakArray<BigInteger> RESULTS = new WeakArray<>(1024);
 
   /*
    * Functionality served via static method, this class is designed not to be 

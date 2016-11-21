@@ -153,38 +153,35 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
   @Override
   public void run() {
 
-    synchronized (done) {
+    Precondition.context(done.get()).isFalse();
 
-      Precondition.context(done.get()).isFalse();
+    if (canceled.get()) {
+      return;
+    }
 
-      if (canceled.get()) {
-        return;
+    try {
+      result = task.run();
+    }
+    catch (Exception ex) {
+      if (ex instanceof TaskExecutionException) {
+        exception = (TaskExecutionException) ex;
       }
+      else {
+        exception = new TaskExecutionException(ex);
+      }
+      taskExceptionHandler.exceptionOccur(Thread.currentThread(), exception);
+    }
 
-      try {
-        result = task.run();
-      }
-      catch (Exception ex) {
-        if (ex instanceof TaskExecutionException) {
-          exception = (TaskExecutionException) ex;
-        }
-        else {
-          exception = new TaskExecutionException(ex);
-        }
-        taskExceptionHandler.exceptionOccur(Thread.currentThread(), exception);
-      }
-
-      try {
-        this.onResultCallback();
-        this.onErrorCallback();
-      }
-      catch (Exception ex) {
-        taskExceptionHandler.exceptionOccur(Thread.currentThread(), ex);
-      }
-      finally {
-        done.set(true);
-        cd.countDown();
-      }
+    try {
+      this.onResultCallback();
+      this.onErrorCallback();
+    }
+    catch (Exception ex) {
+      taskExceptionHandler.exceptionOccur(Thread.currentThread(), ex);
+    }
+    finally {
+      done.set(true);
+      cd.countDown();
     }
   }
 }

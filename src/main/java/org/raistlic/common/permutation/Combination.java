@@ -16,73 +16,132 @@
 
 package org.raistlic.common.permutation;
 
+import org.raistlic.common.precondition.Precondition;
+
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class is to fulfill the needs of getting combinations from a 
- * collection.
+ * Utility class for easy query of all possible combinations of "picking m elements from an n-size 
+ * collection".
  * 
  * It basically provides the functionalities of :
  *   1 - enquiry the number of combination count of combination(m, n)
- *   2 - given an ordinal number i, fetch the i-th combination sequence
- *       as a read-only list.
+ *   2 - given an ordinal number i, fetch the i-th combination sequence as a read-only list.
  *   3 - convenient for-each iteration of all the combinations
  * 
- * This class is NOT thread safe.
+ * It is NOT thread safe.
  * 
- * This class re-uses one array to fetch the combination, so if the user 
- * want to keep the i-th combination result, make a copy.
- *
- * @author Lei CHEN
- * @since 1.0
+ * It re-uses one array to fetch the combination, so if the user want to keep the i-th combination 
+ * result, make a copy.
  */
 public class Combination<E> implements Iterable<List<E>> {
-  
-  public static interface Algorithm {
 
-    public int getMaxSupportedSize();
+  /**
+   * A callback interface that implements the combination algorithm.
+   */
+  public interface Algorithm {
 
-    public BigInteger getCombinationCount(int numberOfElements, int numberToPick);
+    /**
+     * Returns the maximum size of collection that the algorithm implementation supports, it is 
+     * {@link Integer#MAX_VALUE} by default.
+     * 
+     * @return the maximum size of collection that the algorithm implementation supports.
+     */
+    default int getMaxSupportedSize() {
+      return Integer.MAX_VALUE;
+    }
 
-    public void fetchCombination(Object[] source, Object[] target, BigInteger ordinal);
+    /**
+     * Returns the number of all possible combinations, for picking {@code numberToPick} elements 
+     * from a collection of size {@code numberOfElements}.
+     * 
+     * @param numberOfElements the collection size, must be no less than {@code 0} .
+     * @param numberToPick the number of elements to pick, must be no less than {@code 0} and no more
+     *                     than {@code numberOfElements} .
+     * @return the number of all possible combinations.
+     * 
+     * @throws org.raistlic.common.precondition.InvalidParameterException when {@code numberOfElements} 
+     *         or {@code numberToPick} is invalid.
+     */
+    BigInteger getCombinationCount(int numberOfElements, int numberToPick);
+
+    /**
+     * Fills the {@code target} array with selected elements in the {@code source} array, as the 
+     * result of the {@code ordinal}-th combination result. 
+     * 
+     * @param source the source array, cannot be {@code null}
+     * @param target the target array, cannot be {@code null}, and it's size cannot be bigger than 
+     *               {@code source} .
+     * @param ordinal the index of the combination result to pick, must be no less than {@code 0} and 
+     *                must be less than {@code getCombinationCount(source.length, target.length)} .
+     *                
+     * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters
+     *         is invalid.
+     */
+    void fetchCombination(Object[] source, Object[] target, BigInteger ordinal);
   }
   
   static final Algorithm DEFAULT_ALGORITHM = DefaultAlgorithm.INSTANCE;
-  
-  public static <E> Combination<E> of(Collection<E> elements,
-                                      int numberToPick) {
+
+  /**
+   * Factory method that exports a combination instance with the specified {@code elements} collection
+   * and {@code numberToPick} , using the default algorithm implementation.
+   * 
+   * @param elements the elements collection to pick combination from, cannot be {@code null}.
+   * @param numberToPick the number of elements to pick, must be no less than {@code 0} and no more
+   *                     than {@code elements} size.
+   * @param <E> the element type.
+   * @return the combination instance.
+   * 
+   * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters
+   *         is invalid.
+   */
+  public static <E> Combination<E> of(Collection<E> elements, int numberToPick) {
     
     return of(elements, numberToPick, DEFAULT_ALGORITHM);
   }
-  
-  public static <E> Combination<E> of(Collection<E> elements, 
-                                      int numberToPick,
-                                      Algorithm algorithm) {
+
+  /**
+   * Factory method that exports a combination instance with the specified {@code elements} collection
+   * and {@code numberToPick} , using the {@code algorithm} callback provided, or the default algorithm
+   * if the {@code algorithm} parameter passed in is {@code null}.
+   * 
+   * @param elements the elements collection to pick combination from, cannot be {@code null}.
+   * @param numberToPick the number of elements to pick, must be no less than {@code 0} and no more
+   *                     than {@code elements} size.
+   * @param algorithm the algorithm as a callback for picking combinations, or {@code null} if using 
+   *                  the default algorithm.
+   * @param <E> the element type.
+   * @return the combination instance.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters
+   *         is invalid.
+   */
+  public static <E> Combination<E> of(Collection<E> elements, int numberToPick, Algorithm algorithm) {
+
+    if (algorithm == null) {
+      algorithm = DEFAULT_ALGORITHM;
+    }
     
-    if( elements == null )
-      throw new NullPointerException("elements collection is null.");
+    Precondition.param(elements).isNotNull("'elements' cannot be null.");
+    Precondition.param(elements.size()).lessThanOrEqualTo(
+        algorithm.getMaxSupportedSize(), 
+        "'elements' size is too big and not supported by the algorithm: " + elements.size() 
+            + " / " + algorithm.getMaxSupportedSize()
+    );
+    Precondition.param(numberToPick)
+        .greaterThanOrEqualTo(0, "Invalid 'numberToPick': " + numberToPick)
+        .lessThanOrEqualTo(elements.size(), "Invalid 'numberToPick': " + numberToPick);
     
     // defensive copy before checking collection size and numberToPick:
     @SuppressWarnings("unchecked")
     E[] arr = (E[])elements.toArray();
-    
-    if( numberToPick < 0 )
-      throw new IllegalArgumentException(
-              "Invalid number of elements to pick: " + numberToPick);
-    
-    if( numberToPick > arr.length )
-      throw new IllegalArgumentException(
-              "Invalid number of elements to pick: " + 
-              numberToPick + " / " + arr.length);
-    
-    if( algorithm == null )
-      algorithm = DEFAULT_ALGORITHM;
-    
-    return new Combination<E>(arr, numberToPick, algorithm);
+    return new Combination<>(arr, numberToPick, algorithm);
   }
   
   /*
@@ -106,6 +165,11 @@ public class Combination<E> implements Iterable<List<E>> {
    */
   private BigInteger count;
   
+  /*
+   * Wraps result as an unmodifiable list.
+   */
+  private List<E> resultList;
+  
   @SuppressWarnings("unchecked")
   private Combination(E[] elements, int numberToPick, Algorithm algorithm) {
     
@@ -114,28 +178,38 @@ public class Combination<E> implements Iterable<List<E>> {
     this.result = (E[])new Object[numberToPick];
     this.algorithm = algorithm;
     this.count = algorithm.getCombinationCount(elements.length, numberToPick);
+    this.resultList = Collections.unmodifiableList(Arrays.asList(result));
   }
-  
+
+  /**
+   * Returns the number of all possible combinations.
+   * 
+   * @return the number of all possible combinations.
+   */
   public BigInteger getCombinationCount() {
     
     return count;
   }
-  
+
+  /**
+   * Returns the {@code ordinal}-th combination result, as a {@link List} .
+   * 
+   * @param ordinal the index of the combination result to return, cannot be {@code null} and must 
+   *                be no less than {@code 0} and must less than {@link #getCombinationCount()}. 
+   * @return the {@code ordinal}-th combination result.
+   * 
+   * @throws org.raistlic.common.precondition.InvalidParameterException when {@code ordinal} is 
+   *         {@code null} or out of the valid range.
+   */
   public List<E> getCombination(BigInteger ordinal) {
-    
-    if( ordinal == null )
-      throw new NullPointerException("ordinal number is null.");
-    
-    if( ordinal.compareTo(BigInteger.ZERO) < 0 )
-      throw new IndexOutOfBoundsException(
-              "ordinal number out of range: " + ordinal);
-    
-    if( ordinal.compareTo(getCombinationCount()) >= 0 )
-      throw new IndexOutOfBoundsException(
-              "ordinal number out of range: " + ordinal + " / " + getCombinationCount());
+
+    Precondition.param(ordinal)
+        .isNotNull("ordinal number cannot be null.")
+        .greaterThanOrEqualTo(BigInteger.ZERO, "ordinal number out of range: " + ordinal)
+        .lessThan(getCombinationCount(), "ordinal number out of range: " + ordinal + " / " + getCombinationCount());
     
     algorithm.fetchCombination(elements, result, ordinal);
-    return Arrays.<E>asList(result);
+    return resultList;
   }
   
   /**
@@ -183,14 +257,14 @@ public class Combination<E> implements Iterable<List<E>> {
     }
   }
   
-  private static enum DefaultAlgorithm implements Algorithm {
+  private enum DefaultAlgorithm implements Algorithm {
 
     INSTANCE;
     
     @Override
     public int getMaxSupportedSize() {
 
-      return MAX_SUPPORT;
+      return Integer.MAX_VALUE;
     }
 
     @Override
@@ -212,9 +286,7 @@ public class Combination<E> implements Iterable<List<E>> {
     }
 
     @Override
-    public void fetchCombination(Object[] source, 
-                                 Object[] target,
-                                 BigInteger ordinal) {
+    public void fetchCombination(Object[] source, Object[] target, BigInteger ordinal) {
       
       // no parameter validation because this is only called in the package.
       
@@ -222,22 +294,18 @@ public class Combination<E> implements Iterable<List<E>> {
 
         if( ordinal.compareTo(BigInteger.ZERO) > 0 ) {
 
-          BigInteger cLeft = getCombinationCount(
-                  source.length - si - 1, target.length - i - 1);
+          BigInteger cLeft = getCombinationCount(source.length - si - 1, target.length - i - 1);
           while( ordinal.compareTo(cLeft) >= 0 ) {
-
             si++;
             ordinal = ordinal.subtract(cLeft);
-            if( ordinal.compareTo(BigInteger.ZERO) == 0 )
+            if( ordinal.compareTo(BigInteger.ZERO) == 0 ) {
               break;
-            cLeft = getCombinationCount(
-                    source.length - si - 1, target.length - i - 1);
+            }
+            cLeft = getCombinationCount(source.length - si - 1, target.length - i - 1);
           }
         }
         target[i] = source[si];
       }
     }
-    
-    private static final int MAX_SUPPORT = 1024;
   }
 }
