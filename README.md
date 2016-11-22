@@ -22,6 +22,7 @@ The current problems it solves are:
 - (IN PROGRESS) util: some other interface and contract designs for some commonly used tools in design patterns
 
 *IN PROGRESS*: interface not fully implemented yet, or it might change/be deprecated in the future.
+
 *PROD READY*: feature fully implemented with reasonable unit test coverage, breaking changes to existing interfaces are not expected.
 
 # How to use
