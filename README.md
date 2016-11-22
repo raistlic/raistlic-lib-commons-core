@@ -9,17 +9,20 @@ It's just another light weighted Java common utilities library.
 
 The current problems it solves are:
 
-- adt: some abstract data structures, such as bitmap (binary rank & select)
-- codec: common encoding and decoding interfaces
-- predicate: some commonly used implementations of the java Predicate interface
-- config: configuration management
-- event: similar to guava event bus, better designed and DI framework friendly
-- numbertext: converting numbers into text representation, available implementations support English and Chinese
-- permutation: generic permutation and combination tools
-- precondition: precondition check, that has a better designed exception hierarchy, instead of using NPE, etc.
-- stopwatch: a stop watch simulation, to measure time elapse
-- taskqueue: a managed, single threaded event queue interface, to be implemented
-- util: some other interface and contract designs for some commonly used tools in design patterns
+- (IN PROGRESS) adt: some abstract data structures, such as bitmap (binary rank & select)
+- (PROD READY) codec: common encoding and decoding interfaces
+- (PROD READY) predicate: some commonly used implementations of the java Predicate interface
+- (PROD READY) config: configuration management
+- (IN PROGRESS) event: similar to guava event bus, DI framework friendly
+- (PROD READY) numbertext: converting numbers into text representation, available implementations support English and Chinese
+- (PROD READY) permutation: generic permutation and combination tools
+- (PROD READY) precondition: precondition check, that has a better designed exception hierarchy, instead of using NPE, etc.
+- (PROD READY) stopwatch: a stop watch simulation, to measure time elapse
+- (IN PROGRESS) taskqueue: a managed, single threaded event queue interface, to be implemented
+- (IN PROGRESS) util: some other interface and contract designs for some commonly used tools in design patterns
+
+*IN PROGRESS*: interface not fully implemented yet, or it might change/be deprecated in the future.
+*PROD READY*: feature fully implemented with reasonable unit test coverage, breaking changes to existing interfaces are not expected.
 
 # How to use
 
@@ -28,7 +31,7 @@ Available in maven central:
 <dependency>
     <groupId>org.raistlic.lib</groupId>
     <artifactId>commons-core</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
 </dependency>
 ```
 
@@ -39,11 +42,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.raistlic.lib:commons-core:1.3'
+  compile 'org.raistlic.lib:commons-core:1.4'
 }
 ```
 
-# Javadoc
+# Javadoc (1.4)
 
 [http://raistlic.github.io/raistlic-lib-commons-core/](http://raistlic.github.io/raistlic-lib-commons-core/)
 
@@ -66,8 +69,8 @@ public List<Record> searchRecords(String someCriteria, int offset, int limit) {
 
   Precondition.param(someCriteria, "someCriteria").notNull();
   Precondition.param(someCriteria, "someCriteria").matchesPattern(this.someRegexPattern);
-  Precondition.param(offset, "offset").noLessThan(0);
-  Precondition.param(limit, "limit").noLessThan(0);
+  Precondition.param(offset, "offset").greaterThanOrEqualTo(0);
+  Precondition.param(limit, "limit").greaterThanOrEqualTo(0);
   Precondition.state(this.state, "stateName").matches(st -> {
     // Predicate code goes here
     return checkResult;
