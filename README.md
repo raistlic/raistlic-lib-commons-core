@@ -1,13 +1,12 @@
+# commons-core
+
 [![Build Status](https://travis-ci.com/raistlic/raistlic-lib-commons-core.svg?branch=master)](https://travis-ci.com/raistlic/raistlic-lib-commons-core)
 
-commons-core
-==============
-
-# What is commons-core 
+## What is commons-core 
 
 It's just another light weighted Java common utilities library.
 
-# What it solves
+## What it solves
 
 The current problems it solves are:
 
@@ -27,7 +26,7 @@ The current problems it solves are:
 
 *PROD READY*: feature fully implemented with reasonable unit test coverage, breaking changes to existing interfaces are not expected.
 
-# How to use
+## How to use
 
 Available in maven central:
 ```
@@ -49,11 +48,11 @@ dependencies {
 }
 ```
 
-# Javadoc (1.4)
+## Javadoc (1.4)
 
 [http://raistlic.github.io/raistlic-lib-commons-core/](http://raistlic.github.io/raistlic-lib-commons-core/)
 
-# Sample Code - Precondition Check
+## Sample Code - Precondition Check
 
 ``` java
 /**
