@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/raistlic/raistlic-lib-commons-core.svg?branch=master)](https://travis-ci.com/raistlic/raistlic-lib-commons-core)
+
 commons-core
 ==============
 
