@@ -8,8 +8,10 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 
-group = 'org.raistlic.lib'
-version = '1.4'
+wrapper {
+    gradleVersion = '4.10'
+}
+
 ext.packaging = 'jar'
 
 description = """Raistlic's Commons Library"""
@@ -18,14 +20,15 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    
     mavenLocal()
     maven { url "http://repo.maven.apache.org/maven2" }
     maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
+apply from: "${rootProject.projectDir}/gradle/coverage.gradle"
+//apply from: "${rootProject.projectDir}/gradle/upload-archives.gradle"
+
 dependencies {
-    
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.6.2'
     compile group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version:'1.09'
@@ -38,17 +41,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
     testCompile group: 'pl.pragmatists', name: 'JUnitParams', version:'1.0.4'
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-//  for spock unit test, to be removed: not really much better than JUnit, overall.
-// ---------------------------------------------------------------------------------------------------------------------
-sourceSets {
-    test {
-        java {
-            srcDirs.add('src/groovy')
-        }
-    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -83,5 +75,3 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
-
-apply from: "${rootProject.projectDir}/gradle/upload-archives.gradle"

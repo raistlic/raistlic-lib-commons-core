@@ -1,0 +1,94 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.1'
+    reportsDir = file("${project.buildDir}/reports/coverage")
+}
+
+jacocoTestReport {
+
+    reports {
+        xml.enabled = false
+        csv.enabled = false
+        html.destination file("${project.buildDir}/reports/coverage")
+    }
+
+    afterEvaluate {
+        if (project.hasProperty('coverage.report.excludes')) {
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(
+                        dir: it,
+                        exclude: (project.'coverage.report.excludes').tokenize(',').collect {
+                            it.trim()
+                        } as List<String>
+                )
+            })
+        }
+    }
+}
+
+jacocoTestCoverageVerification {
+
+    def final DEFAULT_THRESHOLDS = [
+            'BRANCH'     : new BigDecimal('0.8'),
+            'CLASS'      : new BigDecimal('0.8'),
+            'COMPLEXITY' : new BigDecimal('0.8'),
+            'INSTRUCTION': new BigDecimal('0.8'),
+            'LINE'       : new BigDecimal('0.8'),
+            'METHOD'     : new BigDecimal('0.8'),
+    ] as Map<String, BigDecimal>
+
+    def final getThreshold = { String counterName ->
+        def propertyName = "coverage.ratio.${counterName.toLowerCase()}" as String
+        def propertyValue
+        if (project.hasProperty(propertyName)) {
+            propertyValue = new BigDecimal(project.property(propertyName) as String)
+        } else {
+            propertyValue = DEFAULT_THRESHOLDS.get(counterName.toUpperCase())
+        }
+        return propertyValue
+    }
+
+    afterEvaluate {
+
+        if (project.hasProperty('coverage.verification.excludes')) {
+
+            def final excludes = (project.'coverage.verification.excludes').tokenize(',').collect {
+                it.trim()
+            } as List<String>
+            println "${project.name} coverage excludes: ${excludes}"
+
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(
+                        dir: it,
+                        exclude: excludes
+                )
+            })
+        }
+    }
+
+    violationRules {
+        setFailOnViolation('false' != String.valueOf(project.properties.get('coverage.validation')).toLowerCase())
+        rule {
+            enabled = true
+            element = 'BUNDLE'
+            [
+                    "BRANCH",
+                    "CLASS",
+                    "COMPLEXITY",
+                    "INSTRUCTION",
+                    "LINE",
+                    "METHOD",
+            ].each { counterName ->
+                limit {
+                    counter = counterName
+                    value = 'COVEREDRATIO'
+                    minimum = getThreshold(counterName)
+                }
+            }
+        }
+    }
+}
+
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
