@@ -23,9 +23,6 @@ import java.util.function.Predicate;
 /**
  * The class is a collection of static factory methods that creates and exports different types of 
  * {@link Predicate} instances.
- *
- * @author Lei CHEN
- * @since 1.3
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public final class Predicates {
@@ -91,7 +88,9 @@ public final class Predicates {
    */
   public static Predicate<Object> instanceOf(Class<?> type) {
 
-    Precondition.assertParam(type != null, "Predicates.instanceOf(type): type cannot be null.");
+    if (type == null) {
+      throw new InvalidParameterException("type cannot be null");
+    }
     return new ObjectIsInstanceOfTypePredicate(type);
   }
 
@@ -191,9 +190,8 @@ public final class Predicates {
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code base} is {@code null}.
    */
   public static <E> PredicateBuilder<E> builder(Predicate<? super E> base) {
-    
-    Precondition.assertParam(base != null, "Predicates.builder(base): base cannot be null.");
-    return new PredicateBuilder<E>(Predicates.<E>dummyTrue()).and(base);
+
+    return new PredicateBuilder<E>(base);
   }
 
   private static class EqualsPredicate<E> implements Predicate<E> {
@@ -251,7 +249,7 @@ public final class Predicates {
     @Override
     public boolean test(Object o) {
 
-      return (o != null) && type.isInstance(o);
+      return o != null && type.isInstance(o);
     }
   }
 

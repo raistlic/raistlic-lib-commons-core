@@ -21,19 +21,16 @@ import org.raistlic.common.precondition.Precondition;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-/**
- * @author Lei Chen (2015-10-13)
- * @since 1.3
- */
+@SuppressWarnings("unchecked")
 public final class PredicateBuilder<E> implements Supplier<Predicate<E>> {
 
   private Predicate<E> predicate;
 
-  public PredicateBuilder(Predicate<E> base) {
+  public PredicateBuilder(Predicate<? super E> base) {
 
     Precondition.assertParam(base != null, "new PredicateBuilder(base): base cannot be null.");
 
-    this.predicate = base;
+    this.predicate = (Predicate<E>) base;
   }
 
   public PredicateBuilder<E> not() {

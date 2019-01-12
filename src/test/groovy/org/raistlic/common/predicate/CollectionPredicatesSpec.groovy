@@ -67,12 +67,13 @@ class CollectionPredicatesSpec extends Specification {
         predicate.test(goodCandidate)
         !predicate.test(badCandidate1)
         !predicate.test(badCandidate2)
+        !predicate.test(badCandidate3)
 
         where:
-        size | goodCandidate  | badCandidate1 | badCandidate2
-        0    | []             | ['foo']       | ['foo', 'bar']
-        1    | ['foo']        | []            | ['foo', 'bar']
-        2    | ['foo', 'bar'] | []            | ['bar']
+        size | goodCandidate  | badCandidate1 | badCandidate2  | badCandidate3
+        0    | []             | ['foo']       | ['foo', 'bar'] | null
+        1    | ['foo']        | []            | ['foo', 'bar'] | null
+        2    | ['foo', 'bar'] | []            | ['bar']        | null
     }
 
     void 'contains(element) creates expected instance'() {
@@ -84,5 +85,6 @@ class CollectionPredicatesSpec extends Specification {
         predicate.test([3])
         !predicate.test([1, 2])
         !predicate.test([1, 2, 4, 5])
+        !predicate.test(null)
     }
 }
