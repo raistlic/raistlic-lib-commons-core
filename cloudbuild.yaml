@@ -1,0 +1,8 @@
+steps:
+  - id: 'build'
+    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        ./gradlew clean build
