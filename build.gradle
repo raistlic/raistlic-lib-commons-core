@@ -20,9 +20,10 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenLocal()
+    mavenCentral()
     maven { url "http://repo.maven.apache.org/maven2" }
     maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+    mavenLocal()
 }
 
 apply from: "${rootProject.projectDir}/gradle/coverage.gradle"
