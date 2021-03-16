@@ -9,7 +9,7 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 
 wrapper {
-    gradleVersion = '4.10'
+    gradleVersion = '6.8.3'
 }
 
 ext.packaging = 'jar'
