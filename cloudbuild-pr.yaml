@@ -1,12 +1,8 @@
 timeout: '5m'
-options:
-  dynamic_substitutions: true
-substitutions:
-  - _BASE_IMAGE_JAVA: gcr.io/cloud-builders/javac
 
 steps:
   - id: 'build'
-    name: ${_BASE_IMAGE_JAVA}
+    name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
     env:
       - 'CURRENT_VERSION=${SHORT_SHA}'

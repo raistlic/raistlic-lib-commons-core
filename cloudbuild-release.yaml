@@ -1,8 +1,4 @@
 timeout: '10m'
-options:
-  dynamic_substitutions: true
-substitutions:
-  - _BASE_IMAGE_JAVA: gcr.io/cloud-builders/javac
 secretEnv:
   - 'MAVEN_SETTINGS'
   - 'OSSRH_USERNAME'
@@ -18,7 +14,7 @@ availableSecrets:
 
 steps:
   - id: 'build'
-    name: ${_BASE_IMAGE_JAVA}
+    name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
     args:
       - '-c'
@@ -26,7 +22,7 @@ steps:
         export CURRENT_VERSION=$$(git describe --tags) && ./gradlew clean build
 
   - id: 'release'
-    name: ${_BASE_IMAGE_JAVA}
+    name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
     args:
       - '-c'
