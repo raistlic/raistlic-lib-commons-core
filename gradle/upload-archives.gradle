@@ -17,17 +17,17 @@ uploadArchives {
     repositories {
         mavenDeployer {
 
-            final String ossrhUsername = System.getenv('OSSRH_USERNAME')
-            final String ossrhPassword = System.getenv('OSSRH_PASSWORD')
+            final String username = project.properties['maven.username']
+            final String password = project.properties['maven.password']
 
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: username, password: password)
             }
 
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: username, password: password)
             }
 
             pom.project {

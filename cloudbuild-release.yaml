@@ -35,5 +35,5 @@ steps:
       - |
         echo $${MAVEN_SETTINGS} | base64 --decode > settings.xml
         echo $${SIGNING_KEY} > key.pem
-        export CURRENT_VERSION=$$(git describe --tags) && ./gradlew uploadArchives -Psigning.secretKeyRingFile=key.pem -Psigning.password=$${SIGNING_PASSWORD} -Psigning.keyId=$${SIGNING_KID}
+        export CURRENT_VERSION=$$(git describe --tags) && ./gradlew uploadArchives -Pmaven.username=$${OSSRH_USERNAME} -Pmaven.password=$${OSSRH_PASSWORD} -Psigning.secretKeyRingFile=key.pem -Psigning.password=$${SIGNING_PASSWORD} -Psigning.keyId=$${SIGNING_KID}
     secretEnv: ['MAVEN_SETTINGS', 'OSSRH_USERNAME', 'OSSRH_PASSWORD', 'SIGNING_KEY', 'SIGNING_KID', 'SIGNING_PASSWORD']
