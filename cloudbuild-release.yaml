@@ -8,7 +8,7 @@ availableSecrets:
     - versionName: projects/$PROJECT_ID/secrets/credentials-maven-central-password/versions/latest
       env: 'OSSRH_PASSWORD'
     - versionName: projects/$PROJECT_ID/secrets/credentials-maven-central-private-key/versions/latest
-      env: 'ORG_GRADLE_PROJECT_SIGNING_KEY_HASH'
+      env: 'ORG_GRADLE_PROJECT_signingKey'
     - versionName: projects/$PROJECT_ID/secrets/credentials-maven-central-signing-keyid/versions/latest
       env: 'ORG_GRADLE_PROJECT_signingKeyId'
     - versionName: projects/$PROJECT_ID/secrets/credentials-maven-central-signing-password/versions/latest
@@ -34,12 +34,10 @@ steps:
       - '-c'
       - |
         echo $${MAVEN_SETTINGS} | base64 --decode > settings.xml
-        echo $${ORG_GRADLE_PROJECT_SIGNING_KEY_HASH} | base64 --decode > key.pem
-        export ORG_GRADLE_PROJECT_signingKey=$$(<./key.pem)
         export CURRENT_VERSION=$$(git describe --tags) && ./gradlew uploadArchives
     secretEnv: [
         'MAVEN_SETTINGS', 'OSSRH_USERNAME', 'OSSRH_PASSWORD',
-        'ORG_GRADLE_PROJECT_SIGNING_KEY_HASH',
+        'ORG_GRADLE_PROJECT_signingKey',
         'ORG_GRADLE_PROJECT_signingKeyId',
         'ORG_GRADLE_PROJECT_signingPassword'
     ]
