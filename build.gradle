@@ -4,6 +4,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'net.linguica.maven-settings' version '0.5'
+}
+
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
