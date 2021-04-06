@@ -1,8 +1,4 @@
 timeout: '10m'
-secretEnv:
-  - 'MAVEN_SETTINGS'
-  - 'OSSRH_USERNAME'
-  - 'OSSRH_PASSWORD'
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/settings-maven-central-publish/versions/latest
@@ -29,3 +25,5 @@ steps:
       - |
         echo $${MAVEN_SETTINGS} | base64 --decode > settings.xml
         ./gradlew uploadArchives
+    secretEnv: ['MAVEN_SETTINGS', 'OSSRH_USERNAME', 'OSSRH_PASSWORD']
+
