@@ -1,8 +1,13 @@
 timeout: '5m'
+substitutions:
+  - _BASE_IMAGE_JAVA: gcr.io/cloud-builders/javac
+
 steps:
   - id: 'build'
-    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    name: '${_BASE_IMAGE_JAVA}'
     entrypoint: 'bash'
+    env:
+      - 'CURRENT_VERSION=${SHORT_SHA}'
     args:
       - '-c'
       - |

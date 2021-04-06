@@ -15,6 +15,11 @@ wrapper {
 ext.packaging = 'jar'
 
 description = """Raistlic's Commons Library"""
+version = {
+    String v = java.util.Optional.ofNullable(System.getenv('CURRENT_VERSION')).orElse('dev')
+    println "building with current project version: ${v}"
+    return v
+}()
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
