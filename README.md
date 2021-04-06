@@ -1,10 +1,6 @@
 # commons-core
 
-[![Build Status](https://travis-ci.com/raistlic/raistlic-lib-commons-core.svg?branch=master)](https://travis-ci.com/raistlic/raistlic-lib-commons-core)
-
-## What is commons-core 
-
-It's just another light weighted Java common utilities library.
+Just another light weighted Java common utilities library.
 
 ## What it solves
 

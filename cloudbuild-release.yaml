@@ -14,7 +14,7 @@ availableSecrets:
 
 steps:
   - id: 'build'
-    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
     args:
       - '-c'
@@ -22,7 +22,7 @@ steps:
         export CURRENT_VERSION=$$(git describe --tags) && ./gradlew clean build
 
   - id: 'release'
-    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
     args:
       - '-c'

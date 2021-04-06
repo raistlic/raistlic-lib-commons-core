@@ -1,8 +1,11 @@
 timeout: '5m'
+
 steps:
   - id: 'build'
-    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
+    env:
+      - 'CURRENT_VERSION=${SHORT_SHA}'
     args:
       - '-c'
       - |
