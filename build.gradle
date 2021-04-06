@@ -6,11 +6,10 @@ buildscript {
 
 plugins {
     id 'net.linguica.maven-settings' version '0.5'
+    id 'java'
+    id 'groovy'
+    id 'idea'
 }
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'idea'
 
 wrapper {
     gradleVersion = '6.8.3'
@@ -27,6 +26,10 @@ version = {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mavenSettings {
+    userSettingsFileName = "./settings.xml"
+}
 
 repositories {
     mavenCentral()

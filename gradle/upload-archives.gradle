@@ -7,10 +7,10 @@ apply plugin: 'signing'
 signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
-}
-
-mavenSettings {
-    userSettingsFileName = "./settings.xml"
+    def signingKeyId = findProperty("signingKeyId")
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
 }
 
 uploadArchives {
