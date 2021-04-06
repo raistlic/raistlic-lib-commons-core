@@ -1,9 +1,9 @@
 apply plugin: 'jacoco'
 
-jacoco {
-    toolVersion = '0.8.1'
-    reportsDir = file("${project.buildDir}/reports/coverage")
-}
+//jacoco {
+//    toolVersion = '0.8.1'
+//    reportsDir = file("${project.buildDir}/reports/coverage")
+//}
 
 jacocoTestReport {
 
