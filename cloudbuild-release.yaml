@@ -1,0 +1,31 @@
+timeout: '10m'
+secretEnv:
+  - 'MAVEN_SETTINGS'
+  - 'OSSRH_USERNAME'
+  - 'OSSRH_PASSWORD'
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/settings-maven-central-publish/versions/latest
+      env: 'MAVEN_SETTINGS'
+    - versionName: projects/$PROJECT_ID/secrets/credentials-maven-central-username/versions/latest
+      env: 'OSSRH_USERNAME'
+    - versionName: projects/$PROJECT_ID/secrets/credentials-maven-central-password/versions/latest
+      env: 'OSSRH_PASSWORD'
+
+steps:
+  - id: 'build'
+    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        export CURRENT_VERSION=$$(git describe --tags) && ./gradlew clean build
+
+  - id: 'release'
+    name: 'gcr.io/$PROJECT_ID/openjdk-8'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo $${MAVEN_SETTINGS} | base64 --decode > settings.xml
+        ./gradlew uploadArchives

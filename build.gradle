@@ -27,7 +27,7 @@ repositories {
 }
 
 apply from: "${rootProject.projectDir}/gradle/coverage.gradle"
-//apply from: "${rootProject.projectDir}/gradle/upload-archives.gradle"
+apply from: "${rootProject.projectDir}/gradle/upload-archives.gradle"
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
@@ -61,14 +61,9 @@ tasks.withType(Javadoc) {
 //  for maven publish
 // ---------------------------------------------------------------------------------------------------------------------
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 artifacts {
