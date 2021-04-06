@@ -9,6 +9,10 @@ signing {
     sign configurations.archives
 }
 
+mavenSettings {
+    userSettingsFileName = "./settings.xml"
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {

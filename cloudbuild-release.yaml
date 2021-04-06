@@ -28,6 +28,6 @@ steps:
       - '-c'
       - |
         echo $${MAVEN_SETTINGS} | base64 --decode > settings.xml
-        ./gradlew uploadArchives
+        export CURRENT_VERSION=$$(git describe --tags) && ./gradlew uploadArchives
     secretEnv: ['MAVEN_SETTINGS', 'OSSRH_USERNAME', 'OSSRH_PASSWORD']
 
