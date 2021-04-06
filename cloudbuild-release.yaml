@@ -9,6 +9,10 @@ availableSecrets:
       env: 'OSSRH_PASSWORD'
 
 steps:
+  - id: 'fetch-tags'
+    name: 'gcr.io/cloud-builders/git'
+    args: [ fetch, --depth=100 ]
+
   - id: 'build'
     name: 'gcr.io/cloud-builders/javac'
     entrypoint: 'bash'
