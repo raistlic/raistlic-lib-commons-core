@@ -1,6 +1,8 @@
 timeout: '10m'
+options:
+  dynamic_substitutions: true
 substitutions:
-  - '_BASE_IMAGE_JAVA:gcr.io/cloud-builders/javac'
+  - _BASE_IMAGE_JAVA: gcr.io/cloud-builders/javac
 secretEnv:
   - 'MAVEN_SETTINGS'
   - 'OSSRH_USERNAME'
