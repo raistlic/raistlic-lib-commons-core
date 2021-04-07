@@ -19,7 +19,7 @@ class FactorialSpec extends Specification {
     }
 
     @Unroll
-    void 'of() returns expected result #result for number #number'() {
+    void 'of() returns expected result for number #number'() {
         expect:
         Factorial.of(number) == result
         where:
