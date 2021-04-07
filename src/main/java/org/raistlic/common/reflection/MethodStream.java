@@ -9,8 +9,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * @author Lei Chen (2016-01-25)
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public final class MethodStream extends ExecutableStream<Method, MethodStream>
         implements CustomStream<Method, MethodStream> {
 

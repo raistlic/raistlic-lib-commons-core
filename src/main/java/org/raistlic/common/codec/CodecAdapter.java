@@ -21,25 +21,20 @@ import org.raistlic.common.precondition.Precondition;
 /**
  * This class simply combines a proper encoder and a proper decoder together,
  * to adapt the {@link org.raistlic.common.codec.Codec} interface.
- *
- * @author Lei CHEN
- * @since 1.0
  */
 public class CodecAdapter<S, D> implements Codec<S, D> {
-  
+
   private final Encoder<? super S, D> encoder;
 
   private final Decoder<S, ? super D> decoder;
-  
+
   /**
    * Defines a CodecAdapter with the specified encoder and decoder.
-   * 
+   *
    * @param encoder the encoder as a component of the adapter to define.
-   * 
    * @param decoder the decoder as a component of the adapter to define.
-   * 
    * @throws org.raistlic.common.precondition.InvalidParameterException if the specified
-   *         {@code encoder} or {@code decoder} is {@code null}.
+   *                                                                    {@code encoder} or {@code decoder} is {@code null}.
    */
   public CodecAdapter(Encoder<? super S, D> encoder,
                       Decoder<S, ? super D> decoder) {
@@ -53,13 +48,13 @@ public class CodecAdapter<S, D> implements Codec<S, D> {
 
   @Override
   public D encode(S src) {
-    
+
     return encoder.encode(src);
   }
 
   @Override
   public S decode(D target) {
-    
+
     return decoder.decode(target);
   }
 }

@@ -22,10 +22,10 @@ import org.raistlic.common.predicate.NumberPredicates;
 import java.util.function.Function;
 
 /**
- * @author Lei Chen (2015-10-16)
+ * Default implementation for {@link NumberAssertion} .
  */
 final class NumberAssertionDefault<N extends Number & Comparable<N>>
-    extends GenericAssertionAbstract<N, NumberAssertion<N>> implements NumberAssertion<N> {
+  extends GenericAssertionAbstract<N, NumberAssertion<N>> implements NumberAssertion<N> {
 
   private N candidate;
 
@@ -50,9 +50,9 @@ final class NumberAssertionDefault<N extends Number & Comparable<N>>
 
     return candidate;
   }
-  
+
   void setCandidate(N candidate) {
-    
+
     this.candidate = candidate;
   }
 

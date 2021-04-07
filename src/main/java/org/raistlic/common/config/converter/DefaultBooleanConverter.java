@@ -40,11 +40,9 @@ enum DefaultBooleanConverter implements Codec<Boolean, String> {
     String trimmed = target.trim().toUpperCase();
     if (trimmed.equals(TRUE)) {
       return true;
-    }
-    else if (trimmed.equals(FALSE)) {
+    } else if (trimmed.equals(FALSE)) {
       return false;
-    }
-    else {
+    } else {
       throw new ConfigValueConvertException("Cannot convert value to boolean: '" + target + "'");
     }
   }

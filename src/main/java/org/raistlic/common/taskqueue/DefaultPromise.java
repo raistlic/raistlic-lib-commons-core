@@ -161,12 +161,10 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
 
     try {
       result = task.run();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       if (ex instanceof TaskExecutionException) {
         exception = (TaskExecutionException) ex;
-      }
-      else {
+      } else {
         exception = new TaskExecutionException(ex);
       }
       taskExceptionHandler.exceptionOccur(Thread.currentThread(), exception);
@@ -175,11 +173,9 @@ final class DefaultPromise<R> implements Promise<R>, Runnable {
     try {
       this.onResultCallback();
       this.onErrorCallback();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       taskExceptionHandler.exceptionOccur(Thread.currentThread(), ex);
-    }
-    finally {
+    } finally {
       done.set(true);
       cd.countDown();
     }

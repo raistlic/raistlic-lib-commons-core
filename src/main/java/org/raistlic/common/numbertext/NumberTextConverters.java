@@ -36,5 +36,6 @@ public final class NumberTextConverters {
     return ChineseNumberTextConverter.TRADITIONAL;
   }
 
-  private NumberTextConverters() { }
+  private NumberTextConverters() {
+  }
 }

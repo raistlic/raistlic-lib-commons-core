@@ -1,27 +1,43 @@
 package org.raistlic.common.stopwatch;
 
-import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.precondition.Param;
 
+/**
+ * Default implementation for {@link StopWatch} .
+ */
 final class StopWatchDefault implements StopWatch {
 
-  private long startedNanos;
+  /**
+   * The mark of "start time".
+   */
+  private long anchor;
 
-  private long savedNanos;
+  /**
+   * The saved elapsed time, calculated on pausing the watch, and only used when watch is paused.
+   */
+  private long elapsedAmount;
 
+  /**
+   * Expiration amount, also used as a unit for moving anchor forward and backward.
+   */
   private long tickNanos;
 
+  /**
+   * true indicating the watch is actively measuring time elapsed.
+   */
   private boolean running;
 
   StopWatchDefault(long tickNanos) {
 
-    Precondition.param(tickNanos).greaterThan(0L);
+    Param.isTrue(tickNanos > 0L, "tickNanos must be greater than 0");
+
     this.tickNanos = tickNanos;
   }
 
   @Override
   public void setTick(long tickNanos) {
 
-    Precondition.param(tickNanos).greaterThan(0L);
+    Param.isTrue(tickNanos > 0L, "tickNanos must be greater than 0");
 
     this.tickNanos = tickNanos;
   }
@@ -65,20 +81,19 @@ final class StopWatchDefault implements StopWatch {
   @Override
   public void set(long expiresInNanos, long currentNanos) {
 
-    if( running ) {
+    if (running) {
       // because when it expires: started + tick == current + expiresIn
-      startedNanos = currentNanos + expiresInNanos - getTick();
-    }
-    else {
+      anchor = currentNanos + expiresInNanos - tickNanos;
+    } else {
       // again when it expires: (current - saved) + tick == current + expiresIn
-      savedNanos = getTick() - expiresInNanos;
+      elapsedAmount = tickNanos - expiresInNanos;
     }
   }
 
   @Override
   public long readElapsed(long currentNanos) {
 
-    return running ? currentNanos - startedNanos : savedNanos;
+    return running ? currentNanos - anchor : elapsedAmount;
   }
 
   @Override
@@ -90,15 +105,15 @@ final class StopWatchDefault implements StopWatch {
   @Override
   public void reset(long currentNanos) {
 
-    startedNanos = currentNanos;
+    anchor = currentNanos;
     running = true;
   }
 
   @Override
   public void pause(long currentNanos) {
 
-    if( running ) {
-      savedNanos = currentNanos - startedNanos;
+    if (running) {
+      elapsedAmount = currentNanos - anchor;
       running = false;
     }
   }
@@ -106,8 +121,8 @@ final class StopWatchDefault implements StopWatch {
   @Override
   public void resume(long currentNanos) {
 
-    if( !running ) {
-      startedNanos = currentNanos - savedNanos;
+    if (!running) {
+      anchor = currentNanos - elapsedAmount;
       running = true;
     }
   }

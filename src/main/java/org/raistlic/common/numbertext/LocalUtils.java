@@ -50,8 +50,7 @@ final class LocalUtils {
       int index = s.indexOf('.');
       if (index < 0) {
         return s.length() <= maxDigits;
-      }
-      else {
+      } else {
         return index <= maxDigits;
       }
     }
@@ -63,5 +62,6 @@ final class LocalUtils {
     }
   }
 
-  private LocalUtils() { }
+  private LocalUtils() {
+  }
 }

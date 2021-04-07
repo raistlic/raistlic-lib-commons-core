@@ -21,21 +21,18 @@ import org.raistlic.common.precondition.InvalidParameterException;
 /**
  * This instance defines the parser that parses the referenced type {@code D} to
  * the referenced type {@code S}.
- *
- * @author Lei CHEN
- * @since 1.0
  */
 public interface Decoder<S, T> {
 
   /**
    * The method decodes the specified {@code dest} of type {@code D} , into type {@code S} .
-   * 
+   *
    * @param target the dest to be decoded.
    * @return the decode result.
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code target} is
-   *         {@code null}.
-   * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
-   *         process of decoding the value.
+   *                                                                    {@code null}.
+   * @throws org.raistlic.common.codec.ValueConversionException         if anything goes wrong in the
+   *                                                                    process of decoding the value.
    */
   S decode(T target) throws InvalidParameterException, ValueConversionException;
 }

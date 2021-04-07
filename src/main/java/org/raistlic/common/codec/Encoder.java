@@ -19,9 +19,6 @@ package org.raistlic.common.codec;
 /**
  * This instance defines the parser that parses the referenced type {@code S} to
  * the referenced type {@code D}.
- *
- * @author Lei CHEN
- * @since 1.0
  */
 public interface Encoder<S, D> {
 
@@ -31,7 +28,7 @@ public interface Encoder<S, D> {
    * @param src the value to be encoded.
    * @return the encode result.
    * @throws org.raistlic.common.codec.ValueConversionException if anything goes wrong in the
-   *         process of encoding.
+   *                                                            process of encoding.
    */
   D encode(S src) throws ValueConversionException;
 }

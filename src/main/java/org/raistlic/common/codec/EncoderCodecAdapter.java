@@ -19,25 +19,22 @@ package org.raistlic.common.codec;
 /**
  * This class wraps an encoder to do the encode job, and leaves the decode job to its sub class
  * implementation.
- *
- * @author Lei CHEN
- * @since 1.0
  */
 public abstract class EncoderCodecAdapter<S, D> implements Codec<S, D> {
-  
+
   private Encoder<? super S, D> encoder;
 
   public EncoderCodecAdapter(Encoder<? super S, D> encoder) {
-    
-    if( encoder == null )
+
+    if (encoder == null)
       throw new NullPointerException();
-    
+
     this.encoder = encoder;
   }
-  
+
   @Override
   public final D encode(S src) {
-    
+
     return encoder.encode(src);
   }
 }

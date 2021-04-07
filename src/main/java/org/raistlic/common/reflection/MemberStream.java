@@ -7,8 +7,9 @@ import java.lang.reflect.Member;
 import java.util.stream.Stream;
 
 /**
- * @author Lei Chen (2016-03-11)
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public abstract class MemberStream<M extends Member, MS extends MemberStream<M, MS>>
         extends CustomStreamAdapter<M, MS> implements CustomStream<M, MS> {
 

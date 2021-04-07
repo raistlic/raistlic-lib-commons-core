@@ -18,7 +18,9 @@ import java.util.Set;
  * from it.
  *
  * @param <E> the actual class type.
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public final class ClassHelper<E> {
 
   /**

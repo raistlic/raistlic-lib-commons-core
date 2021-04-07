@@ -26,10 +26,10 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
- * @author Lei Chen (2015-10-14)
+ * Default implementation for {@link StringAssertion}.
  */
 final class StringAssertionDefault extends GenericAssertionAbstract<String, StringAssertion>
-    implements StringAssertion {
+  implements StringAssertion {
 
   private String candidate;
 
@@ -40,9 +40,9 @@ final class StringAssertionDefault extends GenericAssertionAbstract<String, Stri
    * exception exported by the {@code exceptionBuilder} in case it doesn't match the subsequent
    * checks.
    *
-   * @param candidate         the candidate to be examined.
+   * @param candidate       the candidate to be examined.
    * @param exceptionMapper the exception builder for creating exceptions when needed, cannot be
-   *                          {@code null}.
+   *                        {@code null}.
    * @throws InvalidParameterException when {@code exceptionMapper} is {@code null}.
    */
   StringAssertionDefault(String candidate,
@@ -68,7 +68,7 @@ final class StringAssertionDefault extends GenericAssertionAbstract<String, Stri
   }
 
   void setCandidate(String candidate) {
-    
+
     this.candidate = candidate;
   }
 
@@ -213,10 +213,10 @@ final class StringAssertionDefault extends GenericAssertionAbstract<String, Stri
   private static final Predicate<? super String> IS_NOT_EMPTY = Predicates.not(StringPredicates.isEmpty());
 
   private static final Predicate<? super String> IS_NULL_OR_EMPTY = Predicates.or(
-      Predicates.isNull(), StringPredicates.isEmpty()
+    Predicates.isNull(), StringPredicates.isEmpty()
   );
 
   private static final Predicate<? super String> IS_NOT_NULL_OR_EMPTY = Predicates.not(Predicates.or(
-      Predicates.isNull(), StringPredicates.isEmpty()
+    Predicates.isNull(), StringPredicates.isEmpty()
   ));
 }

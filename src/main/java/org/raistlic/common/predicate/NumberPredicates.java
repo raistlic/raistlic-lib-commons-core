@@ -29,7 +29,7 @@ public final class NumberPredicates {
    * The method exports a {@link Predicate} instance for testing number values, that are greater
    * than the specified {@code reference} .
    *
-   * @param <N> the actual number type.
+   * @param <N>       the actual number type.
    * @param reference the value used to create the {@link Predicate} and to test integers.
    * @return the {@link Predicate} instance created.
    */
@@ -44,7 +44,7 @@ public final class NumberPredicates {
    * The method exports a {@link Predicate} instance for testing number values, that are greater
    * than or equal to the specified {@code reference} .
    *
-   * @param <N> the actual number type.
+   * @param <N>       the actual number type.
    * @param reference the reference used to create the {@link Predicate} and to test integers.
    * @return the {@link Predicate} instance created.
    */
@@ -59,7 +59,7 @@ public final class NumberPredicates {
    * The method exports a {@link Predicate} instance for testing number values, that are less than
    * the specified {@code reference} .
    *
-   * @param <N> the actual number type.
+   * @param <N>       the actual number type.
    * @param reference the reference used to create the {@link Predicate} and to test integers.
    * @return the {@link Predicate} instance created.
    */
@@ -74,7 +74,7 @@ public final class NumberPredicates {
    * The method exports a {@link Predicate} instance for testing number values, that are less than
    * or equal to the specified {@code reference} .
    *
-   * @param <N> the actual number type.
+   * @param <N>       the actual number type.
    * @param reference the reference used to create the {@link Predicate} and to test integers.
    * @return the {@link Predicate} instance created.
    */
@@ -86,7 +86,7 @@ public final class NumberPredicates {
   }
 
   private static final class NumberGreaterThanPredicate<N extends Number & Comparable<N>>
-      implements Predicate<N> {
+    implements Predicate<N> {
 
     private final N reference;
 
@@ -103,7 +103,7 @@ public final class NumberPredicates {
   }
 
   private static final class NumberLessThanPredicate<N extends Number & Comparable<N>>
-      implements Predicate<N> {
+    implements Predicate<N> {
 
     private final N reference;
 
@@ -122,5 +122,6 @@ public final class NumberPredicates {
   /*
    * Not to be instantiated or inherited.
    */
-  private NumberPredicates() { }
+  private NumberPredicates() {
+  }
 }

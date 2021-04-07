@@ -18,9 +18,6 @@ package org.raistlic.common.codec;
 
 /**
  * Encoder that encodes a value of type {@code <E>} into a {@link String} .
- *
- * @author Lei CHEN
- * @since 1.4
  */
 public interface Serializer<E> extends Encoder<E, String> {
 

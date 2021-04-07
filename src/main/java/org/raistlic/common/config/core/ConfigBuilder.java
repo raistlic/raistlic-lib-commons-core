@@ -36,9 +36,8 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
    *
    * @param configSource the source to import values from, cannot be {@code null}.
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code configSource}
-   *         is {@code null}.
+   *                                                                    is {@code null}.
    */
   ConfigBuilder importFrom(ConfigSource configSource);
 
@@ -47,7 +46,6 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
    *
    * @param map the map to import values from, cannot be {@code null}.
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code map} is {@code null}.
    */
   ConfigBuilder importFrom(Map<String, String> map);
@@ -57,20 +55,17 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
    *
    * @param properties the properties to import values from, cannot be {@code null}.
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code properties} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   ConfigBuilder importFrom(Properties properties);
 
   /**
    * The method sets a {@link String} {@code value} to be mapped under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setString(String key, String value);
@@ -78,11 +73,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method sets a {@code boolean} {@code value} to be mapped under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setBoolean(String key, boolean value);
@@ -90,11 +83,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code byte value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setByte(String key, byte value);
@@ -102,11 +93,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code char value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when if {@code key} is {@code null}.
    */
   ConfigBuilder setChar(String key, char value);
@@ -114,11 +103,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code short value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setShort(String key, short value);
@@ -126,11 +113,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code int value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setInt(String key, int value);
@@ -138,11 +123,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code long value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setLong(String key, long value);
@@ -150,11 +133,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code float value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setFloat(String key, float value);
@@ -162,11 +143,9 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code double value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
+   * @param key   the key used to map the {@code value}, cannot be {@code null}.
    * @param value the value to be mapped.
-   *
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   ConfigBuilder setDouble(String key, double value);
@@ -174,16 +153,14 @@ public interface ConfigBuilder extends Configurable<Config>, Supplier<Config> {
   /**
    * The method maps the {@code value} under the {@code key} .
    *
-   * @param key the key used to map the {@code value}, cannot be {@code null}.
-   * @param value the value to be mapped.
+   * @param key     the key used to map the {@code value}, cannot be {@code null}.
+   * @param value   the value to be mapped.
    * @param encoder the encoder used to convert {@code value} into a {@link String} , cannot be
    *                {@code null}.
-   * @param <E> the declared type for the {@code value} .
-   *
+   * @param <E>     the declared type for the {@code value} .
    * @return the {@link ConfigBuilder} instance itself.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} or
-   *         {@code encoder} is {@code null}.
+   *                                                                    {@code encoder} is {@code null}.
    */
   <E> ConfigBuilder setValue(String key, E value, Encoder<? super E, String> encoder);
 

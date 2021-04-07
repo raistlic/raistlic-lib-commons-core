@@ -10,8 +10,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * @author Lei Chen (2016-02-04)
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public abstract class ExecutableStream<E extends Executable, ES extends ExecutableStream<E, ES>>
         extends MemberStream<E, ES> implements CustomStream<E, ES> {
 

@@ -16,11 +16,7 @@
 
 package org.raistlic.common.config.entity;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * The annotation is used to mark the members or parameters that are values to be fetched or

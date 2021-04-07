@@ -17,8 +17,6 @@ import java.util.function.Function;
  * The class is used as the entry point for post condition checks, it has utility methods for
  * validation work, as well as some static factory methods that expose proper {@link AssertionFactory}
  * instances for different types of objects.
- *
- * @author Lei Chen (2016-03-17)
  */
 public final class Postcondition {
 

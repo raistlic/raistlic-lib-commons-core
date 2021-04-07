@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 Lei CHEN (raistlic@gmail.com)
+ * Copyright 2021 Lei Chen (raistlic@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package org.raistlic.common.util;
+package org.raistlic.common.event;
 
 import java.util.EventListener;
 
-/**
- * The class represents the progress of a process.
- *
- * @deprecated will be removed in 2.0, moved to org.raistlic.common.event.Progress
- */
-@Deprecated
 public final class Progress {
 
   /**

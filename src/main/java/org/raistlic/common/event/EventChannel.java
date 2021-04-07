@@ -55,18 +55,17 @@ class EventChannel {
       if (adapter.channelName() != null) {
 
         throw new IllegalArgumentException(
-                "'adapter' s channel name " + adapter.channelName() +
-                        " does not match the channel's name null"
+          "'adapter' s channel name " + adapter.channelName() +
+            " does not match the channel's name null"
         );
       }
-    }
-    else {
+    } else {
 
       if (!name.equals(adapter.channelName())) {
 
         throw new IllegalArgumentException(
-                "'adpater' s channel name " + adapter.channelName() +
-                        " does not match the channel's name " + name
+          "'adpater' s channel name " + adapter.channelName() +
+            " does not match the channel's name " + name
         );
       }
     }
@@ -93,8 +92,7 @@ class EventChannel {
       try {
 
         adapter.listen(event);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
 
         exceptionHandler.exceptionOccur(Thread.currentThread(), ex);
       }

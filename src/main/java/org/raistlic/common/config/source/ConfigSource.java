@@ -30,8 +30,8 @@ public interface ConfigSource {
    * {@link java.util.Set} .
    *
    * @return all the keys that the {@link ConfigSource} contains as a read-only {@link java.util.Set} ,
-   *         any attempts to modify the returned {@link java.util.Set} may cause an exception. Empty
-   *         set returned in case the config source is empty, the method never returns {@code null}.
+   * any attempts to modify the returned {@link java.util.Set} may cause an exception. Empty
+   * set returned in case the config source is empty, the method never returns {@code null}.
    */
   Set<String> getKeys();
 
@@ -40,7 +40,6 @@ public interface ConfigSource {
    *
    * @param key the key to query, cannot be {@code null}.
    * @return {@code true} if the {@link ConfigSource} has the {@code key} .
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code key} is {@code null}.
    */
   boolean hasKey(String key);
@@ -50,8 +49,7 @@ public interface ConfigSource {
    *
    * @param key the key to search, cannot be {@code null}.
    * @return the {@link String} value specified by {@code key} in the {@link ConfigSource} ,
-   *         or {@code null} if the {@code key} is not found.
-   *
+   * or {@code null} if the {@code key} is not found.
    * @throws PreconditionCheckFailedException when {@code key} is {@code null}.
    */
   String getString(String key);

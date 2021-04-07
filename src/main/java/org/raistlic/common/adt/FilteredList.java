@@ -9,8 +9,9 @@ import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 /**
- * @author lei.c (2015-12-22)
+ * @deprecated will be removed in 2.0, no need after Java 8
  */
+@Deprecated
 public abstract class FilteredList<E> implements Iterable<E> {
 
   @SuppressWarnings("unchecked")
@@ -46,7 +47,8 @@ public abstract class FilteredList<E> implements Iterable<E> {
     return new ListWrapper<>(elements, bitMap);
   }
 
-  private FilteredList() { }
+  private FilteredList() {
+  }
 
   public abstract int size();
 

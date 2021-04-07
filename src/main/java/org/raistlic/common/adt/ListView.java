@@ -22,9 +22,6 @@ package org.raistlic.common.adt;
  * this interface tries to define a read-only list view.
  * <p>
  * Design ideas from {@link java.util.Collection}.
- *
- * @author Lei CHEN
- * @since 1.0
  */
 public interface ListView<E> extends Iterable<E> {
 

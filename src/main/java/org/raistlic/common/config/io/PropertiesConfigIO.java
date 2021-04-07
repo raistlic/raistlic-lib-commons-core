@@ -57,8 +57,7 @@ enum PropertiesConfigIO implements ConfigIO {
           ps.println(line);
         }
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }
@@ -83,8 +82,7 @@ enum PropertiesConfigIO implements ConfigIO {
     try {
       properties.load(inputStream);
       configBuilder.importFrom(properties);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }

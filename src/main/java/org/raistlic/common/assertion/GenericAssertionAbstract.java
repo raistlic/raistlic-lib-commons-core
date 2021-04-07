@@ -26,8 +26,6 @@ import java.util.function.Predicate;
 /**
  * The class helps to check a specified {@code candidate} with certain expectations, and throws
  * a custom runtime exception when the check fails.
- *
- * @author Lei Chen (2015-10-14)
  */
 public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> implements Assertion<C, E> {
 
@@ -42,9 +40,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * exception will be thrown.
    *
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   @Override
   public E isNull() {
@@ -58,9 +55,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    *
    * @param message the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isNull(String message) {
 
@@ -75,9 +71,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * exception will be thrown.
    *
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isNotNull() {
 
@@ -90,9 +85,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    *
    * @param message the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isNotNull(String message) {
 
@@ -109,9 +103,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * @param target the reference target which the candidate should be equal to, or {@code null} if
    *               the candidate should be {@code null}.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isEqualTo(C target) {
 
@@ -126,13 +119,12 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * The method claims that the {@code candidate} should be equal to the {@code target}, otherwise a
    * runtime exception with the specified {@code message} will be thrown.
    *
-   * @param target the reference target which the candidate should be equal to, or {@code null} if
-   *               the candidate should be {@code null}.
+   * @param target  the reference target which the candidate should be equal to, or {@code null} if
+   *                the candidate should be {@code null}.
    * @param message the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isEqualTo(C target, String message) {
 
@@ -149,9 +141,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * @param target the reference target which the candidate should be equal to, or {@code null} if
    *               the candidate should be {@code null}.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isNotEqualTo(C target) {
 
@@ -166,13 +157,12 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * The method claims that the {@code candidate} should NOT be equal to the {@code target},
    * otherwise a runtime exception with the specified {@code message} will be thrown.
    *
-   * @param target the reference target which the candidate should be equal to, or {@code null} if
-   *               the candidate should be {@code null}.
+   * @param target  the reference target which the candidate should be equal to, or {@code null} if
+   *                the candidate should be {@code null}.
    * @param message the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E isNotEqualTo(C target, String message) {
 
@@ -195,7 +185,7 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
 
     if (!Predicates.instanceOf(type).test(getCandidate())) {
       String message = "'" + getCandidate() + "' should be instance of type '" + type + "', but is " +
-          (getCandidate() == null ? "null" : "not (actual type: '" + getCandidate().getClass().getName() + "')");
+        (getCandidate() == null ? "null" : "not (actual type: '" + getCandidate().getClass().getName() + "')");
       throw getExceptionMapper().apply(message);
     }
     return getThis();
@@ -205,7 +195,7 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * The method claims that the {@code candidate} should be an instance of the specified {@code type} ,
    * otherwise a runtime exception with the specified {@code message} will be thrown.
    *
-   * @param type the type of which the {@code candidate} claims to be.
+   * @param type    the type of which the {@code candidate} claims to be.
    * @param message the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
    */
@@ -225,9 +215,8 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    *
    * @param predicate the predicate that's used to test the {@code candidate} , cannot be {@code null}.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E matches(Predicate<? super C> predicate) {
 
@@ -245,11 +234,10 @@ public abstract class GenericAssertionAbstract<C, E extends Assertion<C, E>> imp
    * otherwise a runtime exception with the {@code message} will be thrown.
    *
    * @param predicate the predicate that's used to test the {@code candidate} , cannot be {@code null}.
-   * @param message the message to be thrown with the exception, in case the check fails.
+   * @param message   the message to be thrown with the exception, in case the check fails.
    * @return the expectation instance itself, for method calling chain.
-   *
    * @throws java.lang.RuntimeException the exception of a specific type, depending on the context
-   *         where the expectation is used.
+   *                                    where the expectation is used.
    */
   public E matches(Predicate<? super C> predicate, String message) {
 

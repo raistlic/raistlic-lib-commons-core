@@ -24,10 +24,10 @@ import java.lang.annotation.Target;
 /**
  * The annotation is to mark a static factory method or constructor that is preferred to be used
  * as the method to create a config entity instance.
- *
+ * <p>
  * The annotated static factory method or constructor must have all its parameters marked with
  * {@link ConfigProperty}, unless no parameters needed.
- *
+ * <p>
  * Although not restricted, it is preferred that only one of the static factory methods and constructors
  * being marked as {@link ConfigConstructor}, or otherwise which one to be used is undefined.
  *

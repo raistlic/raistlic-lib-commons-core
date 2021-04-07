@@ -38,7 +38,7 @@ enum YamlConfigIO implements ConfigIO {
 
   @Override
   public void writeConfig(ConfigSource config, OutputStream outputStream)
-      throws InvalidParameterException, ConfigIOException {
+    throws InvalidParameterException, ConfigIOException {
 
     Precondition.param(config).isNotNull();
     Precondition.param(outputStream).isNotNull();
@@ -57,8 +57,7 @@ enum YamlConfigIO implements ConfigIO {
       for (String line : new String(buffer.toByteArray()).split("\n")) {
         ps.println(line);
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }
@@ -85,8 +84,7 @@ enum YamlConfigIO implements ConfigIO {
       @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) yamlReader.read();
       NestedMapHelper.mapToConfig(map, "", configBuilder);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }

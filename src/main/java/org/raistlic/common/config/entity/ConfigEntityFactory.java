@@ -34,14 +34,13 @@ public interface ConfigEntityFactory {
    * on the configuration values in the {@code configSource} .
    *
    * @param configEntityType the type of the config entity bean to create, cannot be {@code null}.
-   * @param configSource the config source to be based on, cannot be {@code null}.
-   * @param path the path prefix of the configuration properties for the config entity bean, cannot
-   *             be {@code null}.
-   * @param <E> the referenced type of the config entity bean to create.
+   * @param configSource     the config source to be based on, cannot be {@code null}.
+   * @param path             the path prefix of the configuration properties for the config entity bean, cannot
+   *                         be {@code null}.
+   * @param <E>              the referenced type of the config entity bean to create.
    * @return the created config entity bean.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters
-   *         is {@code null}.
+   *                                                                    is {@code null}.
    */
   <E> E createConfigEntity(Class<E> configEntityType, ConfigSource configSource, String path);
 
@@ -53,9 +52,8 @@ public interface ConfigEntityFactory {
    *                         a valid config entity type (i.e. cannot be a primitive type, must have
    *                         dependencies that are annotated with {@link ConfigProperty}).
    * @return the property name set required, or an empty set if none .
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code configEntityType}
-   *         is {@code null} or is not a valid config entity type.
+   *                                                                    is {@code null} or is not a valid config entity type.
    */
   Set<String> getConfigKeys(Class<?> configEntityType);
 
@@ -63,11 +61,11 @@ public interface ConfigEntityFactory {
    * Registers the {@code deserializer} for the specified {@code type}, which is to be used when
    * ever the factory de-serializes a value of the {@code type}.
    *
-   * @param type the type to register the de-serializer for, cannot be {@code null}, cannot be
-   *             any primitive box type or {@link String} , as these types will only use the built-in
-   *             deserializer of the implementation.
+   * @param type         the type to register the de-serializer for, cannot be {@code null}, cannot be
+   *                     any primitive box type or {@link String} , as these types will only use the built-in
+   *                     deserializer of the implementation.
    * @param deserializer the de-serializer to register, cannot be {@code null}.
-   * @param <E> the referenced type.
+   * @param <E>          the referenced type.
    */
   <E> void registerDeserializer(Class<E> type, Deserializer<E> deserializer);
 }

@@ -21,7 +21,7 @@ import org.raistlic.common.precondition.Precondition;
 import java.util.function.Predicate;
 
 /**
- * The class is a collection of static factory methods that creates and exports different types of 
+ * The class is a collection of static factory methods that creates and exports different types of
  * {@link Predicate} instances.
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -35,7 +35,7 @@ public final class Predicates {
    * @return the singleton {@link Predicate} instance.
    */
   public static <E> Predicate<E> dummyTrue() {
-    
+
     return (Predicate<E>) DummyPredicate.TRUE;
   }
 
@@ -47,7 +47,7 @@ public final class Predicates {
    * @return the singleton {@link Predicate} instance.
    */
   public static <E> Predicate<E> dummyFalse() {
-    
+
     return (Predicate<E>) DummyPredicate.FALSE;
   }
 
@@ -57,7 +57,7 @@ public final class Predicates {
    *
    * @param <E> the actual type signature to be exported.
    * @return an immutable, singleton {@link Predicate} that returns {@code true} only for
-   *         {@code null} values in its test method.
+   * {@code null} values in its test method.
    */
   public static <E> Predicate<E> isNull() {
 
@@ -70,7 +70,7 @@ public final class Predicates {
    *
    * @param <E> the actual type signature to be exported.
    * @return an immutable, singleton {@link Predicate} that returns {@code true} only for not
-   *         {@code null} values in its test method.
+   * {@code null} values in its test method.
    */
   public static <E> Predicate<E> notNull() {
 
@@ -83,7 +83,6 @@ public final class Predicates {
    *
    * @param type the type used to test objects, cannot be {@code null}.
    * @return the predicate instance created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code type} is {@code null}.
    */
   public static Predicate<Object> instanceOf(Class<?> type) {
@@ -100,7 +99,7 @@ public final class Predicates {
    * exported {@link Predicate} is functionally the same as the one exported by {@link #isNull()} .
    *
    * @param reference the reference used to create the {@link Predicate} , and to test candidates.
-   * @param <E> the actual type of the {@code reference} and candidates to be tested.
+   * @param <E>       the actual type of the {@code reference} and candidates to be tested.
    * @return the {@link Predicate} created.
    */
   public static <E> Predicate<E> equalTo(E reference) {
@@ -114,7 +113,7 @@ public final class Predicates {
    * exported {@link Predicate} is functionally the same as the one exported by {@link #notNull()} .
    *
    * @param reference the reference used to create the {@link Predicate} , and to test candidates.
-   * @param <E> the actual type of the {@code reference} and candidates to be tested.
+   * @param <E>       the actual type of the {@code reference} and candidates to be tested.
    * @return the {@link Predicate} created.
    */
   public static <E> Predicate<E> notEqualTo(E reference) {
@@ -127,11 +126,10 @@ public final class Predicates {
    * result of the predicate's test.
    *
    * @param predicate the predicate to be wrapped, cannot be {@code null}.
-   * @param <E> the actual type of targets to test.
+   * @param <E>       the actual type of targets to test.
    * @return the wrapper created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code predicate} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   public static <E> Predicate<E> not(Predicate<? super E> predicate) {
 
@@ -144,13 +142,12 @@ public final class Predicates {
    * a wrapper {@link Predicate} instance that returns the {@code &&} result of the test results of
    * the two operands.
    *
-   * @param left the left operand, cannot be {@code null}.
+   * @param left  the left operand, cannot be {@code null}.
    * @param right the right operand, cannot be {@code null}.
-   * @param <E> the actual type of targets to test.
+   * @param <E>   the actual type of targets to test.
    * @return the wrapper created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code left} or
-   *         {@code right} is {@code null}.
+   *                                                                    {@code right} is {@code null}.
    */
   public static <E> Predicate<E> and(Predicate<? super E> left, Predicate<? super E> right) {
 
@@ -164,13 +161,12 @@ public final class Predicates {
    * a wrapper {@link Predicate} instance that returns the {@code ||} result of the test results of
    * the two operands.
    *
-   * @param left the left operand, cannot be {@code null}.
+   * @param left  the left operand, cannot be {@code null}.
    * @param right the right operand, cannot be {@code null}.
-   * @param <E> the actual type of targets to test.
+   * @param <E>   the actual type of targets to test.
    * @return the wrapper created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code left} or
-   *         {@code right} is {@code null}.
+   *                                                                    {@code right} is {@code null}.
    */
   public static <E> Predicate<E> or(Predicate<? super E> left, Predicate<? super E> right) {
 
@@ -183,10 +179,9 @@ public final class Predicates {
    * The method creates and returns a {@link PredicateBuilder} instance based on the given {@code base}.
    *
    * @param base the base {@link Predicate} of the builder to create, cannot be {@code null}.
-   * @param <E> the actual target type to be tested by the predicate, hence the actual type signature
-   *           of the builder.
+   * @param <E>  the actual target type to be tested by the predicate, hence the actual type signature
+   *             of the builder.
    * @return the builder created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code base} is {@code null}.
    */
   public static <E> PredicateBuilder<E> builder(Predicate<? super E> base) {
@@ -208,8 +203,7 @@ public final class Predicates {
 
       if (object == null) {
         return o == null;
-      }
-      else {
+      } else {
         return object.equals(o);
       }
     }
@@ -256,7 +250,8 @@ public final class Predicates {
   /*
    * Not to be instantiated or inherited.
    */
-  private Predicates() { }
+  private Predicates() {
+  }
 }
 
 

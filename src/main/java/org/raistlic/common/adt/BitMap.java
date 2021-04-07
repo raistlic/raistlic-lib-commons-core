@@ -16,13 +16,12 @@
 
 package org.raistlic.common.adt;
 
-import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.precondition.Param;
 import org.raistlic.common.util.ObjectBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 /**
  * This class implements the "binary rank and select" algorithm.
@@ -38,17 +37,8 @@ import java.util.function.Supplier;
  * The theoretical efficiency of the original algorithm is constant time
  * operations, using multiple levels of cached maps, while this implementation
  * caches only one level map of every 8 bits.
- *
- * @author Lei CHEN
- * @since 1.0
  */
-public abstract class BitMap {
-
-  /*
-   * to keep the immutability promise, this class is designed NOT to be inherited
-   * from outside this file.
-   */
-  private BitMap() { }
+public final class BitMap {
 
   /**
    * A static factory method, which is a shortcut comparing with constructing
@@ -67,15 +57,15 @@ public abstract class BitMap {
    */
   public static <E> BitMap newInstance(List<E> list, Predicate<? super E> condition) {
 
-    Precondition.param(list).isNotNull();
-    Precondition.param(condition).isNotNull();
+    Param.notNull(list, "list cannot be null");
+    Param.notNull(condition, "condition cannot be null");
 
     Builder builder = builder(list.size());
-
-    for (int i = 0, size = list.size(); i < size; i++)
-      if (condition.test(list.get(i)))
+    for (int i = 0, size = list.size(); i < size; i++) {
+      if (condition.test(list.get(i))) {
         builder.set(i);
-
+      }
+    }
     return builder.get();
   }
 
@@ -91,91 +81,37 @@ public abstract class BitMap {
    *
    * @param size the size of the bit map to build, cannot be less than {@code 0} .
    * @return the new {@link org.raistlic.common.adt.BitMap.Builder} instance.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException if {@code size} is less than
-   *         {@code 0}.
+   *                                                                    {@code 0}.
    */
   public static Builder builder(int size) {
-
-    Precondition.param(size).greaterThanOrEqualTo(0);
-
     return new Builder(size);
   }
 
-  /**
-   * The builder to create new bit map instances.
-   */
-  public static class Builder implements ObjectBuilder<BitMap> {
+  private final int size;
 
-    private final byte[] map;
+  private final byte[] map;
 
-    private final int size;
+  private final int[] rankOne;
 
-    private Builder(int size) {
+  private final int[] rankZero;
 
-      this.size = size;
-      this.map = new byte[size / 8 + 1];
-    }
+  private BitMap(int size, byte[] map) {
 
-    /**
-     * Set all bits to be {@code 0} .
-     *
-     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
-     */
-    public Builder clear() {
+    Param.isTrue(size >= 0, "size cannot be less than 0");
+    Param.notNull(map, "map cannot be null");
 
-      for (int i = 0; i < map.length; i++)
-        map[i] = 0;
+    int len = map.length;
+    this.map = Arrays.copyOf(map, len);
+    this.size = size;
 
-      return this;
-    }
-
-    /**
-     * The method sets the bit at {@code index} to be {@code 1} .
-     *
-     * @param index the index of the bit to set, must be within range {@code [0, size)}.
-     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
-     *
-     * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
-     *         range.
-     */
-    public Builder set(int index) {
-
-      Precondition.param(index).greaterThanOrEqualTo(0)
-          .lessThan(size);
-
-      map[index / 8] |= (1 << (index % 8));
-      return this;
-    }
-
-    /**
-     * The method sets the bit at {@code index} to be {@code 0} .
-     *
-     * @param index the index of the bit to clear, must be within range {@code [0, size)}.
-     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
-     *
-     * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
-     *         range.
-     */
-    public Builder unset(int index) {
-
-      Precondition.param(index).greaterThanOrEqualTo(0)
-          .lessThan(size);
-
-      map[index / 8] &= ~(1 << (index % 8));
-      return this;
-    }
-
-    /**
-     * Create and return a new {@link BitMap} instance based on the current state of the
-     * {@code builder} .
-     *
-     * @return the created {@link BitMap} .
-     */
-    @Override
-    public BitMap build() {
-
-      return new DefaultBitMap(this);
+    rankOne = new int[len];
+    rankZero = new int[len];
+    for (int i = 0; i < len; i++) {
+      rankOne[i] = MAP_RANK[0xFF & map[i]][7];
+      if (i > 0)
+        rankOne[i] += rankOne[i - 1];
+      rankZero[i] = (i + 1) * 8 - rankOne[i];
     }
   }
 
@@ -184,7 +120,10 @@ public abstract class BitMap {
    *
    * @return the size of the {@link BitMap} .
    */
-  public abstract int size();
+  public int size() {
+
+    return size;
+  }
 
   /**
    * The method returns the number of {@code 1} s up to {@code index} (inclusively).
@@ -195,7 +134,15 @@ public abstract class BitMap {
    * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
    *                                                                    range.
    */
-  public abstract int rankOne(int index);
+  public int rankOne(int index) {
+
+    Param.isTrue(index >= 0, "index cannot be less than 0");
+    Param.isTrue(index < size, "index must be less than size");
+
+    int offset = index % 8;
+    index /= 8;
+    return (index > 0 ? rankOne[index - 1] : 0) + MAP_RANK[0xFF & map[index]][offset];
+  }
 
   /**
    * The method returns the number of {@code 0} s up to the {@code index} (inclusively).
@@ -206,7 +153,13 @@ public abstract class BitMap {
    * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
    *                                                                    range.
    */
-  public abstract int rankZero(int index);
+  public int rankZero(int index) {
+
+    Param.isTrue(index >= 0, "index cannot be less than 0");
+    Param.isTrue(index < size, "index must be less than size");
+
+    return index - rankOne(index) + 1;
+  }
 
   /**
    * The method returns the index of the {@code i}-th {@code 1} .
@@ -217,7 +170,17 @@ public abstract class BitMap {
    * @throws org.raistlic.common.precondition.InvalidParameterException if {@code i} is less than
    *                                                                    {@code 0}.
    */
-  public abstract int selectOne(int i);
+  public int selectOne(int i) {
+
+    Param.isTrue(i >= 0, "i cannot be less than 0");
+
+    if (i >= rankOne(size - 1)) {
+      return -1;
+    }
+    int units = binaryRankSearch(i, rankOne, 0, rankOne.length - 1);
+    int counted = units > 0 ? rankOne[units - 1] : 0;
+    return units * 8 + MAP_SELECT_ONE[0xFF & map[units]][i - counted];
+  }
 
   /**
    * The method returns the index of the {@code i}-th {@code 0} .
@@ -228,7 +191,17 @@ public abstract class BitMap {
    * @throws org.raistlic.common.precondition.InvalidParameterException if {@code i} is less than
    *                                                                    {@code 0}.
    */
-  public abstract int selectZero(int i);
+  public int selectZero(int i) {
+
+    Param.isTrue(i >= 0, "i cannot be less than 0");
+
+    if (i >= rankZero(size - 1)) {
+      return -1;
+    }
+    int units = binaryRankSearch(i, rankZero, 0, rankZero.length - 1);
+    int counted = units > 0 ? units * 8 - rankOne[units - 1] : 0;
+    return units * 8 + MAP_SELECT_ZERO[0xFF & map[units]][i - counted];
+  }
 
   /**
    * The method returns whether the specified bit at {@code index} is {@code 1} or not.
@@ -238,161 +211,65 @@ public abstract class BitMap {
    * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
    *                                                                    range.
    */
-  public abstract boolean isOne(int index);
+  public boolean isOne(int index) {
 
-  private static class DefaultBitMap extends BitMap {
+    Param.isTrue(index >= 0, "index cannot be less than 0");
+    Param.isTrue(index < size, "index must be less than size");
 
-    private final byte[] map;
+    return (map[index / 8] & (1 << (index % 8))) != 0;
+  }
 
-    private final int[] rankOne;
+  private int binaryRankSearch(int count, int[] rank, int left, int right) {
 
-    private final int[] rankZero;
+    if (left == right) {
+      return left;
+    }
+    if (left + 1 == right) {
+      return rank[left] > count ? left : right;
+    }
+    int mid = (left + right) / 2;
+    if (rank[mid] > count) {
+      right = mid;
+    } else {
+      left = mid;
+    }
+    return binaryRankSearch(count, rank, left, right);
+  }
 
-    private final int size;
+  @Override
+  public int hashCode() {
 
-    private DefaultBitMap(Builder builder) {
-
-      int len = builder.map.length;
-      map = Arrays.copyOf(builder.map, len);
-      size = builder.size;
-
-      rankOne = new int[len];
-      rankZero = new int[len];
-      for (int i = 0; i < len; i++) {
-
-        rankOne[i] = MAP_RANK[0xFF & map[i]][7];
-        if (i > 0)
-          rankOne[i] += rankOne[i - 1];
-        rankZero[i] = (i + 1) * 8 - rankOne[i];
+    int result = size();
+    int[] tokens = new int[result / 16 + 1];
+    for (int i = 0; i < result; i++) {
+      if (isOne(i)) {
+        tokens[i / 16] |= 1 << (i % 16);
       }
     }
-
-    @Override
-    public int size() {
-
-      return size;
+    for (int token : tokens) {
+      result = (result << 5) + token - result;
     }
+    return result;
+  }
 
-    @Override
-    public int rankOne(int index) {
+  @Override
+  public boolean equals(Object o) {
 
-      Precondition.param(index).greaterThanOrEqualTo(0)
-          .lessThan(size);
-
-      int offset = index % 8;
-      index /= 8;
-
-      return (index > 0 ? rankOne[index - 1] : 0) + MAP_RANK[0xFF & map[index]][offset];
-    }
-
-    @Override
-    public int rankZero(int index) {
-
-      Precondition.param(index).greaterThanOrEqualTo(0)
-          .lessThan(size);
-
-      return index - rankOne(index) + 1;
-    }
-
-    @Override
-    public int selectOne(int i) {
-
-      Precondition.param(i).greaterThanOrEqualTo(0);
-
-      if (i >= rankOne(size - 1)) {
-        return -1;
-      }
-
-      int units = binaryRankSearch(i, rankOne, 0, rankOne.length - 1);
-      int counted = units > 0 ? rankOne[units - 1] : 0;
-
-      return units * 8 + MAP_SELECT_ONE[0xFF & map[units]][i - counted];
-    }
-
-    @Override
-    public int selectZero(int i) {
-
-      Precondition.param(i).greaterThanOrEqualTo(0);
-
-      if (i >= rankZero(size - 1)) {
-        return -1;
-      }
-
-      int units = binaryRankSearch(i, rankZero, 0, rankZero.length - 1);
-      int counted = units > 0 ? units * 8 - rankOne[units - 1] : 0;
-
-      return units * 8 + MAP_SELECT_ZERO[0xFF & map[units]][i - counted];
-    }
-
-    private int binaryRankSearch(int count, int[] rank, int left, int right) {
-
-      if (left == right) {
-
-        return left;
-      }
-      else if (left + 1 == right) {
-
-        return rank[left] > count ? left : right;
-      }
-      else {
-
-        int mid = (left + right) / 2;
-        if (rank[mid] > count)
-          right = mid;
-        else
-          left = mid;
-        return binaryRankSearch(count, rank, left, right);
-      }
-    }
-
-    @Override
-    public boolean isOne(int index) {
-
-      Precondition.param(index).greaterThanOrEqualTo(0)
-          .lessThan(size);
-
-      return (map[index / 8] & (1 << (index % 8))) != 0;
-    }
-
-    @Override
-    public int hashCode() {
-
-      int result = size();
-
-      int[] tokens = new int[result / 16 + 1];
-      for (int i = 0; i < result; i++)
-        if (isOne(i))
-          tokens[i / 16] |= 1 << (i % 16);
-
-      for (int token : tokens)
-        result = (result << 5) + token - result;
-      return result;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-      if (o == this) {
-
-        return true;
-      }
-      else if (o instanceof BitMap) {
-
-        BitMap m = (BitMap) o;
-        if (m.size() != size()) {
-          return false;
-        }
-        for (int i = 0; i < size; i++) {
-          if (m.isOne(i) != isOne(i)) {
-            return false;
-          }
-        }
-        return true;
-      }
-      else {
-
+    if (o == this) {
+      return true;
+    } else if (o instanceof BitMap) {
+      BitMap m = (BitMap) o;
+      if (m.size() != size()) {
         return false;
       }
+      for (int i = 0; i < size; i++) {
+        if (m.isOne(i) != isOne(i)) {
+          return false;
+        }
+      }
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -439,18 +316,95 @@ public abstract class BitMap {
   private static int countOne(int pattern, int bits) {
 
     int count = 0;
-    for (int i = 0; i < bits; i++)
-      if (((1 << i) & pattern) != 0)
+    for (int i = 0; i < bits; i++) {
+      if (((1 << i) & pattern) != 0) {
         count++;
+      }
+    }
     return count;
   }
 
   private static int countZero(int pattern, int bits) {
 
     int count = 0;
-    for (int i = 0; i < bits; i++)
-      if (((1 << i) & pattern) == 0)
+    for (int i = 0; i < bits; i++) {
+      if (((1 << i) & pattern) == 0) {
         count++;
+      }
+    }
     return count;
+  }
+
+  /**
+   * The builder to create new bit map instances.
+   */
+  public static final class Builder implements ObjectBuilder<BitMap> {
+
+    private final int size;
+
+    private final byte[] map;
+
+    private Builder(int size) {
+
+      Param.isTrue(size >= 0, "size cannot be less than 0");
+
+      this.size = size;
+      this.map = new byte[size / 8 + 1];
+    }
+
+    /**
+     * Set all bits to be {@code 0} .
+     *
+     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
+     */
+    public Builder clear() {
+      Arrays.fill(map, (byte) 0);
+      return this;
+    }
+
+    /**
+     * The method sets the bit at {@code index} to be {@code 1} .
+     *
+     * @param index the index of the bit to set, must be within range {@code [0, size)}.
+     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
+     * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+     *                                                                    range.
+     */
+    public Builder set(int index) {
+
+      Param.isTrue(index >= 0, "index cannot be less than 0");
+      Param.isTrue(index < size, "index must be less than size");
+
+      map[index / 8] |= (1 << (index % 8));
+      return this;
+    }
+
+    /**
+     * The method sets the bit at {@code index} to be {@code 0} .
+     *
+     * @param index the index of the bit to clear, must be within range {@code [0, size)}.
+     * @return the {@link org.raistlic.common.adt.BitMap.Builder} instance itself.
+     * @throws org.raistlic.common.precondition.InvalidParameterException if {@code index} is out of
+     *                                                                    range.
+     */
+    public Builder unset(int index) {
+
+      Param.isTrue(index >= 0, "index cannot be less than 0");
+      Param.isTrue(index < size, "index must be less than size");
+
+      map[index / 8] &= ~(1 << (index % 8));
+      return this;
+    }
+
+    /**
+     * Create and return a new {@link BitMap} instance based on the current state of the
+     * {@code builder} .
+     *
+     * @return the created {@link BitMap} .
+     */
+    @Override
+    public BitMap build() {
+      return new BitMap(this.size, this.map);
+    }
   }
 }

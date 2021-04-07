@@ -33,11 +33,10 @@ public interface ConfigManager extends MutableConfig {
    * context of the {@link ConfigManager} .
    *
    * @param entityType the class of the config entity, cannot be {@code null}.
-   * @param <E> the actual type of the config entity.
+   * @param <E>        the actual type of the config entity.
    * @return the config entity instance.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code entityType} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   default <E> E getConfigEntity(Class<E> entityType) {
 
@@ -48,17 +47,16 @@ public interface ConfigManager extends MutableConfig {
    * The method returns a config entity instance that holds values from the current configuration
    * context of the {@link ConfigManager} , using the specified {@code path} as a prefix of all
    * the configuration values to use.
-   *
+   * <p>
    * See also {@link org.raistlic.common.config.entity.ConfigEntityFactory#registerDeserializer(Class, Deserializer)}.
    *
    * @param entityType the class of the config entity, cannot be {@code null}.
-   * @param path the prefix of all the config property names to be used, can be {@code null} or
-   *             empty in which case no prefix is used for the config property names.
-   * @param <E> the actual type of the config entity.
+   * @param path       the prefix of all the config property names to be used, can be {@code null} or
+   *                   empty in which case no prefix is used for the config property names.
+   * @param <E>        the actual type of the config entity.
    * @return the config entity instance.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code entityType} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   <E> E getConfigEntity(Class<E> entityType, String path);
 
@@ -66,16 +64,14 @@ public interface ConfigManager extends MutableConfig {
    * The method registers a {@code deserializer} for the specified {@code type} , which is to be used
    * when fetching configuration values.
    *
-   * @param type the type to register the de-serializer for, cannot be {@code null}, cannot be
-   *             any primitive box type or {@link String} , as these types will only use the built-in
-   *             deserializer of the implementation.
-   *
+   * @param type         the type to register the de-serializer for, cannot be {@code null}, cannot be
+   *                     any primitive box type or {@link String} , as these types will only use the built-in
+   *                     deserializer of the implementation.
    * @param deserializer the deserializer to be registered.
-   * @param <E> the actual type for which the deserializer is registered for.
-   *
+   * @param <E>          the actual type for which the deserializer is registered for.
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code type} or
-   *         {@code deserializer} is {@code null}, or when the {@code type} cannot use custom
-   *         deserializers.
+   *                                                                    {@code deserializer} is {@code null}, or when the {@code type} cannot use custom
+   *                                                                    deserializers.
    */
   <E> void registerDeserializer(Class<E> type, Deserializer<E> deserializer);
 
@@ -85,10 +81,9 @@ public interface ConfigManager extends MutableConfig {
    * latest configuration values.
    *
    * @param configurable the configurable to be registered, cannot be {@code null}.
-   * @param <C> the actual type of config entity that the {@code configurable} can be applied with.
-   *
+   * @param <C>          the actual type of config entity that the {@code configurable} can be applied with.
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code configurable}
-   *         is {@code null}.
+   *                                                                    is {@code null}.
    */
   <C> void registerConfigurable(Configurable<C> configurable);
 
@@ -97,10 +92,9 @@ public interface ConfigManager extends MutableConfig {
    * longer receive updates from the {@link ConfigManager} .
    *
    * @param configurable the configurable to be removed, cannot be {@code null}.
-   * @param <C> the actual type of config entity that the {@code configurable} can be applied with.
-   *
+   * @param <C>          the actual type of config entity that the {@code configurable} can be applied with.
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code cofigurable}
-   *         is {@code null}.
+   *                                                                    is {@code null}.
    */
   <C> void removeConfigurable(Configurable<C> configurable);
 

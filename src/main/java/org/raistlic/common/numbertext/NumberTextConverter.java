@@ -33,9 +33,8 @@ public interface NumberTextConverter {
    *
    * @param number the number to be converted, cannot be {@code null}.
    * @return the converted text description for the {@code number} .
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code number} is
-   *         {@code null}, or when it's too big that exceeded the supported range of the implementation.
+   *                                                                    {@code null}, or when it's too big that exceeded the supported range of the implementation.
    */
   String convertToText(Number number) throws InvalidParameterException;
 
@@ -46,9 +45,8 @@ public interface NumberTextConverter {
    * @param number the number to be converted, cannot be {@code null} or empty, and must be a valid
    *               arabic number representation.
    * @return the converted text description for the {@code number} .
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code number} is {@code null},
-   *         invalid form, or too large.
+   *                                                                    invalid form, or too large.
    */
   String convertToText(String number) throws InvalidParameterException;
 }

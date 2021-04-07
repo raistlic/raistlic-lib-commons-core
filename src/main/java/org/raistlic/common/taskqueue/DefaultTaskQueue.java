@@ -16,19 +16,13 @@
 
 package org.raistlic.common.taskqueue;
 
-import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.InvalidContextException;
+import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.Precondition;
 import org.raistlic.common.predicate.Predicates;
 import org.raistlic.common.util.ExceptionHandler;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
@@ -75,8 +69,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
 
     if (running.getAndSet(true)) {
       return false;
-    }
-    else {
+    } else {
       queue = new LinkedBlockingQueue<Runnable>();
       executorService.submit(queueRunnable);
       return true;
@@ -91,8 +84,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
       queue.offer(EmptyRunnable.INSTANCE);
       executorService.awaitTermination(timeout, timeUnit);
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -105,8 +97,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
     }
     if (interruptCurrentTask) {
       executorService.shutdownNow();
-    }
-    else {
+    } else {
       executorService.shutdown();
     }
     queue.offer(EmptyRunnable.INSTANCE);
@@ -133,51 +124,49 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
 
   @Override
   public <R> R scheduleAndWait(Task<R> task)
-          throws InvalidParameterException,
-                 InvalidContextException,
-                 InvalidContextException,
-                 TaskExecutionException,
-                 InterruptedException {
+    throws InvalidParameterException,
+    InvalidContextException,
+    InvalidContextException,
+    TaskExecutionException,
+    InterruptedException {
 
     Precondition.param(task).isNotNull();
     Precondition.currentThread().matches(
-            isNotTaskQueuePredicate,
-            "The method cannot be invoked with in the task queue execution thread."
+      isNotTaskQueuePredicate,
+      "The method cannot be invoked with in the task queue execution thread."
     );
     Precondition.context(running.get()).isTrue();
 
     Promise<R> promise = schedule(task);
     try {
       return promise.get();
-    }
-    catch (ExecutionException ex) {
+    } catch (ExecutionException ex) {
       throw new TaskExecutionException(ex);
     }
   }
 
   @Override
   public <R> R scheduleAndWait(Task<R> task, long timeout, TimeUnit timeUnit)
-          throws InvalidParameterException,
-                 InvalidContextException,
-                 InvalidContextException,
-                 TaskExecutionException,
-                 InterruptedException,
-                 TimeoutException {
+    throws InvalidParameterException,
+    InvalidContextException,
+    InvalidContextException,
+    TaskExecutionException,
+    InterruptedException,
+    TimeoutException {
 
     Precondition.param(timeout).greaterThanOrEqualTo(0L);
     Precondition.param(timeUnit).isNotNull();
     Precondition.param(task).isNotNull();
     Precondition.currentThread().matches(
-            isNotTaskQueuePredicate,
-            "The method cannot be invoked with in the task queue execution thread."
+      isNotTaskQueuePredicate,
+      "The method cannot be invoked with in the task queue execution thread."
     );
     Precondition.context(running.get()).isTrue();
 
     Promise<R> promise = schedule(task);
     try {
       return promise.get(timeout, timeUnit);
-    }
-    catch (ExecutionException ex) {
+    } catch (ExecutionException ex) {
       throw new TaskExecutionException(ex);
     }
   }
@@ -204,8 +193,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
         Runnable runnable;
         try {
           runnable = queue.take();
-        }
-        catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
           break;
         }
         if (running.get()) {
@@ -231,8 +219,7 @@ final class DefaultTaskQueue implements TaskQueue, TaskQueue.Controller {
 
       try {
         runnable.run();
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         exceptionHandler.exceptionOccur(Thread.currentThread(), ex);
       }
     }

@@ -24,9 +24,6 @@ import java.math.BigInteger;
 
 /**
  * A collection of static factory methods that export commonly used {@link Deserializer} instances.
- *
- * @author Lei Chen
- * @since 1.4
  */
 public final class Deserializers {
 
@@ -124,11 +121,9 @@ public final class Deserializers {
       String converted = target.trim().toLowerCase();
       if (converted.equals("true")) {
         return true;
-      }
-      else if (converted.equals("false")) {
+      } else if (converted.equals("false")) {
         return false;
-      }
-      else {
+      } else {
         throw new ValueConversionException("Cannot convert String value to Boolean: '" + target + "'");
       }
     }
@@ -145,8 +140,7 @@ public final class Deserializers {
 
       try {
         return Byte.valueOf(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -179,8 +173,7 @@ public final class Deserializers {
 
       try {
         return Short.valueOf(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -197,8 +190,7 @@ public final class Deserializers {
 
       try {
         return Integer.valueOf(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -215,8 +207,7 @@ public final class Deserializers {
 
       try {
         return Long.valueOf(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -233,8 +224,7 @@ public final class Deserializers {
 
       try {
         return Float.valueOf(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -251,8 +241,7 @@ public final class Deserializers {
 
       try {
         return Double.valueOf(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -269,8 +258,7 @@ public final class Deserializers {
 
       try {
         return new BigInteger(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }
@@ -287,8 +275,7 @@ public final class Deserializers {
 
       try {
         return new BigDecimal(target);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         throw new ValueConversionException(ex);
       }
     }

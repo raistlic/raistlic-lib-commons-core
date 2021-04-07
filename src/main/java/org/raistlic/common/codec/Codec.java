@@ -18,15 +18,10 @@ package org.raistlic.common.codec;
 
 /**
  * A codec is a combination of encoder and decoder, that is, it can translate
- * between two types in both ways. 
- * 
+ * between two types in both ways.
  * <p>
  * See also {@link org.raistlic.common.codec.Encoder}.
- * 
- * <p>
  * See also {@link org.raistlic.common.codec.Decoder}.
- *
- * @author Lei CHEN
- * @since 1.0
  */
-public interface Codec<S, D> extends Encoder<S, D>, Decoder<S, D> {}
+public interface Codec<S, D> extends Encoder<S, D>, Decoder<S, D> {
+}

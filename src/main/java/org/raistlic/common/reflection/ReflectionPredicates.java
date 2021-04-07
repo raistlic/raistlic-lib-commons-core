@@ -16,8 +16,9 @@ import java.util.function.Predicate;
  * The class holds a collections of static factory methods that export different types of
  * {@link Predicate} implementations for the reflection utility types.
  *
- * @author Lei Chen (2016-02-04)
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public final class ReflectionPredicates {
 
   // Member ----------------------------------------------------------------------------------------

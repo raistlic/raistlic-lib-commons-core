@@ -49,7 +49,7 @@ public final class CollectionPredicates {
    * Returns a {@link Predicate} instance to test a {@link Collection} containing the specified {@code element} .
    *
    * @param element the element to test
-   * @param <E> the concrete element type of the collection
+   * @param <E>     the concrete element type of the collection
    * @return the {@link Predicate} instance.
    */
   public static <E> Predicate<Collection<E>> contains(E element) {
@@ -69,7 +69,7 @@ public final class CollectionPredicates {
   }
 
   private static final Predicate<Collection<?>> COLLECTION_NOT_EMPTY_INSTANCE =
-      Predicates.not(CollectionIsEmptyPredicate.INSTANCE);
+    Predicates.not(CollectionIsEmptyPredicate.INSTANCE);
 
   private static class CollectionWithSizePredicate implements Predicate<Collection<?>> {
 
@@ -106,5 +106,6 @@ public final class CollectionPredicates {
   /*
    * Not to be instantiated or inherited.
    */
-  private CollectionPredicates() { }
+  private CollectionPredicates() {
+  }
 }

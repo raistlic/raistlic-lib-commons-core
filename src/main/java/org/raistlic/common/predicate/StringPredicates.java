@@ -49,7 +49,6 @@ public final class StringPredicates {
    *
    * @param length the length to test, cannot be less than {@code 0} .
    * @return the predicate instance
-   *
    * @throws InvalidParameterException when {@code length} is invalid.
    */
   public static Predicate<String> hasLength(int length) {
@@ -66,7 +65,6 @@ public final class StringPredicates {
    *
    * @param pattern the pattern to test candidate, cannot be {@code null}.
    * @return the predicate instance
-   *
    * @throws InvalidParameterException when {@code pattern} is {@code null}.
    */
   public static Predicate<String> matchesPattern(Pattern pattern) {
@@ -120,5 +118,6 @@ public final class StringPredicates {
     }
   }
 
-  private StringPredicates() { }
+  private StringPredicates() {
+  }
 }

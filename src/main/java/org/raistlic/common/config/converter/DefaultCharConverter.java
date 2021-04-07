@@ -32,11 +32,9 @@ enum DefaultCharConverter implements Codec<Character, String> {
 
     if (target == null) {
       return null;
-    }
-    else if (target.length() == 1) {
+    } else if (target.length() == 1) {
       return target.charAt(0);
-    }
-    else {
+    } else {
       throw new ConfigValueConvertException("Cannot convert value to char: '" + target + "'");
     }
   }

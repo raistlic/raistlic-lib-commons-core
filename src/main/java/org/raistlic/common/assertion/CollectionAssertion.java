@@ -1,12 +1,12 @@
 /*
  * Copyright 2016 Lei Chen (raistlic@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -84,7 +84,7 @@ public interface CollectionAssertion<E> extends Assertion<Collection<E>, Collect
    * Checks that the collection has the specified {@code size} , or otherwise throws an exception with the specified
    * {@code message} .
    *
-   * @param size the size that the collection candidate is expected to have.
+   * @param size    the size that the collection candidate is expected to have.
    * @param message the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
    */
@@ -113,7 +113,6 @@ public interface CollectionAssertion<E> extends Assertion<Collection<E>, Collect
    *
    * @param elements the elements that the collection candidate is expected to contain, cannot be {@code null}.
    * @return the expectation instance itself, for fluent call.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code elements} is {@code null}.
    */
   CollectionAssertion<E> containsAll(Collection<E> elements);
@@ -123,9 +122,8 @@ public interface CollectionAssertion<E> extends Assertion<Collection<E>, Collect
    * specified {@code message} .
    *
    * @param elements the elements that the collection candidate is expected to contain, cannot be {@code null}.
-   * @param message the message to throw exception with, when the check fails.
+   * @param message  the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code elements} is {@code null}.
    */
   CollectionAssertion<E> containsAll(Collection<E> elements, String message);
@@ -135,9 +133,8 @@ public interface CollectionAssertion<E> extends Assertion<Collection<E>, Collect
    * specified {@code message} .
    *
    * @param comparator the comparator that the collection candidate is expected to be sorted by, cannot be {@code null}.
-   * @param message the message to throw exception with, when the check fails.
+   * @param message    the message to throw exception with, when the check fails.
    * @return the expectation instance itself, for fluent call.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code comparator} is {@code null}.
    */
   CollectionAssertion<E> isOrderedBy(Comparator<? super E> comparator, String message);

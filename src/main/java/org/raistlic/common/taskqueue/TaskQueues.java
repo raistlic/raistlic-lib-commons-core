@@ -73,7 +73,7 @@ public final class TaskQueues {
     public TaskQueue.Controller get() {
 
       TaskQueueThreadFactory taskQueueThreadFactory = new TaskQueueThreadFactory(
-              this.daemon, this.priority, this.name, this.exceptionHandler
+        this.daemon, this.priority, this.name, this.exceptionHandler
       );
       return new DefaultTaskQueue(taskQueueThreadFactory, exceptionHandler);
     }
@@ -98,7 +98,7 @@ public final class TaskQueues {
       this.priority = priority;
       this.name = name;
       this.exceptionHandler = (exceptionHandler == null) ?
-              DefaultTaskQueueExceptionHandler.INSTANCE : exceptionHandler;
+        DefaultTaskQueueExceptionHandler.INSTANCE : exceptionHandler;
     }
 
     @Override
@@ -139,5 +139,6 @@ public final class TaskQueues {
     }
   }
 
-  private TaskQueues() { }
+  private TaskQueues() {
+  }
 }

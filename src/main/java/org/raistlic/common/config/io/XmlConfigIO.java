@@ -27,11 +27,7 @@ import org.raistlic.common.precondition.Precondition;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,7 +44,7 @@ enum XmlConfigIO implements ConfigIO {
 
   @Override
   public void writeConfig(ConfigSource config, OutputStream outputStream)
-      throws InvalidParameterException, ConfigIOException {
+    throws InvalidParameterException, ConfigIOException {
 
     Precondition.param(config).isNotNull();
     Precondition.param(outputStream).isNotNull();
@@ -74,8 +70,7 @@ enum XmlConfigIO implements ConfigIO {
       for (String line : new String(buffer.toByteArray()).split("\n")) {
         ps.println(line);
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }
@@ -104,8 +99,7 @@ enum XmlConfigIO implements ConfigIO {
       for (Entry entry : configuration.getEntries()) {
         configBuilder.setString(entry.getKey(), entry.getValue());
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }

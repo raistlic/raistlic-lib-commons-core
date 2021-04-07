@@ -28,11 +28,9 @@ import java.util.function.Predicate;
 
 /**
  * Expectations to validate {@link Collection} instances.
- *
- * @author Lei Chen (2016-03-17)
  */
 final class CollectionAssertionDefault<E> extends GenericAssertionAbstract<Collection<E>, CollectionAssertion<E>>
-    implements CollectionAssertion<E> {
+  implements CollectionAssertion<E> {
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 
@@ -201,7 +199,7 @@ final class CollectionAssertionDefault<E> extends GenericAssertionAbstract<Colle
   }
 
   private final Predicate<Collection<?>> IS_NULL_OR_EMPTY = Predicates.or(
-      Predicates.isNull(),
-      CollectionPredicates.isEmpty()
+    Predicates.isNull(),
+    CollectionPredicates.isEmpty()
   );
 }

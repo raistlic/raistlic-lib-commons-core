@@ -1,12 +1,12 @@
 /*
  * Copyright 2016 Lei Chen (raistlic@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ class RandomWordBuilder implements RandomStringBuilder {
     StringBuilder builder = new StringBuilder();
     Random random = LocalUtil.getRandom();
 
-    while(builder.length() < length) {
+    while (builder.length() < length) {
       char c = chars.charAt(random.nextInt(chars.length()));
       builder.append(c);
     }
@@ -84,8 +84,8 @@ class RandomWordBuilder implements RandomStringBuilder {
   public RandomStringBuilder withCharSet(String charSet) {
 
     Precondition.param(charSet)
-        .isNotNull()
-        .isNotEmpty();
+      .isNotNull()
+      .isNotEmpty();
 
     this.charSet = charSet;
     return this;

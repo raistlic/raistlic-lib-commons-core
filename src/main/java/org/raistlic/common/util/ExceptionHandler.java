@@ -19,9 +19,6 @@ package org.raistlic.common.util;
 /**
  * A callback interface to handle exceptions, especially in an asynchronous environment where
  * the caller may not be able to wait for the invocation target's execution.
- *
- * @author Lei CHEN (2013-11-29)
- * @since 1.0
  */
 public interface ExceptionHandler {
 
@@ -30,7 +27,7 @@ public interface ExceptionHandler {
    * parameters passed in.
    *
    * @param thread the thread in which the exception occurred.
-   * @param ex the exception occurred.
+   * @param ex     the exception occurred.
    */
   void exceptionOccur(Thread thread, Throwable ex);
 }

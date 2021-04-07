@@ -38,15 +38,14 @@ public interface ConfigIO {
    * that the same implementation would be able to read it back via the {@link #readConfig(ConfigBuilder, InputStream)}
    * method.
    *
-   * @param config the config information to be persisted, cannot be {@code null}.
+   * @param config       the config information to be persisted, cannot be {@code null}.
    * @param outputStream the output stream to write the {@code config} to, cannot be {@code null} and
    *                     must be open for write.
-   *
    * @throws InvalidParameterException when {@code config} or {@code outputStream} is {@code null}.
-   * @throws ConfigIOException when anything goes wrong during the process of writing the config.
+   * @throws ConfigIOException         when anything goes wrong during the process of writing the config.
    */
   void writeConfig(ConfigSource config, OutputStream outputStream)
-      throws InvalidParameterException, ConfigIOException;
+    throws InvalidParameterException, ConfigIOException;
 
   /**
    * The method loads the configuration information from the specified {@code inputStream}, as
@@ -57,9 +56,8 @@ public interface ConfigIO {
    * @param inputStream the input stream to load config information from, cannot be {@code null} and
    *                    must be open for read.
    * @return the loaded configuration information.
-   *
    * @throws InvalidParameterException when {@code inputStream} is {@code null}.
-   * @throws ConfigIOException when anything goes wrong during the process of loading the config.
+   * @throws ConfigIOException         when anything goes wrong during the process of loading the config.
    */
   Config readConfig(InputStream inputStream) throws ConfigIOException;
 
@@ -71,12 +69,11 @@ public interface ConfigIO {
    *
    * @param configBuilder the config builder to load the configuration information into, cannot be
    *                      {@code null}.
-   * @param inputStream the input stream to load config information from, cannot be {@code null} and
-   *                    must be open for read.
-   *
+   * @param inputStream   the input stream to load config information from, cannot be {@code null} and
+   *                      must be open for read.
    * @throws InvalidParameterException when {@code configBuilder} or {@code inputStream} is
-   *         {@code null}.
-   * @throws ConfigIOException when anything goes wrong during the process of loading the config.
+   *                                   {@code null}.
+   * @throws ConfigIOException         when anything goes wrong during the process of loading the config.
    */
   void readConfig(ConfigBuilder configBuilder, InputStream inputStream) throws ConfigIOException;
 }

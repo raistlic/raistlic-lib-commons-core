@@ -34,9 +34,8 @@ public final class PredicateNotWrapper<E> implements Predicate<E> {
    * Wraps the {@code original} {@link Predicate} instance to create the wrapper object.
    *
    * @param original the original {@link Predicate} to be wrapped, cannot be {@code null}.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code original} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   public PredicateNotWrapper(Predicate<? super E> original) {
 

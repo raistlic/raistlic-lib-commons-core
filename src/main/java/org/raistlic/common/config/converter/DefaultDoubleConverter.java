@@ -36,8 +36,7 @@ enum DefaultDoubleConverter implements Codec<Double, String> {
     String trimmed = target.trim();
     try {
       return Double.valueOf(trimmed);
-    }
-    catch (NumberFormatException ex) {
+    } catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

@@ -22,11 +22,7 @@ import org.raistlic.common.config.exception.ConfigValueConvertException;
 import org.raistlic.common.config.source.ConfigSource;
 import org.raistlic.common.config.source.ConfigSourceFactory;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import static org.raistlic.common.precondition.Precondition.param;
 
@@ -174,8 +170,7 @@ class MutableConfigDefault extends AbstractConfig implements MutableConfig {
       String converted = encoder.encode(value);
       doSetString(key, converted);
       return this;
-    }
-    catch (ValueConversionException ex) {
+    } catch (ValueConversionException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }
