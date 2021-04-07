@@ -21,7 +21,7 @@ import org.raistlic.common.precondition.Precondition;
 import java.util.function.Function;
 
 final class GenericAssertionDefault<E> extends GenericAssertionAbstract<E, GenericAssertion<E>>
-    implements GenericAssertion<E> {
+  implements GenericAssertion<E> {
 
   private E candidate;
 
@@ -48,7 +48,7 @@ final class GenericAssertionDefault<E> extends GenericAssertionAbstract<E, Gener
   }
 
   void setCandidate(E candidate) {
-    
+
     this.candidate = candidate;
   }
 

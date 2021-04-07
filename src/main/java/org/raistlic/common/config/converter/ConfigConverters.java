@@ -127,5 +127,6 @@ public final class ConfigConverters {
   /*
    * Not to be instantiated or inherited.
    */
-  private ConfigConverters() { }
+  private ConfigConverters() {
+  }
 }

@@ -49,7 +49,7 @@ enum JsonConfigIO implements ConfigIO {
 
   @Override
   public void writeConfig(ConfigSource config, OutputStream outputStream)
-      throws InvalidParameterException, ConfigIOException {
+    throws InvalidParameterException, ConfigIOException {
 
     Precondition.param(config).isNotNull();
     Precondition.param(outputStream).isNotNull();
@@ -57,8 +57,7 @@ enum JsonConfigIO implements ConfigIO {
     Map<String, Object> map = NestedMapHelper.configToMap(config);
     try {
       objectMapper.writer().writeValue(outputStream, map);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }
@@ -84,8 +83,7 @@ enum JsonConfigIO implements ConfigIO {
 
       });
       NestedMapHelper.mapToConfig(jsonMap, "", configBuilder);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       throw new ConfigIOException(ex);
     }
   }

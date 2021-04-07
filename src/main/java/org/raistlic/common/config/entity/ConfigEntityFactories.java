@@ -37,5 +37,6 @@ public final class ConfigEntityFactories {
   /*
    * Not to be instantiated or inherited.
    */
-  private ConfigEntityFactories() { }
+  private ConfigEntityFactories() {
+  }
 }

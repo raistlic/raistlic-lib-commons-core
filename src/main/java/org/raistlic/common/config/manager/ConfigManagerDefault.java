@@ -23,12 +23,7 @@ import org.raistlic.common.config.core.MutableConfig;
 import org.raistlic.common.config.entity.ConfigEntityFactory;
 import org.raistlic.common.precondition.Precondition;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The default implementation of {@link ConfigManager} interface.
@@ -148,7 +143,7 @@ class ConfigManagerDefault extends AbstractMutableConfigDecorator implements Con
 
     synchronized (lock) {
       Set<Class<?>> configEntityTypes = Optional.ofNullable(configEntityMap.get(key))
-              .orElse(Collections.emptySet());
+        .orElse(Collections.emptySet());
       updateConfig(configEntityTypes);
     }
   }

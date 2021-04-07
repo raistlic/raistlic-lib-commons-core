@@ -18,11 +18,7 @@ package org.raistlic.common.config.source;
 
 import org.raistlic.common.precondition.Precondition;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Static factory methods holder, exports different types of {@link ConfigSource} instances.
@@ -52,15 +48,14 @@ public final class ConfigSourceFactory {
    *
    * @param map the map based on which values to create the instance, cannot be {@code null}.
    * @return the immutable instance created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code map} is {@code null}.
    */
   public static ConfigSource immutableCopyOf(Map<String, String> map) {
 
     Precondition.param(map).isNotNull();
     Map<String, String> copy = map.isEmpty() ?
-        Collections.<String, String>emptyMap() :
-        Collections.unmodifiableMap(new HashMap<String, String>(map));
+      Collections.<String, String>emptyMap() :
+      Collections.unmodifiableMap(new HashMap<String, String>(map));
     return wrap(copy);
   }
 
@@ -70,9 +65,8 @@ public final class ConfigSourceFactory {
    *
    * @param properties the properties based on which values to create the instance, cannot be {@code null}.
    * @return the immutable instance created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code properties} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   public static ConfigSource immutableCopyOf(Properties properties) {
 
@@ -97,9 +91,8 @@ public final class ConfigSourceFactory {
    * @param configSource the config source instance based on which values to create the copy, cannot
    *                     be {@code null}.
    * @return the immutable instance created.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code properties} is
-   *         {@code null}.
+   *                                                                    {@code null}.
    */
   public static ConfigSource immutableCopyOf(ConfigSource configSource) {
 
@@ -121,7 +114,6 @@ public final class ConfigSourceFactory {
    *
    * @param map the map to be wrapped, cannot be {@code null}.
    * @return the created wrapper instance.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code map} is {@code null}.
    */
   public static ConfigSource wrap(Map<String, String> map) {
@@ -136,7 +128,6 @@ public final class ConfigSourceFactory {
    *
    * @param properties the properties to be wrapped, cannot be {@code null}.
    * @return the created wrapper instance.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when {@code map} is {@code null}.
    */
   public static ConfigSource wrap(Properties properties) {
@@ -148,5 +139,6 @@ public final class ConfigSourceFactory {
   /*
    * Not to be instantiated or inherited.
    */
-  private ConfigSourceFactory() { }
+  private ConfigSourceFactory() {
+  }
 }

@@ -35,8 +35,7 @@ enum DefaultFloatConverter implements Codec<Float, String> {
     }
     try {
       return Float.valueOf(target);
-    }
-    catch (NumberFormatException ex) {
+    } catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

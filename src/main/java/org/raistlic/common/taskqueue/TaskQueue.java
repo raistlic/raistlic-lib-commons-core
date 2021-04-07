@@ -16,8 +16,8 @@
 
 package org.raistlic.common.taskqueue;
 
-import org.raistlic.common.precondition.InvalidParameterException;
 import org.raistlic.common.precondition.InvalidContextException;
+import org.raistlic.common.precondition.InvalidParameterException;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -35,7 +35,7 @@ public interface TaskQueue {
    *
    * @param task the task to be scheduled, cannot be {@code null}.
    * @throws InvalidParameterException when {@code task} is {@code null}.
-   * @throws InvalidContextException if the task queue is not running.
+   * @throws InvalidContextException   if the task queue is not running.
    */
   void schedule(Runnable task) throws InvalidParameterException, InvalidContextException;
 
@@ -44,10 +44,10 @@ public interface TaskQueue {
    * and returns a {@link Promise} that references to the task.
    *
    * @param task the task to be scheduled, cannot be {@code null}.
-   * @param <R> the actual return type of the {@link Task}'s run method.
+   * @param <R>  the actual return type of the {@link Task}'s run method.
    * @return the promise that references the scheduled task.
    * @throws InvalidParameterException when {@code task} is {@code null}.
-   * @throws InvalidContextException if the task queue is not running.
+   * @throws InvalidContextException   if the task queue is not running.
    */
   <R> Promise<R> schedule(Task<R> task) throws InvalidParameterException, InvalidContextException;
 
@@ -56,51 +56,51 @@ public interface TaskQueue {
    * and returns the returned execution result.
    *
    * @param task the task to execute, cannot be {@code null}.
-   * @param <R> the actual return type of the {@link Task}'s run method.
+   * @param <R>  the actual return type of the {@link Task}'s run method.
    * @return the {@code task} 's execution result.
-   * @throws InvalidParameterException when {@code task} is {@code null}.
-   * @throws InvalidContextException if the task queue is not running.
-   * @throws InvalidContextException when the method is called within the task queue execution thread,
-   *         see {@link #isTaskExecutionThread()} .
-   * @throws TaskExecutionException if the {@code task}'s {@link java.util.concurrent.Callable#call()}
-   *         method throws exception.
+   * @throws InvalidParameterException      when {@code task} is {@code null}.
+   * @throws InvalidContextException        if the task queue is not running.
+   * @throws InvalidContextException        when the method is called within the task queue execution thread,
+   *                                        see {@link #isTaskExecutionThread()} .
+   * @throws TaskExecutionException         if the {@code task}'s {@link java.util.concurrent.Callable#call()}
+   *                                        method throws exception.
    * @throws java.lang.InterruptedException if the current calling thread is interrupted when waiting
-   *         for the {@code task} to be executed.
+   *                                        for the {@code task} to be executed.
    */
   <R> R scheduleAndWait(Task<R> task) throws InvalidParameterException,
-          InvalidContextException,
-          InvalidContextException,
-          TaskExecutionException,
-          InterruptedException;
+    InvalidContextException,
+    InvalidContextException,
+    TaskExecutionException,
+    InterruptedException;
 
   /**
    * The method submits the {@code task} into the task queue, waits up to {@code timeout} for it to
    * be executed, and returns the returned execution result.
    *
-   * @param task the task to execute, cannot be {@code null}.
-   * @param timeout the max amount of time that calling thread is going to wait for the task to be
-   *        executed, cannot be negative.
+   * @param task     the task to execute, cannot be {@code null}.
+   * @param timeout  the max amount of time that calling thread is going to wait for the task to be
+   *                 executed, cannot be negative.
    * @param timeUnit the unit of the {@code timeout} .
-   * @param <R> the actual return type of the {@link Task}'s run method.
+   * @param <R>      the actual return type of the {@link Task}'s run method.
    * @return the {@code task} 's execution result.
-   * @throws InvalidParameterException when {@code task} is {@code null}, or when {@code timeout} is
-   *         less than {@code 0} .
-   * @throws InvalidContextException if the task queue is not running.
-   * @throws InvalidContextException when the method is called within the task queue execution thread,
-   *         see {@link #isTaskExecutionThread()} .
-   * @throws TaskExecutionException if the {@code task}'s {@link java.util.concurrent.Callable#call()}
-   *         method throws exception.
-   * @throws java.lang.InterruptedException if the current calling thread is interrupted when waiting
-   *         for the {@code task} to be executed.
+   * @throws InvalidParameterException             when {@code task} is {@code null}, or when {@code timeout} is
+   *                                               less than {@code 0} .
+   * @throws InvalidContextException               if the task queue is not running.
+   * @throws InvalidContextException               when the method is called within the task queue execution thread,
+   *                                               see {@link #isTaskExecutionThread()} .
+   * @throws TaskExecutionException                if the {@code task}'s {@link java.util.concurrent.Callable#call()}
+   *                                               method throws exception.
+   * @throws java.lang.InterruptedException        if the current calling thread is interrupted when waiting
+   *                                               for the {@code task} to be executed.
    * @throws java.util.concurrent.TimeoutException if the task is not executed within {@code timeout} .
    */
   <R> R scheduleAndWait(Task<R> task, long timeout, TimeUnit timeUnit)
-          throws InvalidParameterException,
-          InvalidContextException,
-          InvalidContextException,
-          TaskExecutionException,
-          InterruptedException,
-          TimeoutException;
+    throws InvalidParameterException,
+    InvalidContextException,
+    InvalidContextException,
+    TaskExecutionException,
+    InterruptedException,
+    TimeoutException;
 
   /**
    * The method returns whether the current (calling) thread is the task queue thread.
@@ -135,7 +135,7 @@ public interface TaskQueue {
      * and returns {@code false}.
      *
      * @return {@code true} if the task queue's running state is successfully changed as a result of
-     *         the call.
+     * the call.
      */
     boolean start();
 
@@ -143,14 +143,14 @@ public interface TaskQueue {
      * Shuts down the task queue(if the queue is running), and the current (calling) thread waits
      * for the queue to shutdown, for {@code timeout} milliseconds.
      *
-     * @param timeout the maximum number of milli-seconds to wait for the queue shutdown.
+     * @param timeout  the maximum number of milli-seconds to wait for the queue shutdown.
      * @param timeUnit the unit of the {@code timeout} .
      * @return {@code true} if the queue's running state is changed as a result of the call.
-     * @throws java.lang.InterruptedException if the current (calling) thread is interrupted while
-     *         waiting for the queue to shutdown.
+     * @throws java.lang.InterruptedException        if the current (calling) thread is interrupted while
+     *                                               waiting for the queue to shutdown.
      * @throws java.util.concurrent.TimeoutException if waiting time out, in which case the signal
-     *         to shut down the queue is already sent, and that the queue may very well shut down
-     *         at any time later after the exception is thrown.
+     *                                               to shut down the queue is already sent, and that the queue may very well shut down
+     *                                               at any time later after the exception is thrown.
      */
     boolean stop(long timeout, TimeUnit timeUnit) throws InterruptedException, TimeoutException;
 

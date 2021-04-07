@@ -41,8 +41,7 @@ enum DefaultIntConverter implements Codec<Integer, String> {
       } else {
         return Integer.parseInt(target.trim());
       }
-    }
-    catch (NumberFormatException ex) {
+    } catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

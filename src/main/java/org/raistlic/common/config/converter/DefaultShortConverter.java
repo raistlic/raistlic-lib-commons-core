@@ -36,8 +36,7 @@ enum DefaultShortConverter implements Codec<Short, String> {
     String trimmed = target.trim();
     try {
       return Short.valueOf(trimmed);
-    }
-    catch (NumberFormatException ex) {
+    } catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

@@ -15,8 +15,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * @author lei.c (2015-12-22)
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public class Methods {
 
   /**

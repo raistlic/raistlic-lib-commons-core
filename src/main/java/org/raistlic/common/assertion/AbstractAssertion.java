@@ -23,8 +23,6 @@ import java.util.function.Predicate;
 
 /**
  * Provides some common logic implementation for the expectation classes.
- *
- * @author Lei Chen (2015-10-14)
  */
 @SuppressWarnings("unchecked")
 abstract class AbstractAssertion<C, E> {

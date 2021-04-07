@@ -65,8 +65,7 @@ class DefaultEventDispatcher implements EventDispatcher {
 
       doPostInAllChannels(event);
 
-    }
-    else {
+    } else {
 
       for (String channel : channels) {
 
@@ -175,8 +174,8 @@ class DefaultEventDispatcher implements EventDispatcher {
       if (channel == null) {
 
         LOGGER.warn("null channel name found in the method annotation: '" +
-                             method.getDeclaringClass().getName() + "." +
-                             method.getName() + ", and is ignored."
+          method.getDeclaringClass().getName() + "." +
+          method.getName() + ", and is ignored."
         );
         continue;
       }
@@ -197,9 +196,9 @@ class DefaultEventDispatcher implements EventDispatcher {
     if (Modifier.isStatic(modifier)) {
 
       LOGGER.warn("Subscribe annotation found on static method '" +
-                          method.getDeclaringClass().getName() + "." +
-                          method.getName() + "' and is ignored, static method " +
-                          "subscription is not supported."
+        method.getDeclaringClass().getName() + "." +
+        method.getName() + "' and is ignored, static method " +
+        "subscription is not supported."
       );
       return false;
     }
@@ -208,10 +207,10 @@ class DefaultEventDispatcher implements EventDispatcher {
     if (paramTypes == null || paramTypes.length != 1) {
 
       LOGGER.warn("Method '" + method.getDeclaringClass().getName() + "." + method.getName() +
-                          "' is annotated as subscription method, but does not match parameter " +
-                          "criteria, thus is not registered. subscription method should have " +
-                          "exactly one parameter, which is of type '" + Event.class.getName() +
-                          "' or its sub-type."
+        "' is annotated as subscription method, but does not match parameter " +
+        "criteria, thus is not registered. subscription method should have " +
+        "exactly one parameter, which is of type '" + Event.class.getName() +
+        "' or its sub-type."
       );
       return false;
     }
@@ -220,9 +219,9 @@ class DefaultEventDispatcher implements EventDispatcher {
     if (!Event.class.isAssignableFrom(eventType)) {
 
       LOGGER.warn("Method '" + method.getDeclaringClass().getName() + "." + method.getName() +
-                          "' is annotated as subscription method, but does not match parameter " +
-                          "criteria, thus is not registered: its parameter type '" +
-                          eventType.getName() + "' is not a subtype of '" + Event.class.getName() + "'."
+        "' is annotated as subscription method, but does not match parameter " +
+        "criteria, thus is not registered: its parameter type '" +
+        eventType.getName() + "' is not a subtype of '" + Event.class.getName() + "'."
       );
       return false;
     }
@@ -231,11 +230,10 @@ class DefaultEventDispatcher implements EventDispatcher {
 
       method.setAccessible(true);
 
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       LOGGER.warn("Method not accessible: '" + method.getDeclaringClass().getName() + "." +
-                          method.getName() + " and thus is not registered.", ex
+        method.getName() + " and thus is not registered.", ex
       );
       return false;
     }
@@ -306,7 +304,7 @@ class DefaultEventDispatcher implements EventDispatcher {
       }
       if (channelName != null) {
 
-        validChannelNameCount ++;
+        validChannelNameCount++;
       }
     }
     return validChannelNameCount > 0;
@@ -320,8 +318,7 @@ class DefaultEventDispatcher implements EventDispatcher {
 
       return channelName == null;
 
-    }
-    else {
+    } else {
 
       return broadCastName.equals(channelName);
     }

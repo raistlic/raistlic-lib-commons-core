@@ -59,14 +59,14 @@ class BitMapSpec extends Specification {
     expect:
     BitMap.newInstance(list, condition).size() == size
     where:
-    list                      | condition               || size
-    []                        | Predicates.dummyTrue()  || 0
-    []                        | Predicates.isNull()     || 0
-    []                        | Predicates.dummyFalse() || 0
-    ["a"]                     | Predicates.dummyFalse() || 1
-    [1, 2, 3, 4, 5]           | Predicates.dummyTrue()  || 5
-    createListWithSize(99)    | Predicates.dummyTrue()  || 99
-    createListWithSize(12345) | Predicates.dummyFalse() || 12345
+    list                      | condition               | size
+    []                        | Predicates.dummyTrue()  | 0
+    []                        | Predicates.isNull()     | 0
+    []                        | Predicates.dummyFalse() | 0
+    ["a"]                     | Predicates.dummyFalse() | 1
+    [1, 2, 3, 4, 5]           | Predicates.dummyTrue()  | 5
+    createListWithSize(99)    | Predicates.dummyTrue()  | 99
+    createListWithSize(12345) | Predicates.dummyFalse() | 12345
   }
 
   def "rankOne(#index) should return #rank"() {
@@ -75,17 +75,17 @@ class BitMapSpec extends Specification {
     expect:
     bitMap.rankOne(index) == rank
     where:
-    index || rank
-    0     || 0
-    1     || 1
-    2     || 1
-    3     || 2
-    4     || 3
-    5     || 3
-    6     || 3
-    7     || 4
-    8     || 4
-    9     || 4
+    index | rank
+    0     | 0
+    1     | 1
+    2     | 1
+    3     | 2
+    4     | 3
+    5     | 3
+    6     | 3
+    7     | 4
+    8     | 4
+    9     | 4
   }
 
   def "rankZero(#index) should return #rank"() {
@@ -94,17 +94,17 @@ class BitMapSpec extends Specification {
     expect:
     bitMap.rankZero(index) == rank
     where:
-    index || rank
-    0     || 1
-    1     || 1
-    2     || 2
-    3     || 2
-    4     || 2
-    5     || 3
-    6     || 4
-    7     || 4
-    8     || 5
-    9     || 6
+    index | rank
+    0     | 1
+    1     | 1
+    2     | 2
+    3     | 2
+    4     | 2
+    5     | 3
+    6     | 4
+    7     | 4
+    8     | 5
+    9     | 6
   }
 
   def "selectOne(#rank) should return #index"() {
@@ -113,17 +113,17 @@ class BitMapSpec extends Specification {
     expect:
     bitMap.selectOne(rank) == index
     where:
-    rank || index
-    0    || 1
-    1    || 3
-    2    || 4
-    3    || 7
-    4    || -1
-    5    || -1
-    6    || -1
-    7    || -1
-    8    || -1
-    9    || -1
+    rank | index
+    0    | 1
+    1    | 3
+    2    | 4
+    3    | 7
+    4    | -1
+    5    | -1
+    6    | -1
+    7    | -1
+    8    | -1
+    9    | -1
   }
   
   def "selectZero(#rank) should return #index"() {
@@ -132,17 +132,17 @@ class BitMapSpec extends Specification {
     expect:
     bitMap.selectZero(rank) == index
     where:
-    rank || index
-    0    || 0
-    1    || 2
-    2    || 5
-    3    || 6
-    4    || 8
-    5    || 9
-    6    || -1
-    7    || -1
-    8    || -1
-    9    || -1
+    rank | index
+    0    | 0
+    1    | 2
+    2    | 5
+    3    | 6
+    4    | 8
+    5    | 9
+    6    | -1
+    7    | -1
+    8    | -1
+    9    | -1
   }
 
   def createListWithSize(int size) {

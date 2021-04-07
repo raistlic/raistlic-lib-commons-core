@@ -16,19 +16,32 @@
 
 package org.raistlic.common.stopwatch;
 
+import org.raistlic.common.precondition.Param;
+
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- * @author Lei CHEN (2013-03-27)
- * @since 1.0
+ * Factory class for creating {@link StopWatch} instances.
  */
 public final class StopWatchFactory {
 
+  /**
+   * Create {@link StopWatch} instance with specified tick.
+   *
+   * @param tickAmount the tick amount, must be greater than {@code 0} .
+   * @param tickUnit the tick time unit, cannot be {@code null}.
+   * @return the {@link StopWatch} instance created.
+   *
+   * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters are invalid.
+   */
   public static StopWatch createStopWatch(long tickAmount, TimeUnit tickUnit) {
+
+    Param.isTrue(tickAmount > 0, "tickAmount must be greater than 0");
+    Param.notNull(tickUnit, "tickUnit cannot be null");
 
     return new StopWatchDefault(tickUnit.toNanos(tickAmount));
   }
 
-  private StopWatchFactory() { }
+  private StopWatchFactory() {
+  }
 }

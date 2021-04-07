@@ -38,7 +38,7 @@ final class NestedMapHelper {
       for (int i = 0; i < keyTokens.length - 1; i++) {
         String token = keyTokens[i];
         Object nextLevel = currMap.get(token);
-        if (! (nextLevel instanceof Map)) {
+        if (!(nextLevel instanceof Map)) {
           nextLevel = new HashMap<String, Object>();
           currMap.put(token, nextLevel);
         }
@@ -60,8 +60,7 @@ final class NestedMapHelper {
         @SuppressWarnings("unchecked")
         Map<String, Object> converted = (Map<String, Object>) val;
         mapToConfig(converted, key, configBuilder);
-      }
-      else {
+      } else {
         configBuilder.setString(key, val == null ? null : val.toString());
       }
     }

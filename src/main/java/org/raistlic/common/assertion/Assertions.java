@@ -24,13 +24,11 @@ import java.util.function.Function;
 
 /**
  * Static factory methods holder, the entry point of the package.
- *
- * @author Lei Chen (2015-12-29)
  */
 public final class Assertions {
 
   public static AssertionFactoryManager createAssertionFactoryManager(
-      Function<String, ? extends RuntimeException> exceptionMapper) {
+    Function<String, ? extends RuntimeException> exceptionMapper) {
 
     if (exceptionMapper == null) {
       throw new PreconditionCheckFailedException("'exceptionMapper' cannot be null.");
@@ -43,7 +41,6 @@ public final class Assertions {
    *
    * @param exceptionMapper the exception mapper to use, cannot be {@code null}.
    * @return the created {@link AssertionFactory} instance.
-   *
    * @throws InvalidParameterException when {@code exceptionMapper} is {@code null}.
    */
   public static AssertionFactory createDefaultExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
@@ -57,7 +54,6 @@ public final class Assertions {
    *
    * @param exceptionMapper the exception mapper that creates proper exception with message when needed.
    * @return the created {@link AssertionFactory} instance.
-   *
    * @throws InvalidParameterException when {@code exceptionMapper} is {@code null}.
    */
   public static AssertionFactory createThreadLocalExpectedCases(Function<String, ? extends RuntimeException> exceptionMapper) {
@@ -73,5 +69,6 @@ public final class Assertions {
   /*
    * Static method holder, not to be instanticated or inherited.
    */
-  private Assertions() { }
+  private Assertions() {
+  }
 }

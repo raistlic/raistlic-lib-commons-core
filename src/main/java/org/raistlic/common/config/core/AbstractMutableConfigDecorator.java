@@ -21,11 +21,7 @@ import org.raistlic.common.codec.Encoder;
 import org.raistlic.common.config.source.ConfigSource;
 import org.raistlic.common.precondition.Precondition;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**

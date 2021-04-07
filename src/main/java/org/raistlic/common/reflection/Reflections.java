@@ -4,14 +4,16 @@ import org.raistlic.common.precondition.Precondition;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @author lei.c (2015-12-21)
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public class Reflections {
 
   public static <A extends Annotation> A getAnnotation(Class<?> targetType,

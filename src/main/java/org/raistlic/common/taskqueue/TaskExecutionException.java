@@ -18,15 +18,9 @@ package org.raistlic.common.taskqueue;
 
 /**
  * The exception that occurs during the execution of a runnable task in the {@link TaskQueue} .
- *
- * @author Lei Chen (2014-11-12)
- * @since 1.0
  */
 public class TaskExecutionException extends RuntimeException {
 
-  /**
-   * {@inheritDoc}
-   */
   public TaskExecutionException(Throwable cause) {
 
     super(cause);

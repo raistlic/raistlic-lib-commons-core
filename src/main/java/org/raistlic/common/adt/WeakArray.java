@@ -16,92 +16,112 @@
 
 package org.raistlic.common.adt;
 
+import org.raistlic.common.precondition.Param;
+
 import java.lang.ref.WeakReference;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * This class simply encapsulates an array to be used as a cache, which holds
  * weak references.
- * 
+ * <p>
  * It is intended to store "not so important" contents, which can be GCed
  * when required.
- * 
- * The iterator of this class can be used to iterate it, or remove elements 
+ * <p>
+ * The iterator of this class can be used to iterate it, or remove elements
  * from it, removing elements using the iterator will not effect the subsequent
  * elements' positions.
- *
- * @author Lei CHEN
- * @since 1.0
  */
-public class WeakArray<E> implements Iterable<E> {
+public final class WeakArray<E> implements Iterable<E> {
 
-  private WeakReference<E>[] data;
+  private final int size;
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  private final Map<Integer, WeakReference<E>> data;
+
   public WeakArray(int size) {
 
-    if( size < 0 )
-      throw new IllegalArgumentException("Invalid array size: " + size);
+    Param.isTrue(size >= 0, "size cannot be less than 0");
 
-    data = (WeakReference<E>[])new WeakReference[size];
+    this.size = size;
+    this.data = new HashMap<>(size * 2);
   }
 
   public int length() {
-    
-    return data.length;
+
+    return size;
   }
-  
-  public void set(int index, E element) {
-    
-    // potentially throws ArrayIndexOutOfBoundsException
-    if( get(index) != element )
-      data[index] = new WeakReference<E>(element);
+
+  public E set(int index, E element) {
+
+    Param.isTrue(index >= 0, "index cannot be less than 0");
+    Param.isTrue(index < size, "index must be less than array size");
+
+    E existing = get(index);
+    data.put(index, new WeakReference<>(element));
+    return existing;
   }
-  
+
   public E get(int index) {
-    
-    // potentially throws ArrayIndexOutOfBoundsException
-    WeakReference<E> ref = data[index];
-    return ref == null ? null : ref.get();
+
+    Param.isTrue(index >= 0, "index cannot be less than 0");
+    Param.isTrue(index < size, "index must be less than array size");
+
+    return Optional.ofNullable(data.get(index))
+      .map(WeakReference::get)
+      .orElse(null);
   }
-  
-  public void remove(int index) {
-    
-    // potentially throws ArrayIndexOutOfBoundsException
-    data[index] = null;
+
+  public E remove(int index) {
+
+    return set(index, null);
   }
 
   @Override
   public Iterator<E> iterator() {
-    
+
     return new IndexIterator();
   }
-  
+
   private class IndexIterator implements Iterator<E> {
-    
-    private int index = 0;
+
+    private int index = -1;
+
+    private boolean removed = false;
 
     @Override
     public boolean hasNext() {
-      
-      return index < length();
+
+      return index + 1 < size;
     }
 
     @Override
     public E next() {
-      
-      // potentially throws ArrayIndexOutOfBoundsException
-      E result = get(index);
+
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+
+      E result = get(index + 1);
       index++;
+      removed = false;
       return result;
     }
 
     @Override
     public void remove() {
-      
-      // potentially throws ArrayIndexOutOfBoundsException
+
+      if (index < 0) {
+        throw new IllegalStateException("next is not called");
+      }
+      if (removed) {
+        throw new IllegalStateException("current element is already removed");
+      }
+      if (index >= size) {
+        throw new NoSuchElementException();
+      }
+
       WeakArray.this.remove(index);
-      index++;
+      removed = true;
     }
   }
 }

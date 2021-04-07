@@ -98,7 +98,7 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
         builder.append(getConnectDisplay(Connect.Ling));
     } else if (qian > 0) {
       builder.append(getDigitDisplay(Digit.values()[qian]))
-              .append(getConnectDisplay(Connect.Qian));
+        .append(getConnectDisplay(Connect.Qian));
       nonZero = true;
     }
 
@@ -107,7 +107,7 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
         builder.append(getConnectDisplay(Connect.Ling));
     } else if (bai > 0) {
       builder.append(getDigitDisplay(Digit.values()[bai]))
-              .append(getConnectDisplay(Connect.Bai));
+        .append(getConnectDisplay(Connect.Bai));
       nonZero = true;
     }
 
@@ -140,8 +140,8 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
     assert connect != null;
 
     return type == Type.SIMPLIFIED ?
-            connect.display :
-            connect.displayTraditional;
+      connect.display :
+      connect.displayTraditional;
   }
 
   private String getPowerDisplay(Power power) {
@@ -149,8 +149,8 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
     assert power != null;
 
     return type == Type.SIMPLIFIED ?
-            power.display :
-            power.displayTraditional;
+      power.display :
+      power.displayTraditional;
   }
 
   private String getDigitDisplay(Digit digit) {
@@ -158,8 +158,8 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
     assert digit != null;
 
     return type == Type.SIMPLIFIED ?
-            digit.display :
-            digit.displayTraditional;
+      digit.display :
+      digit.displayTraditional;
   }
 
   private enum Type {
@@ -169,12 +169,12 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
 
   private enum Connect {
 
-    Di   ("第", "第"),
-    Fu   ("负", "負"),
-    Ling ("零", "零"),
-    Shi  ("十", "拾"),
-    Bai  ("百", "佰"),
-    Qian ("千", "仟"),
+    Di("第", "第"),
+    Fu("负", "負"),
+    Ling("零", "零"),
+    Shi("十", "拾"),
+    Bai("百", "佰"),
+    Qian("千", "仟"),
     ;
 
     final String display, displayTraditional;
@@ -188,17 +188,17 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
 
   private enum Power {
 
-    Wan   ("万", "萬"), // 10^4
-    Yi    ("亿", "億"), // 10^8
-    Zhao  ("兆", "兆"), // 10^12
-    Jing  ("京", "京"), // 10^16 (enough for Long.MAX_VALUE)
-    Gai   ("垓", "垓"), // 10^20
-    Zi    ("秭", "秭"), // 10^24
-    Rang  ("穰", "穰"), // 10^28
-    Gou   ("沟", "溝"), // 10^32
-    Jian  ("涧", "澗"), // 10^36
-    Zheng ("正", "正"), // 10^40
-    Zai   ("载", "載"), // 10^44
+    Wan("万", "萬"), // 10^4
+    Yi("亿", "億"), // 10^8
+    Zhao("兆", "兆"), // 10^12
+    Jing("京", "京"), // 10^16 (enough for Long.MAX_VALUE)
+    Gai("垓", "垓"), // 10^20
+    Zi("秭", "秭"), // 10^24
+    Rang("穰", "穰"), // 10^28
+    Gou("沟", "溝"), // 10^32
+    Jian("涧", "澗"), // 10^36
+    Zheng("正", "正"), // 10^40
+    Zai("载", "載"), // 10^44
     ;
 
     final String display, displayTraditional;
@@ -212,16 +212,16 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
 
   private enum Digit {
 
-    Ling ("零", "零"), // just to occupy this position
-    Yi   ("一", "壹"),
-    Er   ("二", "贰"),
-    San  ("三", "叁"),
-    Si   ("四", "肆"),
-    Wu   ("五", "伍"),
-    Liu  ("六", "陆"),
-    Qi   ("七", "柒"),
-    Ba   ("八", "捌"),
-    Jiu  ("九", "玖"),
+    Ling("零", "零"), // just to occupy this position
+    Yi("一", "壹"),
+    Er("二", "贰"),
+    San("三", "叁"),
+    Si("四", "肆"),
+    Wu("五", "伍"),
+    Liu("六", "陆"),
+    Qi("七", "柒"),
+    Ba("八", "捌"),
+    Jiu("九", "玖"),
     ;
 
     final String display, displayTraditional;
@@ -236,5 +236,5 @@ final class ChineseNumberTextConverter implements NumberTextConverter {
   private static final int MAX_SUPPORTED_DIGITS = 44;
 
   private static final Predicate<String> NUMBER_RANGE_PREDICATE =
-          LocalUtils.numberRangePredicate(MAX_SUPPORTED_DIGITS);
+    LocalUtils.numberRangePredicate(MAX_SUPPORTED_DIGITS);
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2016 Lei Chen (raistlic@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,32 +21,32 @@ import java.util.Collection;
 import java.util.function.Function;
 
 /**
- * Lazily instantiate different types of assertions, and reuse them. This class works only in a 
+ * Lazily instantiate different types of assertions, and reuse them. This class works only in a
  * single threaded context.
  */
 final class AssertionFactoryLazy implements AssertionFactory {
-  
+
   private final Function<String, ? extends RuntimeException> exceptionMapper;
-  
+
   private BooleanAssertionDefault booleanAssertionDefault;
-  
+
   private PrimitiveBooleanAssertionDefault primitiveBooleanAssertionDefault;
-  
+
   private StringAssertionDefault stringAssertionDefault;
-  
+
   @SuppressWarnings("rawtypes")
   private GenericAssertionDefault genericAssertionDefault;
-  
+
   @SuppressWarnings("rawtypes")
   private CollectionAssertionDefault collectionAssertionDefault;
-  
+
   @SuppressWarnings("rawtypes")
   private NumberAssertionDefault numberAssertionDefault;
-  
+
   private ThreadAssertionDefault threadAssertionDefault;
 
   AssertionFactoryLazy(Function<String, ? extends RuntimeException> exceptionMapper) {
-    
+
     if (exceptionMapper == null) {
       throw new InvalidParameterException("'exceptionMapper' cannot be null.");
     }
@@ -135,7 +135,7 @@ final class AssertionFactoryLazy implements AssertionFactory {
 
   @Override
   public void assertThat(boolean assertion, String message) {
-    
+
     if (!assertion) {
       throw exceptionMapper.apply(message);
     }

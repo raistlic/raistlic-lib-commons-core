@@ -35,5 +35,6 @@ public final class ConfigFactory {
     return new MutableConfigDefault();
   }
 
-  private ConfigFactory() { }
+  private ConfigFactory() {
+  }
 }

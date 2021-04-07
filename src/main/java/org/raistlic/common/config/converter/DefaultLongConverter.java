@@ -36,8 +36,7 @@ enum DefaultLongConverter implements Codec<Long, String> {
     String trimmed = target.trim();
     try {
       return Long.valueOf(trimmed);
-    }
-    catch (NumberFormatException ex) {
+    } catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

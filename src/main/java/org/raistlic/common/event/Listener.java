@@ -16,11 +16,7 @@
 
 package org.raistlic.common.event;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * The annotation is just a marker, to help DI containers such as Spring to identify the objects which

@@ -34,56 +34,56 @@ abstract class AbstractConfig implements Config {
   public Optional<Boolean> getBoolean(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(BOOLEAN_CONVERTER::decode);
+      .map(BOOLEAN_CONVERTER::decode);
   }
 
   @Override
   public Optional<Byte> getByte(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(BYTE_CONVERTER::decode);
+      .map(BYTE_CONVERTER::decode);
   }
 
   @Override
   public Optional<Character> getChar(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(CHAR_CONVERTER::decode);
+      .map(CHAR_CONVERTER::decode);
   }
 
   @Override
   public Optional<Short> getShort(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(SHORT_CONVERTER::decode);
+      .map(SHORT_CONVERTER::decode);
   }
 
   @Override
   public Optional<Integer> getInt(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(INT_CONVERTER::decode);
+      .map(INT_CONVERTER::decode);
   }
 
   @Override
   public Optional<Long> getLong(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(LONG_CONVERTER::decode);
+      .map(LONG_CONVERTER::decode);
   }
 
   @Override
   public Optional<Float> getFloat(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(FLOAT_CONVERTER::decode);
+      .map(FLOAT_CONVERTER::decode);
   }
 
   @Override
   public Optional<Double> getDouble(String key) {
 
     return Optional.ofNullable(getString(key))
-        .map(DOUBLE_CONVERTER::decode);
+      .map(DOUBLE_CONVERTER::decode);
   }
 
   @Override
@@ -93,9 +93,8 @@ abstract class AbstractConfig implements Config {
 
     try {
       return Optional.ofNullable(getString(key))
-          .map(decoder::decode);
-    }
-    catch (ValueConversionException ex) {
+        .map(decoder::decode);
+    } catch (ValueConversionException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

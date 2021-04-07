@@ -20,45 +20,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is designed to replace the usage of {@link javax.swing.event.EventListenerList},
- * because the swing EventListenerList requires a listener to extend 
- * {@link java.util.EventListener}, which is a not-necessary hurdle.
- * 
+ * This class is designed to replace the usage of {@code javax.swing.event.EventListenerList},
+ * because the swing EventListenerList requires a listener to extend
+ * {@code java.util.EventListener}, which is a not-necessary hurdle.
+ *
  * <p>
- * For example, the following instance can replace a {@link javax.swing.event.EventListenerList}:
- * 
+ * For example, the following instance can replace a {@code javax.swing.event.EventListenerList}:
+ *
  * <pre>
- * {@code 
+ * {@code
  * // EventListenerList listenerList = new EventListenerList();
  * MultiTypeList<EventListener> listenerList = MultiTypeList.newInstance(EventListener.class);
- * 
+ *
  * // listenerList.add(ActionListener.class, listener);
  * listenerList.add(ActionListener.class, listener);
- * 
+ *
  * // listenerList.remove(ActionListener.class, listener);
  * listenerList.remove(ActionListener.class, listener);
- * 
+ *
  * // for(ActionListener l : listenerList.getListeners(ActionListener.class)) { ... }
  * for(ActionListener l : listenerList.getList(ActionListener.class)) { ... }
  * }
  * </pre>
- * 
+ *
  * <p>
- * There is no reason why it cannot be used in other cases, rather than maintaining 
+ * There is no reason why it cannot be used in other cases, rather than maintaining
  * listeners in Swing applications.
  *
  * @param <B> the referenced base type of the list.
- *
- * @author Lei CHEN
- * @since 1.0
+ * @deprecated will be removed in 2.0, just use Map<Class, List>, or for Swing, just use event type & channel name based subscription.
  */
+@Deprecated
 public class MultiTypeList<B> {
-  
+
   public static <E> MultiTypeList<E> newInstance() {
-    
+
     return new MultiTypeList<E>();
   }
-  
+
   private List<B> list;
   private final Object lock;
 
@@ -67,23 +66,23 @@ public class MultiTypeList<B> {
     list = new ArrayList<B>();
     lock = new Object();
   }
-  
+
   public boolean remove(B element) {
-    
-    if( element == null )
+
+    if (element == null)
       throw new NullPointerException("element is null.");
-    
+
     synchronized (lock) {
 
       return list.remove(element);
     }
   }
-  
+
   public void add(B element) {
-    
-    if( element == null )
+
+    if (element == null)
       return;
-    
+
     synchronized (lock) {
 
       list.remove(element);
@@ -99,42 +98,42 @@ public class MultiTypeList<B> {
       return result;
     }
   }
-  
+
   public <E extends B> List<E> getList(Class<E> type) {
-    
-    if( type == null )
+
+    if (type == null)
       throw new NullPointerException("type is null.");
 
     List<B> base = copyList();
     List<E> result = new ArrayList<E>(base.size());
 
-    for(B element : base) {
+    for (B element : base) {
 
-      if( type.isInstance(element) )
+      if (type.isInstance(element))
         result.add(type.cast(element));
     }
     return result;
   }
-  
+
   public void clearList(Class<? extends B> type) {
-    
-    if( type == null )
+
+    if (type == null)
       throw new NullPointerException("type is null.");
-    
+
     synchronized (lock) {
 
       List<B> copy = new ArrayList<B>(list.size());
-      for(B element : list) {
+      for (B element : list) {
 
-        if( !type.isInstance(element) )
+        if (!type.isInstance(element))
           copy.add(element);
       }
       list = copy;
     }
   }
-  
+
   public List<? extends B> getAll() {
-    
+
     return copyList();
   }
 }

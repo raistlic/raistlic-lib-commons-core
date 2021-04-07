@@ -21,7 +21,7 @@ import org.raistlic.common.precondition.Precondition;
 import java.util.function.Function;
 
 final class BooleanAssertionDefault extends GenericAssertionAbstract<Boolean, BooleanAssertion>
-    implements BooleanAssertion {
+  implements BooleanAssertion {
 
   private final Function<String, ? extends RuntimeException> exceptionMapper;
 

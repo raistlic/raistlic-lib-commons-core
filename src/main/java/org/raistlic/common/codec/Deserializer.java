@@ -18,9 +18,6 @@ package org.raistlic.common.codec;
 
 /**
  * Decoder that decodes value of type {@code <E>} from a {@link String} .
- *
- * @author Lei CHEN
- * @since 1.4
  */
 public interface Deserializer<E> extends Decoder<E, String> {
 

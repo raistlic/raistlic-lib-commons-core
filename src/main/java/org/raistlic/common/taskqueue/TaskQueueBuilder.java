@@ -21,8 +21,6 @@ import org.raistlic.common.util.ExceptionHandler;
 import java.util.function.Supplier;
 
 /**
- * 
- *
  * @author Lei Chen (2015-11-24)
  */
 public interface TaskQueueBuilder extends Supplier<TaskQueue.Controller> {

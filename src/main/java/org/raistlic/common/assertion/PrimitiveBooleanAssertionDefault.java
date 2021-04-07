@@ -22,8 +22,6 @@ import java.util.function.Function;
 
 /**
  * The class defines both expectation class for the primitive and boxed boolean values.
- *
- * @author Lei CHEN (2015-11-20)
  */
 final class PrimitiveBooleanAssertionDefault implements PrimitiveBooleanAssertion {
 

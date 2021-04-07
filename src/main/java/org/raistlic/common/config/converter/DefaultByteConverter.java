@@ -36,8 +36,7 @@ enum DefaultByteConverter implements Codec<Byte, String> {
     String trimmed = target.trim();
     try {
       return Byte.valueOf(trimmed);
-    }
-    catch (NumberFormatException ex) {
+    } catch (NumberFormatException ex) {
       throw new ConfigValueConvertException(ex);
     }
   }

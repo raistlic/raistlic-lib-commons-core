@@ -36,11 +36,10 @@ public final class PredicateOrWrapper<E> implements Predicate<E> {
   /**
    * Wraps the two {@link Predicate} instances to create the wrapper object.
    *
-   * @param left the left operand of the wrapper, cannot be {@code null}.
+   * @param left  the left operand of the wrapper, cannot be {@code null}.
    * @param right the right operand of the wrapper, cannot be {@code null}.
-   *
    * @throws org.raistlic.common.precondition.InvalidParameterException when any of the parameters
-   *         is {@code null}.
+   *                                                                    is {@code null}.
    */
   public PredicateOrWrapper(Predicate<? super E> left, Predicate<? super E> right) {
 

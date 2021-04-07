@@ -23,8 +23,6 @@ import java.util.function.Function;
 
 /**
  * The default implementation for {@link AssertionFactory} .
- *
- * @author Lei Chen (2015-12-29)
  */
 final class AssertionFactoryDefault implements AssertionFactory {
 

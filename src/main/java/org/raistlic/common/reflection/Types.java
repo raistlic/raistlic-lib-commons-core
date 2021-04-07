@@ -7,10 +7,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * The method holds static utility methods for dealing with {@link Type} .
- *
- * @author Lei Chen (2016-03-17)
+ * The method holds static utility methods for dealing with {@link Type}.
+ * @deprecated will be removed in 2.0, this one went too far.
  */
+@Deprecated
 public final class Types {
 
   /**

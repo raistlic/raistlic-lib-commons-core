@@ -22,7 +22,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * @author Lei CHEN (2015-11-19)
+ * Default implementation for {@link ThreadAssertion} .
  */
 final class ThreadAssertionDefault implements ThreadAssertion {
 
@@ -38,7 +38,7 @@ final class ThreadAssertionDefault implements ThreadAssertion {
   }
 
   final void setCandidate(Thread candidate) {
-    
+
     Precondition.assertParam(candidate != null, "'candidate' should not be null, but it is.");
     this.candidate = candidate;
   }
@@ -72,8 +72,8 @@ final class ThreadAssertionDefault implements ThreadAssertion {
 
     if (!threadHasPriority(priority)) {
       String message = "Current thread '" + Thread.currentThread().getName() +
-              "' should have priority of " + priority +
-              ", but it's priority is " + candidate.getPriority();
+        "' should have priority of " + priority +
+        ", but it's priority is " + candidate.getPriority();
       throw exceptionMapper.apply(message);
     }
     return this;
@@ -98,7 +98,7 @@ final class ThreadAssertionDefault implements ThreadAssertion {
 
     if (!candidate.isDaemon()) {
       String message = "Current thread '" + candidate.getName() +
-              "' should be daemon thread, but it is not.";
+        "' should be daemon thread, but it is not.";
       throw exceptionMapper.apply(message);
     }
     return this;
@@ -118,7 +118,7 @@ final class ThreadAssertionDefault implements ThreadAssertion {
 
     if (candidate.isDaemon()) {
       String message = "Current thread '" + Thread.currentThread().getName() +
-              "' should NOT be daemon thread, but it is.";
+        "' should NOT be daemon thread, but it is.";
       throw exceptionMapper.apply(message);
     }
     return this;
@@ -138,7 +138,7 @@ final class ThreadAssertionDefault implements ThreadAssertion {
 
     if (!candidate.isInterrupted()) {
       String message = "Current thread '" + candidate.getName() +
-              "' is expected to be interrupted but not.";
+        "' is expected to be interrupted but not.";
       throw exceptionMapper.apply(message);
     }
     return this;
@@ -158,7 +158,7 @@ final class ThreadAssertionDefault implements ThreadAssertion {
 
     if (candidate.isInterrupted()) {
       String message = "Current thread '" + candidate.getName() +
-              "' is unexpectedly interrupted.";
+        "' is unexpectedly interrupted.";
       throw exceptionMapper.apply(message);
     }
     return this;

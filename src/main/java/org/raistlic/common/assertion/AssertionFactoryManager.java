@@ -1,12 +1,12 @@
 /*
  * Copyright 2016 Lei Chen (raistlic@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,9 +43,9 @@ public final class AssertionFactoryManager {
     exceptionMapperReference = new AtomicReference<>(exceptionMapper);
     currentFactory = createFactory(strategyReference.get(), exceptionMapper);
   }
-  
+
   public AssertionFactory getCurrentFactory() {
-    
+
     return currentFactory;
   }
 
@@ -54,7 +54,7 @@ public final class AssertionFactoryManager {
     if (strategy == null) {
       throw new InvalidParameterException("'strategy' cannot be null.");
     }
-    
+
     if (strategyReference.getAndSet(strategy) != strategy) {
       currentFactory = createFactory(strategy, exceptionMapperReference.get());
     }
@@ -65,7 +65,7 @@ public final class AssertionFactoryManager {
     if (exceptionMapper == null) {
       throw new InvalidParameterException("'exceptionMapper' cannot be null.");
     }
-    
+
     if (exceptionMapperReference.getAndSet(exceptionMapper) != exceptionMapper) {
       currentFactory = createFactory(strategyReference.get(), exceptionMapper);
     }
@@ -75,7 +75,7 @@ public final class AssertionFactoryManager {
 
     assertionSwitch.set(true);
   }
-  
+
   public void switchOff() {
 
     assertionSwitch.set(false);
