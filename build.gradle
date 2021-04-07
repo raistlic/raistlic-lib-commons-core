@@ -5,10 +5,11 @@ buildscript {
 }
 
 plugins {
-    id 'net.linguica.maven-settings' version '0.5'
     id 'java'
     id 'groovy'
     id 'idea'
+    id 'signing'
+    id 'maven-publish'
 }
 
 wrapper {
@@ -27,10 +28,6 @@ version = {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-//mavenSettings {
-//    userSettingsFileName = "./settings.xml"
-//}
-
 repositories {
     mavenCentral()
     maven { url "http://repo.maven.apache.org/maven2" }
@@ -39,7 +36,6 @@ repositories {
 }
 
 apply from: "${rootProject.projectDir}/gradle/coverage.gradle"
-apply from: "${rootProject.projectDir}/gradle/upload-archives.gradle"
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
@@ -82,4 +78,80 @@ artifacts {
     archives jar
     archives sourcesJar
     archives javadocJar
+}
+
+publishing {
+    repositories {
+        maven {
+            final String releaseRepo = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            final String snapshotRepo = 'https://oss.sonatype.org/content/repositories/snapshots/'
+            final findProperty = {String k, v ->
+                return project.hasProperty(k) ? project.property(k) : v
+            }
+            url = project.version.endsWith('SNAPSHOT') ? snapshotRepo : releaseRepo
+            println "publishing to url: ${url} ..."
+            credentials {
+                username = findProperty('maven.username', '')
+                password = findProperty('maven.password', '')
+                println "username: ${findProperty('maven.username', '')}"
+                println "password: ${findProperty('maven.password', '')}"
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = "Raistlic's Commons Library" as String
+                description = 'Common utilities to make general tasks in Java programs easier.'
+                url = 'https://github.com/raistlic'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'leic'
+                        name = 'Lei Chen'
+                        email = 'raistlic@gmail.com'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/raistlic/raistlic-lib-commons-core'
+                    connection = 'https://github.com/raistlic/raistlic-lib-commons-core'
+                    developerConnection = 'https://github.com/raistlic/raistlic-lib-commons-core'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    final hasRequiredProperties = {
+        boolean missingProperty = [
+                'signing.signingKeyId',
+                'signing.signingPassword',
+                'signing.secretKeyRingFile'
+        ].any {!project.hasProperty(it)}
+        return !missingProperty
+    }
+    required hasRequiredProperties
+    sign publishing.publications.mavenJava
+    if (hasRequiredProperties()) {
+        final String signingKeyId = project.properties['signing.signingKeyId'] as String
+        final String signingPassword = project.properties['signing.signingPassword'] as String
+        final String signingKey = new File(project.properties['signing.secretKeyRingFile'] as String).text
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    }
 }
