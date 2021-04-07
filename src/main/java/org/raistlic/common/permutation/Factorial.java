@@ -16,16 +16,18 @@
 
 package org.raistlic.common.permutation;
 
-import org.raistlic.common.adt.WeakArray;
-import org.raistlic.common.precondition.Precondition;
+import org.raistlic.common.precondition.Param;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * A factorial calculator.
  */
 public class Factorial {
-  
+
   /**
    * Returns the factorial of {@code number} .
    * 
@@ -36,34 +38,23 @@ public class Factorial {
    */
   public static BigInteger of(int number) {
 
-    Precondition.param(number).greaterThanOrEqualTo(0);
-    
-    int index = Math.min(RESULTS.length()-1, number), limit = index;
-    BigInteger result = null;
-    while (index > 1) {
-      result = RESULTS.get(index);
-      if( result != null )
-        break;
-      index--;
-    }
-    if (result == null) {
-      result = BigInteger.ONE;
-    }
-    
-    for (++index; index <= limit; index++) {
-      result = result.multiply(BigInteger.valueOf(index));
-      RESULTS.set(index, result);
-    }
-    for (; index <= number; index++) {
-      result = result.multiply(BigInteger.valueOf(index));
+    Param.isTrue(number >= 0, "number cannot be less than 0");
+
+    return Optional.ofNullable(cache.get(number))
+      .orElse(calculateAndCache(number));
+  }
+
+  private static BigInteger calculateAndCache(int number) {
+
+    BigInteger result = BigInteger.ONE;
+    for (int i = 2; i <= number; i++) {
+      result = result.multiply(BigInteger.valueOf(i));
+      cache.put(i, result);
     }
     return result;
   }
 
-  /*
-   * An array to cache some results.
-   */
-  private static final WeakArray<BigInteger> RESULTS = new WeakArray<>(1024);
+  private static final Map<Integer, BigInteger> cache = new HashMap<>();
 
   /*
    * Functionality served via static method, this class is designed not to be 
