@@ -142,9 +142,11 @@ signing {
                 'signing.password',
                 'signing.secretKeyFile'
         ].any {
-            if (!project.hasProperty(it)) {
+            boolean result = !project.hasProperty(it)
+            if (result) {
                 println "missing property: ${it}"
             }
+            return result
         }
         return !missingProperty
     }
