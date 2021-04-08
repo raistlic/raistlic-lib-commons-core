@@ -9,4 +9,4 @@ MAVEN_PASSWORD=$(gcloud secrets versions access latest --secret=credentials-mave
 SIGNING_KID=$(gcloud secrets versions access latest --secret=credentials-maven-central-signing-keyid)
 SIGNING_PASSWORD=$(gcloud secrets versions access latest --secret=credentials-maven-central-signing-password)
 
-./gradlew clean build uploadArchives -Pmaven.username=${MAVEN_USERNAME} -Pmaven.password=${MAVEN_PASSWORD} -Psigning.secretKeyRingFile=./tmp/key.pem -Psigning.password=${SIGNING_PASSWORD} -Psigning.keyId=${SIGNING_KID}
+./gradlew clean build publish -Pmaven.username=${MAVEN_USERNAME} -Pmaven.password=${MAVEN_PASSWORD} -Psigning.secretKeyRingFile=./tmp/key.pem -Psigning.password=${SIGNING_PASSWORD} -Psigning.keyId=${SIGNING_KID}
