@@ -93,8 +93,6 @@ publishing {
             credentials {
                 username = findProperty('maven.username', '')
                 password = findProperty('maven.password', '')
-                println "username: ${findProperty('maven.username', '')}"
-                println "password: ${findProperty('maven.password', '')}"
             }
         }
     }
@@ -140,18 +138,25 @@ publishing {
 signing {
     final hasRequiredProperties = {
         boolean missingProperty = [
-                'signing.signingKeyId',
-                'signing.signingPassword',
-                'signing.secretKeyRingFile'
-        ].any {!project.hasProperty(it)}
+                'signing.keyId',
+                'signing.password',
+                'signing.secretKeyFile'
+        ].any {
+            if (!project.hasProperty(it)) {
+                println "missing property: ${it}"
+            }
+        }
         return !missingProperty
     }
     required hasRequiredProperties
     sign publishing.publications.mavenJava
     if (hasRequiredProperties()) {
-        final String signingKeyId = project.properties['signing.signingKeyId'] as String
-        final String signingPassword = project.properties['signing.signingPassword'] as String
-        final String signingKey = new File(project.properties['signing.secretKeyRingFile'] as String).text
+        println 'required properties found and configuring signing task ...'
+        final String signingKeyId = project.properties['signing.keyId'] as String
+        final String signingPassword = project.properties['signing.password'] as String
+        final String signingKey = new File(project.properties['signing.secretKeyFile'] as String).text
         useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    } else {
+        println 'required properties missing and ignoring signing task.'
     }
 }
