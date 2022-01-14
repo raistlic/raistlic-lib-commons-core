@@ -39,7 +39,7 @@ apply from: "${rootProject.projectDir}/gradle/coverage.gradle"
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.6.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.13.1'
     compile group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version:'1.09'
     
     testCompile "org.codehaus.groovy:groovy-all:2.4.1"

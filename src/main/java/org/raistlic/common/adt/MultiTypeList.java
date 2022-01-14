@@ -48,7 +48,7 @@ import java.util.List;
  * listeners in Swing applications.
  *
  * @param <B> the referenced base type of the list.
- * @deprecated will be removed in 2.0, just use Map<Class, List>, or for Swing, just use event type & channel name based subscription.
+ * @deprecated will be removed in 2.0, just use {@code Map<Class, List>}, or for Swing, just use event type and channel name based subscription.
  */
 @Deprecated
 public class MultiTypeList<B> {
